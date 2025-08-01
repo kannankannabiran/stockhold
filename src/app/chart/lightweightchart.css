@@ -1,0 +1,22 @@
+.tv-lightweight-charts{
+    position: relative;
+    z-index: 1;
+}
+.mainsearch {
+    z-index: 2;
+    position: relative;
+}
+.frontview{
+    z-index:5;
+    position: relative;
+}
+.backview{
+    z-index:3;
+    position: relative;
+}
+.frontview > div:first-child{
+    width: 250px;
+}
+.frontview > div:nth-child(2){
+    width: 150px;
+}

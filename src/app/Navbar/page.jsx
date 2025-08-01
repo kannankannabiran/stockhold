@@ -276,12 +276,16 @@ export default function Navbar() {
               <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md w-36 z-30">
                 {!user.isAuthenticated && (
                   <>
+                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleNavigate("/signup")}>
+                      Signup
+                    </div>
                     <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleNavigate("/login")}>
                       Login
                     </div>
-                    <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleNavigate("/signup")}>
-                      Signup
+                    <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleNavigate("/admin")}>
+                      Admin
                     </div>
+                    
                   </>
                 )}
                 {user.isAuthenticated && (
@@ -355,12 +359,16 @@ export default function Navbar() {
               <div className="flex flex-col">
                 {!user.isAuthenticated && (
                   <>
+                   <div className="cursor-pointer hover:underline" onClick={() => handleNavigate("/signup")}>
+                      Signup
+                    </div>
                     <div className="cursor-pointer hover:underline" onClick={() => handleNavigate("/login")}>
                       Login
                     </div>
-                    <div className="cursor-pointer hover:underline" onClick={() => handleNavigate("/signup")}>
-                      Signup
+                    <div className="cursor-pointer hover:underline" onClick={() => handleNavigate("/admin")}>
+                      Admin
                     </div>
+                   
                   </>
                 )}
                 {user.isAuthenticated && (

@@ -112,7 +112,7 @@ export default function SwingScanner() {
   return (
     <div className="p-6">
       {(loading || scanning) && (
-        <div className="fixed top-4 right-4 flex items-center gap-2 bg-white border rounded shadow p-2 z-50">
+        <div className="top-1/4 right-1/2 flex items-center gap-2 bg-white border rounded shadow p-2 z-50 absolute">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
           <span className="text-sm">{loading || scanning ? "Scanning..." : ""}</span>
           <button

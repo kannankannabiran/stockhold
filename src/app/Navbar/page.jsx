@@ -72,8 +72,9 @@ export default function Navbar() {
   const { user, login, logout } = useUser(); // replace with real auth provider
   const { hasAccess } = useNavbarAccess();
 
-  const handleNavigate = (path) => {
-    if (!hasAccess(path)) {
+  const handleNavigate = async (path) => {
+    const access = await hasAccess(path);
+    if (!access) {
       alert("You don't have access Please Payment Once Complete After Access.");
       return;
     }
@@ -104,14 +105,10 @@ export default function Navbar() {
   }, []);
 
   const renderLink = (label, path) => {
-    const access = hasAccess(path);
     return (
       <div
         onClick={() => handleNavigate(path)}
-        className={`cursor-pointer hover:underline relative flex items-center ${
-          !access ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-        title={!access ? "No access" : undefined}
+        className="cursor-pointer hover:underline relative flex items-center"
       >
         {label}
         {PROTECTED_PATHS.includes(path) && !user.isAdmin && (

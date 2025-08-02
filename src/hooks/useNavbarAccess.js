@@ -1,5 +1,5 @@
 export const useNavbarAccess = () => {
-  const hasAccess = (path) => {
+  const hasAccess = async (path) => {
     const PROTECTED_PATHS = [
       "/chart",
       "/longterm", 
@@ -18,8 +18,9 @@ export const useNavbarAccess = () => {
       const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
       if (!userId) return false;
       
-      const membersData = require('../../data/members.json');
-      const currentUser = membersData.members.find(member => member.id === userId);
+      const response = await fetch('/api/members');
+      const { members } = await response.json();
+      const currentUser = members.find(member => member.id === userId);
       
       if (!currentUser || !currentUser.active) return false;
       return currentUser.urlAccess.includes(path);

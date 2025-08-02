@@ -7,7 +7,7 @@ export const useAccessControl = (requiredPath) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAccess = () => {
+    const checkAccess = async () => {
       try {
         const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
         if (!userId) {
@@ -15,8 +15,9 @@ export const useAccessControl = (requiredPath) => {
           return;
         }
 
-        const membersData = require('../../data/members.json');
-        const user = membersData.members.find(member => member.id === userId);
+        const response = await fetch('/api/members');
+        const { members } = await response.json();
+        const user = members.find(member => member.id === userId);
         
         if (!user || !user.active || !user.urlAccess.includes(requiredPath)) {
           alert("You don't have access Please Payment Once Complete After Access.");

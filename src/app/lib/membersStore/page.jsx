@@ -4,7 +4,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'members.json');
+const DATA_FILE = path.join(process.cwd(), '..', 'stockhold_data', 'members.json');
 
 async function ensureDataFile() {
   const dir = path.dirname(DATA_FILE);
@@ -18,9 +18,20 @@ async function ensureDataFile() {
 }
 
 async function readData() {
-  await ensureDataFile();
-  const raw = await fs.readFile(DATA_FILE, 'utf-8');
-  return JSON.parse(raw);
+  try {
+    console.log('DATA_FILE path:', DATA_FILE);
+    await ensureDataFile();
+    console.log('File exists, attempting to read...');
+    const raw = await fs.readFile(DATA_FILE, 'utf-8');
+    console.log('Raw file content:', raw.substring(0, 100) + '...');
+    const parsed = JSON.parse(raw);
+    console.log('Parsed data:', parsed);
+    return parsed;
+  } catch (error) {
+    console.error('Error reading members data:', error);
+    console.error('Error stack:', error.stack);
+    return { members: [] };
+  }
 }
 
 async function writeData(obj) {

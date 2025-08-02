@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
+import { useAccessControl } from "../../hooks/useAccessControl";
 import stocklist from "../symbol/data";
 import TradingViewChart from "./LightWeightChartWithIndicators";
 
@@ -18,6 +19,8 @@ const periodOptions = [
 ];
 
 export default function ChartPage() {
+  const { hasAccess, loading } = useAccessControl('/chart');
+  
   const [selectedStock, setSelectedStock] = useState(
     stocklist.find((s) => s.value === "RELIANCE.NS")
   );
@@ -80,6 +83,9 @@ export default function ChartPage() {
     };
     fetchData();
   }, [selectedStock, selectedPeriod]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="p-5">

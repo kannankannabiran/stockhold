@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useAccessControl } from "../../hooks/useAccessControl";
 
 export default function StockList() {
+  const { hasAccess, loading } = useAccessControl('/stocklist');
+  
   const [stocks, setStocks] = useState([]);
   const [ltps, setLtps] = useState({});
   const [loadingLtp, setLoadingLtp] = useState(false);
@@ -107,6 +110,9 @@ export default function StockList() {
     setStocks(updated);
     syncStockListToServer(updated);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="max-w-screen-xl mx-auto p-6">

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { AiOutlineHistory } from "react-icons/ai";
+import { useAccessControl } from "../../hooks/useAccessControl";
 
 // Helper to clean symbol
 const cleanSymbol = (symbol) => symbol.replace(/\.(NS|BO)$/i, "").trim();
@@ -21,6 +22,8 @@ function useDebounce(value, delay) {
 }
 
 export default function BacktestPage() {
+  const { hasAccess, loading: accessLoading } = useAccessControl('/backtest');
+  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedFromServer, setLoadedFromServer] = useState(false);
@@ -89,6 +92,9 @@ export default function BacktestPage() {
       cleanSymbol(item.symbol).toLowerCase().includes(debouncedSearch.toLowerCase())
     )
     .slice(0, 50); // Speed: Limit to 50 results max
+
+  if (accessLoading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="container mx-auto px-4 py-6">

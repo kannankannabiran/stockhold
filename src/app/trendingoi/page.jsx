@@ -3,12 +3,15 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaBolt } from "react-icons/fa";
+import { useAccessControl } from "../../hooks/useAccessControl";
 import up from "../../../public/up.svg";
 import down from "../../../public/down.svg";
 
 const indexOptions = ["NIFTY", "BANKNIFTY"];
 
 export default function TrendingOiPage() {
+  const { hasAccess, loading: accessLoading } = useAccessControl('/trendingoi');
+  
   const [symbol, setSymbol] = useState("NIFTY");
   const [history, setHistory] = useState([]);
 
@@ -39,6 +42,9 @@ export default function TrendingOiPage() {
     const interval = setInterval(fetchHistory, 60000);
     return () => clearInterval(interval);
   }, [symbol]);
+
+  if (accessLoading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="p-6 max-w-screen-xl mx-auto">

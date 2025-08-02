@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useAccessControl } from '../../hooks/useAccessControl';
 
 export default function NiftyOHLCPage() {
+  const { hasAccess, loading: accessLoading } = useAccessControl('/openhighnifty');
+  
   const [ohlc, setOhlc] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,6 +26,9 @@ export default function NiftyOHLCPage() {
 
   const maxHigh = Math.max(...ohlc.map(o => o.high || 0));
   const minLow = Math.min(...ohlc.map(o => o.low || Infinity));
+
+  if (accessLoading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">

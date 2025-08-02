@@ -6,6 +6,7 @@ import { FaChevronDown, FaBars, FaTimes, FaChevronRight } from "react-icons/fa";
 import Image from "next/image";
 import Logo from '../../../public/navbar_logo.svg';
 import Link from "next/link";
+import { useNavbarAccess } from "../../hooks/useNavbarAccess";
 
 /**
  * Stubbed user hook. Replace with real auth/session logic.
@@ -66,16 +67,11 @@ export default function Navbar() {
   const profileRef = useRef(null);
 
   const { user, login, logout } = useUser(); // replace with real auth provider
-
-  const hasAccess = (path) => {
-    if (user.isAdmin) return true;
-    if (!PROTECTED_PATHS.includes(path)) return true;
-    return user.permissions.includes(path);
-  };
+  const { hasAccess } = useNavbarAccess();
 
   const handleNavigate = (path) => {
     if (!hasAccess(path)) {
-      alert("You don't have access Please Payment Once Compleate After Access....");
+      alert("You don't have access Please Payment Once Complete After Access.");
       return;
     }
     setShowCourseDropdown(false);
@@ -84,7 +80,7 @@ export default function Navbar() {
     setShowScannerSubmenu(false);
     setShowProfileMenu(false);
     setMenuOpen(false);
-    if (pathname !== path) router.push(path);
+    router.push(path);
   };
 
   const handleLogout = () => {

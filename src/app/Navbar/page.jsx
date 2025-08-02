@@ -22,13 +22,16 @@ function useUser() {
 
   // simulate login for demo
   const login = (overrides = {}) => setUser((u) => ({ ...u, isAuthenticated: true, ...overrides }));
-  const logout = () =>
+  const logout = () => {
+    localStorage.removeItem('userId');
+    sessionStorage.removeItem('userId');
     setUser({
       isAdmin: false,
       permissions: [],
       isAuthenticated: false,
       name: "",
     });
+  };
 
   return { user, login, logout };
 }

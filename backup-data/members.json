@@ -1,0 +1,22 @@
+{
+  "members": [
+    {
+      "id": "FVYQ2YMn6JVxWvnLAXKjC",
+      "name": "Kannabiran",
+      "mobile": "7200630057",
+      "password": "$2b$10$jPP4enn3rIMMIlm4r/vAo.lEMbYWtBDhMUsRNZd2MJSrrqXAP.V6u",
+      "createdAt": "2025-08-01T18:34:15.539Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/chart",
+        "/stocklist",
+        "/backtest",
+        "/options",
+        "/trendingoi",
+        "/openhighnifty",
+        "/herozero"
+      ]
+    }
+  ]
+}

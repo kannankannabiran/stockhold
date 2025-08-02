@@ -9913,21 +9913,21 @@
       "volume": 5221
     },
     {
-      "date": "2025-08-01T07:00:50.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 2230,
       "high": 2250,
-      "low": 2188.10009765625,
-      "close": 2190.5,
-      "volume": 5133
+      "low": 2068.800048828125,
+      "close": 2103.10009765625,
+      "volume": 15173
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CENTUM.NS",
     "current_year": 2025,
-    "current_year_vwap": 1948.67,
+    "current_year_vwap": 1948.97,
     "signal_price": 2160.85,
-    "last_price": 2190.5,
+    "last_price": 2103.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 502.18,

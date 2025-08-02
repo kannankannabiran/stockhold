@@ -9913,21 +9913,21 @@
       "volume": 2743883
     },
     {
-      "date": "2025-08-01T06:59:33.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 253.3000030517578,
       "high": 254.89999389648438,
-      "low": 248.6999969482422,
-      "close": 249.5500030517578,
-      "volume": 1299565
+      "low": 246.6999969482422,
+      "close": 247.89999389648438,
+      "volume": 2987000
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MANAPPURAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 220.91,
+    "current_year_vwap": 220.95,
     "signal_price": 234.16,
-    "last_price": 249.55,
+    "last_price": 247.9,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 174.55,

@@ -9913,21 +9913,21 @@
       "volume": 2457841
     },
     {
-      "date": "2025-08-01T07:06:39.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1544,
       "high": 1549.699951171875,
-      "low": 1503.9000244140625,
-      "close": 1506.5999755859375,
-      "volume": 1137331
+      "low": 1494,
+      "close": 1502.800048828125,
+      "volume": 2109678
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CIPLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1481.25,
+    "current_year_vwap": 1481.37,
     "signal_price": 1529.1,
-    "last_price": 1506.6,
+    "last_price": 1502.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 893.46,

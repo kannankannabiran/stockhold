@@ -9913,21 +9913,21 @@
       "volume": 1115600
     },
     {
-      "date": "2025-08-01T07:01:43.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 2768,
       "high": 2940,
       "low": 2750,
-      "close": 2879.89990234375,
-      "volume": 2035144
+      "close": 2838.800048828125,
+      "volume": 2607010
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RADICO.NS",
     "current_year": 2025,
-    "current_year_vwap": 2450.55,
+    "current_year_vwap": 2455.72,
     "signal_price": 2582.1,
-    "last_price": 2879.9,
+    "last_price": 2838.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 816.9,

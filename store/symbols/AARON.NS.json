@@ -9905,21 +9905,21 @@
       "volume": 40354
     },
     {
-      "date": "2025-08-01T06:52:44.000Z",
+      "date": "2025-08-01T09:59:55.000Z",
       "open": 448,
       "high": 458.20001220703125,
-      "low": 440.95001220703125,
-      "close": 444.95001220703125,
-      "volume": 12409
+      "low": 435,
+      "close": 438.04998779296875,
+      "volume": 19025
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AARON.NS",
     "current_year": 2025,
-    "current_year_vwap": 402.39,
+    "current_year_vwap": 402.46,
     "signal_price": 412.55,
-    "last_price": 444.95,
+    "last_price": 438.05,
     "condition_date": "2025-05-20",
     "previous_years": {
       "2021": 94.02,

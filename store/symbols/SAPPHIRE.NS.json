@@ -7329,21 +7329,21 @@
       "volume": 369401
     },
     {
-      "date": "2025-08-01T07:03:54.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 317.5,
       "high": 326.45001220703125,
-      "low": 317.29998779296875,
-      "close": 325.8500061035156,
-      "volume": 92242
+      "low": 316.79998779296875,
+      "close": 319.6499938964844,
+      "volume": 217117
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SAPPHIRE.NS",
     "current_year": 2025,
-    "current_year_vwap": 328.02,
+    "current_year_vwap": 328.01,
     "signal_price": 345.65,
-    "last_price": 325.85,
+    "last_price": 319.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 237.67,

@@ -9913,21 +9913,21 @@
       "volume": 23027
     },
     {
-      "date": "2025-08-01T07:00:52.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 209.50999450683594,
       "high": 219.35000610351562,
       "low": 207.11000061035156,
-      "close": 212.6999969482422,
-      "volume": 67307
+      "close": 213.5399932861328,
+      "volume": 108254
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HISARMETAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 202.24,
+    "current_year_vwap": 202.56,
     "signal_price": 215.39,
-    "last_price": 212.7,
+    "last_price": 213.54,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 125.8,

@@ -9913,21 +9913,21 @@
       "volume": 6728106
     },
     {
-      "date": "2025-08-01T07:04:09.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 133.1999969482422,
-      "high": 134.33999633789062,
+      "high": 137.85000610351562,
       "low": 131.25,
-      "close": 133.6300048828125,
-      "volume": 962955
+      "close": 135.1699981689453,
+      "volume": 2185532
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DCBBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 130.79,
+    "current_year_vwap": 130.81,
     "signal_price": 139.45,
-    "last_price": 133.63,
+    "last_price": 135.17,
     "condition_date": "2025-04-28",
     "previous_years": {
       "2021": 101.48,

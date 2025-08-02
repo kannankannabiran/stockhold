@@ -9913,21 +9913,21 @@
       "volume": 9152
     },
     {
-      "date": "2025-08-01T06:54:14.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 16150,
       "high": 16200,
-      "low": 15626,
-      "close": 15626,
-      "volume": 4895
+      "low": 15100,
+      "close": 15271,
+      "volume": 11566
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MAHSCOOTER.NS",
     "current_year": 2025,
-    "current_year_vwap": 12156.77,
+    "current_year_vwap": 12171.64,
     "signal_price": 12330,
-    "last_price": 15626,
+    "last_price": 15271,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 4072.63,

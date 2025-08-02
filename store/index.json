@@ -5,9 +5,9 @@
   "AARON.NS": {
     "symbol": "AARON.NS",
     "current_year": 2025,
-    "current_year_vwap": 402.39,
+    "current_year_vwap": 402.46,
     "signal_price": 412.55,
-    "last_price": 444.95,
+    "last_price": 438.05,
     "condition_date": "2025-05-20",
     "previous_years": {
       "2021": 94.02,
@@ -34,7 +34,21 @@
   "BSHSL.NS": null,
   "BVCL.NS": null,
   "COMSYN.NS": null,
-  "CREATIVEYE.NS": null,
+  "CREATIVEYE.NS": {
+    "symbol": "CREATIVEYE.NS",
+    "current_year": 2025,
+    "current_year_vwap": 8.59,
+    "signal_price": 8.87,
+    "last_price": 7.28,
+    "condition_date": "2025-02-10",
+    "previous_years": {
+      "2021": 3.68,
+      "2022": 4.83,
+      "2023": 3.98,
+      "2024": 7.16
+    },
+    "trend": "Price > 4Y VWAPs"
+  },
   "DANGEE.NS": null,
   "DBSTOCKBRO.NS": null,
   "DEVIT.NS": null,
@@ -45,7 +59,7 @@
     "current_year": 2025,
     "current_year_vwap": 0.88,
     "signal_price": 1.09,
-    "last_price": 1.21,
+    "last_price": 1.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 0.33,
@@ -67,9 +81,9 @@
   "KANPRPLA.NS": {
     "symbol": "KANPRPLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 167.83,
+    "current_year_vwap": 167.87,
     "signal_price": 175.16,
-    "last_price": 202.25,
+    "last_price": 205.06,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 138.38,
@@ -82,9 +96,9 @@
   "KAPSTON.NS": {
     "symbol": "KAPSTON.NS",
     "current_year": 2025,
-    "current_year_vwap": 243.36,
+    "current_year_vwap": 243.81,
     "signal_price": 259.25,
-    "last_price": 256,
+    "last_price": 258.52,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 48.72,
@@ -105,9 +119,9 @@
   "MBAPL.NS": {
     "symbol": "MBAPL.NS",
     "current_year": 2025,
-    "current_year_vwap": 377.19,
+    "current_year_vwap": 377.42,
     "signal_price": 416.7,
-    "last_price": 445.3,
+    "last_price": 435.65,
     "condition_date": "2025-06-23",
     "previous_years": {
       "2021": 43.41,
@@ -135,7 +149,7 @@
     "current_year": 2025,
     "current_year_vwap": 43.79,
     "signal_price": 45.22,
-    "last_price": 53.02,
+    "last_price": 54.11,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 36.89,
@@ -148,9 +162,9 @@
   "SILVERTUC.NS": {
     "symbol": "SILVERTUC.NS",
     "current_year": 2025,
-    "current_year_vwap": 721.89,
+    "current_year_vwap": 721.9,
     "signal_price": 727.4,
-    "last_price": 757.4,
+    "last_price": 743.2,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 133.66,
@@ -168,9 +182,9 @@
   "UNIVASTU.NS": {
     "symbol": "UNIVASTU.NS",
     "current_year": 2025,
-    "current_year_vwap": 279.07,
+    "current_year_vwap": 279.06,
     "signal_price": 281.6,
-    "last_price": 267.2,
+    "last_price": 262.3,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 52.11,
@@ -186,9 +200,9 @@
   "WORTH.NS": {
     "symbol": "WORTH.NS",
     "current_year": 2025,
-    "current_year_vwap": 165.25,
+    "current_year_vwap": 165.19,
     "signal_price": 177.66,
-    "last_price": 159.71,
+    "last_price": 155.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 83.29,
@@ -206,9 +220,9 @@
   "GRAVITA.NS": {
     "symbol": "GRAVITA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1867.77,
+    "current_year_vwap": 1867.54,
     "signal_price": 2177.3,
-    "last_price": 1832,
+    "last_price": 1790.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 168.22,
@@ -224,9 +238,9 @@
   "EICHERMOT.NS": {
     "symbol": "EICHERMOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5317.82,
+    "current_year_vwap": 5319.47,
     "signal_price": 5390.15,
-    "last_price": 5534,
+    "last_price": 5528,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 2667.83,
@@ -242,9 +256,9 @@
   "METROBRAND.NS": {
     "symbol": "METROBRAND.NS",
     "current_year": 2025,
-    "current_year_vwap": 1184.5,
+    "current_year_vwap": 1184.53,
     "signal_price": 1235.95,
-    "last_price": 1211.2,
+    "last_price": 1201.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 475.44,
@@ -258,9 +272,9 @@
   "GRSE.NS": {
     "symbol": "GRSE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2274.23,
+    "current_year_vwap": 2274.44,
     "signal_price": 2481.7,
-    "last_price": 2557.5,
+    "last_price": 2580.7,
     "condition_date": "2025-05-16",
     "previous_years": {
       "2021": 212.66,
@@ -273,9 +287,9 @@
   "WELENT.NS": {
     "symbol": "WELENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 529.18,
+    "current_year_vwap": 529.08,
     "signal_price": 601.05,
-    "last_price": 490,
+    "last_price": 483.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 108.97,
@@ -293,9 +307,9 @@
   "SARDAEN.NS": {
     "symbol": "SARDAEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 474.2,
+    "current_year_vwap": 474.17,
     "signal_price": 482.35,
-    "last_price": 449.05,
+    "last_price": 439.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 57.75,
@@ -308,9 +322,9 @@
   "CIGNITITEC.NS": {
     "symbol": "CIGNITITEC.NS",
     "current_year": 2025,
-    "current_year_vwap": 1524.75,
+    "current_year_vwap": 1524.84,
     "signal_price": 1743.85,
-    "last_price": 1636.5,
+    "last_price": 1608.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 531.8,
@@ -323,9 +337,9 @@
   "CSBBANK.NS": {
     "symbol": "CSBBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 354.09,
+    "current_year_vwap": 354.17,
     "signal_price": 360.25,
-    "last_price": 422.35,
+    "last_price": 419.1,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 291.58,
@@ -340,9 +354,9 @@
   "VESUVIUS.NS": {
     "symbol": "VESUVIUS.NS",
     "current_year": 2025,
-    "current_year_vwap": 479.93,
+    "current_year_vwap": 479.94,
     "signal_price": 488.51,
-    "last_price": 519.9,
+    "last_price": 513.2,
     "condition_date": "2025-05-05",
     "previous_years": {
       "2021": 113.32,
@@ -356,9 +370,9 @@
   "ABSLAMC.NS": {
     "symbol": "ABSLAMC.NS",
     "current_year": 2025,
-    "current_year_vwap": 722.31,
+    "current_year_vwap": 722.52,
     "signal_price": 836.25,
-    "last_price": 842.55,
+    "last_price": 834.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 640.05,
@@ -372,9 +386,9 @@
   "CARERATING.NS": {
     "symbol": "CARERATING.NS",
     "current_year": 2025,
-    "current_year_vwap": 1517.95,
+    "current_year_vwap": 1518.12,
     "signal_price": 1519.3,
-    "last_price": 1711.3,
+    "last_price": 1666.7,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 617.95,
@@ -388,9 +402,9 @@
   "GENUSPOWER.NS": {
     "symbol": "GENUSPOWER.NS",
     "current_year": 2025,
-    "current_year_vwap": 340.69,
+    "current_year_vwap": 340.74,
     "signal_price": 398.15,
-    "last_price": 367,
+    "last_price": 363.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 63.63,
@@ -405,9 +419,9 @@
   "ASTRAMICRO.NS": {
     "symbol": "ASTRAMICRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 954.63,
+    "current_year_vwap": 954.61,
     "signal_price": 1002.3,
-    "last_price": 960.65,
+    "last_price": 944.9,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 177.45,
@@ -420,9 +434,9 @@
   "BRITANNIA.NS": {
     "symbol": "BRITANNIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 5153.94,
+    "current_year_vwap": 5155.27,
     "signal_price": 5176.25,
-    "last_price": 5828.5,
+    "last_price": 5798,
     "condition_date": "2025-01-27",
     "previous_years": {
       "2021": 3601.69,
@@ -438,9 +452,9 @@
   "SUDARSCHEM.NS": {
     "symbol": "SUDARSCHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 1149.79,
+    "current_year_vwap": 1150.39,
     "signal_price": 1154.55,
-    "last_price": 1443.8,
+    "last_price": 1414.9,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 651.55,
@@ -454,9 +468,9 @@
   "INDIGO.NS": {
     "symbol": "INDIGO.NS",
     "current_year": 2025,
-    "current_year_vwap": 5154.08,
+    "current_year_vwap": 5155.12,
     "signal_price": 5157.05,
-    "last_price": 5810,
+    "last_price": 5788.5,
     "condition_date": "2025-04-08",
     "previous_years": {
       "2021": 1823.16,
@@ -482,9 +496,9 @@
   "ASALCBR.NS": {
     "symbol": "ASALCBR.NS",
     "current_year": 2025,
-    "current_year_vwap": 1185.76,
+    "current_year_vwap": 1184.91,
     "signal_price": 1188.6,
-    "last_price": 1026.1,
+    "last_price": 1002.7,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 465.95,
@@ -500,10 +514,10 @@
   "HIRECT.NS": {
     "symbol": "HIRECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 1425.48,
-    "signal_price": 1426.9,
-    "last_price": 1892.9,
-    "condition_date": "2025-07-28",
+    "current_year_vwap": 1428.33,
+    "signal_price": 1712.2,
+    "last_price": 1896.1,
+    "condition_date": "2025-07-29",
     "previous_years": {
       "2021": 178.01,
       "2022": 225.64,
@@ -515,10 +529,10 @@
   "PANACEABIO.NS": {
     "symbol": "PANACEABIO.NS",
     "current_year": 2025,
-    "current_year_vwap": 439.55,
-    "signal_price": 443.2,
-    "last_price": 408.1,
-    "condition_date": "2025-01-03",
+    "current_year_vwap": 439.46,
+    "signal_price": 439.5,
+    "last_price": 401.4,
+    "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 309.64,
       "2022": 168.63,
@@ -532,9 +546,9 @@
   "CENTRUM.NS": {
     "symbol": "CENTRUM.NS",
     "current_year": 2025,
-    "current_year_vwap": 30.94,
+    "current_year_vwap": 30.96,
     "signal_price": 34.76,
-    "last_price": 39.99,
+    "last_price": 38.92,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 35.17,
@@ -552,9 +566,9 @@
   "CANTABIL.NS": {
     "symbol": "CANTABIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 274.31,
+    "current_year_vwap": 274.3,
     "signal_price": 280.85,
-    "last_price": 262.45,
+    "last_price": 261.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 87.82,
@@ -567,9 +581,9 @@
   "SERVOTECH.NS": {
     "symbol": "SERVOTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 141.37,
+    "current_year_vwap": 141.36,
     "signal_price": 167.71,
-    "last_price": 134.8,
+    "last_price": 133.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6.69,
@@ -583,9 +597,9 @@
   "JAGSNPHARM.NS": {
     "symbol": "JAGSNPHARM.NS",
     "current_year": 2025,
-    "current_year_vwap": 249.23,
+    "current_year_vwap": 249.28,
     "signal_price": 259.76,
-    "last_price": 274.6,
+    "last_price": 271.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 49.74,
@@ -606,9 +620,9 @@
   "ROHLTD.NS": {
     "symbol": "ROHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 384.5,
+    "current_year_vwap": 384.56,
     "signal_price": 387.65,
-    "last_price": 395.9,
+    "last_price": 390.6,
     "condition_date": "2025-03-06",
     "previous_years": {
       "2021": 85.93,
@@ -624,9 +638,9 @@
   "SHYAMMETL.NS": {
     "symbol": "SHYAMMETL.NS",
     "current_year": 2025,
-    "current_year_vwap": 847.22,
+    "current_year_vwap": 847.41,
     "signal_price": 859.6,
-    "last_price": 979.4,
+    "last_price": 978.6,
     "condition_date": "2025-03-19",
     "previous_years": {
       "2021": 393.48,
@@ -641,9 +655,9 @@
   "SBILIFE.NS": {
     "symbol": "SBILIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1626.25,
+    "current_year_vwap": 1626.56,
     "signal_price": 1628.5,
-    "last_price": 1811.1,
+    "last_price": 1796.2,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 1025.14,
@@ -656,9 +670,9 @@
   "INDHOTEL.NS": {
     "symbol": "INDHOTEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 775.82,
+    "current_year_vwap": 775.75,
     "signal_price": 873.6,
-    "last_price": 748.85,
+    "last_price": 741.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 164.94,
@@ -683,9 +697,9 @@
   "SHILPAMED.NS": {
     "symbol": "SHILPAMED.NS",
     "current_year": 2025,
-    "current_year_vwap": 770.26,
+    "current_year_vwap": 770.35,
     "signal_price": 817.55,
-    "last_price": 879.6,
+    "last_price": 857.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 527.16,
@@ -699,9 +713,9 @@
   "HDFCLIFE.NS": {
     "symbol": "HDFCLIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 698.91,
+    "current_year_vwap": 698.97,
     "signal_price": 704.7,
-    "last_price": 746.25,
+    "last_price": 741.7,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 696.63,
@@ -717,9 +731,9 @@
   "AGI.NS": {
     "symbol": "AGI.NS",
     "current_year": 2025,
-    "current_year_vwap": 861.54,
+    "current_year_vwap": 861.62,
     "signal_price": 1107.55,
-    "last_price": 956.55,
+    "last_price": 946.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 207.82,
@@ -732,9 +746,9 @@
   "VEDL.NS": {
     "symbol": "VEDL.NS",
     "current_year": 2025,
-    "current_year_vwap": 434.12,
+    "current_year_vwap": 434.11,
     "signal_price": 444.45,
-    "last_price": 428,
+    "last_price": 424.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 275.66,
@@ -749,9 +763,9 @@
   "MAHSCOOTER.NS": {
     "symbol": "MAHSCOOTER.NS",
     "current_year": 2025,
-    "current_year_vwap": 12156.77,
+    "current_year_vwap": 12171.64,
     "signal_price": 12330,
-    "last_price": 15626,
+    "last_price": 15271,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 4072.63,
@@ -764,9 +778,9 @@
   "TIPSMUSIC.NS": {
     "symbol": "TIPSMUSIC.NS",
     "current_year": 2025,
-    "current_year_vwap": 658.82,
+    "current_year_vwap": 658.55,
     "signal_price": 736.25,
-    "last_price": 587.4,
+    "last_price": 582.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 73.82,
@@ -782,9 +796,9 @@
   "SPIC.NS": {
     "symbol": "SPIC.NS",
     "current_year": 2025,
-    "current_year_vwap": 86.71,
+    "current_year_vwap": 86.74,
     "signal_price": 88.61,
-    "last_price": 96.15,
+    "last_price": 93.5,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 44.75,
@@ -797,9 +811,9 @@
   "NAUKRI.NS": {
     "symbol": "NAUKRI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1454.65,
+    "current_year_vwap": 1454.57,
     "signal_price": 1746.08,
-    "last_price": 1383.1,
+    "last_price": 1367.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1050.45,
@@ -812,9 +826,9 @@
   "MARICO.NS": {
     "symbol": "MARICO.NS",
     "current_year": 2025,
-    "current_year_vwap": 685.66,
+    "current_year_vwap": 685.82,
     "signal_price": 694.2,
-    "last_price": 715.15,
+    "last_price": 711.2,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 489.29,
@@ -827,9 +841,9 @@
   "INDUSTOWER.NS": {
     "symbol": "INDUSTOWER.NS",
     "current_year": 2025,
-    "current_year_vwap": 371.26,
+    "current_year_vwap": 371.19,
     "signal_price": 375.6,
-    "last_price": 351.6,
+    "last_price": 345.1,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 263.11,
@@ -842,9 +856,9 @@
   "HAL.NS": {
     "symbol": "HAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 4303.31,
+    "current_year_vwap": 4303.46,
     "signal_price": 4319.2,
-    "last_price": 4476.9,
+    "last_price": 4438.7,
     "condition_date": "2025-04-03",
     "previous_years": {
       "2021": 604.05,
@@ -858,9 +872,9 @@
   "MPHASIS.NS": {
     "symbol": "MPHASIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 2610.86,
+    "current_year_vwap": 2611.41,
     "signal_price": 2854.9,
-    "last_price": 2772.1,
+    "last_price": 2757.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2540.15,
@@ -873,9 +887,9 @@
   "CHOLAFIN.NS": {
     "symbol": "CHOLAFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 1472.97,
+    "current_year_vwap": 1472.69,
     "signal_price": 1513.25,
-    "last_price": 1440.6,
+    "last_price": 1422.5,
     "condition_date": "2025-03-19",
     "previous_years": {
       "2021": 525.98,
@@ -891,9 +905,9 @@
   "NAZARA.NS": {
     "symbol": "NAZARA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1189.2,
+    "current_year_vwap": 1189.54,
     "signal_price": 1195.4,
-    "last_price": 1358,
+    "last_price": 1339.4,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 961.16,
@@ -923,9 +937,9 @@
   "TEGA.NS": {
     "symbol": "TEGA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1686.93,
+    "current_year_vwap": 1687.73,
     "signal_price": 1688,
-    "last_price": 1900,
+    "last_price": 1888.6,
     "condition_date": "2025-07-04",
     "previous_years": {
       "2021": 676.53,
@@ -941,9 +955,9 @@
   "LUPIN.NS": {
     "symbol": "LUPIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 2021.51,
+    "current_year_vwap": 2020.92,
     "signal_price": 2364.9,
-    "last_price": 1876.4,
+    "last_price": 1867.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1051.66,
@@ -959,9 +973,9 @@
   "ABBOTINDIA.NS": {
     "symbol": "ABBOTINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 30406.11,
+    "current_year_vwap": 30413.21,
     "signal_price": 31183.55,
-    "last_price": 33940,
+    "last_price": 33595,
     "condition_date": "2025-03-03",
     "previous_years": {
       "2021": 17665.18,
@@ -980,9 +994,9 @@
   "RPSGVENT.NS": {
     "symbol": "RPSGVENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 922.95,
+    "current_year_vwap": 923.22,
     "signal_price": 1134.65,
-    "last_price": 993.95,
+    "last_price": 967.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 617.35,
@@ -997,9 +1011,9 @@
   "CUMMINSIND.NS": {
     "symbol": "CUMMINSIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3061.75,
+    "current_year_vwap": 3063.01,
     "signal_price": 3230.5,
-    "last_price": 3604.8,
+    "last_price": 3568.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 846.88,
@@ -1029,9 +1043,9 @@
   "20MICRONS.NS": {
     "symbol": "20MICRONS.NS",
     "current_year": 2025,
-    "current_year_vwap": 230.37,
+    "current_year_vwap": 230.38,
     "signal_price": 236.81,
-    "last_price": 239.28,
+    "last_price": 235.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 57.15,
@@ -1046,9 +1060,9 @@
   "TIMESGTY.NS": {
     "symbol": "TIMESGTY.NS",
     "current_year": 2025,
-    "current_year_vwap": 224,
+    "current_year_vwap": 224.11,
     "signal_price": 241.12,
-    "last_price": 257.6,
+    "last_price": 263.65,
     "condition_date": "2025-07-28",
     "previous_years": {
       "2021": 48.99,
@@ -1062,9 +1076,9 @@
   "SIRCA.NS": {
     "symbol": "SIRCA.NS",
     "current_year": 2025,
-    "current_year_vwap": 351.89,
+    "current_year_vwap": 352.35,
     "signal_price": 354.25,
-    "last_price": 438.2,
+    "last_price": 434.55,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 205.99,
@@ -1079,9 +1093,9 @@
   "APOLLO.NS": {
     "symbol": "APOLLO.NS",
     "current_year": 2025,
-    "current_year_vwap": 146.94,
+    "current_year_vwap": 146.95,
     "signal_price": 151.28,
-    "last_price": 172.69,
+    "last_price": 169.94,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 12.45,
@@ -1099,9 +1113,9 @@
   "SDBL.NS": {
     "symbol": "SDBL.NS",
     "current_year": 2025,
-    "current_year_vwap": 138.69,
+    "current_year_vwap": 138.71,
     "signal_price": 142.35,
-    "last_price": 151.06,
+    "last_price": 146.96,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 16.12,
@@ -1115,9 +1129,9 @@
   "TORNTPHARM.NS": {
     "symbol": "TORNTPHARM.NS",
     "current_year": 2025,
-    "current_year_vwap": 3272.92,
+    "current_year_vwap": 3274.36,
     "signal_price": 3418.55,
-    "last_price": 3666.8,
+    "last_price": 3678.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1395.57,
@@ -1131,9 +1145,9 @@
   "ICRA.NS": {
     "symbol": "ICRA.NS",
     "current_year": 2025,
-    "current_year_vwap": 6250.13,
+    "current_year_vwap": 6250.57,
     "signal_price": 6467.55,
-    "last_price": 6624.5,
+    "last_price": 6461.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3426.31,
@@ -1148,9 +1162,9 @@
   "TVSMOTOR.NS": {
     "symbol": "TVSMOTOR.NS",
     "current_year": 2025,
-    "current_year_vwap": 2604.63,
+    "current_year_vwap": 2607.55,
     "signal_price": 2653.75,
-    "last_price": 2815.6,
+    "last_price": 2858.2,
     "condition_date": "2025-02-03",
     "previous_years": {
       "2021": 608.82,
@@ -1163,9 +1177,9 @@
   "ADANIPORTS.NS": {
     "symbol": "ADANIPORTS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1238.82,
+    "current_year_vwap": 1239,
     "signal_price": 1259.4,
-    "last_price": 1356.5,
+    "last_price": 1347.1,
     "condition_date": "2025-04-17",
     "previous_years": {
       "2021": 723.06,
@@ -1178,9 +1192,9 @@
   "GRASIM.NS": {
     "symbol": "GRASIM.NS",
     "current_year": 2025,
-    "current_year_vwap": 2604.18,
+    "current_year_vwap": 2604.36,
     "signal_price": 2618.7,
-    "last_price": 2735.5,
+    "last_price": 2722.2,
     "condition_date": "2025-03-27",
     "previous_years": {
       "2021": 1399.37,
@@ -1194,9 +1208,9 @@
   "SWARAJENG.NS": {
     "symbol": "SWARAJENG.NS",
     "current_year": 2025,
-    "current_year_vwap": 3981.84,
+    "current_year_vwap": 3981.99,
     "signal_price": 3999,
-    "last_price": 4065.6,
+    "last_price": 4016.7,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 1632.68,
@@ -1211,9 +1225,9 @@
   "POLICYBZR.NS": {
     "symbol": "POLICYBZR.NS",
     "current_year": 2025,
-    "current_year_vwap": 1680.94,
+    "current_year_vwap": 1681.33,
     "signal_price": 2119.2,
-    "last_price": 1782.9,
+    "last_price": 1780.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1227.34,
@@ -1229,9 +1243,9 @@
   "ASHOKLEY.NS": {
     "symbol": "ASHOKLEY.NS",
     "current_year": 2025,
-    "current_year_vwap": 111.63,
+    "current_year_vwap": 111.66,
     "signal_price": 118.04,
-    "last_price": 118.97,
+    "last_price": 120.35,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 62.37,
@@ -1246,9 +1260,9 @@
   "DHANUKA.NS": {
     "symbol": "DHANUKA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1521.4,
+    "current_year_vwap": 1538.34,
     "signal_price": 1613,
-    "last_price": 1930.2,
+    "last_price": 1645.6,
     "condition_date": "2025-05-16",
     "previous_years": {
       "2021": 867.69,
@@ -1263,9 +1277,9 @@
   "FIEMIND.NS": {
     "symbol": "FIEMIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 1662.47,
+    "current_year_vwap": 1662.9,
     "signal_price": 1743.6,
-    "last_price": 1914.8,
+    "last_price": 1913.7,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 463.28,
@@ -1278,9 +1292,9 @@
   "BANCOINDIA.NS": {
     "symbol": "BANCOINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 500.02,
+    "current_year_vwap": 500.13,
     "signal_price": 513.15,
-    "last_price": 587.45,
+    "last_price": 575.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 87.84,
@@ -1298,9 +1312,9 @@
   "STYRENIX.NS": {
     "symbol": "STYRENIX.NS",
     "current_year": 2025,
-    "current_year_vwap": 2886.57,
+    "current_year_vwap": 2886.49,
     "signal_price": 3048.6,
-    "last_price": 2866.8,
+    "last_price": 2843.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1299.54,
@@ -1313,9 +1327,9 @@
   "FACT.NS": {
     "symbol": "FACT.NS",
     "current_year": 2025,
-    "current_year_vwap": 871.69,
+    "current_year_vwap": 871.72,
     "signal_price": 989.95,
-    "last_price": 940.95,
+    "last_price": 933.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 113,
@@ -1328,9 +1342,9 @@
   "IMFA.NS": {
     "symbol": "IMFA.NS",
     "current_year": 2025,
-    "current_year_vwap": 716.58,
+    "current_year_vwap": 716.59,
     "signal_price": 902.6,
-    "last_price": 729.8,
+    "last_price": 724.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 299.4,
@@ -1345,9 +1359,9 @@
   "PIIND.NS": {
     "symbol": "PIIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3627.46,
+    "current_year_vwap": 3628.15,
     "signal_price": 3691.25,
-    "last_price": 4189,
+    "last_price": 4190.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2761.83,
@@ -1360,9 +1374,9 @@
   "HDFCAMC.NS": {
     "symbol": "HDFCAMC.NS",
     "current_year": 2025,
-    "current_year_vwap": 4480.18,
+    "current_year_vwap": 4481.65,
     "signal_price": 4509.6,
-    "last_price": 5669,
+    "last_price": 5615,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 2920.63,
@@ -1376,9 +1390,9 @@
   "GODREJAGRO.NS": {
     "symbol": "GODREJAGRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 763.41,
+    "current_year_vwap": 763.59,
     "signal_price": 782.05,
-    "last_price": 838.45,
+    "last_price": 814,
     "condition_date": "2025-02-04",
     "previous_years": {
       "2021": 593.53,
@@ -1399,9 +1413,9 @@
   "DIVISLAB.NS": {
     "symbol": "DIVISLAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 6145.78,
+    "current_year_vwap": 6146.64,
     "signal_price": 6215.5,
-    "last_price": 6423.5,
+    "last_price": 6361.5,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 4249.33,
@@ -1417,9 +1431,9 @@
   "STARCEMENT.NS": {
     "symbol": "STARCEMENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 219.33,
+    "current_year_vwap": 219.47,
     "signal_price": 229.29,
-    "last_price": 247.68,
+    "last_price": 243.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 107.7,
@@ -1433,9 +1447,9 @@
   "POLYCAB.NS": {
     "symbol": "POLYCAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 5647.86,
+    "current_year_vwap": 5649.29,
     "signal_price": 7341.4,
-    "last_price": 6752,
+    "last_price": 6698,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1891.34,
@@ -1449,9 +1463,9 @@
   "DODLA.NS": {
     "symbol": "DODLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1246.28,
+    "current_year_vwap": 1246.35,
     "signal_price": 1255.75,
-    "last_price": 1295.2,
+    "last_price": 1287.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 601.65,
@@ -1464,9 +1478,9 @@
   "ICICIGI.NS": {
     "symbol": "ICICIGI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1854.39,
+    "current_year_vwap": 1854.4,
     "signal_price": 1883.7,
-    "last_price": 1890,
+    "last_price": 1867.3,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 1490.93,
@@ -1479,9 +1493,9 @@
   "BAJAJFINSV.NS": {
     "symbol": "BAJAJFINSV.NS",
     "current_year": 2025,
-    "current_year_vwap": 1912.72,
+    "current_year_vwap": 1912.73,
     "signal_price": 1925.55,
-    "last_price": 1948,
+    "last_price": 1916.3,
     "condition_date": "2025-02-27",
     "previous_years": {
       "2021": 1242.29,
@@ -1497,9 +1511,9 @@
   "HCG.NS": {
     "symbol": "HCG.NS",
     "current_year": 2025,
-    "current_year_vwap": 539.01,
+    "current_year_vwap": 539.65,
     "signal_price": 544.4,
-    "last_price": 608.5,
+    "last_price": 612.05,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 217.72,
@@ -1512,9 +1526,9 @@
   "BIL.NS": {
     "symbol": "BIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 731.07,
+    "current_year_vwap": 732.15,
     "signal_price": 812.7,
-    "last_price": 930.95,
+    "last_price": 902.75,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 256.45,
@@ -1529,9 +1543,9 @@
   "PILANIINVS.NS": {
     "symbol": "PILANIINVS.NS",
     "current_year": 2025,
-    "current_year_vwap": 4774.76,
+    "current_year_vwap": 4775.02,
     "signal_price": 5404,
-    "last_price": 5083,
+    "last_price": 5029.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1856.12,
@@ -1551,7 +1565,7 @@
     "current_year": 2025,
     "current_year_vwap": 899.9,
     "signal_price": 921.9,
-    "last_price": 1045,
+    "last_price": 1060.6,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 390.59,
@@ -1566,9 +1580,9 @@
   "NDRAUTO.NS": {
     "symbol": "NDRAUTO.NS",
     "current_year": 2025,
-    "current_year_vwap": 949.27,
+    "current_year_vwap": 949.3,
     "signal_price": 953.35,
-    "last_price": 992.1,
+    "last_price": 976.5,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 78.46,
@@ -1581,9 +1595,9 @@
   "DIACABS.NS": {
     "symbol": "DIACABS.NS",
     "current_year": 2025,
-    "current_year_vwap": 127.61,
+    "current_year_vwap": 127.73,
     "signal_price": 154.22,
-    "last_price": 173.68,
+    "last_price": 170.27,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 10.2,
@@ -1603,9 +1617,9 @@
   "PROZONER.NS": {
     "symbol": "PROZONER.NS",
     "current_year": 2025,
-    "current_year_vwap": 36.54,
+    "current_year_vwap": 36.56,
     "signal_price": 39.21,
-    "last_price": 43.26,
+    "last_price": 42.95,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 31.27,
@@ -1619,9 +1633,9 @@
   "CGPOWER.NS": {
     "symbol": "CGPOWER.NS",
     "current_year": 2025,
-    "current_year_vwap": 633.75,
+    "current_year_vwap": 633.83,
     "signal_price": 741,
-    "last_price": 656,
+    "last_price": 651.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 79.73,
@@ -1635,9 +1649,9 @@
   "TI.NS": {
     "symbol": "TI.NS",
     "current_year": 2025,
-    "current_year_vwap": 374.94,
+    "current_year_vwap": 375.26,
     "signal_price": 420.2,
-    "last_price": 508.8,
+    "last_price": 505.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 45.4,
@@ -1655,9 +1669,9 @@
   "SJS.NS": {
     "symbol": "SJS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1062.36,
+    "current_year_vwap": 1062.89,
     "signal_price": 1132.85,
-    "last_price": 1197.1,
+    "last_price": 1156.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 477.67,
@@ -1671,9 +1685,9 @@
   "PERSISTENT.NS": {
     "symbol": "PERSISTENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5511.41,
+    "current_year_vwap": 5510.38,
     "signal_price": 6436.8,
-    "last_price": 5108.5,
+    "last_price": 5061.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1562.14,
@@ -1686,9 +1700,9 @@
   "BOSCHLTD.NS": {
     "symbol": "BOSCHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 31893.6,
+    "current_year_vwap": 31959.9,
     "signal_price": 34032.55,
-    "last_price": 40660,
+    "last_price": 40390,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 15671.3,
@@ -1706,9 +1720,9 @@
   "GREAVESCOT.NS": {
     "symbol": "GREAVESCOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 236.2,
+    "current_year_vwap": 236.12,
     "signal_price": 275.95,
-    "last_price": 222.6,
+    "last_price": 218.18,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 141.81,
@@ -1728,9 +1742,9 @@
   "VSTTILLERS.NS": {
     "symbol": "VSTTILLERS.NS",
     "current_year": 2025,
-    "current_year_vwap": 4065.91,
+    "current_year_vwap": 4068.85,
     "signal_price": 5272.55,
-    "last_price": 4610.2,
+    "last_price": 4515,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2406.4,
@@ -1748,9 +1762,9 @@
   "AMBUJACEM.NS": {
     "symbol": "AMBUJACEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 541.82,
+    "current_year_vwap": 542.33,
     "signal_price": 549.85,
-    "last_price": 602.2,
+    "last_price": 607.95,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 332.3,
@@ -1763,9 +1777,9 @@
   "JSWSTEEL.NS": {
     "symbol": "JSWSTEEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 992.87,
+    "current_year_vwap": 992.96,
     "signal_price": 1002.7,
-    "last_price": 1034.9,
+    "last_price": 1027.8,
     "condition_date": "2025-03-05",
     "previous_years": {
       "2021": 615.49,
@@ -1780,9 +1794,9 @@
   "JSWHL.NS": {
     "symbol": "JSWHL.NS",
     "current_year": 2025,
-    "current_year_vwap": 21673.4,
+    "current_year_vwap": 21671.8,
     "signal_price": 21898.95,
-    "last_price": 19397,
+    "last_price": 19161,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 4258.99,
@@ -1815,9 +1829,9 @@
   "SUZLON.NS": {
     "symbol": "SUZLON.NS",
     "current_year": 2025,
-    "current_year_vwap": 60.69,
+    "current_year_vwap": 60.76,
     "signal_price": 65.33,
-    "last_price": 65.5,
+    "last_price": 65.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6.36,
@@ -1831,9 +1845,9 @@
   "AUBANK.NS": {
     "symbol": "AUBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 645.7,
+    "current_year_vwap": 645.87,
     "signal_price": 665.45,
-    "last_price": 747.65,
+    "last_price": 741.05,
     "condition_date": "2025-04-23",
     "previous_years": {
       "2021": 557.92,
@@ -1847,9 +1861,9 @@
   "APLAPOLLO.NS": {
     "symbol": "APLAPOLLO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1611.43,
+    "current_year_vwap": 1611.34,
     "signal_price": 1616.75,
-    "last_price": 1605.1,
+    "last_price": 1594.1,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 725.44,
@@ -1866,9 +1880,9 @@
   "ANURAS.NS": {
     "symbol": "ANURAS.NS",
     "current_year": 2025,
-    "current_year_vwap": 873.06,
+    "current_year_vwap": 873.36,
     "signal_price": 875.6,
-    "last_price": 1126.7,
+    "last_price": 1136.6,
     "condition_date": "2025-05-05",
     "previous_years": {
       "2021": 655.04,
@@ -1883,9 +1897,9 @@
   "HINDPETRO.NS": {
     "symbol": "HINDPETRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 377.77,
+    "current_year_vwap": 377.83,
     "signal_price": 412.35,
-    "last_price": 406.7,
+    "last_price": 403.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 177.14,
@@ -1899,9 +1913,9 @@
   "SRF.NS": {
     "symbol": "SRF.NS",
     "current_year": 2025,
-    "current_year_vwap": 2884.7,
+    "current_year_vwap": 2884.83,
     "signal_price": 2942.7,
-    "last_price": 3012.5,
+    "last_price": 2985.2,
     "condition_date": "2025-02-03",
     "previous_years": {
       "2021": 1715.61,
@@ -1917,9 +1931,9 @@
   "PSPPROJECT.NS": {
     "symbol": "PSPPROJECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 696.31,
+    "current_year_vwap": 696.49,
     "signal_price": 698.65,
-    "last_price": 748.25,
+    "last_price": 757.7,
     "condition_date": "2025-06-13",
     "previous_years": {
       "2021": 475.15,
@@ -1936,9 +1950,9 @@
   "MRF.NS": {
     "symbol": "MRF.NS",
     "current_year": 2025,
-    "current_year_vwap": 128856.81,
+    "current_year_vwap": 128906.16,
     "signal_price": 129374.5,
-    "last_price": 146100,
+    "last_price": 145905,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 84235.07,
@@ -1957,7 +1971,7 @@
     "current_year": 2025,
     "current_year_vwap": 242.68,
     "signal_price": 285.3,
-    "last_price": 247.65,
+    "last_price": 244.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 188.93,
@@ -1970,9 +1984,9 @@
   "INDIAGLYCO.NS": {
     "symbol": "INDIAGLYCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1517.66,
+    "current_year_vwap": 1518.01,
     "signal_price": 1544.7,
-    "last_price": 1712.6,
+    "last_price": 1666.6,
     "condition_date": "2025-05-12",
     "previous_years": {
       "2021": 658.81,
@@ -1986,9 +2000,9 @@
   "SHARDACROP.NS": {
     "symbol": "SHARDACROP.NS",
     "current_year": 2025,
-    "current_year_vwap": 786.73,
+    "current_year_vwap": 787.49,
     "signal_price": 812.25,
-    "last_price": 1135.1,
+    "last_price": 1106.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 329.36,
@@ -2004,9 +2018,9 @@
   "PENIND.NS": {
     "symbol": "PENIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 205.74,
+    "current_year_vwap": 205.81,
     "signal_price": 213.09,
-    "last_price": 234.36,
+    "last_price": 232.25,
     "condition_date": "2025-05-22",
     "previous_years": {
       "2021": 29.34,
@@ -2024,9 +2038,9 @@
   "CHEMFAB.NS": {
     "symbol": "CHEMFAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 822.84,
+    "current_year_vwap": 821.57,
     "signal_price": 1031.8,
-    "last_price": 741.15,
+    "last_price": 719.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 169.64,
@@ -2047,9 +2061,9 @@
   "INDOTECH.NS": {
     "symbol": "INDOTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 2262.13,
+    "current_year_vwap": 2261.08,
     "signal_price": 3048.25,
-    "last_price": 1675.4,
+    "last_price": 1670.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 161.72,
@@ -2062,9 +2076,9 @@
   "REFEX.NS": {
     "symbol": "REFEX.NS",
     "current_year": 2025,
-    "current_year_vwap": 445.76,
+    "current_year_vwap": 445.67,
     "signal_price": 482.75,
-    "last_price": 426.35,
+    "last_price": 417.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 26.91,
@@ -2081,9 +2095,9 @@
   "ARIHANTCAP.NS": {
     "symbol": "ARIHANTCAP.NS",
     "current_year": 2025,
-    "current_year_vwap": 85.67,
+    "current_year_vwap": 85.74,
     "signal_price": 105.57,
-    "last_price": 98.52,
+    "last_price": 99.59,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.38,
@@ -2096,9 +2110,9 @@
   "SKMEGGPROD.NS": {
     "symbol": "SKMEGGPROD.NS",
     "current_year": 2025,
-    "current_year_vwap": 222.32,
+    "current_year_vwap": 222.45,
     "signal_price": 249.1,
-    "last_price": 303.6,
+    "last_price": 303.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 77.75,
@@ -2114,10 +2128,10 @@
   "NELCAST.NS": {
     "symbol": "NELCAST.NS",
     "current_year": 2025,
-    "current_year_vwap": 140.2,
-    "signal_price": 140.78,
-    "last_price": 174.23,
-    "condition_date": "2025-05-26",
+    "current_year_vwap": 146.14,
+    "signal_price": 148.11,
+    "last_price": 168.98,
+    "condition_date": "2025-06-26",
     "previous_years": {
       "2021": 81.26,
       "2022": 89.82,
@@ -2130,9 +2144,9 @@
   "ARROWGREEN.NS": {
     "symbol": "ARROWGREEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 670.01,
+    "current_year_vwap": 670.23,
     "signal_price": 799.05,
-    "last_price": 762.45,
+    "last_price": 751.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 119.97,
@@ -2152,9 +2166,9 @@
   "TIRUMALCHM.NS": {
     "symbol": "TIRUMALCHM.NS",
     "current_year": 2025,
-    "current_year_vwap": 271.97,
+    "current_year_vwap": 272.01,
     "signal_price": 333.6,
-    "last_price": 294.35,
+    "last_price": 291.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 169.28,
@@ -2167,9 +2181,9 @@
   "GREENPLY.NS": {
     "symbol": "GREENPLY.NS",
     "current_year": 2025,
-    "current_year_vwap": 301.74,
+    "current_year_vwap": 301.81,
     "signal_price": 313.7,
-    "last_price": 325.45,
+    "last_price": 316.55,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 187.07,
@@ -2182,9 +2196,9 @@
   "LUMAXTECH.NS": {
     "symbol": "LUMAXTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 808.94,
+    "current_year_vwap": 809.29,
     "signal_price": 811.55,
-    "last_price": 1108.8,
+    "last_price": 1089,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 151.06,
@@ -2205,7 +2219,7 @@
     "current_year": 2025,
     "current_year_vwap": 856.27,
     "signal_price": 1167.8,
-    "last_price": 881.5,
+    "last_price": 863.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 364.24,
@@ -2224,9 +2238,9 @@
   "PGIL.NS": {
     "symbol": "PGIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1341.71,
+    "current_year_vwap": 1341.91,
     "signal_price": 1493.5,
-    "last_price": 1420.1,
+    "last_price": 1394.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 160.43,
@@ -2239,9 +2253,9 @@
   "SHREECEM.NS": {
     "symbol": "SHREECEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 29277.33,
+    "current_year_vwap": 29283.78,
     "signal_price": 29442.65,
-    "last_price": 30630,
+    "last_price": 30675,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 27792.99,
@@ -2255,9 +2269,9 @@
   "JSL.NS": {
     "symbol": "JSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 631.59,
+    "current_year_vwap": 631.9,
     "signal_price": 696.85,
-    "last_price": 704,
+    "last_price": 706.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 128.17,
@@ -2271,9 +2285,9 @@
   "SHANKARA.NS": {
     "symbol": "SHANKARA.NS",
     "current_year": 2025,
-    "current_year_vwap": 860.52,
+    "current_year_vwap": 862.2,
     "signal_price": 877.45,
-    "last_price": 1182.6,
+    "last_price": 1156.5,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 508.91,
@@ -2287,9 +2301,9 @@
   "EVEREADY.NS": {
     "symbol": "EVEREADY.NS",
     "current_year": 2025,
-    "current_year_vwap": 351.72,
+    "current_year_vwap": 351.97,
     "signal_price": 395.85,
-    "last_price": 418.8,
+    "last_price": 410.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 319.24,
@@ -2310,9 +2324,9 @@
   "JINDALSTEL.NS": {
     "symbol": "JINDALSTEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 888.39,
+    "current_year_vwap": 888.48,
     "signal_price": 938.1,
-    "last_price": 959.9,
+    "last_price": 945.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 381.59,
@@ -2325,9 +2339,9 @@
   "MUTHOOTFIN.NS": {
     "symbol": "MUTHOOTFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 2276.6,
+    "current_year_vwap": 2276.85,
     "signal_price": 2317.8,
-    "last_price": 2607.2,
+    "last_price": 2592.7,
     "condition_date": "2025-02-13",
     "previous_years": {
       "2021": 1384.47,
@@ -2340,9 +2354,9 @@
   "PAGEIND.NS": {
     "symbol": "PAGEIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 45336.98,
+    "current_year_vwap": 45342.5,
     "signal_price": 47788.3,
-    "last_price": 47275,
+    "last_price": 46810,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31954.63,
@@ -2358,9 +2372,9 @@
   "INDRAMEDCO.NS": {
     "symbol": "INDRAMEDCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 439.48,
+    "current_year_vwap": 439.49,
     "signal_price": 541.75,
-    "last_price": 462.3,
+    "last_price": 453.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 80.74,
@@ -2376,9 +2390,9 @@
   "BAJAJHLDNG.NS": {
     "symbol": "BAJAJHLDNG.NS",
     "current_year": 2025,
-    "current_year_vwap": 12486.32,
+    "current_year_vwap": 12487.61,
     "signal_price": 12521.5,
-    "last_price": 13989,
+    "last_price": 13848,
     "condition_date": "2025-03-25",
     "previous_years": {
       "2021": 4138.9,
@@ -2394,9 +2408,9 @@
   "MPSLTD.NS": {
     "symbol": "MPSLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 2515.28,
+    "current_year_vwap": 2515.05,
     "signal_price": 2529.6,
-    "last_price": 2329.3,
+    "last_price": 2302.9,
     "condition_date": "2025-01-27",
     "previous_years": {
       "2021": 604.44,
@@ -2418,7 +2432,7 @@
     "current_year": 2025,
     "current_year_vwap": 37.72,
     "signal_price": 46.16,
-    "last_price": 37.89,
+    "last_price": 37.53,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 28.84,
@@ -2432,9 +2446,9 @@
   "SHRIPISTON.NS": {
     "symbol": "SHRIPISTON.NS",
     "current_year": 2025,
-    "current_year_vwap": 2144.42,
+    "current_year_vwap": 2145.04,
     "signal_price": 2172.85,
-    "last_price": 2454.4,
+    "last_price": 2388.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 450.07,
@@ -2452,7 +2466,7 @@
     "current_year": 2025,
     "current_year_vwap": 279.12,
     "signal_price": 290.95,
-    "last_price": 282.7,
+    "last_price": 277.2,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 79.25,
@@ -2468,10 +2482,10 @@
   "DATAMATICS.NS": {
     "symbol": "DATAMATICS.NS",
     "current_year": 2025,
-    "current_year_vwap": 745.65,
-    "signal_price": 746.75,
-    "last_price": 1022.1,
-    "condition_date": "2025-07-15",
+    "current_year_vwap": 746.94,
+    "signal_price": 758.1,
+    "last_price": 1004.45,
+    "condition_date": "2025-07-16",
     "previous_years": {
       "2021": 215.61,
       "2022": 312.35,
@@ -2484,9 +2498,9 @@
   "THYROCARE.NS": {
     "symbol": "THYROCARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 983.9,
+    "current_year_vwap": 984.62,
     "signal_price": 1017.9,
-    "last_price": 1343.1,
+    "last_price": 1320.8,
     "condition_date": "2025-01-06",
     "previous_years": {
       "2021": 1177.13,
@@ -2516,9 +2530,9 @@
   "BAJAJHCARE.NS": {
     "symbol": "BAJAJHCARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 604.81,
+    "current_year_vwap": 604.65,
     "signal_price": 632.25,
-    "last_price": 482.2,
+    "last_price": 468.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 393.58,
@@ -2535,9 +2549,9 @@
   "JINDALPHOT.NS": {
     "symbol": "JINDALPHOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 789.71,
+    "current_year_vwap": 789.72,
     "signal_price": 891.9,
-    "last_price": 883,
+    "last_price": 860.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 183.93,
@@ -2552,9 +2566,9 @@
   "NACLIND.NS": {
     "symbol": "NACLIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 133.14,
+    "current_year_vwap": 133.38,
     "signal_price": 134.89,
-    "last_price": 327,
+    "last_price": 307.85,
     "condition_date": "2025-04-04",
     "previous_years": {
       "2021": 69.18,
@@ -2571,9 +2585,9 @@
   "WEL.NS": {
     "symbol": "WEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 172.39,
+    "current_year_vwap": 172.36,
     "signal_price": 176.59,
-    "last_price": 165.43,
+    "last_price": 164.21,
     "condition_date": "2025-01-15",
     "previous_years": {
       "2021": 5.03,
@@ -2604,9 +2618,9 @@
   "ORICONENT.NS": {
     "symbol": "ORICONENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 42.23,
+    "current_year_vwap": 42.24,
     "signal_price": 43.63,
-    "last_price": 50.1,
+    "last_price": 49.68,
     "condition_date": "2025-05-22",
     "previous_years": {
       "2021": 31.3,
@@ -2637,9 +2651,9 @@
   "SHK.NS": {
     "symbol": "SHK.NS",
     "current_year": 2025,
-    "current_year_vwap": 214.72,
+    "current_year_vwap": 214.85,
     "signal_price": 264.34,
-    "last_price": 255,
+    "last_price": 254.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 153.86,
@@ -2652,9 +2666,9 @@
   "SPAL.NS": {
     "symbol": "SPAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 817.02,
+    "current_year_vwap": 816.94,
     "signal_price": 905.15,
-    "last_price": 796.55,
+    "last_price": 783.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 281.12,
@@ -2669,9 +2683,9 @@
   "COFORGE.NS": {
     "symbol": "COFORGE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1607.72,
+    "current_year_vwap": 1607.87,
     "signal_price": 1925.71,
-    "last_price": 1729.9,
+    "last_price": 1706.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 804.7,
@@ -2686,9 +2700,9 @@
   "RPGLIFE.NS": {
     "symbol": "RPGLIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2303.34,
+    "current_year_vwap": 2303.46,
     "signal_price": 2337.5,
-    "last_price": 2344.4,
+    "last_price": 2350.7,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 537.59,
@@ -2704,9 +2718,9 @@
   "INSECTICID.NS": {
     "symbol": "INSECTICID.NS",
     "current_year": 2025,
-    "current_year_vwap": 786.81,
+    "current_year_vwap": 788.29,
     "signal_price": 791.2,
-    "last_price": 1080.1,
+    "last_price": 1035.2,
     "condition_date": "2025-05-26",
     "previous_years": {
       "2021": 414.15,
@@ -2720,9 +2734,9 @@
   "MANINDS.NS": {
     "symbol": "MANINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 335.63,
+    "current_year_vwap": 335.93,
     "signal_price": 350.9,
-    "last_price": 442.85,
+    "last_price": 437.3,
     "condition_date": "2025-01-08",
     "previous_years": {
       "2021": 104.7,
@@ -2736,9 +2750,9 @@
   "360ONE.NS": {
     "symbol": "360ONE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1056.46,
+    "current_year_vwap": 1056.45,
     "signal_price": 1276.7,
-    "last_price": 1061.7,
+    "last_price": 1052.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 355.32,
@@ -2756,9 +2770,9 @@
   "DCW.NS": {
     "symbol": "DCW.NS",
     "current_year": 2025,
-    "current_year_vwap": 79.99,
+    "current_year_vwap": 79.94,
     "signal_price": 89.98,
-    "last_price": 79.22,
+    "last_price": 74.93,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 39.2,
@@ -2775,10 +2789,10 @@
   "ASHAPURMIN.NS": {
     "symbol": "ASHAPURMIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 443.69,
-    "signal_price": 443.7,
-    "last_price": 543.4,
-    "condition_date": "2025-01-03",
+    "current_year_vwap": 443.95,
+    "signal_price": 484.65,
+    "last_price": 528.85,
+    "condition_date": "2025-01-08",
     "previous_years": {
       "2021": 131.38,
       "2022": 116.97,
@@ -2790,9 +2804,9 @@
   "SUBROS.NS": {
     "symbol": "SUBROS.NS",
     "current_year": 2025,
-    "current_year_vwap": 872.61,
+    "current_year_vwap": 872.59,
     "signal_price": 987.9,
-    "last_price": 847.3,
+    "last_price": 840.45,
     "condition_date": "2025-06-16",
     "previous_years": {
       "2021": 339.48,
@@ -2808,9 +2822,9 @@
   "NSIL.NS": {
     "symbol": "NSIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 6614.33,
+    "current_year_vwap": 6614.17,
     "signal_price": 7892.85,
-    "last_price": 6644.5,
+    "last_price": 6544,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1508.21,
@@ -2824,9 +2838,9 @@
   "DIXON.NS": {
     "symbol": "DIXON.NS",
     "current_year": 2025,
-    "current_year_vwap": 15204.74,
+    "current_year_vwap": 15207.29,
     "signal_price": 17994.2,
-    "last_price": 17040,
+    "last_price": 16848,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 4380.72,
@@ -2841,9 +2855,9 @@
   "HEUBACHIND.NS": {
     "symbol": "HEUBACHIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 579.38,
+    "current_year_vwap": 579.39,
     "signal_price": 587.75,
-    "last_price": 594,
+    "last_price": 590.9,
     "condition_date": "2025-03-12",
     "previous_years": {
       "2021": 505.61,
@@ -2863,9 +2877,9 @@
   "SUNDARMFIN.NS": {
     "symbol": "SUNDARMFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 4745.75,
+    "current_year_vwap": 4745.45,
     "signal_price": 4746.35,
-    "last_price": 4582.9,
+    "last_price": 4568.5,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 2393.6,
@@ -2879,9 +2893,9 @@
   "SUPRIYA.NS": {
     "symbol": "SUPRIYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 700.93,
+    "current_year_vwap": 700.79,
     "signal_price": 756.5,
-    "last_price": 662.15,
+    "last_price": 656.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 445.9,
@@ -2894,10 +2908,10 @@
   "CAMLINFINE.NS": {
     "symbol": "CAMLINFINE.NS",
     "current_year": 2025,
-    "current_year_vwap": 183.03,
-    "signal_price": 183.05,
-    "last_price": 269,
-    "condition_date": "2025-05-14",
+    "current_year_vwap": 183.15,
+    "signal_price": 197.04,
+    "last_price": 271.2,
+    "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 166.1,
       "2022": 137.76,
@@ -2921,9 +2935,9 @@
   "ABCAPITAL.NS": {
     "symbol": "ABCAPITAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 211.19,
+    "current_year_vwap": 211.3,
     "signal_price": 218.33,
-    "last_price": 253.7,
+    "last_price": 251.45,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 113.63,
@@ -2937,9 +2951,9 @@
   "TIIL.NS": {
     "symbol": "TIIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2828.19,
+    "current_year_vwap": 2828.64,
     "signal_price": 2858.15,
-    "last_price": 3144,
+    "last_price": 3130.7,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 568.91,
@@ -2974,9 +2988,9 @@
   "GANESHHOUC.NS": {
     "symbol": "GANESHHOUC.NS",
     "current_year": 2025,
-    "current_year_vwap": 1152.63,
+    "current_year_vwap": 1152.31,
     "signal_price": 1247.55,
-    "last_price": 906.4,
+    "last_price": 884.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 130.96,
@@ -2989,9 +3003,9 @@
   "PCJEWELLER.NS": {
     "symbol": "PCJEWELLER.NS",
     "current_year": 2025,
-    "current_year_vwap": 15.26,
+    "current_year_vwap": 15.25,
     "signal_price": 16.21,
-    "last_price": 15.37,
+    "last_price": 15.01,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2.73,
@@ -3004,9 +3018,9 @@
   "TAJGVK.NS": {
     "symbol": "TAJGVK.NS",
     "current_year": 2025,
-    "current_year_vwap": 436.84,
+    "current_year_vwap": 436.61,
     "signal_price": 441.95,
-    "last_price": 421.85,
+    "last_price": 417.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 139.58,
@@ -3024,9 +3038,9 @@
   "EIHAHOTELS.NS": {
     "symbol": "EIHAHOTELS.NS",
     "current_year": 2025,
-    "current_year_vwap": 376.72,
+    "current_year_vwap": 376.74,
     "signal_price": 446.95,
-    "last_price": 394.4,
+    "last_price": 391.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 176.27,
@@ -3039,9 +3053,9 @@
   "PARAGMILK.NS": {
     "symbol": "PARAGMILK.NS",
     "current_year": 2025,
-    "current_year_vwap": 205.16,
+    "current_year_vwap": 205.24,
     "signal_price": 208.1,
-    "last_price": 248.22,
+    "last_price": 238.79,
     "condition_date": "2025-05-05",
     "previous_years": {
       "2021": 128.3,
@@ -3058,9 +3072,9 @@
   "KIRIINDUS.NS": {
     "symbol": "KIRIINDUS.NS",
     "current_year": 2025,
-    "current_year_vwap": 621.82,
+    "current_year_vwap": 621.78,
     "signal_price": 635.25,
-    "last_price": 547.55,
+    "last_price": 544.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 543.57,
@@ -3074,9 +3088,9 @@
   "TFCILTD.NS": {
     "symbol": "TFCILTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 202.92,
+    "current_year_vwap": 203.2,
     "signal_price": 205.12,
-    "last_price": 291.15,
+    "last_price": 284.7,
     "condition_date": "2025-05-02",
     "previous_years": {
       "2021": 67.3,
@@ -3092,9 +3106,9 @@
   "BYKE.NS": {
     "symbol": "BYKE.NS",
     "current_year": 2025,
-    "current_year_vwap": 82.68,
+    "current_year_vwap": 82.67,
     "signal_price": 95.36,
-    "last_price": 76.89,
+    "last_price": 75.78,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 30.29,
@@ -3113,9 +3127,9 @@
   "KINGFA.NS": {
     "symbol": "KINGFA.NS",
     "current_year": 2025,
-    "current_year_vwap": 3304.89,
+    "current_year_vwap": 3304.77,
     "signal_price": 3420.35,
-    "last_price": 3210,
+    "last_price": 3207.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 960.88,
@@ -3130,9 +3144,9 @@
   "NITCO.NS": {
     "symbol": "NITCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 131.33,
+    "current_year_vwap": 131.32,
     "signal_price": 131.55,
-    "last_price": 127.68,
+    "last_price": 125.68,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 29.02,
@@ -3162,9 +3176,9 @@
   "STEELCAS.NS": {
     "symbol": "STEELCAS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1023.9,
+    "current_year_vwap": 1024.15,
     "signal_price": 1033.1,
-    "last_price": 1140,
+    "last_price": 1097.6,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 304.77,
@@ -3178,9 +3192,9 @@
   "UNITEDTEA.NS": {
     "symbol": "UNITEDTEA.NS",
     "current_year": 2025,
-    "current_year_vwap": 473.63,
+    "current_year_vwap": 473.62,
     "signal_price": 574.25,
-    "last_price": 465,
+    "last_price": 460.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 387.91,
@@ -3205,9 +3219,9 @@
   "SGIL.NS": {
     "symbol": "SGIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 495.83,
+    "current_year_vwap": 495.87,
     "signal_price": 501.15,
-    "last_price": 528.3,
+    "last_price": 527.9,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 164.06,
@@ -3226,9 +3240,9 @@
   "KRITI.NS": {
     "symbol": "KRITI.NS",
     "current_year": 2025,
-    "current_year_vwap": 126.56,
+    "current_year_vwap": 126.57,
     "signal_price": 159.03,
-    "last_price": 174.85,
+    "last_price": 173.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 125.94,
@@ -3244,9 +3258,9 @@
   "ZOTA.NS": {
     "symbol": "ZOTA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1007.71,
+    "current_year_vwap": 1008.47,
     "signal_price": 1014.25,
-    "last_price": 1246.1,
+    "last_price": 1212.1,
     "condition_date": "2025-01-09",
     "previous_years": {
       "2021": 277.26,
@@ -3259,9 +3273,9 @@
   "ARIES.NS": {
     "symbol": "ARIES.NS",
     "current_year": 2025,
-    "current_year_vwap": 319.95,
+    "current_year_vwap": 320.75,
     "signal_price": 320.9,
-    "last_price": 404.1,
+    "last_price": 385.55,
     "condition_date": "2025-05-20",
     "previous_years": {
       "2021": 136.56,
@@ -3282,9 +3296,9 @@
   "FEDERALBNK.NS": {
     "symbol": "FEDERALBNK.NS",
     "current_year": 2025,
-    "current_year_vwap": 197.38,
+    "current_year_vwap": 197.37,
     "signal_price": 200.51,
-    "last_price": 198.13,
+    "last_price": 196.06,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 84.03,
@@ -3297,9 +3311,9 @@
   "BSE.NS": {
     "symbol": "BSE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2031.8,
+    "current_year_vwap": 2032.04,
     "signal_price": 2095,
-    "last_price": 2437.6,
+    "last_price": 2411.3,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 138.46,
@@ -3313,9 +3327,9 @@
   "SUNDARMHLD.NS": {
     "symbol": "SUNDARMHLD.NS",
     "current_year": 2025,
-    "current_year_vwap": 399.08,
+    "current_year_vwap": 399.19,
     "signal_price": 412.6,
-    "last_price": 472.9,
+    "last_price": 464.75,
     "condition_date": "2025-06-09",
     "previous_years": {
       "2021": 77.99,
@@ -3340,9 +3354,9 @@
   "LUMAXIND.NS": {
     "symbol": "LUMAXIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3123.41,
+    "current_year_vwap": 3126.5,
     "signal_price": 3132,
-    "last_price": 3855.6,
+    "last_price": 3732.9,
     "condition_date": "2025-06-06",
     "previous_years": {
       "2021": 1492.92,
@@ -3366,9 +3380,9 @@
   "63MOONS.NS": {
     "symbol": "63MOONS.NS",
     "current_year": 2025,
-    "current_year_vwap": 868.93,
+    "current_year_vwap": 869.05,
     "signal_price": 949.6,
-    "last_price": 1018.8,
+    "last_price": 988.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 125.17,
@@ -3398,7 +3412,7 @@
     "current_year": 2025,
     "current_year_vwap": 53.42,
     "signal_price": 58.1,
-    "last_price": 50.13,
+    "last_price": 50.09,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 8.83,
@@ -3412,9 +3426,9 @@
   "SOLARINDS.NS": {
     "symbol": "SOLARINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 13294.59,
+    "current_year_vwap": 13297.14,
     "signal_price": 13452,
-    "last_price": 13968,
+    "last_price": 13807,
     "condition_date": "2025-04-29",
     "previous_years": {
       "2021": 1980.14,
@@ -3439,9 +3453,9 @@
   "MANAPPURAM.NS": {
     "symbol": "MANAPPURAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 220.91,
+    "current_year_vwap": 220.95,
     "signal_price": 234.16,
-    "last_price": 249.55,
+    "last_price": 247.9,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 174.55,
@@ -3458,9 +3472,9 @@
   "FMGOETZE.NS": {
     "symbol": "FMGOETZE.NS",
     "current_year": 2025,
-    "current_year_vwap": 470.16,
+    "current_year_vwap": 470.27,
     "signal_price": 483.05,
-    "last_price": 575.45,
+    "last_price": 559.55,
     "condition_date": "2025-06-05",
     "previous_years": {
       "2021": 296.64,
@@ -3483,9 +3497,9 @@
   "GOODLUCK.NS": {
     "symbol": "GOODLUCK.NS",
     "current_year": 2025,
-    "current_year_vwap": 884.07,
+    "current_year_vwap": 884.94,
     "signal_price": 968,
-    "last_price": 1102,
+    "last_price": 1075.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 149.52,
@@ -3500,9 +3514,9 @@
   "FORTIS.NS": {
     "symbol": "FORTIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 697.33,
+    "current_year_vwap": 697.95,
     "signal_price": 708.5,
-    "last_price": 860.25,
+    "last_price": 859.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 230.99,
@@ -3528,9 +3542,9 @@
   "SKIPPER.NS": {
     "symbol": "SKIPPER.NS",
     "current_year": 2025,
-    "current_year_vwap": 470.46,
+    "current_year_vwap": 473.11,
     "signal_price": 563.9,
-    "last_price": 533.9,
+    "last_price": 516.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 78.84,
@@ -3544,9 +3558,9 @@
   "MFSL.NS": {
     "symbol": "MFSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1297.59,
+    "current_year_vwap": 1297.91,
     "signal_price": 1306.8,
-    "last_price": 1480.7,
+    "last_price": 1472.5,
     "condition_date": "2025-04-29",
     "previous_years": {
       "2021": 928.33,
@@ -3570,9 +3584,9 @@
   "PRIMESECU.NS": {
     "symbol": "PRIMESECU.NS",
     "current_year": 2025,
-    "current_year_vwap": 251.79,
+    "current_year_vwap": 251.84,
     "signal_price": 281.3,
-    "last_price": 283.85,
+    "last_price": 275.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 81.59,
@@ -3588,9 +3602,9 @@
   "KARURVYSYA.NS": {
     "symbol": "KARURVYSYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 232.46,
+    "current_year_vwap": 232.51,
     "signal_price": 233.4,
-    "last_price": 260.45,
+    "last_price": 259.7,
     "condition_date": "2025-01-23",
     "previous_years": {
       "2021": 51.56,
@@ -3604,9 +3618,9 @@
   "CHAMBLFERT.NS": {
     "symbol": "CHAMBLFERT.NS",
     "current_year": 2025,
-    "current_year_vwap": 576.41,
+    "current_year_vwap": 575.9,
     "signal_price": 576.9,
-    "last_price": 524.45,
+    "last_price": 518.3,
     "condition_date": "2025-03-06",
     "previous_years": {
       "2021": 314.96,
@@ -3620,9 +3634,9 @@
   "GLAXO.NS": {
     "symbol": "GLAXO.NS",
     "current_year": 2025,
-    "current_year_vwap": 2658.22,
+    "current_year_vwap": 2660.39,
     "signal_price": 2693.3,
-    "last_price": 3114.5,
+    "last_price": 2936.5,
     "condition_date": "2025-03-05",
     "previous_years": {
       "2021": 1593.08,
@@ -3642,9 +3656,9 @@
   "GLOBUSSPR.NS": {
     "symbol": "GLOBUSSPR.NS",
     "current_year": 2025,
-    "current_year_vwap": 995.41,
+    "current_year_vwap": 996.42,
     "signal_price": 1009,
-    "last_price": 1275.6,
+    "last_price": 1255.6,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 611.35,
@@ -3658,9 +3672,9 @@
   "HDFCBANK.NS": {
     "symbol": "HDFCBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1833.64,
+    "current_year_vwap": 1833.98,
     "signal_price": 1864.9,
-    "last_price": 2014.4,
+    "last_price": 2012.2,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 1504.34,
@@ -3683,9 +3697,9 @@
   "NKIND.NS": {
     "symbol": "NKIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 69.38,
+    "current_year_vwap": 69.35,
     "signal_price": 72.32,
-    "last_price": 63,
+    "last_price": 62.84,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.32,
@@ -3704,7 +3718,7 @@
   "MEGASOFT.NS": {
     "symbol": "MEGASOFT.NS",
     "current_year": 2025,
-    "current_year_vwap": 86.1,
+    "current_year_vwap": 86.14,
     "signal_price": 88.01,
     "last_price": 115.91,
     "condition_date": "2025-01-01",
@@ -3722,9 +3736,9 @@
   "GEECEE.NS": {
     "symbol": "GEECEE.NS",
     "current_year": 2025,
-    "current_year_vwap": 403.47,
+    "current_year_vwap": 403.44,
     "signal_price": 449.3,
-    "last_price": 369.35,
+    "last_price": 370.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 144.25,
@@ -3755,9 +3769,9 @@
   "BLUESTARCO.NS": {
     "symbol": "BLUESTARCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1863.35,
+    "current_year_vwap": 1863.21,
     "signal_price": 2259.8,
-    "last_price": 1722,
+    "last_price": 1697,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 436.1,
@@ -3771,9 +3785,9 @@
   "AJANTPHARM.NS": {
     "symbol": "AJANTPHARM.NS",
     "current_year": 2025,
-    "current_year_vwap": 2667.55,
+    "current_year_vwap": 2667.65,
     "signal_price": 2994.35,
-    "last_price": 2704.5,
+    "last_price": 2695.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1315.53,
@@ -3787,9 +3801,9 @@
   "INDIANHUME.NS": {
     "symbol": "INDIANHUME.NS",
     "current_year": 2025,
-    "current_year_vwap": 386.91,
+    "current_year_vwap": 386.92,
     "signal_price": 399.55,
-    "last_price": 419.1,
+    "last_price": 408,
     "condition_date": "2025-04-03",
     "previous_years": {
       "2021": 210.92,
@@ -3805,10 +3819,10 @@
   "PRIVISCL.NS": {
     "symbol": "PRIVISCL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2209.47,
-    "signal_price": 2211.7,
-    "last_price": 2540.1,
-    "condition_date": "2025-05-13",
+    "current_year_vwap": 2222.67,
+    "signal_price": 2335.2,
+    "last_price": 2453.1,
+    "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 1316.64,
       "2022": 1498.44,
@@ -3821,9 +3835,9 @@
   "APARINDS.NS": {
     "symbol": "APARINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 7263.45,
+    "current_year_vwap": 7266.33,
     "signal_price": 10406.3,
-    "last_price": 8814,
+    "last_price": 8782.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 574.79,
@@ -3837,9 +3851,9 @@
   "GLENMARK.NS": {
     "symbol": "GLENMARK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1700.97,
+    "current_year_vwap": 1703.2,
     "signal_price": 1717.1,
-    "last_price": 2072,
+    "last_price": 2067.8,
     "condition_date": "2025-06-25",
     "previous_years": {
       "2021": 555.09,
@@ -3852,9 +3866,9 @@
   "CDSL.NS": {
     "symbol": "CDSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1438.11,
+    "current_year_vwap": 1438.15,
     "signal_price": 1808.65,
-    "last_price": 1483.5,
+    "last_price": 1478.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 504.15,
@@ -3867,9 +3881,9 @@
   "ZENSARTECH.NS": {
     "symbol": "ZENSARTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 803.08,
+    "current_year_vwap": 803.07,
     "signal_price": 836.9,
-    "last_price": 801,
+    "last_price": 792.2,
     "condition_date": "2025-01-23",
     "previous_years": {
       "2021": 402.51,
@@ -3882,9 +3896,9 @@
   "INDIANB.NS": {
     "symbol": "INDIANB.NS",
     "current_year": 2025,
-    "current_year_vwap": 582.18,
+    "current_year_vwap": 582.44,
     "signal_price": 582.8,
-    "last_price": 626.1,
+    "last_price": 621.2,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 136.11,
@@ -3897,9 +3911,9 @@
   "NAM-INDIA.NS": {
     "symbol": "NAM-INDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 659.17,
+    "current_year_vwap": 659.42,
     "signal_price": 753.95,
-    "last_price": 808.35,
+    "last_price": 803.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 379.63,
@@ -3912,9 +3926,9 @@
   "UNOMINDA.NS": {
     "symbol": "UNOMINDA.NS",
     "current_year": 2025,
-    "current_year_vwap": 974.38,
+    "current_year_vwap": 974.47,
     "signal_price": 1058.85,
-    "last_price": 1055.6,
+    "last_price": 1043.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 370,
@@ -3929,7 +3943,7 @@
     "current_year": 2025,
     "current_year_vwap": 296.17,
     "signal_price": 319.2,
-    "last_price": 311.75,
+    "last_price": 311.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 60.03,
@@ -3950,9 +3964,9 @@
   "REDINGTON.NS": {
     "symbol": "REDINGTON.NS",
     "current_year": 2025,
-    "current_year_vwap": 248.01,
+    "current_year_vwap": 248,
     "signal_price": 248.06,
-    "last_price": 255.1,
+    "last_price": 249.45,
     "condition_date": "2025-02-19",
     "previous_years": {
       "2021": 135.61,
@@ -3965,9 +3979,9 @@
   "COROMANDEL.NS": {
     "symbol": "COROMANDEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2168.62,
+    "current_year_vwap": 2169.43,
     "signal_price": 2194.1,
-    "last_price": 2640,
+    "last_price": 2590.4,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 812.75,
@@ -3983,9 +3997,9 @@
   "AXISCADES.NS": {
     "symbol": "AXISCADES.NS",
     "current_year": 2025,
-    "current_year_vwap": 969.6,
+    "current_year_vwap": 970,
     "signal_price": 979.85,
-    "last_price": 1297.4,
+    "last_price": 1280.7,
     "condition_date": "2025-05-19",
     "previous_years": {
       "2021": 79.27,
@@ -3998,9 +4012,9 @@
   "BLISSGVS.NS": {
     "symbol": "BLISSGVS.NS",
     "current_year": 2025,
-    "current_year_vwap": 153.15,
+    "current_year_vwap": 153.18,
     "signal_price": 177.48,
-    "last_price": 174.57,
+    "last_price": 173.73,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 129.21,
@@ -4013,9 +4027,9 @@
   "DECCANCE.NS": {
     "symbol": "DECCANCE.NS",
     "current_year": 2025,
-    "current_year_vwap": 875.25,
+    "current_year_vwap": 875.59,
     "signal_price": 898.55,
-    "last_price": 1033.9,
+    "last_price": 1012.5,
     "condition_date": "2025-02-24",
     "previous_years": {
       "2021": 591.46,
@@ -4030,7 +4044,7 @@
   "SMLISUZU.NS": {
     "symbol": "SMLISUZU.NS",
     "current_year": 2025,
-    "current_year_vwap": 2545.42,
+    "current_year_vwap": 2545.7,
     "signal_price": 2722.8,
     "last_price": 3471.3,
     "condition_date": "2025-07-04",
@@ -4047,9 +4061,9 @@
   "POKARNA.NS": {
     "symbol": "POKARNA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1086.96,
+    "current_year_vwap": 1086.25,
     "signal_price": 1137.5,
-    "last_price": 895.4,
+    "last_price": 881.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 374.98,
@@ -4071,9 +4085,9 @@
   "NH.NS": {
     "symbol": "NH.NS",
     "current_year": 2025,
-    "current_year_vwap": 1679.65,
+    "current_year_vwap": 1679.97,
     "signal_price": 1685.75,
-    "last_price": 1944.3,
+    "last_price": 1945.5,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 502.16,
@@ -4095,9 +4109,9 @@
   "MOTILALOFS.NS": {
     "symbol": "MOTILALOFS.NS",
     "current_year": 2025,
-    "current_year_vwap": 742.84,
+    "current_year_vwap": 743.04,
     "signal_price": 970.45,
-    "last_price": 923.35,
+    "last_price": 921.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 866.03,
@@ -4126,9 +4140,9 @@
   "LTF.NS": {
     "symbol": "LTF.NS",
     "current_year": 2025,
-    "current_year_vwap": 172.97,
+    "current_year_vwap": 173.05,
     "signal_price": 173.33,
-    "last_price": 202,
+    "last_price": 201.14,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 92.12,
@@ -4144,9 +4158,9 @@
   "IPCALAB.NS": {
     "symbol": "IPCALAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 1459.68,
+    "current_year_vwap": 1459.67,
     "signal_price": 1692.95,
-    "last_price": 1456.8,
+    "last_price": 1450.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1062.83,
@@ -4162,9 +4176,9 @@
   "CRISIL.NS": {
     "symbol": "CRISIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 5195.19,
+    "current_year_vwap": 5195.3,
     "signal_price": 6408.65,
-    "last_price": 5290.5,
+    "last_price": 5216,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2671.52,
@@ -4185,9 +4199,9 @@
   "NAVINFLUOR.NS": {
     "symbol": "NAVINFLUOR.NS",
     "current_year": 2025,
-    "current_year_vwap": 4218.77,
+    "current_year_vwap": 4219.82,
     "signal_price": 4252.45,
-    "last_price": 4994,
+    "last_price": 5011.5,
     "condition_date": "2025-02-05",
     "previous_years": {
       "2021": 3424.43,
@@ -4200,9 +4214,9 @@
   "RBLBANK.NS": {
     "symbol": "RBLBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 203.52,
+    "current_year_vwap": 203.65,
     "signal_price": 207.1,
-    "last_price": 264,
+    "last_price": 259.1,
     "condition_date": "2025-04-28",
     "previous_years": {
       "2021": 201.75,
@@ -4215,9 +4229,9 @@
   "CESC.NS": {
     "symbol": "CESC.NS",
     "current_year": 2025,
-    "current_year_vwap": 156.34,
+    "current_year_vwap": 156.37,
     "signal_price": 186.12,
-    "last_price": 168.25,
+    "last_price": 165.53,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 76.25,
@@ -4231,9 +4245,9 @@
   "CEATLTD.NS": {
     "symbol": "CEATLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 3343.22,
+    "current_year_vwap": 3343.08,
     "signal_price": 3360,
-    "last_price": 3284.4,
+    "last_price": 3229.7,
     "condition_date": "2025-05-02",
     "previous_years": {
       "2021": 1395.39,
@@ -4247,9 +4261,9 @@
   "JKCEMENT.NS": {
     "symbol": "JKCEMENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5266.99,
+    "current_year_vwap": 5270.82,
     "signal_price": 5308.5,
-    "last_price": 6671.5,
+    "last_price": 6681.5,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 2949.49,
@@ -4264,9 +4278,9 @@
   "UNIVCABLES.NS": {
     "symbol": "UNIVCABLES.NS",
     "current_year": 2025,
-    "current_year_vwap": 584.68,
+    "current_year_vwap": 584.78,
     "signal_price": 833.3,
-    "last_price": 728.3,
+    "last_price": 718.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 173.73,
@@ -4286,9 +4300,9 @@
   "DALBHARAT.NS": {
     "symbol": "DALBHARAT.NS",
     "current_year": 2025,
-    "current_year_vwap": 1946.56,
+    "current_year_vwap": 1947.08,
     "signal_price": 1974.1,
-    "last_price": 2215.2,
+    "last_price": 2204.4,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 1842.69,
@@ -4301,9 +4315,9 @@
   "MANGCHEFER.NS": {
     "symbol": "MANGCHEFER.NS",
     "current_year": 2025,
-    "current_year_vwap": 231.27,
+    "current_year_vwap": 231.55,
     "signal_price": 233.85,
-    "last_price": 356,
+    "last_price": 359,
     "condition_date": "2025-05-12",
     "previous_years": {
       "2021": 74.46,
@@ -4321,9 +4335,9 @@
   "LEMONTREE.NS": {
     "symbol": "LEMONTREE.NS",
     "current_year": 2025,
-    "current_year_vwap": 141.31,
+    "current_year_vwap": 141.32,
     "signal_price": 159,
-    "last_price": 148.99,
+    "last_price": 146.89,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 45.53,
@@ -4336,9 +4350,9 @@
   "MCX.NS": {
     "symbol": "MCX.NS",
     "current_year": 2025,
-    "current_year_vwap": 6716.62,
+    "current_year_vwap": 6718.06,
     "signal_price": 6832.5,
-    "last_price": 7665,
+    "last_price": 7595.5,
     "condition_date": "2025-06-03",
     "previous_years": {
       "2021": 1690.23,
@@ -4353,9 +4367,9 @@
   "AMBER.NS": {
     "symbol": "AMBER.NS",
     "current_year": 2025,
-    "current_year_vwap": 6743.33,
+    "current_year_vwap": 6745.31,
     "signal_price": 7671.7,
-    "last_price": 8049,
+    "last_price": 7871,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3028.09,
@@ -4369,9 +4383,9 @@
   "CMSINFO.NS": {
     "symbol": "CMSINFO.NS",
     "current_year": 2025,
-    "current_year_vwap": 464.3,
+    "current_year_vwap": 464.28,
     "signal_price": 503.95,
-    "last_price": 458.05,
+    "last_price": 454.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 237.63,
@@ -4386,9 +4400,9 @@
   "ASIANHOTNR.NS": {
     "symbol": "ASIANHOTNR.NS",
     "current_year": 2025,
-    "current_year_vwap": 352.45,
+    "current_year_vwap": 352.4,
     "signal_price": 359.4,
-    "last_price": 320,
+    "last_price": 320.6,
     "condition_date": "2025-01-31",
     "previous_years": {
       "2021": 86.13,
@@ -4423,9 +4437,9 @@
   "CHOLAHLDNG.NS": {
     "symbol": "CHOLAHLDNG.NS",
     "current_year": 2025,
-    "current_year_vwap": 1778.05,
+    "current_year_vwap": 1778.2,
     "signal_price": 1826.3,
-    "last_price": 1844.8,
+    "last_price": 1828.4,
     "condition_date": "2025-03-25",
     "previous_years": {
       "2021": 623.33,
@@ -4438,9 +4452,9 @@
   "ARVINDFASN.NS": {
     "symbol": "ARVINDFASN.NS",
     "current_year": 2025,
-    "current_year_vwap": 460.23,
+    "current_year_vwap": 460.45,
     "signal_price": 525.9,
-    "last_price": 556.05,
+    "last_price": 560.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 212.68,
@@ -4454,9 +4468,9 @@
   "SCHAEFFLER.NS": {
     "symbol": "SCHAEFFLER.NS",
     "current_year": 2025,
-    "current_year_vwap": 3654.36,
+    "current_year_vwap": 3656.54,
     "signal_price": 3692.7,
-    "last_price": 4111.1,
+    "last_price": 4100.8,
     "condition_date": "2025-05-08",
     "previous_years": {
       "2021": 1260.59,
@@ -4472,9 +4486,9 @@
   "LAURUSLABS.NS": {
     "symbol": "LAURUSLABS.NS",
     "current_year": 2025,
-    "current_year_vwap": 642.95,
+    "current_year_vwap": 643.47,
     "signal_price": 651.7,
-    "last_price": 863.9,
+    "last_price": 849.35,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 516.24,
@@ -4491,9 +4505,9 @@
   "AJMERA.NS": {
     "symbol": "AJMERA.NS",
     "current_year": 2025,
-    "current_year_vwap": 911.61,
+    "current_year_vwap": 911.5,
     "signal_price": 1129.05,
-    "last_price": 876.55,
+    "last_price": 864.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 204.67,
@@ -4507,9 +4521,9 @@
   "WINDLAS.NS": {
     "symbol": "WINDLAS.NS",
     "current_year": 2025,
-    "current_year_vwap": 916.5,
+    "current_year_vwap": 916.59,
     "signal_price": 1044,
-    "last_price": 990,
+    "last_price": 966.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 370.66,
@@ -4525,9 +4539,9 @@
   "CENTUM.NS": {
     "symbol": "CENTUM.NS",
     "current_year": 2025,
-    "current_year_vwap": 1948.67,
+    "current_year_vwap": 1948.97,
     "signal_price": 2160.85,
-    "last_price": 2190.5,
+    "last_price": 2103.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 502.18,
@@ -4540,9 +4554,9 @@
   "JASH.NS": {
     "symbol": "JASH.NS",
     "current_year": 2025,
-    "current_year_vwap": 584.98,
+    "current_year_vwap": 584.96,
     "signal_price": 615.4,
-    "last_price": 580.15,
+    "last_price": 569.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 87.08,
@@ -4558,9 +4572,9 @@
   "BANARISUG.NS": {
     "symbol": "BANARISUG.NS",
     "current_year": 2025,
-    "current_year_vwap": 3893.27,
+    "current_year_vwap": 3893.18,
     "signal_price": 4135.8,
-    "last_price": 3850,
+    "last_price": 3801.2,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 2001.63,
@@ -4574,9 +4588,9 @@
   "VIMTALABS.NS": {
     "symbol": "VIMTALABS.NS",
     "current_year": 2025,
-    "current_year_vwap": 597.85,
+    "current_year_vwap": 599.97,
     "signal_price": 658.9,
-    "last_price": 703.85,
+    "last_price": 688.4,
     "condition_date": "2025-07-28",
     "previous_years": {
       "2021": 142.58,
@@ -4594,9 +4608,9 @@
   "POWERINDIA.NS": {
     "symbol": "POWERINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 15205.55,
+    "current_year_vwap": 15228.18,
     "signal_price": 15428.5,
-    "last_price": 21270,
+    "last_price": 20550,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1963.44,
@@ -4609,9 +4623,9 @@
   "CUB.NS": {
     "symbol": "CUB.NS",
     "current_year": 2025,
-    "current_year_vwap": 180.14,
+    "current_year_vwap": 180.35,
     "signal_price": 183.54,
-    "last_price": 218.52,
+    "last_price": 213.87,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 164.98,
@@ -4629,9 +4643,9 @@
   "RADICO.NS": {
     "symbol": "RADICO.NS",
     "current_year": 2025,
-    "current_year_vwap": 2450.55,
+    "current_year_vwap": 2455.72,
     "signal_price": 2582.1,
-    "last_price": 2879.9,
+    "last_price": 2838.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 816.9,
@@ -4645,9 +4659,9 @@
   "GODREJIND.NS": {
     "symbol": "GODREJIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 1117.59,
+    "current_year_vwap": 1117.58,
     "signal_price": 1170,
-    "last_price": 1130.5,
+    "last_price": 1114.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 541.43,
@@ -4665,9 +4679,9 @@
   "GILLANDERS.NS": {
     "symbol": "GILLANDERS.NS",
     "current_year": 2025,
-    "current_year_vwap": 133.12,
+    "current_year_vwap": 133.16,
     "signal_price": 135.15,
-    "last_price": 147.63,
+    "last_price": 145.31,
     "condition_date": "2025-06-18",
     "previous_years": {
       "2021": 50.92,
@@ -4681,9 +4695,9 @@
   "HPL.NS": {
     "symbol": "HPL.NS",
     "current_year": 2025,
-    "current_year_vwap": 516.79,
+    "current_year_vwap": 516.88,
     "signal_price": 576.5,
-    "last_price": 573,
+    "last_price": 573.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 60.64,
@@ -4698,9 +4712,9 @@
   "PRECWIRE.NS": {
     "symbol": "PRECWIRE.NS",
     "current_year": 2025,
-    "current_year_vwap": 165.1,
+    "current_year_vwap": 165.11,
     "signal_price": 170.14,
-    "last_price": 178.1,
+    "last_price": 175.19,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 35.45,
@@ -4714,9 +4728,9 @@
   "WINDMACHIN.NS": {
     "symbol": "WINDMACHIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 341.73,
+    "current_year_vwap": 341.72,
     "signal_price": 374.05,
-    "last_price": 332.55,
+    "last_price": 331.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 33.99,
@@ -4729,9 +4743,9 @@
   "KITEX.NS": {
     "symbol": "KITEX.NS",
     "current_year": 2025,
-    "current_year_vwap": 244.52,
+    "current_year_vwap": 244.46,
     "signal_price": 256.4,
-    "last_price": 220,
+    "last_price": 215.93,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 52.33,
@@ -4749,9 +4763,9 @@
   "ENDURANCE.NS": {
     "symbol": "ENDURANCE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2332.07,
+    "current_year_vwap": 2332.15,
     "signal_price": 2334,
-    "last_price": 2512,
+    "last_price": 2476.6,
     "condition_date": "2025-05-21",
     "previous_years": {
       "2021": 1532.94,
@@ -4764,9 +4778,9 @@
   "SOBHA.NS": {
     "symbol": "SOBHA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1380.9,
+    "current_year_vwap": 1381.09,
     "signal_price": 1572.85,
-    "last_price": 1589.5,
+    "last_price": 1584.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 663.72,
@@ -4780,9 +4794,9 @@
   "EIDPARRY.NS": {
     "symbol": "EIDPARRY.NS",
     "current_year": 2025,
-    "current_year_vwap": 905.85,
+    "current_year_vwap": 906.85,
     "signal_price": 919.4,
-    "last_price": 1228.8,
+    "last_price": 1204.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 412.15,
@@ -4795,9 +4809,9 @@
   "AHLEAST.NS": {
     "symbol": "AHLEAST.NS",
     "current_year": 2025,
-    "current_year_vwap": 144.31,
+    "current_year_vwap": 144.37,
     "signal_price": 171.02,
-    "last_price": 160.54,
+    "last_price": 157.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 91.83,
@@ -4811,9 +4825,9 @@
   "DEEPINDS.NS": {
     "symbol": "DEEPINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 487.24,
+    "current_year_vwap": 487.22,
     "signal_price": 553.05,
-    "last_price": 486,
+    "last_price": 481.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 60.22,
@@ -4827,9 +4841,9 @@
   "NAVKARCORP.NS": {
     "symbol": "NAVKARCORP.NS",
     "current_year": 2025,
-    "current_year_vwap": 117.05,
+    "current_year_vwap": 117.09,
     "signal_price": 165.26,
-    "last_price": 129.62,
+    "last_price": 125.03,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 43.2,
@@ -4846,9 +4860,9 @@
   "VISHNU.NS": {
     "symbol": "VISHNU.NS",
     "current_year": 2025,
-    "current_year_vwap": 491.16,
+    "current_year_vwap": 491.73,
     "signal_price": 495.25,
-    "last_price": 555.95,
+    "last_price": 540.45,
     "condition_date": "2025-05-21",
     "previous_years": {
       "2021": 94.78,
@@ -4861,9 +4875,9 @@
   "ZUARI.NS": {
     "symbol": "ZUARI.NS",
     "current_year": 2025,
-    "current_year_vwap": 261.91,
+    "current_year_vwap": 263.19,
     "signal_price": 287.94,
-    "last_price": 304.95,
+    "last_price": 306.25,
     "condition_date": "2025-07-30",
     "previous_years": {
       "2021": 117.61,
@@ -4877,9 +4891,9 @@
   "ICICIBANK.NS": {
     "symbol": "ICICIBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1351.68,
+    "current_year_vwap": 1351.9,
     "signal_price": 1358.15,
-    "last_price": 1475.8,
+    "last_price": 1471.6,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 648.98,
@@ -4892,9 +4906,9 @@
   "TARACHAND.NS": {
     "symbol": "TARACHAND.NS",
     "current_year": 2025,
-    "current_year_vwap": 62.86,
+    "current_year_vwap": 62.91,
     "signal_price": 64.74,
-    "last_price": 76.96,
+    "last_price": 75.32,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 7.54,
@@ -4909,9 +4923,9 @@
   "HISARMETAL.NS": {
     "symbol": "HISARMETAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 202.24,
+    "current_year_vwap": 202.56,
     "signal_price": 215.39,
-    "last_price": 212.7,
+    "last_price": 213.54,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 125.8,
@@ -4925,9 +4939,9 @@
   "KEYFINSERV.NS": {
     "symbol": "KEYFINSERV.NS",
     "current_year": 2025,
-    "current_year_vwap": 317.07,
+    "current_year_vwap": 317.05,
     "signal_price": 339.2,
-    "last_price": 262,
+    "last_price": 255.6,
     "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 96.79,
@@ -4940,9 +4954,9 @@
   "KRISHANA.NS": {
     "symbol": "KRISHANA.NS",
     "current_year": 2025,
-    "current_year_vwap": 384.7,
+    "current_year_vwap": 385.33,
     "signal_price": 396.9,
-    "last_price": 548.05,
+    "last_price": 537.35,
     "condition_date": "2025-05-26",
     "previous_years": {
       "2021": 64.66,
@@ -4961,7 +4975,7 @@
     "current_year": 2025,
     "current_year_vwap": 7.34,
     "signal_price": 7.99,
-    "last_price": 6.94,
+    "last_price": 6.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3.47,
@@ -4975,9 +4989,9 @@
   "TERASOFT.NS": {
     "symbol": "TERASOFT.NS",
     "current_year": 2025,
-    "current_year_vwap": 228.89,
+    "current_year_vwap": 228.99,
     "signal_price": 231.96,
-    "last_price": 303.55,
+    "last_price": 303.05,
     "condition_date": "2025-01-22",
     "previous_years": {
       "2021": 59.35,
@@ -4995,9 +5009,9 @@
   "ICEMAKE.NS": {
     "symbol": "ICEMAKE.NS",
     "current_year": 2025,
-    "current_year_vwap": 857.38,
+    "current_year_vwap": 857.34,
     "signal_price": 866,
-    "last_price": 796.95,
+    "last_price": 783.65,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 79.19,
@@ -5014,9 +5028,9 @@
   "STEELCITY.NS": {
     "symbol": "STEELCITY.NS",
     "current_year": 2025,
-    "current_year_vwap": 103.68,
+    "current_year_vwap": 103.7,
     "signal_price": 117.94,
-    "last_price": 105.3,
+    "last_price": 105.17,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 62.33,
@@ -5056,9 +5070,9 @@
   "ITDCEM.NS": {
     "symbol": "ITDCEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 638.28,
+    "current_year_vwap": 638.99,
     "signal_price": 674.6,
-    "last_price": 809.65,
+    "last_price": 792.35,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 81.56,
@@ -5073,9 +5087,9 @@
   "TECHNOE.NS": {
     "symbol": "TECHNOE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1236.79,
+    "current_year_vwap": 1236.9,
     "signal_price": 1690.15,
-    "last_price": 1440.9,
+    "last_price": 1419,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 289.01,
@@ -5088,9 +5102,9 @@
   "ASTERDM.NS": {
     "symbol": "ASTERDM.NS",
     "current_year": 2025,
-    "current_year_vwap": 534.06,
+    "current_year_vwap": 534.14,
     "signal_price": 535,
-    "last_price": 593.55,
+    "last_price": 595.4,
     "condition_date": "2025-05-07",
     "previous_years": {
       "2021": 184.21,
@@ -5108,9 +5122,9 @@
   "POONAWALLA.NS": {
     "symbol": "POONAWALLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 366.4,
+    "current_year_vwap": 366.65,
     "signal_price": 382.25,
-    "last_price": 415.9,
+    "last_price": 419.35,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 162.27,
@@ -5124,9 +5138,9 @@
   "KIMS.NS": {
     "symbol": "KIMS.NS",
     "current_year": 2025,
-    "current_year_vwap": 636.51,
+    "current_year_vwap": 636.66,
     "signal_price": 649.35,
-    "last_price": 761.6,
+    "last_price": 756.45,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 232.23,
@@ -5140,9 +5154,9 @@
   "ECLERX.NS": {
     "symbol": "ECLERX.NS",
     "current_year": 2025,
-    "current_year_vwap": 3185.61,
+    "current_year_vwap": 3187.98,
     "signal_price": 3467.05,
-    "last_price": 3849.8,
+    "last_price": 3799.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1099.89,
@@ -5155,9 +5169,9 @@
   "FSL.NS": {
     "symbol": "FSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 354.73,
+    "current_year_vwap": 354.7,
     "signal_price": 383.95,
-    "last_price": 339.55,
+    "last_price": 339,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 163.03,
@@ -5174,9 +5188,9 @@
   "PDMJEPAPER.NS": {
     "symbol": "PDMJEPAPER.NS",
     "current_year": 2025,
-    "current_year_vwap": 135.96,
+    "current_year_vwap": 135.85,
     "signal_price": 196.94,
-    "last_price": 122.22,
+    "last_price": 125.03,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 37.92,
@@ -5192,7 +5206,7 @@
     "current_year": 2025,
     "current_year_vwap": 389.07,
     "signal_price": 456.55,
-    "last_price": 386.55,
+    "last_price": 384.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 183.31,
@@ -5206,9 +5220,9 @@
   "CLSEL.NS": {
     "symbol": "CLSEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 342.4,
+    "current_year_vwap": 342.33,
     "signal_price": 420.4,
-    "last_price": 315.4,
+    "last_price": 311.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 127.18,
@@ -5234,9 +5248,9 @@
   "INTELLECT.NS": {
     "symbol": "INTELLECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 930.18,
+    "current_year_vwap": 930.28,
     "signal_price": 966.85,
-    "last_price": 995.8,
+    "last_price": 981.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 649.28,
@@ -5249,9 +5263,9 @@
   "BAYERCROP.NS": {
     "symbol": "BAYERCROP.NS",
     "current_year": 2025,
-    "current_year_vwap": 5403.1,
+    "current_year_vwap": 5405.56,
     "signal_price": 5528,
-    "last_price": 6265,
+    "last_price": 6254.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 5329.94,
@@ -5265,9 +5279,9 @@
   "WELCORP.NS": {
     "symbol": "WELCORP.NS",
     "current_year": 2025,
-    "current_year_vwap": 849.29,
+    "current_year_vwap": 849.36,
     "signal_price": 872.1,
-    "last_price": 918.65,
+    "last_price": 897.5,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 148.65,
@@ -5284,9 +5298,9 @@
   "VADILALIND.NS": {
     "symbol": "VADILALIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 5606.75,
+    "current_year_vwap": 5606.51,
     "signal_price": 5704.15,
-    "last_price": 5241,
+    "last_price": 5187,
     "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 1020.17,
@@ -5307,9 +5321,9 @@
   "MAZDOCK.NS": {
     "symbol": "MAZDOCK.NS",
     "current_year": 2025,
-    "current_year_vwap": 2785,
+    "current_year_vwap": 2784.96,
     "signal_price": 2786.3,
-    "last_price": 2730,
+    "last_price": 2721.8,
     "condition_date": "2025-04-28",
     "previous_years": {
       "2021": 124.92,
@@ -5326,9 +5340,9 @@
   "HOMEFIRST.NS": {
     "symbol": "HOMEFIRST.NS",
     "current_year": 2025,
-    "current_year_vwap": 1143.27,
+    "current_year_vwap": 1143.5,
     "signal_price": 1175.1,
-    "last_price": 1195.9,
+    "last_price": 1197.3,
     "condition_date": "2025-04-16",
     "previous_years": {
       "2021": 579.8,
@@ -5343,9 +5357,9 @@
   "CRAFTSMAN.NS": {
     "symbol": "CRAFTSMAN.NS",
     "current_year": 2025,
-    "current_year_vwap": 5157.08,
+    "current_year_vwap": 5158.84,
     "signal_price": 5324.2,
-    "last_price": 6574,
+    "last_price": 6465,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1728.66,
@@ -5358,10 +5372,10 @@
   "JKLAKSHMI.NS": {
     "symbol": "JKLAKSHMI.NS",
     "current_year": 2025,
-    "current_year_vwap": 861.33,
-    "signal_price": 861.95,
-    "last_price": 973.8,
-    "condition_date": "2025-05-14",
+    "current_year_vwap": 861.96,
+    "signal_price": 865.35,
+    "last_price": 973.95,
+    "condition_date": "2025-05-19",
     "previous_years": {
       "2021": 546.96,
       "2022": 576.84,
@@ -5376,9 +5390,9 @@
   "KSCL.NS": {
     "symbol": "KSCL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1256.87,
+    "current_year_vwap": 1256.59,
     "signal_price": 1269,
-    "last_price": 1101.7,
+    "last_price": 1083.8,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 619.1,
@@ -5396,9 +5410,9 @@
   "NEULANDLAB.NS": {
     "symbol": "NEULANDLAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 12876.17,
+    "current_year_vwap": 12876.04,
     "signal_price": 14294.1,
-    "last_price": 13099,
+    "last_price": 13017,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1850.76,
@@ -5414,9 +5428,9 @@
   "GOLDIAM.NS": {
     "symbol": "GOLDIAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 408.99,
+    "current_year_vwap": 408.95,
     "signal_price": 416.35,
-    "last_price": 334.2,
+    "last_price": 331.45,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 115.2,
@@ -5432,9 +5446,9 @@
   "ARTEMISMED.NS": {
     "symbol": "ARTEMISMED.NS",
     "current_year": 2025,
-    "current_year_vwap": 270.84,
+    "current_year_vwap": 270.77,
     "signal_price": 315.95,
-    "last_price": 246.47,
+    "last_price": 244.92,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.1,
@@ -5449,7 +5463,7 @@
     "current_year": 2025,
     "current_year_vwap": 27.55,
     "signal_price": 31.3,
-    "last_price": 28.23,
+    "last_price": 28.13,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 13.65,
@@ -5467,9 +5481,9 @@
   "BALRAMCHIN.NS": {
     "symbol": "BALRAMCHIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 529.81,
+    "current_year_vwap": 529.85,
     "signal_price": 545.25,
-    "last_price": 581,
+    "last_price": 563.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 288.13,
@@ -5488,9 +5502,9 @@
   "KPRMILL.NS": {
     "symbol": "KPRMILL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1108.73,
+    "current_year_vwap": 1108.63,
     "signal_price": 1188.85,
-    "last_price": 1088.6,
+    "last_price": 1067.2,
     "condition_date": "2025-05-08",
     "previous_years": {
       "2021": 377.12,
@@ -5505,9 +5519,9 @@
   "INDIACEM.NS": {
     "symbol": "INDIACEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 314.07,
+    "current_year_vwap": 314.12,
     "signal_price": 377.35,
-    "last_price": 367.1,
+    "last_price": 362.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 187.7,
@@ -5525,9 +5539,9 @@
   "CCL.NS": {
     "symbol": "CCL.NS",
     "current_year": 2025,
-    "current_year_vwap": 746.25,
+    "current_year_vwap": 747.26,
     "signal_price": 772.6,
-    "last_price": 866.8,
+    "last_price": 894.1,
     "condition_date": "2025-05-07",
     "previous_years": {
       "2021": 370.65,
@@ -5541,9 +5555,9 @@
   "FORCEMOT.NS": {
     "symbol": "FORCEMOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 12487.29,
+    "current_year_vwap": 12492.36,
     "signal_price": 12649.5,
-    "last_price": 16897,
+    "last_price": 16709,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 1463.69,
@@ -5584,9 +5598,9 @@
   "GODFRYPHLP.NS": {
     "symbol": "GODFRYPHLP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6777.34,
+    "current_year_vwap": 6780.61,
     "signal_price": 7038,
-    "last_price": 8794.5,
+    "last_price": 8777,
     "condition_date": "2025-02-17",
     "previous_years": {
       "2021": 1058.16,
@@ -5602,9 +5616,9 @@
   "PCBL.NS": {
     "symbol": "PCBL.NS",
     "current_year": 2025,
-    "current_year_vwap": 396.43,
+    "current_year_vwap": 396.44,
     "signal_price": 458.55,
-    "last_price": 396,
+    "last_price": 400.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 112.58,
@@ -5619,9 +5633,9 @@
   "AFFLE.NS": {
     "symbol": "AFFLE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1689.43,
+    "current_year_vwap": 1689.74,
     "signal_price": 1772.2,
-    "last_price": 1975.1,
+    "last_price": 1947.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1016.54,
@@ -5634,9 +5648,9 @@
   "SUMICHEM.NS": {
     "symbol": "SUMICHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 536.61,
+    "current_year_vwap": 537.01,
     "signal_price": 541,
-    "last_price": 648.5,
+    "last_price": 630.65,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 363.36,
@@ -5650,9 +5664,9 @@
   "BDL.NS": {
     "symbol": "BDL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1626.03,
+    "current_year_vwap": 1625.96,
     "signal_price": 1746.7,
-    "last_price": 1587.5,
+    "last_price": 1565.2,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 188.53,
@@ -5666,9 +5680,9 @@
   "JUBLPHARMA.NS": {
     "symbol": "JUBLPHARMA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1040.45,
+    "current_year_vwap": 1040.79,
     "signal_price": 1079.9,
-    "last_price": 1163.9,
+    "last_price": 1158.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 720.03,
@@ -5686,9 +5700,9 @@
   "UTIAMC.NS": {
     "symbol": "UTIAMC.NS",
     "current_year": 2025,
-    "current_year_vwap": 1193.61,
+    "current_year_vwap": 1193.77,
     "signal_price": 1365.8,
-    "last_price": 1312.2,
+    "last_price": 1297,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 838.39,
@@ -5701,9 +5715,9 @@
   "NBCC.NS": {
     "symbol": "NBCC.NS",
     "current_year": 2025,
-    "current_year_vwap": 100.24,
+    "current_year_vwap": 100.25,
     "signal_price": 100.81,
-    "last_price": 108.7,
+    "last_price": 107.26,
     "condition_date": "2025-04-23",
     "previous_years": {
       "2021": 30.38,
@@ -5718,9 +5732,9 @@
   "RAMCOCEM.NS": {
     "symbol": "RAMCOCEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 962.31,
+    "current_year_vwap": 962.57,
     "signal_price": 966.05,
-    "last_price": 1166.5,
+    "last_price": 1151.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 973.31,
@@ -5736,9 +5750,9 @@
   "AKZOINDIA.NS": {
     "symbol": "AKZOINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 3547.04,
+    "current_year_vwap": 3547.17,
     "signal_price": 3563.45,
-    "last_price": 3713.9,
+    "last_price": 3635.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2243.92,
@@ -5754,9 +5768,9 @@
   "KIRLOSBROS.NS": {
     "symbol": "KIRLOSBROS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1999.97,
+    "current_year_vwap": 1999.52,
     "signal_price": 2120.65,
-    "last_price": 1954.6,
+    "last_price": 1867.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 270.81,
@@ -5775,9 +5789,9 @@
   "DLINKINDIA.NS": {
     "symbol": "DLINKINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 498.44,
+    "current_year_vwap": 498.47,
     "signal_price": 547.7,
-    "last_price": 507.35,
+    "last_price": 509.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 139.73,
@@ -5792,10 +5806,10 @@
   "FOSECOIND.NS": {
     "symbol": "FOSECOIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 4648.52,
-    "signal_price": 4653,
-    "last_price": 5275,
-    "condition_date": "2025-05-22",
+    "current_year_vwap": 4653.66,
+    "signal_price": 4704.8,
+    "last_price": 5355,
+    "condition_date": "2025-06-11",
     "previous_years": {
       "2021": 1508.79,
       "2022": 1731.89,
@@ -5807,9 +5821,9 @@
   "TCPLPACK.NS": {
     "symbol": "TCPLPACK.NS",
     "current_year": 2025,
-    "current_year_vwap": 3981.53,
+    "current_year_vwap": 3978.84,
     "signal_price": 4004.4,
-    "last_price": 3451,
+    "last_price": 3436.9,
     "condition_date": "2025-02-19",
     "previous_years": {
       "2021": 508.12,
@@ -5824,9 +5838,9 @@
   "DEEPAKFERT.NS": {
     "symbol": "DEEPAKFERT.NS",
     "current_year": 2025,
-    "current_year_vwap": 1289.25,
+    "current_year_vwap": 1289.47,
     "signal_price": 1296.55,
-    "last_price": 1563.5,
+    "last_price": 1558.5,
     "condition_date": "2025-01-29",
     "previous_years": {
       "2021": 290.81,
@@ -5839,9 +5853,9 @@
   "SAPPHIRE.NS": {
     "symbol": "SAPPHIRE.NS",
     "current_year": 2025,
-    "current_year_vwap": 328.02,
+    "current_year_vwap": 328.01,
     "signal_price": 345.65,
-    "last_price": 325.85,
+    "last_price": 319.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 237.67,
@@ -5859,9 +5873,9 @@
   "ERIS.NS": {
     "symbol": "ERIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1512.47,
+    "current_year_vwap": 1512.87,
     "signal_price": 1519.8,
-    "last_price": 1821,
+    "last_price": 1808.4,
     "condition_date": "2025-05-22",
     "previous_years": {
       "2021": 681.84,
@@ -5874,9 +5888,9 @@
   "GILLETTE.NS": {
     "symbol": "GILLETTE.NS",
     "current_year": 2025,
-    "current_year_vwap": 8875.49,
+    "current_year_vwap": 8879.08,
     "signal_price": 9754.35,
-    "last_price": 10760,
+    "last_price": 10712,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 5756.22,
@@ -5890,9 +5904,9 @@
   "AVANTIFEED.NS": {
     "symbol": "AVANTIFEED.NS",
     "current_year": 2025,
-    "current_year_vwap": 775.43,
+    "current_year_vwap": 775.32,
     "signal_price": 786.1,
-    "last_price": 668.35,
+    "last_price": 662.3,
     "condition_date": "2025-03-05",
     "previous_years": {
       "2021": 557.69,
@@ -5906,9 +5920,9 @@
   "EDELWEISS.NS": {
     "symbol": "EDELWEISS.NS",
     "current_year": 2025,
-    "current_year_vwap": 100.52,
+    "current_year_vwap": 100.51,
     "signal_price": 124.45,
-    "last_price": 100.62,
+    "last_price": 98.82,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 42.35,
@@ -5925,7 +5939,7 @@
     "current_year": 2025,
     "current_year_vwap": 568.43,
     "signal_price": 856.15,
-    "last_price": 567.1,
+    "last_price": 563.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 56.54,
@@ -5939,9 +5953,9 @@
   "NESCO.NS": {
     "symbol": "NESCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1073.81,
+    "current_year_vwap": 1074.95,
     "signal_price": 1091.2,
-    "last_price": 1358.8,
+    "last_price": 1343.7,
     "condition_date": "2025-06-25",
     "previous_years": {
       "2021": 603.94,
@@ -5958,7 +5972,7 @@
     "current_year": 2025,
     "current_year_vwap": 19.83,
     "signal_price": 22.65,
-    "last_price": 20.36,
+    "last_price": 20.14,
     "condition_date": "2025-07-07",
     "previous_years": {
       "2021": 4.84,
@@ -5977,9 +5991,9 @@
   "DCBBANK.NS": {
     "symbol": "DCBBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 130.79,
+    "current_year_vwap": 130.81,
     "signal_price": 139.45,
-    "last_price": 133.63,
+    "last_price": 135.17,
     "condition_date": "2025-04-28",
     "previous_years": {
       "2021": 101.48,
@@ -5993,9 +6007,9 @@
   "ANUP.NS": {
     "symbol": "ANUP.NS",
     "current_year": 2025,
-    "current_year_vwap": 3010.24,
+    "current_year_vwap": 3009.73,
     "signal_price": 3491.75,
-    "last_price": 2667,
+    "last_price": 2609.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 416.16,
@@ -6008,9 +6022,9 @@
   "WABAG.NS": {
     "symbol": "WABAG.NS",
     "current_year": 2025,
-    "current_year_vwap": 1454.04,
+    "current_year_vwap": 1454.26,
     "signal_price": 1677.6,
-    "last_price": 1565.3,
+    "last_price": 1574.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 300.36,
@@ -6024,9 +6038,9 @@
   "JMFINANCIL.NS": {
     "symbol": "JMFINANCIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 130.39,
+    "current_year_vwap": 130.44,
     "signal_price": 132.95,
-    "last_price": 153,
+    "last_price": 151.92,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 93.29,
@@ -6043,7 +6057,7 @@
     "current_year": 2025,
     "current_year_vwap": 598.87,
     "signal_price": 720.85,
-    "last_price": 603.35,
+    "last_price": 600,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 222.4,
@@ -6060,9 +6074,9 @@
   "SUVEN.NS": {
     "symbol": "SUVEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 173.38,
+    "current_year_vwap": 173.41,
     "signal_price": 184.11,
-    "last_price": 272,
+    "last_price": 266.8,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 87.97,
@@ -6076,9 +6090,9 @@
   "CHALET.NS": {
     "symbol": "CHALET.NS",
     "current_year": 2025,
-    "current_year_vwap": 848.97,
+    "current_year_vwap": 848.67,
     "signal_price": 1014.7,
-    "last_price": 949.5,
+    "last_price": 890.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 206.17,
@@ -6092,9 +6106,9 @@
   "BECTORFOOD.NS": {
     "symbol": "BECTORFOOD.NS",
     "current_year": 2025,
-    "current_year_vwap": 1463.6,
+    "current_year_vwap": 1463.59,
     "signal_price": 1639.7,
-    "last_price": 1484,
+    "last_price": 1461.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 416.39,
@@ -6104,15 +6118,29 @@
     },
     "trend": "Price > 4Y VWAPs"
   },
-  "PGHL.NS": null,
+  "PGHL.NS": {
+    "symbol": "PGHL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 5586.26,
+    "signal_price": 5729.5,
+    "last_price": 6217,
+    "condition_date": "2025-05-28",
+    "previous_years": {
+      "2021": 5976.86,
+      "2022": 4323.49,
+      "2023": 4930.22,
+      "2024": 5145.47
+    },
+    "trend": "Price > 4Y VWAPs"
+  },
   "PNGJL.NS": null,
   "STLTECH.NS": null,
   "ZENTEC.NS": {
     "symbol": "ZENTEC.NS",
     "current_year": 2025,
-    "current_year_vwap": 1601.49,
+    "current_year_vwap": 1601.14,
     "signal_price": 2480.2,
-    "last_price": 1537.3,
+    "last_price": 1533.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 143.1,
@@ -6129,7 +6157,7 @@
     "current_year": 2025,
     "current_year_vwap": 27.19,
     "signal_price": 27.75,
-    "last_price": 29.67,
+    "last_price": 29.23,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 10.36,
@@ -6145,9 +6173,9 @@
   "CAPLIPOINT.NS": {
     "symbol": "CAPLIPOINT.NS",
     "current_year": 2025,
-    "current_year_vwap": 2057.92,
+    "current_year_vwap": 2057.81,
     "signal_price": 2512.3,
-    "last_price": 2009.1,
+    "last_price": 1988.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 741.25,
@@ -6164,9 +6192,9 @@
   "HEG.NS": {
     "symbol": "HEG.NS",
     "current_year": 2025,
-    "current_year_vwap": 498.02,
+    "current_year_vwap": 498.11,
     "signal_price": 530.3,
-    "last_price": 553.5,
+    "last_price": 532.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 351.86,
@@ -6183,9 +6211,9 @@
   "NAVA.NS": {
     "symbol": "NAVA.NS",
     "current_year": 2025,
-    "current_year_vwap": 517.13,
+    "current_year_vwap": 517.29,
     "signal_price": 518.75,
-    "last_price": 633,
+    "last_price": 620.9,
     "condition_date": "2025-03-28",
     "previous_years": {
       "2021": 45.17,
@@ -6201,9 +6229,9 @@
   "ANANDRATHI.NS": {
     "symbol": "ANANDRATHI.NS",
     "current_year": 2025,
-    "current_year_vwap": 2074.17,
+    "current_year_vwap": 2074.82,
     "signal_price": 2077.18,
-    "last_price": 2618.5,
+    "last_price": 2601.1,
     "condition_date": "2025-01-10",
     "previous_years": {
       "2021": 292.24,
@@ -6218,9 +6246,9 @@
   "DPABHUSHAN.NS": {
     "symbol": "DPABHUSHAN.NS",
     "current_year": 2025,
-    "current_year_vwap": 1565.48,
+    "current_year_vwap": 1566.04,
     "signal_price": 1589.85,
-    "last_price": 1664.9,
+    "last_price": 1646.4,
     "condition_date": "2025-01-16",
     "previous_years": {
       "2021": 199.43,
@@ -6234,9 +6262,9 @@
   "PKTEA.NS": {
     "symbol": "PKTEA.NS",
     "current_year": 2025,
-    "current_year_vwap": 836.61,
+    "current_year_vwap": 836.38,
     "signal_price": 859.6,
-    "last_price": 596,
+    "last_price": 591.35,
     "condition_date": "2025-01-15",
     "previous_years": {
       "2021": 286.19,
@@ -6259,9 +6287,9 @@
   "RALLIS.NS": {
     "symbol": "RALLIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 311.1,
+    "current_year_vwap": 311.33,
     "signal_price": 320.06,
-    "last_price": 376.5,
+    "last_price": 367.15,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 296.97,
@@ -6274,9 +6302,9 @@
   "JUBLINGREA.NS": {
     "symbol": "JUBLINGREA.NS",
     "current_year": 2025,
-    "current_year_vwap": 734.38,
+    "current_year_vwap": 734.46,
     "signal_price": 823.4,
-    "last_price": 773.4,
+    "last_price": 754.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 609.33,
@@ -6295,9 +6323,9 @@
   "ASTRAZEN.NS": {
     "symbol": "ASTRAZEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 8724.68,
+    "current_year_vwap": 8724.97,
     "signal_price": 8873.5,
-    "last_price": 9055,
+    "last_price": 8893.5,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 3816.9,
@@ -6313,9 +6341,9 @@
   "VIJAYA.NS": {
     "symbol": "VIJAYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1027.52,
+    "current_year_vwap": 1027.56,
     "signal_price": 1062.75,
-    "last_price": 1086.6,
+    "last_price": 1083.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 597.74,
@@ -6330,9 +6358,9 @@
   "CARTRADE.NS": {
     "symbol": "CARTRADE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1682.75,
+    "current_year_vwap": 1684.34,
     "signal_price": 1766.65,
-    "last_price": 2152.3,
+    "last_price": 2176.4,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 1331.21,
@@ -6345,9 +6373,9 @@
   "TIMETECHNO.NS": {
     "symbol": "TIMETECHNO.NS",
     "current_year": 2025,
-    "current_year_vwap": 404.22,
+    "current_year_vwap": 404.32,
     "signal_price": 495.15,
-    "last_price": 461.2,
+    "last_price": 452.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 74.4,
@@ -6364,9 +6392,9 @@
   "SCHNEIDER.NS": {
     "symbol": "SCHNEIDER.NS",
     "current_year": 2025,
-    "current_year_vwap": 694.55,
+    "current_year_vwap": 694.95,
     "signal_price": 790.9,
-    "last_price": 1024,
+    "last_price": 1001.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 115.26,
@@ -6395,9 +6423,9 @@
   "TCI.NS": {
     "symbol": "TCI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1102.84,
+    "current_year_vwap": 1102.97,
     "signal_price": 1163.1,
-    "last_price": 1160.1,
+    "last_price": 1164.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 484.03,
@@ -6411,9 +6439,9 @@
   "ASAHIINDIA.NS": {
     "symbol": "ASAHIINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 761.07,
+    "current_year_vwap": 761.13,
     "signal_price": 770.7,
-    "last_price": 835.4,
+    "last_price": 814.8,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 396.11,
@@ -6442,9 +6470,9 @@
   "GOKULAGRO.NS": {
     "symbol": "GOKULAGRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 286.86,
+    "current_year_vwap": 286.88,
     "signal_price": 364.9,
-    "last_price": 307.75,
+    "last_price": 304.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 39.98,
@@ -6464,7 +6492,7 @@
     "current_year": 2025,
     "current_year_vwap": 15.8,
     "signal_price": 16.02,
-    "last_price": 14.9,
+    "last_price": 14.98,
     "condition_date": "2025-01-24",
     "previous_years": {
       "2021": 9.1,
@@ -6477,9 +6505,9 @@
   "SPLPETRO.NS": {
     "symbol": "SPLPETRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 682.54,
+    "current_year_vwap": 684.37,
     "signal_price": 702.6,
-    "last_price": 816.7,
+    "last_price": 830,
     "condition_date": "2025-05-09",
     "previous_years": {
       "2021": 310.83,
@@ -6498,9 +6526,9 @@
   "POWERMECH.NS": {
     "symbol": "POWERMECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 2636.99,
+    "current_year_vwap": 2637.62,
     "signal_price": 2712.85,
-    "last_price": 3161.9,
+    "last_price": 3132.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 370.37,
@@ -6514,9 +6542,9 @@
   "TVSHLTD.NS": {
     "symbol": "TVSHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 10085.97,
+    "current_year_vwap": 10089.77,
     "signal_price": 10120.2,
-    "last_price": 11974,
+    "last_price": 11654,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 3115.03,
@@ -6535,9 +6563,9 @@
   "GULFOILLUB.NS": {
     "symbol": "GULFOILLUB.NS",
     "current_year": 2025,
-    "current_year_vwap": 1176.14,
+    "current_year_vwap": 1176.15,
     "signal_price": 1202.8,
-    "last_price": 1186.8,
+    "last_price": 1171.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 614.4,
@@ -6573,9 +6601,9 @@
   "PATANJALI.NS": {
     "symbol": "PATANJALI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1798.22,
+    "current_year_vwap": 1798.27,
     "signal_price": 1809.7,
-    "last_price": 1870.4,
+    "last_price": 1861,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1009.91,
@@ -6590,9 +6618,9 @@
   "SANSERA.NS": {
     "symbol": "SANSERA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1262.4,
+    "current_year_vwap": 1262.48,
     "signal_price": 1460.95,
-    "last_price": 1334.7,
+    "last_price": 1329.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 813.58,
@@ -6607,9 +6635,9 @@
   "GARFIBRES.NS": {
     "symbol": "GARFIBRES.NS",
     "current_year": 2025,
-    "current_year_vwap": 856.72,
+    "current_year_vwap": 856.78,
     "signal_price": 928.99,
-    "last_price": 899.3,
+    "last_price": 895.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 600.06,
@@ -6635,9 +6663,9 @@
   "INDNIPPON.NS": {
     "symbol": "INDNIPPON.NS",
     "current_year": 2025,
-    "current_year_vwap": 691.25,
+    "current_year_vwap": 691.93,
     "signal_price": 704.05,
-    "last_price": 769.9,
+    "last_price": 783.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 385.44,
@@ -6660,9 +6688,9 @@
   "WHEELS.NS": {
     "symbol": "WHEELS.NS",
     "current_year": 2025,
-    "current_year_vwap": 714.23,
+    "current_year_vwap": 714.34,
     "signal_price": 724.2,
-    "last_price": 767.6,
+    "last_price": 750.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 659.62,
@@ -6677,9 +6705,9 @@
   "DCMSHRIRAM.NS": {
     "symbol": "DCMSHRIRAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 1245.19,
+    "current_year_vwap": 1245.48,
     "signal_price": 1425.5,
-    "last_price": 1405.3,
+    "last_price": 1374.3,
     "condition_date": "2025-07-03",
     "previous_years": {
       "2021": 759.52,
@@ -6700,9 +6728,9 @@
   "TDPOWERSYS.NS": {
     "symbol": "TDPOWERSYS.NS",
     "current_year": 2025,
-    "current_year_vwap": 437.64,
+    "current_year_vwap": 437.82,
     "signal_price": 446.5,
-    "last_price": 508.15,
+    "last_price": 504.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 50.23,
@@ -6719,9 +6747,9 @@
   "PGEL.NS": {
     "symbol": "PGEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 819.77,
+    "current_year_vwap": 819.64,
     "signal_price": 1023.7,
-    "last_price": 788.5,
+    "last_price": 778.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 46.53,
@@ -6737,9 +6765,9 @@
   "TATAINVEST.NS": {
     "symbol": "TATAINVEST.NS",
     "current_year": 2025,
-    "current_year_vwap": 6336.46,
+    "current_year_vwap": 6337.28,
     "signal_price": 6849.05,
-    "last_price": 6860,
+    "last_price": 6782.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1305.16,
@@ -6754,7 +6782,7 @@
     "current_year": 2025,
     "current_year_vwap": 88.07,
     "signal_price": 89.64,
-    "last_price": 91.77,
+    "last_price": 90.19,
     "condition_date": "2025-05-19",
     "previous_years": {
       "2021": 41.39,
@@ -6767,9 +6795,9 @@
   "RELIGARE.NS": {
     "symbol": "RELIGARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 248.01,
+    "current_year_vwap": 248.03,
     "signal_price": 277.9,
-    "last_price": 263.95,
+    "last_price": 259.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 131.24,
@@ -6782,9 +6810,9 @@
   "GABRIEL.NS": {
     "symbol": "GABRIEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 670.59,
+    "current_year_vwap": 671.03,
     "signal_price": 702.3,
-    "last_price": 1029.4,
+    "last_price": 1002.4,
     "condition_date": "2025-06-30",
     "previous_years": {
       "2021": 133.37,
@@ -6807,9 +6835,9 @@
   "MASFIN.NS": {
     "symbol": "MASFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 280.02,
+    "current_year_vwap": 280.11,
     "signal_price": 284.29,
-    "last_price": 304.05,
+    "last_price": 305,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 274.56,
@@ -6825,9 +6853,9 @@
   "MARATHON.NS": {
     "symbol": "MARATHON.NS",
     "current_year": 2025,
-    "current_year_vwap": 621.42,
+    "current_year_vwap": 621.53,
     "signal_price": 623.35,
-    "last_price": 698.35,
+    "last_price": 688.85,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 81.2,
@@ -6843,9 +6871,9 @@
   "BHAGCHEM.NS": {
     "symbol": "BHAGCHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 298.51,
+    "current_year_vwap": 298.52,
     "signal_price": 301.1,
-    "last_price": 304.3,
+    "last_price": 303.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 77.96,
@@ -6859,9 +6887,9 @@
   "SMSPHARMA.NS": {
     "symbol": "SMSPHARMA.NS",
     "current_year": 2025,
-    "current_year_vwap": 231.14,
+    "current_year_vwap": 231.13,
     "signal_price": 256.68,
-    "last_price": 231.5,
+    "last_price": 228.91,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 154.47,
@@ -6875,9 +6903,9 @@
   "KHAICHEM.NS": {
     "symbol": "KHAICHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 73.48,
+    "current_year_vwap": 73.54,
     "signal_price": 74.63,
-    "last_price": 109.75,
+    "last_price": 109.25,
     "condition_date": "2025-01-16",
     "previous_years": {
       "2021": 43.28,
@@ -6913,9 +6941,9 @@
   "BHARTIARTL.NS": {
     "symbol": "BHARTIARTL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1783.76,
+    "current_year_vwap": 1784.22,
     "signal_price": 1798.8,
-    "last_price": 1914.2,
+    "last_price": 1884.4,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 597.27,
@@ -6930,9 +6958,9 @@
   "M&M.NS": {
     "symbol": "M&M.NS",
     "current_year": 2025,
-    "current_year_vwap": 2940.21,
+    "current_year_vwap": 2940.8,
     "signal_price": 3082,
-    "last_price": 3166.5,
+    "last_price": 3159.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 824.11,
@@ -6946,9 +6974,9 @@
   "BEL.NS": {
     "symbol": "BEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 331.96,
+    "current_year_vwap": 332.01,
     "signal_price": 335.75,
-    "last_price": 380.6,
+    "last_price": 377.2,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 53.02,
@@ -6962,9 +6990,9 @@
   "SBIN.NS": {
     "symbol": "SBIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 779.37,
+    "current_year_vwap": 779.47,
     "signal_price": 793.2,
-    "last_price": 798.5,
+    "last_price": 794,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 397.84,
@@ -6977,9 +7005,9 @@
   "KOTAKBANK.NS": {
     "symbol": "KOTAKBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 2041.82,
+    "current_year_vwap": 2041.7,
     "signal_price": 2079,
-    "last_price": 1990.2,
+    "last_price": 1992.4,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 1855.35,
@@ -6992,9 +7020,9 @@
   "APOLLOHOSP.NS": {
     "symbol": "APOLLOHOSP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6896.41,
+    "current_year_vwap": 6897.4,
     "signal_price": 7369.65,
-    "last_price": 7387.5,
+    "last_price": 7351.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3845.7,
@@ -7007,9 +7035,9 @@
   "BPCL.NS": {
     "symbol": "BPCL.NS",
     "current_year": 2025,
-    "current_year_vwap": 291.56,
+    "current_year_vwap": 291.6,
     "signal_price": 295.3,
-    "last_price": 319.35,
+    "last_price": 317.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 218.79,
@@ -7022,9 +7050,9 @@
   "LT.NS": {
     "symbol": "LT.NS",
     "current_year": 2025,
-    "current_year_vwap": 3439.38,
+    "current_year_vwap": 3439.77,
     "signal_price": 3667.5,
-    "last_price": 3600,
+    "last_price": 3587.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1565.1,
@@ -7037,9 +7065,9 @@
   "ULTRACEMCO.NS": {
     "symbol": "ULTRACEMCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 11405.56,
+    "current_year_vwap": 11407.21,
     "signal_price": 11447,
-    "last_price": 12163,
+    "last_price": 12113,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6719.64,
@@ -7053,9 +7081,9 @@
   "MARUTI.NS": {
     "symbol": "MARUTI.NS",
     "current_year": 2025,
-    "current_year_vwap": 12206.9,
+    "current_year_vwap": 12207.25,
     "signal_price": 12310.65,
-    "last_price": 12388,
+    "last_price": 12302,
     "condition_date": "2025-01-31",
     "previous_years": {
       "2021": 7264.32,
@@ -7068,9 +7096,9 @@
   "BAJFINANCE.NS": {
     "symbol": "BAJFINANCE.NS",
     "current_year": 2025,
-    "current_year_vwap": 863.1,
+    "current_year_vwap": 863.12,
     "signal_price": 870.54,
-    "last_price": 880.9,
+    "last_price": 875.6,
     "condition_date": "2025-02-27",
     "previous_years": {
       "2021": 587.07,
@@ -7084,9 +7112,9 @@
   "SHRIRAMFIN.NS": {
     "symbol": "SHRIRAMFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 623.33,
+    "current_year_vwap": 623.31,
     "signal_price": 632.9,
-    "last_price": 620.5,
+    "last_price": 614.2,
     "condition_date": "2025-03-04",
     "previous_years": {
       "2021": 271.33,
@@ -7099,9 +7127,9 @@
   "SUNPHARMA.NS": {
     "symbol": "SUNPHARMA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1711,
+    "current_year_vwap": 1710.3,
     "signal_price": 1889.95,
-    "last_price": 1638,
+    "last_price": 1629.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 685.92,
@@ -7115,9 +7143,9 @@
   "HINDALCO.NS": {
     "symbol": "HINDALCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 637.5,
+    "current_year_vwap": 637.57,
     "signal_price": 638.8,
-    "last_price": 677.45,
+    "last_price": 672.45,
     "condition_date": "2025-02-20",
     "previous_years": {
       "2021": 381.2,
@@ -7130,9 +7158,9 @@
   "CIPLA.NS": {
     "symbol": "CIPLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1481.25,
+    "current_year_vwap": 1481.37,
     "signal_price": 1529.1,
-    "last_price": 1506.6,
+    "last_price": 1502.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 893.46,
@@ -7148,9 +7176,9 @@
   "MAXHEALTH.NS": {
     "symbol": "MAXHEALTH.NS",
     "current_year": 2025,
-    "current_year_vwap": 1127.15,
+    "current_year_vwap": 1127.34,
     "signal_price": 1139.6,
-    "last_price": 1251.4,
+    "last_price": 1246,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 293.3,
@@ -7183,7 +7211,7 @@
   "HECPROJECT.NS": {
     "symbol": "HECPROJECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 136.42,
+    "current_year_vwap": 136.45,
     "signal_price": 138.34,
     "last_price": 165.85,
     "condition_date": "2025-05-27",
@@ -7206,9 +7234,9 @@
   "OMAXAUTO.NS": {
     "symbol": "OMAXAUTO.NS",
     "current_year": 2025,
-    "current_year_vwap": 124.87,
+    "current_year_vwap": 125.06,
     "signal_price": 130.45,
-    "last_price": 152.56,
+    "last_price": 147.31,
     "condition_date": "2025-07-28",
     "previous_years": {
       "2021": 54.03,
@@ -7232,7 +7260,7 @@
     "current_year": 2025,
     "current_year_vwap": 50.43,
     "signal_price": 52.79,
-    "last_price": 55.18,
+    "last_price": 53.98,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 13.81,
@@ -7249,9 +7277,9 @@
   "ARIHANTSUP.NS": {
     "symbol": "ARIHANTSUP.NS",
     "current_year": 2025,
-    "current_year_vwap": 441.27,
+    "current_year_vwap": 441.22,
     "signal_price": 484.85,
-    "last_price": 424.75,
+    "last_price": 427.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 135.27,
@@ -7265,9 +7293,9 @@
   "KERNEX.NS": {
     "symbol": "KERNEX.NS",
     "current_year": 2025,
-    "current_year_vwap": 1025.03,
+    "current_year_vwap": 1025.07,
     "signal_price": 1413.05,
-    "last_price": 1139.8,
+    "last_price": 1107.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 62.29,
@@ -7282,7 +7310,7 @@
     "current_year": 2025,
     "current_year_vwap": 420.24,
     "signal_price": 421.15,
-    "last_price": 449,
+    "last_price": 445,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 156.11,
@@ -7295,9 +7323,9 @@
   "PPAP.NS": {
     "symbol": "PPAP.NS",
     "current_year": 2025,
-    "current_year_vwap": 223.62,
+    "current_year_vwap": 223.71,
     "signal_price": 232.78,
-    "last_price": 259,
+    "last_price": 255.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 250.27,

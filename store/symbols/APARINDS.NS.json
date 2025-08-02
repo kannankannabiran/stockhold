@@ -9913,21 +9913,21 @@
       "volume": 339981
     },
     {
-      "date": "2025-08-01T07:00:12.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 8900,
-      "high": 8900,
+      "high": 8925,
       "low": 8684.5,
-      "close": 8814,
-      "volume": 71902
+      "close": 8782.5,
+      "volume": 117058
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "APARINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 7263.45,
+    "current_year_vwap": 7266.33,
     "signal_price": 10406.3,
-    "last_price": 8814,
+    "last_price": 8782.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 574.79,

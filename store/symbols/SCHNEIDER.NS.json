@@ -9913,21 +9913,21 @@
       "volume": 322231
     },
     {
-      "date": "2025-08-01T07:04:57.000Z",
+      "date": "2025-08-01T10:00:04.000Z",
       "open": 1050,
       "high": 1050,
-      "low": 1015,
-      "close": 1024,
-      "volume": 183821
+      "low": 975,
+      "close": 1001.2999877929688,
+      "volume": 268141
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SCHNEIDER.NS",
     "current_year": 2025,
-    "current_year_vwap": 694.55,
+    "current_year_vwap": 694.95,
     "signal_price": 790.9,
-    "last_price": 1024,
+    "last_price": 1001.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 115.26,

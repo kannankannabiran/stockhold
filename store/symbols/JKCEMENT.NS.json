@@ -9913,21 +9913,21 @@
       "volume": 44132
     },
     {
-      "date": "2025-08-01T07:00:56.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 6620,
-      "high": 6687,
+      "high": 6778,
       "low": 6600,
-      "close": 6671.5,
-      "volume": 41293
+      "close": 6681.5,
+      "volume": 88504
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JKCEMENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5266.99,
+    "current_year_vwap": 5270.82,
     "signal_price": 5308.5,
-    "last_price": 6671.5,
+    "last_price": 6681.5,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 2949.49,

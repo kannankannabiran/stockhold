@@ -9913,21 +9913,21 @@
       "volume": 440546
     },
     {
-      "date": "2025-08-01T06:56:48.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 1488.9000244140625,
       "high": 1499.199951171875,
       "low": 1381.800048828125,
-      "close": 1420.0999755859375,
-      "volume": 207679
+      "close": 1394.5999755859375,
+      "volume": 276099
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PGIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1341.71,
+    "current_year_vwap": 1341.91,
     "signal_price": 1493.5,
-    "last_price": 1420.1,
+    "last_price": 1394.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 160.43,

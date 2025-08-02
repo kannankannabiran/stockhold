@@ -9913,21 +9913,21 @@
       "volume": 213391
     },
     {
-      "date": "2025-08-01T06:59:16.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1277,
       "high": 1297,
-      "low": 1266.5999755859375,
-      "close": 1275.5999755859375,
-      "volume": 73481
+      "low": 1243.4000244140625,
+      "close": 1255.5999755859375,
+      "volume": 152741
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GLOBUSSPR.NS",
     "current_year": 2025,
-    "current_year_vwap": 995.41,
+    "current_year_vwap": 996.42,
     "signal_price": 1009,
-    "last_price": 1275.6,
+    "last_price": 1255.6,
     "condition_date": "2025-03-21",
     "previous_years": {
       "2021": 611.35,

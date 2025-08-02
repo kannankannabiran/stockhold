@@ -9913,21 +9913,21 @@
       "volume": 208398
     },
     {
-      "date": "2025-08-01T06:55:31.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1095.4000244140625,
-      "high": 1123,
+      "high": 1123.300048828125,
       "low": 1048,
-      "close": 1108.800048828125,
-      "volume": 87861
+      "close": 1089,
+      "volume": 128916
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "LUMAXTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 808.94,
+    "current_year_vwap": 809.29,
     "signal_price": 811.55,
-    "last_price": 1108.8,
+    "last_price": 1089,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 151.06,

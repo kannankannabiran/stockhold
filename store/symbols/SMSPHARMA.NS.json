@@ -9913,21 +9913,21 @@
       "volume": 80032
     },
     {
-      "date": "2025-08-01T06:53:19.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 234.3000030517578,
       "high": 235.08999633789062,
-      "low": 231,
-      "close": 231.5,
-      "volume": 20339
+      "low": 227.7100067138672,
+      "close": 228.91000366210938,
+      "volume": 41606
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SMSPHARMA.NS",
     "current_year": 2025,
-    "current_year_vwap": 231.14,
+    "current_year_vwap": 231.13,
     "signal_price": 256.68,
-    "last_price": 231.5,
+    "last_price": 228.91,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 154.47,

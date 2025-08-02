@@ -9913,21 +9913,21 @@
       "volume": 1082772
     },
     {
-      "date": "2025-08-01T07:05:30.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 1869.5999755859375,
       "high": 1895.5999755859375,
-      "low": 1860,
-      "close": 1870.4000244140625,
-      "volume": 203685
+      "low": 1850,
+      "close": 1861,
+      "volume": 325296
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PATANJALI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1798.22,
+    "current_year_vwap": 1798.27,
     "signal_price": 1809.7,
-    "last_price": 1870.4,
+    "last_price": 1861,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1009.91,

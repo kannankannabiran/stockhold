@@ -8289,21 +8289,21 @@
       "volume": 769021
     },
     {
-      "date": "2025-08-01T06:53:47.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 136.5,
       "high": 137.5,
-      "low": 134.61000061035156,
-      "close": 134.8000030517578,
-      "volume": 247761
+      "low": 133,
+      "close": 133.89999389648438,
+      "volume": 469496
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SERVOTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 141.37,
+    "current_year_vwap": 141.36,
     "signal_price": 167.71,
-    "last_price": 134.8,
+    "last_price": 133.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6.69,

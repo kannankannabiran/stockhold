@@ -9913,21 +9913,21 @@
       "volume": 114708
     },
     {
-      "date": "2025-08-01T07:01:58.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1456.300048828125,
       "high": 1456.300048828125,
       "low": 1412.5999755859375,
-      "close": 1440.9000244140625,
-      "volume": 40872
+      "close": 1419,
+      "volume": 73312
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TECHNOE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1236.79,
+    "current_year_vwap": 1236.9,
     "signal_price": 1690.15,
-    "last_price": 1440.9,
+    "last_price": 1419,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 289.01,

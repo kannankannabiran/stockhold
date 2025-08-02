@@ -9913,21 +9913,21 @@
       "volume": 96573
     },
     {
-      "date": "2025-08-01T07:05:53.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 6929,
       "high": 6931,
-      "low": 6853,
-      "close": 6860,
-      "volume": 33965
+      "low": 6750,
+      "close": 6782.5,
+      "volume": 56748
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TATAINVEST.NS",
     "current_year": 2025,
-    "current_year_vwap": 6336.46,
+    "current_year_vwap": 6337.28,
     "signal_price": 6849.05,
-    "last_price": 6860,
+    "last_price": 6782.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1305.16,

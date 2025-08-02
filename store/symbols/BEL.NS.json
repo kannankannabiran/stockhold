@@ -9913,21 +9913,21 @@
       "volume": 9702316
     },
     {
-      "date": "2025-08-01T07:06:28.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 383.1000061035156,
       "high": 383.5,
-      "low": 378.20001220703125,
-      "close": 380.6000061035156,
-      "volume": 4891451
+      "low": 376.20001220703125,
+      "close": 377.20001220703125,
+      "volume": 8699524
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 331.96,
+    "current_year_vwap": 332.01,
     "signal_price": 335.75,
-    "last_price": 380.6,
+    "last_price": 377.2,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 53.02,

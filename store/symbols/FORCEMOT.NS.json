@@ -9585,21 +9585,21 @@
       "volume": 78609
     },
     {
-      "date": "2025-08-01T07:01:57.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 17010,
       "high": 17199,
       "low": 16509,
-      "close": 16897,
-      "volume": 49188
+      "close": 16709,
+      "volume": 69808
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "FORCEMOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 12487.29,
+    "current_year_vwap": 12492.36,
     "signal_price": 12649.5,
-    "last_price": 16897,
+    "last_price": 16709,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 1463.69,

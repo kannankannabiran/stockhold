@@ -9913,21 +9913,21 @@
       "volume": 127697
     },
     {
-      "date": "2025-08-01T07:04:17.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 275.6000061035156,
       "high": 278,
-      "low": 267,
-      "close": 272,
-      "volume": 34807
+      "low": 265,
+      "close": 266.79998779296875,
+      "volume": 73236
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUVEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 173.38,
+    "current_year_vwap": 173.41,
     "signal_price": 184.11,
-    "last_price": 272,
+    "last_price": 266.8,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 87.97,

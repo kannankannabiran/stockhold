@@ -9913,21 +9913,21 @@
       "volume": 9161
     },
     {
-      "date": "2025-08-01T07:02:28.000Z",
+      "date": "2025-08-01T09:59:47.000Z",
       "open": 247,
       "high": 266.45001220703125,
       "low": 247,
-      "close": 259,
-      "volume": 5846
+      "close": 255.1999969482422,
+      "volume": 16241
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PPAP.NS",
     "current_year": 2025,
-    "current_year_vwap": 223.62,
+    "current_year_vwap": 223.71,
     "signal_price": 232.78,
-    "last_price": 259,
+    "last_price": 255.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 250.27,

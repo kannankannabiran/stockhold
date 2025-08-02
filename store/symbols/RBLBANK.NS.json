@@ -9913,21 +9913,21 @@
       "volume": 36143299
     },
     {
-      "date": "2025-08-01T07:01:05.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 265.1499938964844,
       "high": 268.70001220703125,
-      "low": 261.1499938964844,
-      "close": 264,
-      "volume": 5703362
+      "low": 257.8500061035156,
+      "close": 259.1000061035156,
+      "volume": 9628441
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RBLBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 203.52,
+    "current_year_vwap": 203.65,
     "signal_price": 207.1,
-    "last_price": 264,
+    "last_price": 259.1,
     "condition_date": "2025-04-28",
     "previous_years": {
       "2021": 201.75,

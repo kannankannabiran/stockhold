@@ -9913,21 +9913,21 @@
       "volume": 371909
     },
     {
-      "date": "2025-08-01T06:54:21.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 234.41000366210938,
       "high": 241.02999877929688,
-      "low": 234.38999938964844,
-      "close": 239.27999877929688,
-      "volume": 106998
+      "low": 233.55999755859375,
+      "close": 235.64999389648438,
+      "volume": 203882
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "20MICRONS.NS",
     "current_year": 2025,
-    "current_year_vwap": 230.37,
+    "current_year_vwap": 230.38,
     "signal_price": 236.81,
-    "last_price": 239.28,
+    "last_price": 235.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 57.15,

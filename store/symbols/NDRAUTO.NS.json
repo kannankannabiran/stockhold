@@ -9913,21 +9913,21 @@
       "volume": 22768
     },
     {
-      "date": "2025-08-01T06:55:37.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1006.9500122070312,
       "high": 1010,
-      "low": 989.5999755859375,
-      "close": 992.0999755859375,
-      "volume": 9472
+      "low": 968.25,
+      "close": 976.5,
+      "volume": 22998
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NDRAUTO.NS",
     "current_year": 2025,
-    "current_year_vwap": 949.27,
+    "current_year_vwap": 949.3,
     "signal_price": 953.35,
-    "last_price": 992.1,
+    "last_price": 976.5,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 78.46,

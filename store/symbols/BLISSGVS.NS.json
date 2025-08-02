@@ -9913,21 +9913,21 @@
       "volume": 4838181
     },
     {
-      "date": "2025-08-01T07:00:21.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 175.1999969482422,
       "high": 178.8000030517578,
-      "low": 173.5399932861328,
-      "close": 174.57000732421875,
-      "volume": 485626
+      "low": 172.64999389648438,
+      "close": 173.72999572753906,
+      "volume": 697093
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BLISSGVS.NS",
     "current_year": 2025,
-    "current_year_vwap": 153.15,
+    "current_year_vwap": 153.18,
     "signal_price": 177.48,
-    "last_price": 174.57,
+    "last_price": 173.73,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 129.21,

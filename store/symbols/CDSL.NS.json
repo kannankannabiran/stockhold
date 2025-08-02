@@ -9913,21 +9913,21 @@
       "volume": 2862587
     },
     {
-      "date": "2025-08-01T07:00:32.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1480,
-      "high": 1492.5999755859375,
+      "high": 1494,
       "low": 1462.9000244140625,
-      "close": 1483.5,
-      "volume": 1478809
+      "close": 1478.800048828125,
+      "volume": 2221478
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CDSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1438.11,
+    "current_year_vwap": 1438.15,
     "signal_price": 1808.65,
-    "last_price": 1483.5,
+    "last_price": 1478.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 504.15,

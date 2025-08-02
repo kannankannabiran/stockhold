@@ -9913,21 +9913,21 @@
       "volume": 2040110
     },
     {
-      "date": "2025-08-01T06:59:40.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 859.7999877929688,
-      "high": 863.9000244140625,
+      "high": 867.3499755859375,
       "low": 849.75,
-      "close": 860.25,
-      "volume": 757508
+      "close": 859.25,
+      "volume": 1774519
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "FORTIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 697.33,
+    "current_year_vwap": 697.95,
     "signal_price": 708.5,
-    "last_price": 860.25,
+    "last_price": 859.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 230.99,

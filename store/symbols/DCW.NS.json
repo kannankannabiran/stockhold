@@ -9913,21 +9913,21 @@
       "volume": 975230
     },
     {
-      "date": "2025-08-01T06:58:06.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 77,
       "high": 80.18000030517578,
-      "low": 76.5,
-      "close": 79.22000122070312,
-      "volume": 1305707
+      "low": 72.19999694824219,
+      "close": 74.93000030517578,
+      "volume": 2622654
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DCW.NS",
     "current_year": 2025,
-    "current_year_vwap": 79.99,
+    "current_year_vwap": 79.94,
     "signal_price": 89.98,
-    "last_price": 79.22,
+    "last_price": 74.93,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 39.2,

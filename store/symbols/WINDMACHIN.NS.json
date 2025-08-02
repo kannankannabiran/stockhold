@@ -9913,21 +9913,21 @@
       "volume": 132339
     },
     {
-      "date": "2025-08-01T07:00:55.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 335,
       "high": 336.5,
-      "low": 330.95001220703125,
-      "close": 332.54998779296875,
-      "volume": 29122
+      "low": 330,
+      "close": 331.5,
+      "volume": 58120
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WINDMACHIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 341.73,
+    "current_year_vwap": 341.72,
     "signal_price": 374.05,
-    "last_price": 332.55,
+    "last_price": 331.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 33.99,

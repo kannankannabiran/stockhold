@@ -9913,21 +9913,21 @@
       "volume": 16850
     },
     {
-      "date": "2025-08-01T06:49:01.000Z",
+      "date": "2025-08-01T09:59:25.000Z",
       "open": 108.87000274658203,
       "high": 108.87000274658203,
-      "low": 105.19999694824219,
-      "close": 105.30000305175781,
-      "volume": 15609
+      "low": 104.51000213623047,
+      "close": 105.16999816894531,
+      "volume": 44139
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "STEELCITY.NS",
     "current_year": 2025,
-    "current_year_vwap": 103.68,
+    "current_year_vwap": 103.7,
     "signal_price": 117.94,
-    "last_price": 105.3,
+    "last_price": 105.17,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 62.33,

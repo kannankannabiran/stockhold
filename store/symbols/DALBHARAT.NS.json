@@ -9913,21 +9913,21 @@
       "volume": 203797
     },
     {
-      "date": "2025-08-01T07:01:09.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2239,
       "high": 2240.199951171875,
-      "low": 2212.199951171875,
-      "close": 2215.199951171875,
-      "volume": 50884
+      "low": 2185.800048828125,
+      "close": 2204.39990234375,
+      "volume": 159021
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DALBHARAT.NS",
     "current_year": 2025,
-    "current_year_vwap": 1946.56,
+    "current_year_vwap": 1947.08,
     "signal_price": 1974.1,
-    "last_price": 2215.2,
+    "last_price": 2204.4,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 1842.69,

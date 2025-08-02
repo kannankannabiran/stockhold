@@ -9913,21 +9913,21 @@
       "volume": 74535
     },
     {
-      "date": "2025-08-01T06:54:51.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1906.300048828125,
       "high": 1939,
-      "low": 1906.199951171875,
-      "close": 1914.800048828125,
-      "volume": 9762
+      "low": 1905.5999755859375,
+      "close": 1913.699951171875,
+      "volume": 24111
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "FIEMIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 1662.47,
+    "current_year_vwap": 1662.9,
     "signal_price": 1743.6,
-    "last_price": 1914.8,
+    "last_price": 1913.7,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 463.28,

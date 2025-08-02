@@ -9913,21 +9913,21 @@
       "volume": 818584
     },
     {
-      "date": "2025-08-01T07:03:39.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 1615,
       "high": 1616,
-      "low": 1580.199951171875,
-      "close": 1587.5,
-      "volume": 445370
+      "low": 1556.0999755859375,
+      "close": 1565.199951171875,
+      "volume": 852322
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BDL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1626.03,
+    "current_year_vwap": 1625.96,
     "signal_price": 1746.7,
-    "last_price": 1587.5,
+    "last_price": 1565.2,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 188.53,

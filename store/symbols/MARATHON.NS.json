@@ -9913,21 +9913,21 @@
       "volume": 238494
     },
     {
-      "date": "2025-08-01T07:06:04.000Z",
+      "date": "2025-08-01T09:59:50.000Z",
       "open": 710,
       "high": 710,
-      "low": 693.7000122070312,
-      "close": 698.3499755859375,
-      "volume": 50313
+      "low": 678.6500244140625,
+      "close": 688.8499755859375,
+      "volume": 96150
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MARATHON.NS",
     "current_year": 2025,
-    "current_year_vwap": 621.42,
+    "current_year_vwap": 621.53,
     "signal_price": 623.35,
-    "last_price": 698.35,
+    "last_price": 688.85,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 81.2,

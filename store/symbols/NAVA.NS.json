@@ -9913,21 +9913,21 @@
       "volume": 1056962
     },
     {
-      "date": "2025-08-01T07:04:37.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 628.0499877929688,
       "high": 639,
-      "low": 622.7999877929688,
-      "close": 633,
-      "volume": 356223
+      "low": 615,
+      "close": 620.9000244140625,
+      "volume": 557610
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NAVA.NS",
     "current_year": 2025,
-    "current_year_vwap": 517.13,
+    "current_year_vwap": 517.29,
     "signal_price": 518.75,
-    "last_price": 633,
+    "last_price": 620.9,
     "condition_date": "2025-03-28",
     "previous_years": {
       "2021": 45.17,

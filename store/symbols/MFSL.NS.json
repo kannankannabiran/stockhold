@@ -9913,21 +9913,21 @@
       "volume": 325620
     },
     {
-      "date": "2025-08-01T06:59:43.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 1497.300048828125,
       "high": 1501.4000244140625,
-      "low": 1479.0999755859375,
-      "close": 1480.699951171875,
-      "volume": 213989
+      "low": 1467.5999755859375,
+      "close": 1472.5,
+      "volume": 471006
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MFSL.NS",
     "current_year": 2025,
-    "current_year_vwap": 1297.59,
+    "current_year_vwap": 1297.91,
     "signal_price": 1306.8,
-    "last_price": 1480.7,
+    "last_price": 1472.5,
     "condition_date": "2025-04-29",
     "previous_years": {
       "2021": 928.33,

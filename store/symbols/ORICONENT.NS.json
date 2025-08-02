@@ -9913,21 +9913,21 @@
       "volume": 623145
     },
     {
-      "date": "2025-08-01T06:55:57.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 50.279998779296875,
       "high": 51.400001525878906,
-      "low": 49.150001525878906,
-      "close": 50.099998474121094,
-      "volume": 240916
+      "low": 48.279998779296875,
+      "close": 49.68000030517578,
+      "volume": 369805
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ORICONENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 42.23,
+    "current_year_vwap": 42.24,
     "signal_price": 43.63,
-    "last_price": 50.1,
+    "last_price": 49.68,
     "condition_date": "2025-05-22",
     "previous_years": {
       "2021": 31.3,

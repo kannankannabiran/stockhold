@@ -9913,21 +9913,21 @@
       "volume": 7493748
     },
     {
-      "date": "2025-08-01T06:59:57.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 533,
       "high": 551.5499877929688,
-      "low": 522.0999755859375,
-      "close": 524.4500122070312,
-      "volume": 12019994
+      "low": 515.0499877929688,
+      "close": 518.2999877929688,
+      "volume": 14204400
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CHAMBLFERT.NS",
     "current_year": 2025,
-    "current_year_vwap": 576.41,
+    "current_year_vwap": 575.9,
     "signal_price": 576.9,
-    "last_price": 524.45,
+    "last_price": 518.3,
     "condition_date": "2025-03-06",
     "previous_years": {
       "2021": 314.96,

@@ -9913,21 +9913,21 @@
       "volume": 17611
     },
     {
-      "date": "2025-08-01T06:54:59.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 760,
       "high": 774.4500122070312,
-      "low": 760,
-      "close": 767.5999755859375,
-      "volume": 4205
+      "low": 745,
+      "close": 750.0999755859375,
+      "volume": 17827
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WHEELS.NS",
     "current_year": 2025,
-    "current_year_vwap": 714.23,
+    "current_year_vwap": 714.34,
     "signal_price": 724.2,
-    "last_price": 767.6,
+    "last_price": 750.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 659.62,

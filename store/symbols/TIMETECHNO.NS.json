@@ -9913,21 +9913,21 @@
       "volume": 1561675
     },
     {
-      "date": "2025-08-01T07:05:03.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 467.3500061035156,
       "high": 469.75,
-      "low": 457.8500061035156,
-      "close": 461.20001220703125,
-      "volume": 409535
+      "low": 451,
+      "close": 452.29998779296875,
+      "volume": 768433
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TIMETECHNO.NS",
     "current_year": 2025,
-    "current_year_vwap": 404.22,
+    "current_year_vwap": 404.32,
     "signal_price": 495.15,
-    "last_price": 461.2,
+    "last_price": 452.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 74.4,

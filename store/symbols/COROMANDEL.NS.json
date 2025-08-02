@@ -9913,21 +9913,21 @@
       "volume": 787078
     },
     {
-      "date": "2025-08-01T07:00:36.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2673,
       "high": 2688.300048828125,
-      "low": 2629,
-      "close": 2640,
-      "volume": 158215
+      "low": 2577.300048828125,
+      "close": 2590.39990234375,
+      "volume": 366849
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "COROMANDEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2168.62,
+    "current_year_vwap": 2169.43,
     "signal_price": 2194.1,
-    "last_price": 2640,
+    "last_price": 2590.4,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 812.75,

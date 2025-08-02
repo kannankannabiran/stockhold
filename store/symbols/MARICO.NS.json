@@ -9913,21 +9913,21 @@
       "volume": 2682787
     },
     {
-      "date": "2025-08-01T06:54:15.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 707.0999755859375,
       "high": 724.9500122070312,
       "low": 707.0999755859375,
-      "close": 715.1500244140625,
-      "volume": 1074065
+      "close": 711.2000122070312,
+      "volume": 2791162
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MARICO.NS",
     "current_year": 2025,
-    "current_year_vwap": 685.66,
+    "current_year_vwap": 685.82,
     "signal_price": 694.2,
-    "last_price": 715.15,
+    "last_price": 711.2,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 489.29,

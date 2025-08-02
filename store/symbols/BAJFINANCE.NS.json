@@ -9913,21 +9913,21 @@
       "volume": 6999179
     },
     {
-      "date": "2025-08-01T07:06:34.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 884.7999877929688,
       "high": 895.8499755859375,
-      "low": 874.2999877929688,
-      "close": 880.9000244140625,
-      "volume": 3363911
+      "low": 873,
+      "close": 875.5999755859375,
+      "volume": 5299384
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BAJFINANCE.NS",
     "current_year": 2025,
-    "current_year_vwap": 863.1,
+    "current_year_vwap": 863.12,
     "signal_price": 870.54,
-    "last_price": 880.9,
+    "last_price": 875.6,
     "condition_date": "2025-02-27",
     "previous_years": {
       "2021": 587.07,

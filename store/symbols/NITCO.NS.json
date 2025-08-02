@@ -9913,21 +9913,21 @@
       "volume": 83195
     },
     {
-      "date": "2025-08-01T06:57:06.000Z",
+      "date": "2025-08-01T09:59:37.000Z",
       "open": 127,
       "high": 130,
-      "low": 127,
-      "close": 127.68000030517578,
-      "volume": 29480
+      "low": 125.0999984741211,
+      "close": 125.68000030517578,
+      "volume": 107087
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NITCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 131.33,
+    "current_year_vwap": 131.32,
     "signal_price": 131.55,
-    "last_price": 127.68,
+    "last_price": 125.68,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 29.02,

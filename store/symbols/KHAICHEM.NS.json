@@ -9409,21 +9409,21 @@
       "volume": 103456
     },
     {
-      "date": "2025-08-01T06:45:09.000Z",
+      "date": "2025-08-01T09:44:31.000Z",
       "open": 107.55000305175781,
       "high": 109.75,
       "low": 107.55000305175781,
-      "close": 109.75,
-      "volume": 62519
+      "close": 109.25,
+      "volume": 123897
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KHAICHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 73.48,
+    "current_year_vwap": 73.54,
     "signal_price": 74.63,
-    "last_price": 109.75,
+    "last_price": 109.25,
     "condition_date": "2025-01-16",
     "previous_years": {
       "2021": 43.28,

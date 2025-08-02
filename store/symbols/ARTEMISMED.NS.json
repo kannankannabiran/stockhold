@@ -9745,21 +9745,21 @@
       "volume": 58467
     },
     {
-      "date": "2025-08-01T07:00:35.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 239.0500030517578,
       "high": 252,
       "low": 237.05999755859375,
-      "close": 246.47000122070312,
-      "volume": 95166
+      "close": 244.9199981689453,
+      "volume": 140258
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ARTEMISMED.NS",
     "current_year": 2025,
-    "current_year_vwap": 270.84,
+    "current_year_vwap": 270.77,
     "signal_price": 315.95,
-    "last_price": 246.47,
+    "last_price": 244.92,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.1,

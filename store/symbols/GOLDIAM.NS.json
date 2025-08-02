@@ -9913,21 +9913,21 @@
       "volume": 1136063
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 341.04998779296875,
       "high": 341.8500061035156,
-      "low": 334.1000061035156,
-      "close": 334.20001220703125,
-      "volume": 139477
+      "low": 330,
+      "close": 331.45001220703125,
+      "volume": 234229
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GOLDIAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 408.99,
+    "current_year_vwap": 408.95,
     "signal_price": 416.35,
-    "last_price": 334.2,
+    "last_price": 331.45,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 115.2,

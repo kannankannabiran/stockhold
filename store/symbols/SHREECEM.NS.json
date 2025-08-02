@@ -9913,21 +9913,21 @@
       "volume": 15010
     },
     {
-      "date": "2025-08-01T06:57:00.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 30990,
-      "high": 30990,
+      "high": 31035,
       "low": 30540,
-      "close": 30630,
-      "volume": 6302
+      "close": 30675,
+      "volume": 29448
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHREECEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 29277.33,
+    "current_year_vwap": 29283.78,
     "signal_price": 29442.65,
-    "last_price": 30630,
+    "last_price": 30675,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 27792.99,

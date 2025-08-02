@@ -9913,21 +9913,21 @@
       "volume": 150379
     },
     {
-      "date": "2025-08-01T07:06:33.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 12181,
       "high": 12289,
-      "low": 12144,
-      "close": 12163,
-      "volume": 102336
+      "low": 12075,
+      "close": 12113,
+      "volume": 212570
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ULTRACEMCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 11405.56,
+    "current_year_vwap": 11407.21,
     "signal_price": 11447,
-    "last_price": 12163,
+    "last_price": 12113,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6719.64,

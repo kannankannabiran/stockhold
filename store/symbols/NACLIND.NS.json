@@ -9913,21 +9913,21 @@
       "volume": 1060101
     },
     {
-      "date": "2025-08-01T06:57:34.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 326.79998779296875,
       "high": 339.45001220703125,
-      "low": 323.20001220703125,
-      "close": 327,
-      "volume": 423951
+      "low": 307.1499938964844,
+      "close": 307.8500061035156,
+      "volume": 628054
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NACLIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 133.14,
+    "current_year_vwap": 133.38,
     "signal_price": 134.89,
-    "last_price": 327,
+    "last_price": 307.85,
     "condition_date": "2025-04-04",
     "previous_years": {
       "2021": 69.18,

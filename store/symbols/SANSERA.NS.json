@@ -7625,21 +7625,21 @@
       "volume": 53759
     },
     {
-      "date": "2025-08-01T07:05:24.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1330,
       "high": 1346.300048828125,
       "low": 1324,
-      "close": 1334.699951171875,
-      "volume": 18939
+      "close": 1329.699951171875,
+      "volume": 36966
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SANSERA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1262.4,
+    "current_year_vwap": 1262.48,
     "signal_price": 1460.95,
-    "last_price": 1334.7,
+    "last_price": 1329.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 813.58,

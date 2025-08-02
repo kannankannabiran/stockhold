@@ -9913,19 +9913,19 @@
       "volume": 132593
     },
     {
-      "date": "2025-08-01T07:00:36.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 3303.10009765625,
       "high": 3471.300048828125,
       "low": 3288.199951171875,
       "close": 3471.300048828125,
-      "volume": 92211
+      "volume": 97868
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SMLISUZU.NS",
     "current_year": 2025,
-    "current_year_vwap": 2545.42,
+    "current_year_vwap": 2545.7,
     "signal_price": 2722.8,
     "last_price": 3471.3,
     "condition_date": "2025-07-04",

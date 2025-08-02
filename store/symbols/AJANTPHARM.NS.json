@@ -9913,21 +9913,21 @@
       "volume": 77158
     },
     {
-      "date": "2025-08-01T07:00:09.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2779.89990234375,
       "high": 2792.89990234375,
-      "low": 2680,
-      "close": 2704.5,
-      "volume": 45756
+      "low": 2675,
+      "close": 2695.199951171875,
+      "volume": 87351
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AJANTPHARM.NS",
     "current_year": 2025,
-    "current_year_vwap": 2667.55,
+    "current_year_vwap": 2667.65,
     "signal_price": 2994.35,
-    "last_price": 2704.5,
+    "last_price": 2695.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1315.53,

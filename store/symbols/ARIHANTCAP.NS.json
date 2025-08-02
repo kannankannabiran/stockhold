@@ -8185,21 +8185,21 @@
       "volume": 322585
     },
     {
-      "date": "2025-08-01T06:56:37.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 99.05000305175781,
-      "high": 100.19999694824219,
-      "low": 98.4800033569336,
-      "close": 98.5199966430664,
-      "volume": 139086
+      "high": 101.48999786376953,
+      "low": 97.7300033569336,
+      "close": 99.58999633789062,
+      "volume": 480255
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ARIHANTCAP.NS",
     "current_year": 2025,
-    "current_year_vwap": 85.67,
+    "current_year_vwap": 85.74,
     "signal_price": 105.57,
-    "last_price": 98.52,
+    "last_price": 99.59,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.38,

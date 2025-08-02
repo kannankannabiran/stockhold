@@ -9913,21 +9913,21 @@
       "volume": 98755254
     },
     {
-      "date": "2025-08-01T06:58:30.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 15.699999809265137,
       "high": 15.890000343322754,
-      "low": 15.329999923706055,
-      "close": 15.369999885559082,
-      "volume": 37321722
+      "low": 14.800000190734863,
+      "close": 15.010000228881836,
+      "volume": 64746415
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PCJEWELLER.NS",
     "current_year": 2025,
-    "current_year_vwap": 15.26,
+    "current_year_vwap": 15.25,
     "signal_price": 16.21,
-    "last_price": 15.37,
+    "last_price": 15.01,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2.73,

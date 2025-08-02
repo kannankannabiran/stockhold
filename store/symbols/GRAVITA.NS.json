@@ -9913,21 +9913,21 @@
       "volume": 175803
     },
     {
-      "date": "2025-08-01T06:53:31.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1885,
       "high": 1887.4000244140625,
-      "low": 1825,
-      "close": 1832,
-      "volume": 156848
+      "low": 1784.0999755859375,
+      "close": 1790.300048828125,
+      "volume": 322925
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GRAVITA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1867.77,
+    "current_year_vwap": 1867.54,
     "signal_price": 2177.3,
-    "last_price": 1832,
+    "last_price": 1790.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 168.22,

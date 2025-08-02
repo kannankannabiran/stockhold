@@ -9913,21 +9913,21 @@
       "volume": 263034
     },
     {
-      "date": "2025-08-01T07:01:40.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 20190,
-      "high": 21355,
+      "high": 21385,
       "low": 19815,
-      "close": 21270,
-      "volume": 135358
+      "close": 20550,
+      "volume": 219060
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "POWERINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 15205.55,
+    "current_year_vwap": 15228.18,
     "signal_price": 15428.5,
-    "last_price": 21270,
+    "last_price": 20550,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1963.44,

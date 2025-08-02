@@ -9913,21 +9913,21 @@
       "volume": 2933504
     },
     {
-      "date": "2025-08-01T06:59:07.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2429.300048828125,
       "high": 2470,
       "low": 2383.5,
-      "close": 2437.60009765625,
-      "volume": 2262528
+      "close": 2411.300048828125,
+      "volume": 3123671
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BSE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2031.8,
+    "current_year_vwap": 2032.04,
     "signal_price": 2095,
-    "last_price": 2437.6,
+    "last_price": 2411.3,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 138.46,

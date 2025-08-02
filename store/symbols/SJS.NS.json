@@ -7353,21 +7353,21 @@
       "volume": 91044
     },
     {
-      "date": "2025-08-01T06:55:40.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1229.9000244140625,
       "high": 1229.9000244140625,
-      "low": 1195,
-      "close": 1197.0999755859375,
-      "volume": 36772
+      "low": 1140.0999755859375,
+      "close": 1156.4000244140625,
+      "volume": 130260
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SJS.NS",
     "current_year": 2025,
-    "current_year_vwap": 1062.36,
+    "current_year_vwap": 1062.89,
     "signal_price": 1132.85,
-    "last_price": 1197.1,
+    "last_price": 1156.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 477.67,

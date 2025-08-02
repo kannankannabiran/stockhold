@@ -9913,21 +9913,21 @@
       "volume": 23108
     },
     {
-      "date": "2025-08-01T07:02:42.000Z",
+      "date": "2025-08-01T09:59:39.000Z",
       "open": 421.8999938964844,
       "high": 430,
       "low": 420.8999938964844,
-      "close": 424.75,
-      "volume": 22908
+      "close": 427.6499938964844,
+      "volume": 54653
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ARIHANTSUP.NS",
     "current_year": 2025,
-    "current_year_vwap": 441.27,
+    "current_year_vwap": 441.22,
     "signal_price": 484.85,
-    "last_price": 424.75,
+    "last_price": 427.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 135.27,

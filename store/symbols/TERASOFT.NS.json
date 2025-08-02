@@ -9913,21 +9913,21 @@
       "volume": 6043
     },
     {
-      "date": "2025-08-01T06:45:12.000Z",
+      "date": "2025-08-01T09:44:34.000Z",
       "open": 311.79998779296875,
       "high": 311.79998779296875,
-      "low": 303.54998779296875,
-      "close": 303.54998779296875,
-      "volume": 1786
+      "low": 303.04998779296875,
+      "close": 303.04998779296875,
+      "volume": 6345
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TERASOFT.NS",
     "current_year": 2025,
-    "current_year_vwap": 228.89,
+    "current_year_vwap": 228.99,
     "signal_price": 231.96,
-    "last_price": 303.55,
+    "last_price": 303.05,
     "condition_date": "2025-01-22",
     "previous_years": {
       "2021": 59.35,

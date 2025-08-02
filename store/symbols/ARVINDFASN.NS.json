@@ -9913,21 +9913,21 @@
       "volume": 741899
     },
     {
-      "date": "2025-08-01T07:01:22.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 554,
       "high": 564.2999877929688,
       "low": 548,
-      "close": 556.0499877929688,
-      "volume": 309756
+      "close": 560.1500244140625,
+      "volume": 445710
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ARVINDFASN.NS",
     "current_year": 2025,
-    "current_year_vwap": 460.23,
+    "current_year_vwap": 460.45,
     "signal_price": 525.9,
-    "last_price": 556.05,
+    "last_price": 560.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 212.68,

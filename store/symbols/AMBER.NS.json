@@ -9913,21 +9913,21 @@
       "volume": 404230
     },
     {
-      "date": "2025-08-01T07:01:19.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 7965,
       "high": 8173.5,
-      "low": 7913.5,
-      "close": 8049,
-      "volume": 321757
+      "low": 7850,
+      "close": 7871,
+      "volume": 466338
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AMBER.NS",
     "current_year": 2025,
-    "current_year_vwap": 6743.33,
+    "current_year_vwap": 6745.31,
     "signal_price": 7671.7,
-    "last_price": 8049,
+    "last_price": 7871,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3028.09,

@@ -9913,19 +9913,19 @@
       "volume": 101676
     },
     {
-      "date": "2025-08-01T06:45:09.000Z",
+      "date": "2025-08-01T09:44:33.000Z",
       "open": 115.91000366210938,
       "high": 115.91000366210938,
       "low": 115.91000366210938,
       "close": 115.91000366210938,
-      "volume": 49836
+      "volume": 81429
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MEGASOFT.NS",
     "current_year": 2025,
-    "current_year_vwap": 86.1,
+    "current_year_vwap": 86.14,
     "signal_price": 88.01,
     "last_price": 115.91,
     "condition_date": "2025-01-01",

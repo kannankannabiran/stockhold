@@ -9913,21 +9913,21 @@
       "volume": 10667
     },
     {
-      "date": "2025-08-01T06:55:04.000Z",
+      "date": "2025-08-01T09:59:50.000Z",
       "open": 4700,
       "high": 4850,
-      "low": 4607.2001953125,
-      "close": 4610.2001953125,
-      "volume": 26126
+      "low": 4460,
+      "close": 4515,
+      "volume": 40541
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VSTTILLERS.NS",
     "current_year": 2025,
-    "current_year_vwap": 4065.91,
+    "current_year_vwap": 4068.85,
     "signal_price": 5272.55,
-    "last_price": 4610.2,
+    "last_price": 4515,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2406.4,

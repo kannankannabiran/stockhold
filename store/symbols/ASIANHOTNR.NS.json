@@ -9913,21 +9913,21 @@
       "volume": 9485
     },
     {
-      "date": "2025-08-01T06:29:33.000Z",
+      "date": "2025-08-01T09:59:36.000Z",
       "open": 329.79998779296875,
       "high": 349.70001220703125,
       "low": 316.3999938964844,
-      "close": 320,
-      "volume": 9092
+      "close": 320.6000061035156,
+      "volume": 10684
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASIANHOTNR.NS",
     "current_year": 2025,
-    "current_year_vwap": 352.45,
+    "current_year_vwap": 352.4,
     "signal_price": 359.4,
-    "last_price": 320,
+    "last_price": 320.6,
     "condition_date": "2025-01-31",
     "previous_years": {
       "2021": 86.13,

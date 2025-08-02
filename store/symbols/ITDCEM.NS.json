@@ -9913,21 +9913,21 @@
       "volume": 1134361
     },
     {
-      "date": "2025-08-01T07:01:58.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 779.0999755859375,
       "high": 847.7999877929688,
       "low": 779.0999755859375,
-      "close": 809.6500244140625,
-      "volume": 2439923
+      "close": 792.3499755859375,
+      "volume": 2951250
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ITDCEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 638.28,
+    "current_year_vwap": 638.99,
     "signal_price": 674.6,
-    "last_price": 809.65,
+    "last_price": 792.35,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 81.56,

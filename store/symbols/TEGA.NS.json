@@ -7201,21 +7201,21 @@
       "volume": 374512
     },
     {
-      "date": "2025-08-01T06:53:59.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1898,
       "high": 1925,
-      "low": 1889,
-      "close": 1900,
-      "volume": 59526
+      "low": 1873,
+      "close": 1888.5999755859375,
+      "volume": 118311
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TEGA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1686.93,
+    "current_year_vwap": 1687.73,
     "signal_price": 1688,
-    "last_price": 1900,
+    "last_price": 1888.6,
     "condition_date": "2025-07-04",
     "previous_years": {
       "2021": 676.53,

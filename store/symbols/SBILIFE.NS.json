@@ -9913,21 +9913,21 @@
       "volume": 1570804
     },
     {
-      "date": "2025-08-01T06:54:06.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1840,
       "high": 1843.300048828125,
-      "low": 1804,
-      "close": 1811.0999755859375,
-      "volume": 243769
+      "low": 1788.9000244140625,
+      "close": 1796.199951171875,
+      "volume": 559867
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SBILIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1626.25,
+    "current_year_vwap": 1626.56,
     "signal_price": 1628.5,
-    "last_price": 1811.1,
+    "last_price": 1796.2,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 1025.14,

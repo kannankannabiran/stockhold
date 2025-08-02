@@ -9913,21 +9913,21 @@
       "volume": 193779
     },
     {
-      "date": "2025-08-01T07:01:55.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1020,
       "high": 1029.9000244140625,
-      "low": 992,
-      "close": 995.7999877929688,
-      "volume": 207994
+      "low": 978.2999877929688,
+      "close": 981.9000244140625,
+      "volume": 405297
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INTELLECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 930.18,
+    "current_year_vwap": 930.28,
     "signal_price": 966.85,
-    "last_price": 995.8,
+    "last_price": 981.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 649.28,

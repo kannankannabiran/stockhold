@@ -9913,21 +9913,21 @@
       "volume": 261716
     },
     {
-      "date": "2025-08-01T06:55:04.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 3740.89990234375,
       "high": 3740.89990234375,
       "low": 3642,
-      "close": 3666.800048828125,
-      "volume": 401199
+      "close": 3678.199951171875,
+      "volume": 605655
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TORNTPHARM.NS",
     "current_year": 2025,
-    "current_year_vwap": 3272.92,
+    "current_year_vwap": 3274.36,
     "signal_price": 3418.55,
-    "last_price": 3666.8,
+    "last_price": 3678.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1395.57,

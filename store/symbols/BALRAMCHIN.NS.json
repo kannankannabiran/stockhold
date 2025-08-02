@@ -9913,21 +9913,21 @@
       "volume": 266713
     },
     {
-      "date": "2025-08-01T07:00:35.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 589,
       "high": 591.8499755859375,
-      "low": 580.5999755859375,
-      "close": 581,
-      "volume": 55168
+      "low": 559.0499877929688,
+      "close": 563.1500244140625,
+      "volume": 153577
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BALRAMCHIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 529.81,
+    "current_year_vwap": 529.85,
     "signal_price": 545.25,
-    "last_price": 581,
+    "last_price": 563.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 288.13,

@@ -9913,21 +9913,21 @@
       "volume": 100422
     },
     {
-      "date": "2025-08-01T07:04:01.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 784.0499877929688,
       "high": 835.4000244140625,
       "low": 784.0499877929688,
-      "close": 816.7000122070312,
-      "volume": 71117
+      "close": 830,
+      "volume": 214918
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SPLPETRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 682.54,
+    "current_year_vwap": 684.37,
     "signal_price": 702.6,
-    "last_price": 816.7,
+    "last_price": 830,
     "condition_date": "2025-05-09",
     "previous_years": {
       "2021": 310.83,

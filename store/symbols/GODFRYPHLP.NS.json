@@ -9913,21 +9913,21 @@
       "volume": 171992
     },
     {
-      "date": "2025-08-01T07:03:31.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 9130,
       "high": 9268,
-      "low": 8771.5,
-      "close": 8794.5,
-      "volume": 104782
+      "low": 8750,
+      "close": 8777,
+      "volume": 159176
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GODFRYPHLP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6777.34,
+    "current_year_vwap": 6780.61,
     "signal_price": 7038,
-    "last_price": 8794.5,
+    "last_price": 8777,
     "condition_date": "2025-02-17",
     "previous_years": {
       "2021": 1058.16,

@@ -9913,21 +9913,21 @@
       "volume": 4980076
     },
     {
-      "date": "2025-08-01T07:00:32.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 251.5,
       "high": 258.8500061035156,
-      "low": 249,
-      "close": 255.10000610351562,
-      "volume": 2391720
+      "low": 245.64999389648438,
+      "close": 249.4499969482422,
+      "volume": 3278596
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "REDINGTON.NS",
     "current_year": 2025,
-    "current_year_vwap": 248.01,
+    "current_year_vwap": 248,
     "signal_price": 248.06,
-    "last_price": 255.1,
+    "last_price": 249.45,
     "condition_date": "2025-02-19",
     "previous_years": {
       "2021": 135.61,

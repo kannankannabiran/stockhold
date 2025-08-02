@@ -9913,21 +9913,21 @@
       "volume": 610344
     },
     {
-      "date": "2025-08-01T06:54:34.000Z",
+      "date": "2025-08-01T09:59:56.000Z",
       "open": 3559.89990234375,
-      "high": 3604.89990234375,
+      "high": 3617.199951171875,
       "low": 3539.5,
-      "close": 3604.800048828125,
-      "volume": 241253
+      "close": 3568.699951171875,
+      "volume": 459707
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CUMMINSIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3061.75,
+    "current_year_vwap": 3063.01,
     "signal_price": 3230.5,
-    "last_price": 3604.8,
+    "last_price": 3568.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 846.88,

@@ -9913,21 +9913,21 @@
       "volume": 32952
     },
     {
-      "date": "2025-08-01T07:04:11.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2664,
       "high": 2676,
-      "low": 2638.60009765625,
-      "close": 2667,
-      "volume": 5267
+      "low": 2595,
+      "close": 2609.89990234375,
+      "volume": 14015
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ANUP.NS",
     "current_year": 2025,
-    "current_year_vwap": 3010.24,
+    "current_year_vwap": 3009.73,
     "signal_price": 3491.75,
-    "last_price": 2667,
+    "last_price": 2609.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 416.16,

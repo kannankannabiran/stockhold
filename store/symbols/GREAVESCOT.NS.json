@@ -9913,21 +9913,21 @@
       "volume": 55328752
     },
     {
-      "date": "2025-08-01T06:55:50.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 227.44000244140625,
       "high": 231,
-      "low": 221.27999877929688,
-      "close": 222.60000610351562,
-      "volume": 4152903
+      "low": 217,
+      "close": 218.17999267578125,
+      "volume": 6386574
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GREAVESCOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 236.2,
+    "current_year_vwap": 236.12,
     "signal_price": 275.95,
-    "last_price": 222.6,
+    "last_price": 218.18,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 141.81,

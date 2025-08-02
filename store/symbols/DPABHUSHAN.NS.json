@@ -9905,21 +9905,21 @@
       "volume": 45819
     },
     {
-      "date": "2025-08-01T07:04:47.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1669.9000244140625,
       "high": 1669.9000244140625,
-      "low": 1644,
-      "close": 1664.9000244140625,
-      "volume": 10311
+      "low": 1641,
+      "close": 1646.4000244140625,
+      "volume": 30036
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DPABHUSHAN.NS",
     "current_year": 2025,
-    "current_year_vwap": 1565.48,
+    "current_year_vwap": 1566.04,
     "signal_price": 1589.85,
-    "last_price": 1664.9,
+    "last_price": 1646.4,
     "condition_date": "2025-01-16",
     "previous_years": {
       "2021": 199.43,

@@ -9913,21 +9913,21 @@
       "volume": 10579
     },
     {
-      "date": "2025-08-01T06:38:16.000Z",
+      "date": "2025-08-01T09:59:11.000Z",
       "open": 265.04998779296875,
       "high": 275,
-      "low": 262.29998779296875,
-      "close": 267.20001220703125,
-      "volume": 7790
+      "low": 260.3999938964844,
+      "close": 262.29998779296875,
+      "volume": 13703
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "UNIVASTU.NS",
     "current_year": 2025,
-    "current_year_vwap": 279.07,
+    "current_year_vwap": 279.06,
     "signal_price": 281.6,
-    "last_price": 267.2,
+    "last_price": 262.3,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 52.11,

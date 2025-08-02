@@ -9913,21 +9913,21 @@
       "volume": 1140706
     },
     {
-      "date": "2025-08-01T07:05:57.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 268.25,
       "high": 269.25,
-      "low": 263.70001220703125,
-      "close": 263.95001220703125,
-      "volume": 314837
+      "low": 258.45001220703125,
+      "close": 259.6499938964844,
+      "volume": 677742
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RELIGARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 248.01,
+    "current_year_vwap": 248.03,
     "signal_price": 277.9,
-    "last_price": 263.95,
+    "last_price": 259.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 131.24,

@@ -9913,21 +9913,21 @@
       "volume": 23099
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 6405,
       "high": 6429,
-      "low": 6255,
-      "close": 6265,
-      "volume": 9355
+      "low": 6110.5,
+      "close": 6254.5,
+      "volume": 29477
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BAYERCROP.NS",
     "current_year": 2025,
-    "current_year_vwap": 5403.1,
+    "current_year_vwap": 5405.56,
     "signal_price": 5528,
-    "last_price": 6265,
+    "last_price": 6254.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 5329.94,

@@ -7145,21 +7145,21 @@
       "volume": 39006
     },
     {
-      "date": "2025-08-01T06:52:59.000Z",
+      "date": "2025-08-01T09:59:55.000Z",
       "open": 1256,
       "high": 1256,
-      "low": 1210,
-      "close": 1211.199951171875,
-      "volume": 14571
+      "low": 1189.699951171875,
+      "close": 1201.5999755859375,
+      "volume": 31264
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "METROBRAND.NS",
     "current_year": 2025,
-    "current_year_vwap": 1184.5,
+    "current_year_vwap": 1184.53,
     "signal_price": 1235.95,
-    "last_price": 1211.2,
+    "last_price": 1201.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 475.44,

@@ -9913,21 +9913,21 @@
       "volume": 208301
     },
     {
-      "date": "2025-08-01T06:55:22.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 6598,
       "high": 6598,
-      "low": 6381.5,
-      "close": 6423.5,
-      "volume": 245976
+      "low": 6335.5,
+      "close": 6361.5,
+      "volume": 467198
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DIVISLAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 6145.78,
+    "current_year_vwap": 6146.64,
     "signal_price": 6215.5,
-    "last_price": 6423.5,
+    "last_price": 6361.5,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 4249.33,

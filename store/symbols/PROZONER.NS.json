@@ -9913,21 +9913,21 @@
       "volume": 1837455
     },
     {
-      "date": "2025-08-01T06:55:04.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 43.619998931884766,
-      "high": 44.18000030517578,
-      "low": 43.02000045776367,
-      "close": 43.2599983215332,
-      "volume": 158304
+      "high": 44.25,
+      "low": 42.54999923706055,
+      "close": 42.95000076293945,
+      "volume": 424983
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PROZONER.NS",
     "current_year": 2025,
-    "current_year_vwap": 36.54,
+    "current_year_vwap": 36.56,
     "signal_price": 39.21,
-    "last_price": 43.26,
+    "last_price": 42.95,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 31.27,

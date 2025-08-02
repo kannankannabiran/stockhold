@@ -9913,21 +9913,21 @@
       "volume": 229278
     },
     {
-      "date": "2025-08-01T06:56:51.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 325.6000061035156,
       "high": 332,
-      "low": 321.54998779296875,
-      "close": 325.45001220703125,
-      "volume": 61062
+      "low": 315,
+      "close": 316.54998779296875,
+      "volume": 155686
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GREENPLY.NS",
     "current_year": 2025,
-    "current_year_vwap": 301.74,
+    "current_year_vwap": 301.81,
     "signal_price": 313.7,
-    "last_price": 325.45,
+    "last_price": 316.55,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 187.07,

@@ -9913,21 +9913,21 @@
       "volume": 69178
     },
     {
-      "date": "2025-08-01T06:57:54.000Z",
+      "date": "2025-08-01T09:59:56.000Z",
       "open": 180.10000610351562,
       "high": 180.88999938964844,
-      "low": 176.50999450683594,
-      "close": 178.10000610351562,
-      "volume": 25204
+      "low": 175.0500030517578,
+      "close": 175.19000244140625,
+      "volume": 56940
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PRECWIRE.NS",
     "current_year": 2025,
-    "current_year_vwap": 165.1,
+    "current_year_vwap": 165.11,
     "signal_price": 170.14,
-    "last_price": 178.1,
+    "last_price": 175.19,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 35.45,

@@ -9913,21 +9913,21 @@
       "volume": 310445
     },
     {
-      "date": "2025-08-01T07:01:26.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1184.800048828125,
       "high": 1185,
-      "low": 1165.9000244140625,
-      "close": 1166.5,
-      "volume": 42773
+      "low": 1134,
+      "close": 1151.0999755859375,
+      "volume": 165814
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RAMCOCEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 962.31,
+    "current_year_vwap": 962.57,
     "signal_price": 966.05,
-    "last_price": 1166.5,
+    "last_price": 1151.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 973.31,

@@ -9913,21 +9913,21 @@
       "volume": 3865
     },
     {
-      "date": "2025-08-01T06:59:23.000Z",
+      "date": "2025-08-01T09:57:39.000Z",
       "open": 260,
-      "high": 262,
-      "low": 254.5500030517578,
-      "close": 262,
-      "volume": 378
+      "high": 267.79998779296875,
+      "low": 254.10000610351562,
+      "close": 255.60000610351562,
+      "volume": 1238
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KEYFINSERV.NS",
     "current_year": 2025,
-    "current_year_vwap": 317.07,
+    "current_year_vwap": 317.05,
     "signal_price": 339.2,
-    "last_price": 262,
+    "last_price": 255.6,
     "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 96.79,

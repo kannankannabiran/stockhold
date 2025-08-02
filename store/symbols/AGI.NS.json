@@ -9913,21 +9913,21 @@
       "volume": 177475
     },
     {
-      "date": "2025-08-01T06:53:55.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 962.7999877929688,
       "high": 967.9000244140625,
-      "low": 942,
-      "close": 956.5499877929688,
-      "volume": 46698
+      "low": 940.1500244140625,
+      "close": 946.6500244140625,
+      "volume": 86158
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AGI.NS",
     "current_year": 2025,
-    "current_year_vwap": 861.54,
+    "current_year_vwap": 861.62,
     "signal_price": 1107.55,
-    "last_price": 956.55,
+    "last_price": 946.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 207.82,

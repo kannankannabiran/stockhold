@@ -9913,21 +9913,21 @@
       "volume": 33392
     },
     {
-      "date": "2025-08-01T07:05:27.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1207.5999755859375,
       "high": 1212.4000244140625,
-      "low": 1183.699951171875,
-      "close": 1186.800048828125,
-      "volume": 15311
+      "low": 1168,
+      "close": 1171.699951171875,
+      "volume": 44672
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GULFOILLUB.NS",
     "current_year": 2025,
-    "current_year_vwap": 1176.14,
+    "current_year_vwap": 1176.15,
     "signal_price": 1202.8,
-    "last_price": 1186.8,
+    "last_price": 1171.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 614.4,

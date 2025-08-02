@@ -9913,21 +9913,21 @@
       "volume": 413690
     },
     {
-      "date": "2025-08-01T07:00:34.000Z",
+      "date": "2025-08-01T09:59:50.000Z",
       "open": 1040,
       "high": 1061.4000244140625,
       "low": 1025,
-      "close": 1055.5999755859375,
-      "volume": 336038
+      "close": 1043.9000244140625,
+      "volume": 492288
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "UNOMINDA.NS",
     "current_year": 2025,
-    "current_year_vwap": 974.38,
+    "current_year_vwap": 974.47,
     "signal_price": 1058.85,
-    "last_price": 1055.6,
+    "last_price": 1043.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 370,

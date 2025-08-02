@@ -7945,21 +7945,21 @@
       "volume": 16889
     },
     {
-      "date": "2025-08-01T06:56:09.000Z",
+      "date": "2025-08-01T09:59:49.000Z",
       "open": 522.25,
-      "high": 532.0499877929688,
+      "high": 545,
       "low": 522.25,
-      "close": 528.2999877929688,
-      "volume": 7311
+      "close": 527.9000244140625,
+      "volume": 11778
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SGIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 495.83,
+    "current_year_vwap": 495.87,
     "signal_price": 501.15,
-    "last_price": 528.3,
+    "last_price": 527.9,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 164.06,

@@ -9913,21 +9913,21 @@
       "volume": 18560
     },
     {
-      "date": "2025-08-01T06:54:32.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 2904.199951171875,
       "high": 2935,
-      "low": 2860.10009765625,
-      "close": 2866.800048828125,
-      "volume": 8351
+      "low": 2820.39990234375,
+      "close": 2843.89990234375,
+      "volume": 18998
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "STYRENIX.NS",
     "current_year": 2025,
-    "current_year_vwap": 2886.57,
+    "current_year_vwap": 2886.49,
     "signal_price": 3048.6,
-    "last_price": 2866.8,
+    "last_price": 2843.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1299.54,

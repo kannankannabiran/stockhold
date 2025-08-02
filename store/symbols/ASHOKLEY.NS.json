@@ -9913,21 +9913,21 @@
       "volume": 11333155
     },
     {
-      "date": "2025-08-01T06:55:09.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 121.05000305175781,
       "high": 121.25,
       "low": 117.72000122070312,
-      "close": 118.97000122070312,
-      "volume": 7022699
+      "close": 120.3499984741211,
+      "volume": 13652609
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASHOKLEY.NS",
     "current_year": 2025,
-    "current_year_vwap": 111.63,
+    "current_year_vwap": 111.66,
     "signal_price": 118.04,
-    "last_price": 118.97,
+    "last_price": 120.35,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 62.37,

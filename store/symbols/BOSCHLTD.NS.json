@@ -9913,21 +9913,21 @@
       "volume": 46071
     },
     {
-      "date": "2025-08-01T06:55:49.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 40375,
-      "high": 40675,
-      "low": 40110,
-      "close": 40660,
-      "volume": 26066
+      "high": 40730,
+      "low": 40105,
+      "close": 40390,
+      "volume": 59925
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BOSCHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 31893.6,
+    "current_year_vwap": 31959.9,
     "signal_price": 34032.55,
-    "last_price": 40660,
+    "last_price": 40390,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 15671.3,

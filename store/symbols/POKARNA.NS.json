@@ -9913,21 +9913,21 @@
       "volume": 395186
     },
     {
-      "date": "2025-08-01T07:00:19.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 920.0499877929688,
       "high": 928,
-      "low": 885,
-      "close": 895.4000244140625,
-      "volume": 70996
+      "low": 871.2000122070312,
+      "close": 881.0999755859375,
+      "volume": 128184
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "POKARNA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1086.96,
+    "current_year_vwap": 1086.25,
     "signal_price": 1137.5,
-    "last_price": 895.4,
+    "last_price": 881.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 374.98,

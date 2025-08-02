@@ -8593,21 +8593,21 @@
       "volume": 271397
     },
     {
-      "date": "2025-08-01T06:52:51.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1354.5,
       "high": 1361.199951171875,
-      "low": 1344,
-      "close": 1358,
-      "volume": 175730
+      "low": 1330.800048828125,
+      "close": 1339.4000244140625,
+      "volume": 398638
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NAZARA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1189.2,
+    "current_year_vwap": 1189.54,
     "signal_price": 1195.4,
-    "last_price": 1358,
+    "last_price": 1339.4,
     "condition_date": "2025-05-13",
     "previous_years": {
       "2021": 961.16,

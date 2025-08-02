@@ -9913,21 +9913,21 @@
       "volume": 6195
     },
     {
-      "date": "2025-08-01T06:54:14.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 34550,
       "high": 34815,
-      "low": 33810,
-      "close": 33940,
-      "volume": 3286
+      "low": 33205,
+      "close": 33595,
+      "volume": 7113
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ABBOTINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 30406.11,
+    "current_year_vwap": 30413.21,
     "signal_price": 31183.55,
-    "last_price": 33940,
+    "last_price": 33595,
     "condition_date": "2025-03-03",
     "previous_years": {
       "2021": 17665.18,

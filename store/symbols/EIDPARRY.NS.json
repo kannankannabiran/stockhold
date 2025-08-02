@@ -9913,21 +9913,21 @@
       "volume": 294912
     },
     {
-      "date": "2025-08-01T07:01:56.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1233.5,
       "high": 1242,
-      "low": 1216,
-      "close": 1228.800048828125,
-      "volume": 109625
+      "low": 1193.300048828125,
+      "close": 1204.5999755859375,
+      "volume": 248742
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "EIDPARRY.NS",
     "current_year": 2025,
-    "current_year_vwap": 905.85,
+    "current_year_vwap": 906.85,
     "signal_price": 919.4,
-    "last_price": 1228.8,
+    "last_price": 1204.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 412.15,

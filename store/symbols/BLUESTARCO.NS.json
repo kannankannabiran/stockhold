@@ -9913,21 +9913,21 @@
       "volume": 379166
     },
     {
-      "date": "2025-08-01T07:00:20.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1739.5999755859375,
       "high": 1746.199951171875,
-      "low": 1721.4000244140625,
-      "close": 1722,
-      "volume": 51188
+      "low": 1687,
+      "close": 1697,
+      "volume": 150042
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BLUESTARCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1863.35,
+    "current_year_vwap": 1863.21,
     "signal_price": 2259.8,
-    "last_price": 1722,
+    "last_price": 1697,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 436.1,

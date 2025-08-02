@@ -9913,21 +9913,21 @@
       "volume": 537398
     },
     {
-      "date": "2025-08-01T06:54:21.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2790.89990234375,
       "high": 2799.89990234375,
-      "low": 2759,
-      "close": 2772.10009765625,
-      "volume": 268975
+      "low": 2735.699951171875,
+      "close": 2757.39990234375,
+      "volume": 604076
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MPHASIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 2610.86,
+    "current_year_vwap": 2611.41,
     "signal_price": 2854.9,
-    "last_price": 2772.1,
+    "last_price": 2757.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2540.15,

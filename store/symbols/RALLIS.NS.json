@@ -9913,21 +9913,21 @@
       "volume": 1030941
     },
     {
-      "date": "2025-08-01T07:04:53.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 376.45001220703125,
       "high": 385,
-      "low": 368.3500061035156,
-      "close": 376.5,
-      "volume": 1032078
+      "low": 362.20001220703125,
+      "close": 367.1499938964844,
+      "volume": 1606382
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RALLIS.NS",
     "current_year": 2025,
-    "current_year_vwap": 311.1,
+    "current_year_vwap": 311.33,
     "signal_price": 320.06,
-    "last_price": 376.5,
+    "last_price": 367.15,
     "condition_date": "2025-05-30",
     "previous_years": {
       "2021": 296.97,

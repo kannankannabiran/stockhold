@@ -7089,21 +7089,21 @@
       "volume": 812311
     },
     {
-      "date": "2025-08-01T07:01:18.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 458,
       "high": 462.54998779296875,
       "low": 451,
-      "close": 458.04998779296875,
-      "volume": 321327
+      "close": 454.5,
+      "volume": 454481
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CMSINFO.NS",
     "current_year": 2025,
-    "current_year_vwap": 464.3,
+    "current_year_vwap": 464.28,
     "signal_price": 503.95,
-    "last_price": 458.05,
+    "last_price": 454.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 237.63,

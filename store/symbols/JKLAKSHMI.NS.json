@@ -9913,22 +9913,22 @@
       "volume": 99513
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 971.9500122070312,
       "high": 990,
-      "low": 969.9000244140625,
-      "close": 973.7999877929688,
-      "volume": 95772
+      "low": 966.7000122070312,
+      "close": 973.9500122070312,
+      "volume": 263049
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JKLAKSHMI.NS",
     "current_year": 2025,
-    "current_year_vwap": 861.33,
-    "signal_price": 861.95,
-    "last_price": 973.8,
-    "condition_date": "2025-05-14",
+    "current_year_vwap": 861.96,
+    "signal_price": 865.35,
+    "last_price": 973.95,
+    "condition_date": "2025-05-19",
     "previous_years": {
       "2021": 546.96,
       "2022": 576.84,

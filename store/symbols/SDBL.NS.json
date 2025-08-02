@@ -9913,21 +9913,21 @@
       "volume": 904759
     },
     {
-      "date": "2025-08-01T06:54:48.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 153,
       "high": 153.02999877929688,
-      "low": 150.1999969482422,
-      "close": 151.05999755859375,
-      "volume": 453408
+      "low": 144.69000244140625,
+      "close": 146.9600067138672,
+      "volume": 1211263
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SDBL.NS",
     "current_year": 2025,
-    "current_year_vwap": 138.69,
+    "current_year_vwap": 138.71,
     "signal_price": 142.35,
-    "last_price": 151.06,
+    "last_price": 146.96,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 16.12,

@@ -9913,21 +9913,21 @@
       "volume": 193547
     },
     {
-      "date": "2025-08-01T07:00:15.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 308.3500061035156,
       "high": 311.3999938964844,
-      "low": 306.25,
-      "close": 307.75,
-      "volume": 54913
+      "low": 300.8999938964844,
+      "close": 304.45001220703125,
+      "volume": 117367
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GOKULAGRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 286.86,
+    "current_year_vwap": 286.88,
     "signal_price": 364.9,
-    "last_price": 307.75,
+    "last_price": 304.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 39.98,

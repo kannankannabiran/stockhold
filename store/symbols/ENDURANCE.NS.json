@@ -9913,21 +9913,21 @@
       "volume": 48560
     },
     {
-      "date": "2025-08-01T07:01:45.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 2536.800048828125,
       "high": 2545.800048828125,
-      "low": 2505.89990234375,
-      "close": 2512,
-      "volume": 10215
+      "low": 2466.800048828125,
+      "close": 2476.60009765625,
+      "volume": 24741
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ENDURANCE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2332.07,
+    "current_year_vwap": 2332.15,
     "signal_price": 2334,
-    "last_price": 2512,
+    "last_price": 2476.6,
     "condition_date": "2025-05-21",
     "previous_years": {
       "2021": 1532.94,

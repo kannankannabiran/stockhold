@@ -9913,22 +9913,22 @@
       "volume": 109801
     },
     {
-      "date": "2025-08-01T07:00:26.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2568.300048828125,
-      "high": 2614,
-      "low": 2523.5,
-      "close": 2540.10009765625,
-      "volume": 73278
+      "high": 2660,
+      "low": 2322.39990234375,
+      "close": 2453.10009765625,
+      "volume": 886033
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PRIVISCL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2209.47,
-    "signal_price": 2211.7,
-    "last_price": 2540.1,
-    "condition_date": "2025-05-13",
+    "current_year_vwap": 2222.67,
+    "signal_price": 2335.2,
+    "last_price": 2453.1,
+    "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 1316.64,
       "2022": 1498.44,

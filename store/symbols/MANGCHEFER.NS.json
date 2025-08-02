@@ -9913,21 +9913,21 @@
       "volume": 484397
     },
     {
-      "date": "2025-08-01T07:01:10.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 356.75,
-      "high": 358,
+      "high": 360.8999938964844,
       "low": 353.20001220703125,
-      "close": 356,
-      "volume": 194336
+      "close": 359,
+      "volume": 371870
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MANGCHEFER.NS",
     "current_year": 2025,
-    "current_year_vwap": 231.27,
+    "current_year_vwap": 231.55,
     "signal_price": 233.85,
-    "last_price": 356,
+    "last_price": 359,
     "condition_date": "2025-05-12",
     "previous_years": {
       "2021": 74.46,

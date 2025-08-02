@@ -9913,21 +9913,21 @@
       "volume": 2145952
     },
     {
-      "date": "2025-08-01T07:01:37.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 216.39999389648438,
       "high": 224.5,
-      "low": 216,
-      "close": 218.52000427246094,
-      "volume": 5265680
+      "low": 211.27000427246094,
+      "close": 213.8699951171875,
+      "volume": 7723398
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CUB.NS",
     "current_year": 2025,
-    "current_year_vwap": 180.14,
+    "current_year_vwap": 180.35,
     "signal_price": 183.54,
-    "last_price": 218.52,
+    "last_price": 213.87,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 164.98,

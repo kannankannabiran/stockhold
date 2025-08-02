@@ -9913,21 +9913,21 @@
       "volume": 49020
     },
     {
-      "date": "2025-08-01T06:57:19.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 814.75,
       "high": 824.4500122070312,
-      "low": 795.5499877929688,
-      "close": 796.5499877929688,
-      "volume": 13673
+      "low": 772.7999877929688,
+      "close": 783.7000122070312,
+      "volume": 29651
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SPAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 817.02,
+    "current_year_vwap": 816.94,
     "signal_price": 905.15,
-    "last_price": 796.55,
+    "last_price": 783.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 281.12,

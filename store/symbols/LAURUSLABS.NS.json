@@ -9913,21 +9913,21 @@
       "volume": 3033606
     },
     {
-      "date": "2025-08-01T07:01:25.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 874.2999877929688,
       "high": 874.9500122070312,
-      "low": 853.9500122070312,
-      "close": 863.9000244140625,
-      "volume": 1221143
+      "low": 846,
+      "close": 849.3499755859375,
+      "volume": 2232947
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "LAURUSLABS.NS",
     "current_year": 2025,
-    "current_year_vwap": 642.95,
+    "current_year_vwap": 643.47,
     "signal_price": 651.7,
-    "last_price": 863.9,
+    "last_price": 849.35,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 516.24,

@@ -8113,21 +8113,21 @@
       "volume": 257226
     },
     {
-      "date": "2025-08-01T07:01:52.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 755.2000122070312,
-      "high": 762.2999877929688,
+      "high": 763.0999755859375,
       "low": 748.3499755859375,
-      "close": 761.5999755859375,
-      "volume": 161046
+      "close": 756.4500122070312,
+      "volume": 284790
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KIMS.NS",
     "current_year": 2025,
-    "current_year_vwap": 636.51,
+    "current_year_vwap": 636.66,
     "signal_price": 649.35,
-    "last_price": 761.6,
+    "last_price": 756.45,
     "condition_date": "2025-01-07",
     "previous_years": {
       "2021": 232.23,

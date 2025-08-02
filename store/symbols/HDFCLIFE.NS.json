@@ -9913,21 +9913,21 @@
       "volume": 1783473
     },
     {
-      "date": "2025-08-01T06:54:13.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 752.5499877929688,
       "high": 756.3499755859375,
-      "low": 743.5,
-      "close": 746.25,
-      "volume": 1095661
+      "low": 740.0999755859375,
+      "close": 741.7000122070312,
+      "volume": 1697650
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HDFCLIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 698.91,
+    "current_year_vwap": 698.97,
     "signal_price": 704.7,
-    "last_price": 746.25,
+    "last_price": 741.7,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 696.63,

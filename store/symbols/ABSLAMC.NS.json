@@ -7537,21 +7537,21 @@
       "volume": 229589
     },
     {
-      "date": "2025-08-01T06:52:59.000Z",
+      "date": "2025-08-01T09:59:54.000Z",
       "open": 855,
       "high": 858.9500122070312,
-      "low": 838.5,
-      "close": 842.5499877929688,
-      "volume": 71475
+      "low": 831.9500122070312,
+      "close": 834.5999755859375,
+      "volume": 167222
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ABSLAMC.NS",
     "current_year": 2025,
-    "current_year_vwap": 722.31,
+    "current_year_vwap": 722.52,
     "signal_price": 836.25,
-    "last_price": 842.55,
+    "last_price": 834.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 640.05,

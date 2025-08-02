@@ -9913,21 +9913,21 @@
       "volume": 4465859
     },
     {
-      "date": "2025-08-01T07:06:27.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 3205,
       "high": 3205,
       "low": 3116.699951171875,
-      "close": 3166.5,
-      "volume": 2606714
+      "close": 3159.300048828125,
+      "volume": 3781423
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "M&M.NS",
     "current_year": 2025,
-    "current_year_vwap": 2940.21,
+    "current_year_vwap": 2940.8,
     "signal_price": 3082,
-    "last_price": 3166.5,
+    "last_price": 3159.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 824.11,

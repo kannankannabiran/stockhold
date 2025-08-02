@@ -9913,21 +9913,21 @@
       "volume": 110763
     },
     {
-      "date": "2025-08-01T07:00:52.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 3310,
       "high": 3334,
-      "low": 3281,
-      "close": 3284.39990234375,
-      "volume": 28038
+      "low": 3220,
+      "close": 3229.699951171875,
+      "volume": 55688
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CEATLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 3343.22,
+    "current_year_vwap": 3343.08,
     "signal_price": 3360,
-    "last_price": 3284.4,
+    "last_price": 3229.7,
     "condition_date": "2025-05-02",
     "previous_years": {
       "2021": 1395.39,

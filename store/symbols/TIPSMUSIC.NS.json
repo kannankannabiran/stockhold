@@ -9913,21 +9913,21 @@
       "volume": 491951
     },
     {
-      "date": "2025-08-01T06:54:13.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 582,
       "high": 589.75,
       "low": 564.25,
-      "close": 587.4000244140625,
-      "volume": 178852
+      "close": 582.25,
+      "volume": 297026
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TIPSMUSIC.NS",
     "current_year": 2025,
-    "current_year_vwap": 658.82,
+    "current_year_vwap": 658.55,
     "signal_price": 736.25,
-    "last_price": 587.4,
+    "last_price": 582.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 73.82,

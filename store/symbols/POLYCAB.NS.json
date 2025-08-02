@@ -9913,21 +9913,21 @@
       "volume": 677598
     },
     {
-      "date": "2025-08-01T06:55:20.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 6820.5,
       "high": 6859.5,
-      "low": 6733.5,
-      "close": 6752,
-      "volume": 137480
+      "low": 6680,
+      "close": 6698,
+      "volume": 246537
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "POLYCAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 5647.86,
+    "current_year_vwap": 5649.29,
     "signal_price": 7341.4,
-    "last_price": 6752,
+    "last_price": 6698,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1891.34,

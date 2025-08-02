@@ -9913,21 +9913,21 @@
       "volume": 3233087
     },
     {
-      "date": "2025-08-01T07:06:37.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1690,
       "high": 1695,
       "low": 1608,
-      "close": 1638,
-      "volume": 5258516
+      "close": 1629.699951171875,
+      "volume": 8774003
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUNPHARMA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1711,
+    "current_year_vwap": 1710.3,
     "signal_price": 1889.95,
-    "last_price": 1638,
+    "last_price": 1629.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 685.92,

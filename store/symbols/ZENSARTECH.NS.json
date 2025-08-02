@@ -9913,21 +9913,21 @@
       "volume": 433993
     },
     {
-      "date": "2025-08-01T07:00:29.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 803,
       "high": 805.2999877929688,
-      "low": 793.1500244140625,
-      "close": 801,
-      "volume": 174868
+      "low": 785.75,
+      "close": 792.2000122070312,
+      "volume": 357604
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ZENSARTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 803.08,
+    "current_year_vwap": 803.07,
     "signal_price": 836.9,
-    "last_price": 801,
+    "last_price": 792.2,
     "condition_date": "2025-01-23",
     "previous_years": {
       "2021": 402.51,

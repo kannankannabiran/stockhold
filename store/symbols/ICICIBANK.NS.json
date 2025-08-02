@@ -9913,21 +9913,21 @@
       "volume": 12406146
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1480.4000244140625,
       "high": 1485.0999755859375,
-      "low": 1472,
-      "close": 1475.800048828125,
-      "volume": 1611326
+      "low": 1469.800048828125,
+      "close": 1471.5999755859375,
+      "volume": 4416732
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ICICIBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1351.68,
+    "current_year_vwap": 1351.9,
     "signal_price": 1358.15,
-    "last_price": 1475.8,
+    "last_price": 1471.6,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 648.98,

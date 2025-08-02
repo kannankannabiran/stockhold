@@ -9913,21 +9913,21 @@
       "volume": 305605
     },
     {
-      "date": "2025-08-01T06:56:50.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 447,
       "high": 456,
-      "low": 441.20001220703125,
-      "close": 442.8500061035156,
-      "volume": 133724
+      "low": 436.5,
+      "close": 437.29998779296875,
+      "volume": 360818
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MANINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 335.63,
+    "current_year_vwap": 335.93,
     "signal_price": 350.9,
-    "last_price": 442.85,
+    "last_price": 437.3,
     "condition_date": "2025-01-08",
     "previous_years": {
       "2021": 104.7,

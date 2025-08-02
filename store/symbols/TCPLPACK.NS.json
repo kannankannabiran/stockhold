@@ -9913,21 +9913,21 @@
       "volume": 7398
     },
     {
-      "date": "2025-08-01T07:02:50.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 3529.89990234375,
       "high": 3530,
       "low": 3400,
-      "close": 3451,
-      "volume": 30498
+      "close": 3436.89990234375,
+      "volume": 40323
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TCPLPACK.NS",
     "current_year": 2025,
-    "current_year_vwap": 3981.53,
+    "current_year_vwap": 3978.84,
     "signal_price": 4004.4,
-    "last_price": 3451,
+    "last_price": 3436.9,
     "condition_date": "2025-02-19",
     "previous_years": {
       "2021": 508.12,

@@ -9913,21 +9913,21 @@
       "volume": 90383
     },
     {
-      "date": "2025-08-01T06:58:10.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 482.29998779296875,
       "high": 482.29998779296875,
-      "low": 470.3999938964844,
-      "close": 472.8999938964844,
-      "volume": 38856
+      "low": 461.6499938964844,
+      "close": 464.75,
+      "volume": 78007
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUNDARMHLD.NS",
     "current_year": 2025,
-    "current_year_vwap": 399.08,
+    "current_year_vwap": 399.19,
     "signal_price": 412.6,
-    "last_price": 472.9,
+    "last_price": 464.75,
     "condition_date": "2025-06-09",
     "previous_years": {
       "2021": 77.99,

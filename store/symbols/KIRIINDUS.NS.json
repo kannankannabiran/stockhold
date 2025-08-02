@@ -9913,21 +9913,21 @@
       "volume": 250516
     },
     {
-      "date": "2025-08-01T06:58:21.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 549.8499755859375,
       "high": 559.9000244140625,
-      "low": 544.7999877929688,
-      "close": 547.5499877929688,
-      "volume": 89813
+      "low": 543,
+      "close": 544.5,
+      "volume": 135137
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KIRIINDUS.NS",
     "current_year": 2025,
-    "current_year_vwap": 621.82,
+    "current_year_vwap": 621.78,
     "signal_price": 635.25,
-    "last_price": 547.55,
+    "last_price": 544.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 543.57,

@@ -9913,21 +9913,21 @@
       "volume": 89183
     },
     {
-      "date": "2025-08-01T07:04:30.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1001.0499877929688,
       "high": 1082,
-      "low": 933,
-      "close": 949.5,
-      "volume": 6409577
+      "low": 863.5499877929688,
+      "close": 890.3499755859375,
+      "volume": 9117968
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CHALET.NS",
     "current_year": 2025,
-    "current_year_vwap": 848.97,
+    "current_year_vwap": 848.67,
     "signal_price": 1014.7,
-    "last_price": 949.5,
+    "last_price": 890.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 206.17,

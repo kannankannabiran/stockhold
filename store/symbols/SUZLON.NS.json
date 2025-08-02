@@ -9913,21 +9913,21 @@
       "volume": 52270070
     },
     {
-      "date": "2025-08-01T06:56:07.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 62.29999923706055,
-      "high": 65.69999694824219,
+      "high": 66.80000305175781,
       "low": 62.29999923706055,
-      "close": 65.5,
-      "volume": 134112689
+      "close": 65.94999694824219,
+      "volume": 282755565
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUZLON.NS",
     "current_year": 2025,
-    "current_year_vwap": 60.69,
+    "current_year_vwap": 60.76,
     "signal_price": 65.33,
-    "last_price": 65.5,
+    "last_price": 65.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6.36,

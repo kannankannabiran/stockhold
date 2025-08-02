@@ -9913,21 +9913,21 @@
       "volume": 699886
     },
     {
-      "date": "2025-08-01T07:00:52.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 916.1500244140625,
       "high": 933,
       "low": 905.5499877929688,
-      "close": 923.3499755859375,
-      "volume": 697807
+      "close": 921.7000122070312,
+      "volume": 1099285
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MOTILALOFS.NS",
     "current_year": 2025,
-    "current_year_vwap": 742.84,
+    "current_year_vwap": 743.04,
     "signal_price": 970.45,
-    "last_price": 923.35,
+    "last_price": 921.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 866.03,

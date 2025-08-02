@@ -9913,22 +9913,22 @@
       "volume": 12283
     },
     {
-      "date": "2025-08-01T07:03:08.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 5430,
       "high": 5460,
       "low": 5256.5,
-      "close": 5275,
-      "volume": 2889
+      "close": 5355,
+      "volume": 6110
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "FOSECOIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 4648.52,
-    "signal_price": 4653,
-    "last_price": 5275,
-    "condition_date": "2025-05-22",
+    "current_year_vwap": 4653.66,
+    "signal_price": 4704.8,
+    "last_price": 5355,
+    "condition_date": "2025-06-11",
     "previous_years": {
       "2021": 1508.79,
       "2022": 1731.89,

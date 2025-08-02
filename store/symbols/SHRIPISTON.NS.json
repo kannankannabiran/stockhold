@@ -9913,21 +9913,21 @@
       "volume": 66947
     },
     {
-      "date": "2025-08-01T06:57:06.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2408.39990234375,
-      "high": 2461.39990234375,
-      "low": 2390,
-      "close": 2454.39990234375,
-      "volume": 27980
+      "high": 2465,
+      "low": 2370,
+      "close": 2388.199951171875,
+      "volume": 56646
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHRIPISTON.NS",
     "current_year": 2025,
-    "current_year_vwap": 2144.42,
+    "current_year_vwap": 2145.04,
     "signal_price": 2172.85,
-    "last_price": 2454.4,
+    "last_price": 2388.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 450.07,

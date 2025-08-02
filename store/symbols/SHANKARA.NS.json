@@ -9913,21 +9913,21 @@
       "volume": 547570
     },
     {
-      "date": "2025-08-01T06:56:55.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1164.9000244140625,
       "high": 1205,
-      "low": 1144.699951171875,
-      "close": 1182.5999755859375,
-      "volume": 154758
+      "low": 1130,
+      "close": 1156.5,
+      "volume": 286680
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHANKARA.NS",
     "current_year": 2025,
-    "current_year_vwap": 860.52,
+    "current_year_vwap": 862.2,
     "signal_price": 877.45,
-    "last_price": 1182.6,
+    "last_price": 1156.5,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 508.91,

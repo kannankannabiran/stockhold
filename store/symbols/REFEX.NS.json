@@ -9913,21 +9913,21 @@
       "volume": 389669
     },
     {
-      "date": "2025-08-01T06:55:45.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 434.1000061035156,
       "high": 434.95001220703125,
-      "low": 424.1499938964844,
-      "close": 426.3500061035156,
-      "volume": 93962
+      "low": 415.5,
+      "close": 417.6499938964844,
+      "volume": 224610
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "REFEX.NS",
     "current_year": 2025,
-    "current_year_vwap": 445.76,
+    "current_year_vwap": 445.67,
     "signal_price": 482.75,
-    "last_price": 426.35,
+    "last_price": 417.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 26.91,

@@ -8129,21 +8129,21 @@
       "volume": 352494
     },
     {
-      "date": "2025-08-01T06:54:00.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 986.4000244140625,
       "high": 989.9000244140625,
-      "low": 975,
-      "close": 979.4000244140625,
-      "volume": 142540
+      "low": 972,
+      "close": 978.5999755859375,
+      "volume": 244944
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHYAMMETL.NS",
     "current_year": 2025,
-    "current_year_vwap": 847.22,
+    "current_year_vwap": 847.41,
     "signal_price": 859.6,
-    "last_price": 979.4,
+    "last_price": 978.6,
     "condition_date": "2025-03-19",
     "previous_years": {
       "2021": 393.48,

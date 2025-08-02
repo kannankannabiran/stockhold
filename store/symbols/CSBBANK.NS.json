@@ -9913,21 +9913,21 @@
       "volume": 494960
     },
     {
-      "date": "2025-08-01T06:53:08.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 425.95001220703125,
       "high": 427.8999938964844,
-      "low": 420.45001220703125,
-      "close": 422.3500061035156,
-      "volume": 48665
+      "low": 416.3500061035156,
+      "close": 419.1000061035156,
+      "volume": 116647
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CSBBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 354.09,
+    "current_year_vwap": 354.17,
     "signal_price": 360.25,
-    "last_price": 422.35,
+    "last_price": 419.1,
     "condition_date": "2025-04-21",
     "previous_years": {
       "2021": 291.58,

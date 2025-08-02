@@ -9913,21 +9913,21 @@
       "volume": 135328
     },
     {
-      "date": "2025-08-01T06:56:54.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 469,
       "high": 470.95001220703125,
-      "low": 461.25,
-      "close": 462.29998779296875,
-      "volume": 37269
+      "low": 452.04998779296875,
+      "close": 453.6000061035156,
+      "volume": 75231
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDRAMEDCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 439.48,
+    "current_year_vwap": 439.49,
     "signal_price": 541.75,
-    "last_price": 462.3,
+    "last_price": 453.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 80.74,

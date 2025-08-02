@@ -9913,21 +9913,21 @@
       "volume": 7493
     },
     {
-      "date": "2025-08-01T06:58:35.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 391,
       "high": 399,
       "low": 386.70001220703125,
-      "close": 394.3999938964844,
-      "volume": 10739
+      "close": 391.04998779296875,
+      "volume": 18775
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "EIHAHOTELS.NS",
     "current_year": 2025,
-    "current_year_vwap": 376.72,
+    "current_year_vwap": 376.74,
     "signal_price": 446.95,
-    "last_price": 394.4,
+    "last_price": 391.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 176.27,

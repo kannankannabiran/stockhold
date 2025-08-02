@@ -9913,21 +9913,21 @@
       "volume": 2572409
     },
     {
-      "date": "2025-08-01T06:53:39.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 5870,
       "high": 5913.5,
-      "low": 5794.5,
-      "close": 5810,
-      "volume": 246130
+      "low": 5780.5,
+      "close": 5788.5,
+      "volume": 523253
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDIGO.NS",
     "current_year": 2025,
-    "current_year_vwap": 5154.08,
+    "current_year_vwap": 5155.12,
     "signal_price": 5157.05,
-    "last_price": 5810,
+    "last_price": 5788.5,
     "condition_date": "2025-04-08",
     "previous_years": {
       "2021": 1823.16,

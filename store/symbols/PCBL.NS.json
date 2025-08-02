@@ -9913,21 +9913,21 @@
       "volume": 775135
     },
     {
-      "date": "2025-08-01T07:01:51.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 394.54998779296875,
-      "high": 398.20001220703125,
+      "high": 403.6000061035156,
       "low": 392.04998779296875,
-      "close": 396,
-      "volume": 254523
+      "close": 400.5,
+      "volume": 1162104
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PCBL.NS",
     "current_year": 2025,
-    "current_year_vwap": 396.43,
+    "current_year_vwap": 396.44,
     "signal_price": 458.55,
-    "last_price": 396,
+    "last_price": 400.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 112.58,

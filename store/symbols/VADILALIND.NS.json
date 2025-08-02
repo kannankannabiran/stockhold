@@ -9913,21 +9913,21 @@
       "volume": 6022
     },
     {
-      "date": "2025-08-01T07:00:03.000Z",
+      "date": "2025-08-01T09:59:43.000Z",
       "open": 5286.5,
       "high": 5286.5,
-      "low": 5238,
-      "close": 5241,
-      "volume": 1373
+      "low": 5160,
+      "close": 5187,
+      "volume": 3951
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VADILALIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 5606.75,
+    "current_year_vwap": 5606.51,
     "signal_price": 5704.15,
-    "last_price": 5241,
+    "last_price": 5187,
     "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 1020.17,

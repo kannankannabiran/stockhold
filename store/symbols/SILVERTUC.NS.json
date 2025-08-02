@@ -9905,21 +9905,21 @@
       "volume": 38244
     },
     {
-      "date": "2025-08-01T06:51:28.000Z",
+      "date": "2025-08-01T09:59:53.000Z",
       "open": 780,
       "high": 782.4500122070312,
-      "low": 736,
-      "close": 757.4000244140625,
-      "volume": 22943
+      "low": 731.0999755859375,
+      "close": 743.2000122070312,
+      "volume": 29076
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SILVERTUC.NS",
     "current_year": 2025,
-    "current_year_vwap": 721.89,
+    "current_year_vwap": 721.9,
     "signal_price": 727.4,
-    "last_price": 757.4,
+    "last_price": 743.2,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 133.66,

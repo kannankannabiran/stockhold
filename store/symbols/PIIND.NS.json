@@ -9913,21 +9913,21 @@
       "volume": 265735
     },
     {
-      "date": "2025-08-01T06:55:17.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 4275,
       "high": 4275,
-      "low": 4187.2998046875,
-      "close": 4189,
-      "volume": 43073
+      "low": 4152.10009765625,
+      "close": 4190.2001953125,
+      "volume": 94327
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PIIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3627.46,
+    "current_year_vwap": 3628.15,
     "signal_price": 3691.25,
-    "last_price": 4189,
+    "last_price": 4190.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2761.83,

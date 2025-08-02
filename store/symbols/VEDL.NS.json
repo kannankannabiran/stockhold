@@ -9913,21 +9913,21 @@
       "volume": 7762131
     },
     {
-      "date": "2025-08-01T06:54:14.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 425.1000061035156,
       "high": 431,
       "low": 422.3500061035156,
-      "close": 428,
-      "volume": 2591479
+      "close": 424.45001220703125,
+      "volume": 4286918
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VEDL.NS",
     "current_year": 2025,
-    "current_year_vwap": 434.12,
+    "current_year_vwap": 434.11,
     "signal_price": 444.45,
-    "last_price": 428,
+    "last_price": 424.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 275.66,

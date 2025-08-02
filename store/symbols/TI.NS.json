@@ -9913,21 +9913,21 @@
       "volume": 2474633
     },
     {
-      "date": "2025-08-01T06:55:44.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 493.3999938964844,
       "high": 514,
       "low": 488.54998779296875,
-      "close": 508.79998779296875,
-      "volume": 1475028
+      "close": 505.3500061035156,
+      "volume": 2302761
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TI.NS",
     "current_year": 2025,
-    "current_year_vwap": 374.94,
+    "current_year_vwap": 375.26,
     "signal_price": 420.2,
-    "last_price": 508.8,
+    "last_price": 505.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 45.4,

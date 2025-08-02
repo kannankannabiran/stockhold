@@ -9913,21 +9913,21 @@
       "volume": 11100
     },
     {
-      "date": "2025-08-01T06:56:26.000Z",
+      "date": "2025-08-01T09:58:24.000Z",
       "open": 76.5,
       "high": 78,
       "low": 74,
-      "close": 76.88999938964844,
-      "volume": 5901
+      "close": 75.77999877929688,
+      "volume": 11277
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BYKE.NS",
     "current_year": 2025,
-    "current_year_vwap": 82.68,
+    "current_year_vwap": 82.67,
     "signal_price": 95.36,
-    "last_price": 76.89,
+    "last_price": 75.78,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 30.29,

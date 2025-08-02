@@ -9913,21 +9913,21 @@
       "volume": 765007
     },
     {
-      "date": "2025-08-01T06:53:35.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 356.95001220703125,
-      "high": 369.3999938964844,
+      "high": 370.8500061035156,
       "low": 355,
-      "close": 367,
-      "volume": 391682
+      "close": 363.8500061035156,
+      "volume": 703474
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GENUSPOWER.NS",
     "current_year": 2025,
-    "current_year_vwap": 340.69,
+    "current_year_vwap": 340.74,
     "signal_price": 398.15,
-    "last_price": 367,
+    "last_price": 363.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 63.63,

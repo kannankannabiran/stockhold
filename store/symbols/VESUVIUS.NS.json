@@ -9913,21 +9913,21 @@
       "volume": 67636
     },
     {
-      "date": "2025-08-01T06:52:15.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 515.7000122070312,
       "high": 523.0499877929688,
-      "low": 515.7000122070312,
-      "close": 519.9000244140625,
-      "volume": 24118
+      "low": 510,
+      "close": 513.2000122070312,
+      "volume": 37615
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VESUVIUS.NS",
     "current_year": 2025,
-    "current_year_vwap": 479.93,
+    "current_year_vwap": 479.94,
     "signal_price": 488.51,
-    "last_price": 519.9,
+    "last_price": 513.2,
     "condition_date": "2025-05-05",
     "previous_years": {
       "2021": 113.32,

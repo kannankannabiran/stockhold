@@ -9913,21 +9913,21 @@
       "volume": 77470
     },
     {
-      "date": "2025-08-01T06:45:10.000Z",
+      "date": "2025-08-01T09:44:31.000Z",
       "open": 300,
-      "high": 303.6000061035156,
+      "high": 303.6499938964844,
       "low": 300,
-      "close": 303.6000061035156,
-      "volume": 33478
+      "close": 303.6499938964844,
+      "volume": 48810
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SKMEGGPROD.NS",
     "current_year": 2025,
-    "current_year_vwap": 222.32,
+    "current_year_vwap": 222.45,
     "signal_price": 249.1,
-    "last_price": 303.6,
+    "last_price": 303.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 77.75,

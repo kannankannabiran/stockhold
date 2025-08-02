@@ -9913,21 +9913,21 @@
       "volume": 27759
     },
     {
-      "date": "2025-08-01T06:59:57.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 411.79998779296875,
       "high": 428.5,
-      "low": 411.04998779296875,
-      "close": 419.1000061035156,
-      "volume": 28176
+      "low": 406.5,
+      "close": 408,
+      "volume": 39499
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDIANHUME.NS",
     "current_year": 2025,
-    "current_year_vwap": 386.91,
+    "current_year_vwap": 386.92,
     "signal_price": 399.55,
-    "last_price": 419.1,
+    "last_price": 408,
     "condition_date": "2025-04-03",
     "previous_years": {
       "2021": 210.92,

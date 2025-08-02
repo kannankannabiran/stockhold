@@ -9913,21 +9913,21 @@
       "volume": 709783
     },
     {
-      "date": "2025-08-01T07:06:34.000Z",
+      "date": "2025-08-01T10:00:04.000Z",
       "open": 12521,
       "high": 12779,
-      "low": 12378,
-      "close": 12388,
-      "volume": 210686
+      "low": 12273,
+      "close": 12302,
+      "volume": 345966
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MARUTI.NS",
     "current_year": 2025,
-    "current_year_vwap": 12206.9,
+    "current_year_vwap": 12207.25,
     "signal_price": 12310.65,
-    "last_price": 12388,
+    "last_price": 12302,
     "condition_date": "2025-01-31",
     "previous_years": {
       "2021": 7264.32,

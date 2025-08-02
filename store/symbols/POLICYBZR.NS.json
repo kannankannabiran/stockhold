@@ -7353,21 +7353,21 @@
       "volume": 1138246
     },
     {
-      "date": "2025-08-01T06:55:06.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 1812.0999755859375,
       "high": 1829.5999755859375,
       "low": 1760,
-      "close": 1782.9000244140625,
-      "volume": 842109
+      "close": 1780.9000244140625,
+      "volume": 1691158
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "POLICYBZR.NS",
     "current_year": 2025,
-    "current_year_vwap": 1680.94,
+    "current_year_vwap": 1681.33,
     "signal_price": 2119.2,
-    "last_price": 1782.9,
+    "last_price": 1780.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1227.34,

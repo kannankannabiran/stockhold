@@ -9913,21 +9913,21 @@
       "volume": 43812
     },
     {
-      "date": "2025-08-01T07:01:07.000Z",
+      "date": "2025-08-01T09:59:54.000Z",
       "open": 4119.89990234375,
       "high": 4138.7998046875,
       "low": 4066.699951171875,
-      "close": 4111.10009765625,
-      "volume": 23236
+      "close": 4100.7998046875,
+      "volume": 82072
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SCHAEFFLER.NS",
     "current_year": 2025,
-    "current_year_vwap": 3654.36,
+    "current_year_vwap": 3656.54,
     "signal_price": 3692.7,
-    "last_price": 4111.1,
+    "last_price": 4100.8,
     "condition_date": "2025-05-08",
     "previous_years": {
       "2021": 1260.59,

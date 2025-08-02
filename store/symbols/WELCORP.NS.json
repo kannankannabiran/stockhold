@@ -9913,21 +9913,21 @@
       "volume": 658975
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 929.7000122070312,
       "high": 932.6500244140625,
-      "low": 918,
-      "close": 918.6500244140625,
-      "volume": 214828
+      "low": 889.9500122070312,
+      "close": 897.5,
+      "volume": 447307
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WELCORP.NS",
     "current_year": 2025,
-    "current_year_vwap": 849.29,
+    "current_year_vwap": 849.36,
     "signal_price": 872.1,
-    "last_price": 918.65,
+    "last_price": 897.5,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 148.65,

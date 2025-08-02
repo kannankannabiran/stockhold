@@ -8889,21 +8889,21 @@
       "volume": 724378
     },
     {
-      "date": "2025-08-01T07:01:52.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1212,
       "high": 1224.699951171875,
-      "low": 1190.800048828125,
-      "close": 1195.9000244140625,
-      "volume": 319565
+      "low": 1170.0999755859375,
+      "close": 1197.300048828125,
+      "volume": 641951
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HOMEFIRST.NS",
     "current_year": 2025,
-    "current_year_vwap": 1143.27,
+    "current_year_vwap": 1143.5,
     "signal_price": 1175.1,
-    "last_price": 1195.9,
+    "last_price": 1197.3,
     "condition_date": "2025-04-16",
     "previous_years": {
       "2021": 579.8,

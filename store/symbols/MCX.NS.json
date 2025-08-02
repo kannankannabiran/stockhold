@@ -9913,21 +9913,21 @@
       "volume": 297154
     },
     {
-      "date": "2025-08-01T07:01:16.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 7694,
-      "high": 7719,
+      "high": 7720,
       "low": 7534.5,
-      "close": 7665,
-      "volume": 245134
+      "close": 7595.5,
+      "volume": 382830
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MCX.NS",
     "current_year": 2025,
-    "current_year_vwap": 6716.62,
+    "current_year_vwap": 6718.06,
     "signal_price": 6832.5,
-    "last_price": 7665,
+    "last_price": 7595.5,
     "condition_date": "2025-06-03",
     "previous_years": {
       "2021": 1690.23,

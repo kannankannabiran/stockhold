@@ -9913,21 +9913,21 @@
       "volume": 617578
     },
     {
-      "date": "2025-08-01T07:01:17.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 366.70001220703125,
-      "high": 369.45001220703125,
-      "low": 363.25,
-      "close": 367.1000061035156,
-      "volume": 99263
+      "high": 370,
+      "low": 360,
+      "close": 362.1000061035156,
+      "volume": 255294
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDIACEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 314.07,
+    "current_year_vwap": 314.12,
     "signal_price": 377.35,
-    "last_price": 367.1,
+    "last_price": 362.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 187.7,

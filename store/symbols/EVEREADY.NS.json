@@ -9913,21 +9913,21 @@
       "volume": 687730
     },
     {
-      "date": "2025-08-01T06:56:25.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 428.79998779296875,
       "high": 433.3999938964844,
-      "low": 416,
-      "close": 418.79998779296875,
-      "volume": 180292
+      "low": 406.29998779296875,
+      "close": 410.3500061035156,
+      "volume": 294034
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "EVEREADY.NS",
     "current_year": 2025,
-    "current_year_vwap": 351.72,
+    "current_year_vwap": 351.97,
     "signal_price": 395.85,
-    "last_price": 418.8,
+    "last_price": 410.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 319.24,

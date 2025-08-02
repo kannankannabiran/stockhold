@@ -9913,21 +9913,21 @@
       "volume": 344973
     },
     {
-      "date": "2025-08-01T06:53:41.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 5799.5,
       "high": 5899,
       "low": 5776.5,
-      "close": 5828.5,
-      "volume": 136100
+      "close": 5798,
+      "volume": 244840
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BRITANNIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 5153.94,
+    "current_year_vwap": 5155.27,
     "signal_price": 5176.25,
-    "last_price": 5828.5,
+    "last_price": 5798,
     "condition_date": "2025-01-27",
     "previous_years": {
       "2021": 3601.69,

@@ -9913,22 +9913,22 @@
       "volume": 552273
     },
     {
-      "date": "2025-08-01T06:57:14.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 977.1500244140625,
       "high": 1045.5,
       "low": 975,
-      "close": 1022.0999755859375,
-      "volume": 710219
+      "close": 1004.4500122070312,
+      "volume": 944617
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DATAMATICS.NS",
     "current_year": 2025,
-    "current_year_vwap": 745.65,
-    "signal_price": 746.75,
-    "last_price": 1022.1,
-    "condition_date": "2025-07-15",
+    "current_year_vwap": 746.94,
+    "signal_price": 758.1,
+    "last_price": 1004.45,
+    "condition_date": "2025-07-16",
     "previous_years": {
       "2021": 215.61,
       "2022": 312.35,

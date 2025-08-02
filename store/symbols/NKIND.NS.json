@@ -9913,21 +9913,21 @@
       "volume": 15089
     },
     {
-      "date": "2025-08-01T05:34:19.000Z",
+      "date": "2025-08-01T09:59:34.000Z",
       "open": 64.38999938964844,
       "high": 66.93000030517578,
-      "low": 63,
-      "close": 63,
-      "volume": 1526
+      "low": 62.599998474121094,
+      "close": 62.84000015258789,
+      "volume": 2675
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NKIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 69.38,
+    "current_year_vwap": 69.35,
     "signal_price": 72.32,
-    "last_price": 63,
+    "last_price": 62.84,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 31.32,

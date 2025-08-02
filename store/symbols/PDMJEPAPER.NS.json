@@ -9913,21 +9913,21 @@
       "volume": 146896
     },
     {
-      "date": "2025-08-01T07:01:18.000Z",
+      "date": "2025-08-01T09:59:39.000Z",
       "open": 119.13999938964844,
-      "high": 123.5,
+      "high": 125.02999877929688,
       "low": 116.5,
-      "close": 122.22000122070312,
-      "volume": 106273
+      "close": 125.02999877929688,
+      "volume": 286325
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PDMJEPAPER.NS",
     "current_year": 2025,
-    "current_year_vwap": 135.96,
+    "current_year_vwap": 135.85,
     "signal_price": 196.94,
-    "last_price": 122.22,
+    "last_price": 125.03,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 37.92,

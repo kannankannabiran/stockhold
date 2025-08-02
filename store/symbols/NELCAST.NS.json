@@ -9913,22 +9913,22 @@
       "volume": 398681
     },
     {
-      "date": "2025-08-01T06:56:38.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 160.88999938964844,
-      "high": 179,
+      "high": 180.89999389648438,
       "low": 160,
-      "close": 174.22999572753906,
-      "volume": 6856267
+      "close": 168.97999572753906,
+      "volume": 15059470
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NELCAST.NS",
     "current_year": 2025,
-    "current_year_vwap": 140.2,
-    "signal_price": 140.78,
-    "last_price": 174.23,
-    "condition_date": "2025-05-26",
+    "current_year_vwap": 146.14,
+    "signal_price": 148.11,
+    "last_price": 168.98,
+    "condition_date": "2025-06-26",
     "previous_years": {
       "2021": 81.26,
       "2022": 89.82,

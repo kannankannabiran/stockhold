@@ -9913,21 +9913,21 @@
       "volume": 342605
     },
     {
-      "date": "2025-08-01T07:06:24.000Z",
+      "date": "2025-08-01T09:59:53.000Z",
       "open": 7538,
       "high": 7538,
-      "low": 7380,
-      "close": 7387.5,
-      "volume": 92863
+      "low": 7331.5,
+      "close": 7351.5,
+      "volume": 215224
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "APOLLOHOSP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6896.41,
+    "current_year_vwap": 6897.4,
     "signal_price": 7369.65,
-    "last_price": 7387.5,
+    "last_price": 7351.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3845.7,

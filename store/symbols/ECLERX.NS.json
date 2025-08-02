@@ -9913,21 +9913,21 @@
       "volume": 60394
     },
     {
-      "date": "2025-08-01T07:01:56.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 3815,
       "high": 3943,
       "low": 3750,
-      "close": 3849.800048828125,
-      "volume": 195733
+      "close": 3799.199951171875,
+      "volume": 245454
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ECLERX.NS",
     "current_year": 2025,
-    "current_year_vwap": 3185.61,
+    "current_year_vwap": 3187.98,
     "signal_price": 3467.05,
-    "last_price": 3849.8,
+    "last_price": 3799.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1099.89,

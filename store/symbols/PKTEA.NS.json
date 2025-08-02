@@ -9913,21 +9913,21 @@
       "volume": 334
     },
     {
-      "date": "2025-08-01T06:51:20.000Z",
+      "date": "2025-08-01T09:57:47.000Z",
       "open": 615.4500122070312,
       "high": 615.4500122070312,
-      "low": 596,
-      "close": 596,
-      "volume": 144
+      "low": 583.4500122070312,
+      "close": 591.3499755859375,
+      "volume": 446
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PKTEA.NS",
     "current_year": 2025,
-    "current_year_vwap": 836.61,
+    "current_year_vwap": 836.38,
     "signal_price": 859.6,
-    "last_price": 596,
+    "last_price": 591.35,
     "condition_date": "2025-01-15",
     "previous_years": {
       "2021": 286.19,

@@ -9913,21 +9913,21 @@
       "volume": 24441
     },
     {
-      "date": "2025-08-01T06:56:11.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 2385.10009765625,
       "high": 2401.39990234375,
-      "low": 2343,
-      "close": 2344.39990234375,
-      "volume": 4446
+      "low": 2334.199951171875,
+      "close": 2350.699951171875,
+      "volume": 12442
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "RPGLIFE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2303.34,
+    "current_year_vwap": 2303.46,
     "signal_price": 2337.5,
-    "last_price": 2344.4,
+    "last_price": 2350.7,
     "condition_date": "2025-01-03",
     "previous_years": {
       "2021": 537.59,

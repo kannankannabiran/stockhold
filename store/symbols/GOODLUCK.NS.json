@@ -9913,21 +9913,21 @@
       "volume": 134641
     },
     {
-      "date": "2025-08-01T06:59:00.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 1100,
       "high": 1109.800048828125,
-      "low": 1094.300048828125,
-      "close": 1102,
-      "volume": 92999
+      "low": 1073,
+      "close": 1075.800048828125,
+      "volume": 201182
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GOODLUCK.NS",
     "current_year": 2025,
-    "current_year_vwap": 884.07,
+    "current_year_vwap": 884.94,
     "signal_price": 968,
-    "last_price": 1102,
+    "last_price": 1075.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 149.52,

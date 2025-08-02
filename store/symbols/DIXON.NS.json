@@ -9913,21 +9913,21 @@
       "volume": 561218
     },
     {
-      "date": "2025-08-01T06:58:09.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 16869,
       "high": 17149,
       "low": 16787,
-      "close": 17040,
-      "volume": 235971
+      "close": 16848,
+      "volume": 341296
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DIXON.NS",
     "current_year": 2025,
-    "current_year_vwap": 15204.74,
+    "current_year_vwap": 15207.29,
     "signal_price": 17994.2,
-    "last_price": 17040,
+    "last_price": 16848,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 4380.72,

@@ -9913,21 +9913,21 @@
       "volume": 155145
     },
     {
-      "date": "2025-08-01T07:05:22.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1437.5,
       "high": 1439.5,
-      "low": 1403,
-      "close": 1405.300048828125,
-      "volume": 25017
+      "low": 1366.9000244140625,
+      "close": 1374.300048828125,
+      "volume": 83339
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DCMSHRIRAM.NS",
     "current_year": 2025,
-    "current_year_vwap": 1245.19,
+    "current_year_vwap": 1245.48,
     "signal_price": 1425.5,
-    "last_price": 1405.3,
+    "last_price": 1374.3,
     "condition_date": "2025-07-03",
     "previous_years": {
       "2021": 759.52,

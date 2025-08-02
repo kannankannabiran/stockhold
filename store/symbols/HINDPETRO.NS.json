@@ -9913,21 +9913,21 @@
       "volume": 9826520
     },
     {
-      "date": "2025-08-01T06:56:14.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 420.8999938964844,
       "high": 421,
-      "low": 406.29998779296875,
-      "close": 406.70001220703125,
-      "volume": 1954118
+      "low": 402.1000061035156,
+      "close": 403.79998779296875,
+      "volume": 3786224
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HINDPETRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 377.77,
+    "current_year_vwap": 377.83,
     "signal_price": 412.35,
-    "last_price": 406.7,
+    "last_price": 403.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 177.14,

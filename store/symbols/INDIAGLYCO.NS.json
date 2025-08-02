@@ -9913,21 +9913,21 @@
       "volume": 75243
     },
     {
-      "date": "2025-08-01T06:56:18.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1712.199951171875,
       "high": 1738.9000244140625,
-      "low": 1695.0999755859375,
-      "close": 1712.5999755859375,
-      "volume": 29340
+      "low": 1658.300048828125,
+      "close": 1666.5999755859375,
+      "volume": 87339
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDIAGLYCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 1517.66,
+    "current_year_vwap": 1518.01,
     "signal_price": 1544.7,
-    "last_price": 1712.6,
+    "last_price": 1666.6,
     "condition_date": "2025-05-12",
     "previous_years": {
       "2021": 658.81,

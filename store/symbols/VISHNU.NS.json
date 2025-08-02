@@ -9913,21 +9913,21 @@
       "volume": 1548285
     },
     {
-      "date": "2025-08-01T07:01:58.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 570.5999755859375,
       "high": 595.7999877929688,
-      "low": 545.6500244140625,
-      "close": 555.9500122070312,
-      "volume": 1126990
+      "low": 535.0999755859375,
+      "close": 540.4500122070312,
+      "volume": 1548624
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VISHNU.NS",
     "current_year": 2025,
-    "current_year_vwap": 491.16,
+    "current_year_vwap": 491.73,
     "signal_price": 495.25,
-    "last_price": 555.95,
+    "last_price": 540.45,
     "condition_date": "2025-05-21",
     "previous_years": {
       "2021": 94.78,

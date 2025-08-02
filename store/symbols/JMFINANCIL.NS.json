@@ -9913,21 +9913,21 @@
       "volume": 4139160
     },
     {
-      "date": "2025-08-01T07:04:20.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 157.8000030517578,
       "high": 157.88999938964844,
-      "low": 152.75,
-      "close": 153,
-      "volume": 1858592
+      "low": 151.39999389648438,
+      "close": 151.9199981689453,
+      "volume": 3730993
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JMFINANCIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 130.39,
+    "current_year_vwap": 130.44,
     "signal_price": 132.95,
-    "last_price": 153,
+    "last_price": 151.92,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 93.29,

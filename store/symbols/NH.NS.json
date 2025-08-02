@@ -9913,21 +9913,21 @@
       "volume": 408346
     },
     {
-      "date": "2025-08-01T07:00:38.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 1915.199951171875,
-      "high": 1950,
+      "high": 1963.699951171875,
       "low": 1911.199951171875,
-      "close": 1944.300048828125,
-      "volume": 149585
+      "close": 1945.5,
+      "volume": 272787
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NH.NS",
     "current_year": 2025,
-    "current_year_vwap": 1679.65,
+    "current_year_vwap": 1679.97,
     "signal_price": 1685.75,
-    "last_price": 1944.3,
+    "last_price": 1945.5,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 502.16,

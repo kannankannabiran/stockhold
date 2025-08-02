@@ -7505,21 +7505,21 @@
       "volume": 864451
     },
     {
-      "date": "2025-08-01T07:03:32.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 303.79998779296875,
       "high": 309.95001220703125,
       "low": 302,
-      "close": 304.29998779296875,
-      "volume": 101706
+      "close": 303.20001220703125,
+      "volume": 135327
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BHAGCHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 298.51,
+    "current_year_vwap": 298.52,
     "signal_price": 301.1,
-    "last_price": 304.3,
+    "last_price": 303.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 77.96,

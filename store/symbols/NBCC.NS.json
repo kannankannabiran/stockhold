@@ -9913,21 +9913,21 @@
       "volume": 5280798
     },
     {
-      "date": "2025-08-01T07:03:38.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 108.19999694824219,
       "high": 109.0999984741211,
-      "low": 107.5,
-      "close": 108.69999694824219,
-      "volume": 2402448
+      "low": 107,
+      "close": 107.26000213623047,
+      "volume": 4630232
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NBCC.NS",
     "current_year": 2025,
-    "current_year_vwap": 100.24,
+    "current_year_vwap": 100.25,
     "signal_price": 100.81,
-    "last_price": 108.7,
+    "last_price": 107.26,
     "condition_date": "2025-04-23",
     "previous_years": {
       "2021": 30.38,

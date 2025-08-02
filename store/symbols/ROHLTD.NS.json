@@ -9913,21 +9913,21 @@
       "volume": 34096
     },
     {
-      "date": "2025-08-01T06:53:45.000Z",
+      "date": "2025-08-01T09:59:52.000Z",
       "open": 424.04998779296875,
       "high": 426.3999938964844,
-      "low": 393.29998779296875,
-      "close": 395.8999938964844,
-      "volume": 142027
+      "low": 385.20001220703125,
+      "close": 390.6000061035156,
+      "volume": 232731
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ROHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 384.5,
+    "current_year_vwap": 384.56,
     "signal_price": 387.65,
-    "last_price": 395.9,
+    "last_price": 390.6,
     "condition_date": "2025-03-06",
     "previous_years": {
       "2021": 85.93,

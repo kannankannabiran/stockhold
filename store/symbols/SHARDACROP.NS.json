@@ -9913,21 +9913,21 @@
       "volume": 481433
     },
     {
-      "date": "2025-08-01T06:56:27.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1144.800048828125,
       "high": 1155.4000244140625,
-      "low": 1125,
-      "close": 1135.0999755859375,
-      "volume": 233026
+      "low": 1101,
+      "close": 1106.9000244140625,
+      "volume": 408023
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHARDACROP.NS",
     "current_year": 2025,
-    "current_year_vwap": 786.73,
+    "current_year_vwap": 787.49,
     "signal_price": 812.25,
-    "last_price": 1135.1,
+    "last_price": 1106.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 329.36,

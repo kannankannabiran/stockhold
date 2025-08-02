@@ -9913,21 +9913,21 @@
       "volume": 4655
     },
     {
-      "date": "2025-08-01T06:57:51.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 6740.5,
       "high": 6789,
-      "low": 6640,
-      "close": 6644.5,
-      "volume": 4325
+      "low": 6502,
+      "close": 6544,
+      "volume": 7395
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NSIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 6614.33,
+    "current_year_vwap": 6614.17,
     "signal_price": 7892.85,
-    "last_price": 6644.5,
+    "last_price": 6544,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1508.21,

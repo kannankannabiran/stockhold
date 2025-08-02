@@ -9913,21 +9913,21 @@
       "volume": 34173
     },
     {
-      "date": "2025-08-01T06:56:08.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1662.699951171875,
       "high": 1695.800048828125,
       "low": 1642.199951171875,
-      "close": 1675.4000244140625,
-      "volume": 8322
+      "close": 1670.699951171875,
+      "volume": 18231
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDOTECH.NS",
     "current_year": 2025,
-    "current_year_vwap": 2262.13,
+    "current_year_vwap": 2261.08,
     "signal_price": 3048.25,
-    "last_price": 1675.4,
+    "last_price": 1670.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 161.72,

@@ -9913,21 +9913,21 @@
       "volume": 307018
     },
     {
-      "date": "2025-08-01T06:53:32.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 5551,
       "high": 5670,
       "low": 5475,
-      "close": 5534,
-      "volume": 907643
+      "close": 5528,
+      "volume": 1408753
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "EICHERMOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5317.82,
+    "current_year_vwap": 5319.47,
     "signal_price": 5390.15,
-    "last_price": 5534,
+    "last_price": 5528,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 2667.83,

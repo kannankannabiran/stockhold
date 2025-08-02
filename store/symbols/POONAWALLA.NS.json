@@ -9913,21 +9913,21 @@
       "volume": 2267648
     },
     {
-      "date": "2025-08-01T07:01:53.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 424.29998779296875,
       "high": 424.8500061035156,
-      "low": 415.04998779296875,
-      "close": 415.8999938964844,
-      "volume": 385998
+      "low": 411,
+      "close": 419.3500061035156,
+      "volume": 1833651
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "POONAWALLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 366.4,
+    "current_year_vwap": 366.65,
     "signal_price": 382.25,
-    "last_price": 415.9,
+    "last_price": 419.35,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 162.27,

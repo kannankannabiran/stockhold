@@ -9913,21 +9913,21 @@
       "volume": 1163009
     },
     {
-      "date": "2025-08-01T06:58:16.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 293.04998779296875,
       "high": 295,
-      "low": 289.25,
-      "close": 291.1499938964844,
-      "volume": 533616
+      "low": 282.04998779296875,
+      "close": 284.70001220703125,
+      "volume": 1225044
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TFCILTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 202.92,
+    "current_year_vwap": 203.2,
     "signal_price": 205.12,
-    "last_price": 291.15,
+    "last_price": 284.7,
     "condition_date": "2025-05-02",
     "previous_years": {
       "2021": 67.3,

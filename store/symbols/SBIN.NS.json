@@ -9913,21 +9913,21 @@
       "volume": 11359112
     },
     {
-      "date": "2025-08-01T07:06:29.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 795.7000122070312,
       "high": 801,
-      "low": 792.9000244140625,
-      "close": 798.5,
-      "volume": 4582036
+      "low": 792,
+      "close": 794,
+      "volume": 15467604
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SBIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 779.37,
+    "current_year_vwap": 779.47,
     "signal_price": 793.2,
-    "last_price": 798.5,
+    "last_price": 794,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 397.84,

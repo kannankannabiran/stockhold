@@ -9913,21 +9913,21 @@
       "volume": 46705589
     },
     {
-      "date": "2025-08-01T07:04:33.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 576,
       "high": 583.7000122070312,
-      "low": 551.5999755859375,
-      "close": 553.5,
-      "volume": 4710296
+      "low": 525.2999877929688,
+      "close": 532.5999755859375,
+      "volume": 6685370
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HEG.NS",
     "current_year": 2025,
-    "current_year_vwap": 498.02,
+    "current_year_vwap": 498.11,
     "signal_price": 530.3,
-    "last_price": 553.5,
+    "last_price": 532.6,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 351.86,

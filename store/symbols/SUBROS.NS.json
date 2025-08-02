@@ -9913,21 +9913,21 @@
       "volume": 56306
     },
     {
-      "date": "2025-08-01T06:57:35.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 856,
       "high": 864.8499755859375,
-      "low": 845.1500244140625,
-      "close": 847.2999877929688,
-      "volume": 16747
+      "low": 836.1500244140625,
+      "close": 840.4500122070312,
+      "volume": 36603
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUBROS.NS",
     "current_year": 2025,
-    "current_year_vwap": 872.61,
+    "current_year_vwap": 872.59,
     "signal_price": 987.9,
-    "last_price": 847.3,
+    "last_price": 840.45,
     "condition_date": "2025-06-16",
     "previous_years": {
       "2021": 339.48,

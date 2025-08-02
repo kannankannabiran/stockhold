@@ -9913,21 +9913,21 @@
       "volume": 12738585
     },
     {
-      "date": "2025-08-01T07:01:36.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 702,
       "high": 728.4500122070312,
-      "low": 699.9500122070312,
-      "close": 703.8499755859375,
-      "volume": 5078464
+      "low": 680,
+      "close": 688.4000244140625,
+      "volume": 8862756
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VIMTALABS.NS",
     "current_year": 2025,
-    "current_year_vwap": 597.85,
+    "current_year_vwap": 599.97,
     "signal_price": 658.9,
-    "last_price": 703.85,
+    "last_price": 688.4,
     "condition_date": "2025-07-28",
     "previous_years": {
       "2021": 142.58,

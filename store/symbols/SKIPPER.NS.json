@@ -9913,21 +9913,21 @@
       "volume": 1627267
     },
     {
-      "date": "2025-08-01T06:59:47.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 496.45001220703125,
       "high": 548,
       "low": 491.29998779296875,
-      "close": 533.9000244140625,
-      "volume": 8352602
+      "close": 516.25,
+      "volume": 14573412
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SKIPPER.NS",
     "current_year": 2025,
-    "current_year_vwap": 470.46,
+    "current_year_vwap": 473.11,
     "signal_price": 563.9,
-    "last_price": 533.9,
+    "last_price": 516.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 78.84,

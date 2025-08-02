@@ -7817,21 +7817,21 @@
       "volume": 1263896
     },
     {
-      "date": "2025-08-01T07:04:56.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 2188.199951171875,
       "high": 2188.199951171875,
       "low": 2131,
-      "close": 2152.300048828125,
-      "volume": 261469
+      "close": 2176.39990234375,
+      "volume": 499780
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CARTRADE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1682.75,
+    "current_year_vwap": 1684.34,
     "signal_price": 1766.65,
-    "last_price": 2152.3,
+    "last_price": 2176.4,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 1331.21,

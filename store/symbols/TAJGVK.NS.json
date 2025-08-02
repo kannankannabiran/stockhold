@@ -9913,21 +9913,21 @@
       "volume": 72399
     },
     {
-      "date": "2025-08-01T06:58:12.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 411.45001220703125,
-      "high": 429,
-      "low": 411,
-      "close": 421.8500061035156,
-      "volume": 229011
+      "high": 439.70001220703125,
+      "low": 408.04998779296875,
+      "close": 417.20001220703125,
+      "volume": 1349424
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TAJGVK.NS",
     "current_year": 2025,
-    "current_year_vwap": 436.84,
+    "current_year_vwap": 436.61,
     "signal_price": 441.95,
-    "last_price": 421.85,
+    "last_price": 417.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 139.58,

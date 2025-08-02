@@ -9913,21 +9913,21 @@
       "volume": 318320
     },
     {
-      "date": "2025-08-01T07:06:05.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1031,
-      "high": 1043.199951171875,
-      "low": 1016.0999755859375,
-      "close": 1029.4000244140625,
-      "volume": 170983
+      "high": 1044,
+      "low": 995.4000244140625,
+      "close": 1002.4000244140625,
+      "volume": 279611
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GABRIEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 670.59,
+    "current_year_vwap": 671.03,
     "signal_price": 702.3,
-    "last_price": 1029.4,
+    "last_price": 1002.4,
     "condition_date": "2025-06-30",
     "previous_years": {
       "2021": 133.37,

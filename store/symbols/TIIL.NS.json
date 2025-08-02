@@ -9913,21 +9913,21 @@
       "volume": 28902
     },
     {
-      "date": "2025-08-01T06:57:57.000Z",
+      "date": "2025-08-01T09:59:53.000Z",
       "open": 3130,
       "high": 3228.10009765625,
-      "low": 3130,
-      "close": 3144,
-      "volume": 2500
+      "low": 3124.5,
+      "close": 3130.699951171875,
+      "volume": 5595
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TIIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 2828.19,
+    "current_year_vwap": 2828.64,
     "signal_price": 2858.15,
-    "last_price": 3144,
+    "last_price": 3130.7,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 568.91,

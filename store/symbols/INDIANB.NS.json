@@ -9913,21 +9913,21 @@
       "volume": 1801099
     },
     {
-      "date": "2025-08-01T07:00:33.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 623.7000122070312,
-      "high": 627,
+      "high": 628.3499755859375,
       "low": 611.0999755859375,
-      "close": 626.0999755859375,
-      "volume": 880389
+      "close": 621.2000122070312,
+      "volume": 2873608
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDIANB.NS",
     "current_year": 2025,
-    "current_year_vwap": 582.18,
+    "current_year_vwap": 582.44,
     "signal_price": 582.8,
-    "last_price": 626.1,
+    "last_price": 621.2,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 136.11,

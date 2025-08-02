@@ -9913,21 +9913,21 @@
       "volume": 751639
     },
     {
-      "date": "2025-08-01T07:01:45.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 222.10000610351562,
       "high": 226,
-      "low": 216.0500030517578,
-      "close": 220,
-      "volume": 350502
+      "low": 215.92999267578125,
+      "close": 215.92999267578125,
+      "volume": 559642
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KITEX.NS",
     "current_year": 2025,
-    "current_year_vwap": 244.52,
+    "current_year_vwap": 244.46,
     "signal_price": 256.4,
-    "last_price": 220,
+    "last_price": 215.93,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 52.33,

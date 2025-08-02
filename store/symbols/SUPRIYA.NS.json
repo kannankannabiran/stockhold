@@ -7113,21 +7113,21 @@
       "volume": 151666
     },
     {
-      "date": "2025-08-01T06:58:06.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 660.2000122070312,
       "high": 665,
-      "low": 657,
-      "close": 662.1500244140625,
-      "volume": 109473
+      "low": 655,
+      "close": 656.7999877929688,
+      "volume": 244922
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUPRIYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 700.93,
+    "current_year_vwap": 700.79,
     "signal_price": 756.5,
-    "last_price": 662.15,
+    "last_price": 656.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 445.9,

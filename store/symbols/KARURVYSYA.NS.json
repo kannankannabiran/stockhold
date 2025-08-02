@@ -9913,21 +9913,21 @@
       "volume": 1977893
     },
     {
-      "date": "2025-08-01T06:59:56.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 263.54998779296875,
       "high": 264.6499938964844,
-      "low": 258.5,
-      "close": 260.45001220703125,
-      "volume": 493589
+      "low": 258,
+      "close": 259.70001220703125,
+      "volume": 1201713
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KARURVYSYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 232.46,
+    "current_year_vwap": 232.51,
     "signal_price": 233.4,
-    "last_price": 260.45,
+    "last_price": 259.7,
     "condition_date": "2025-01-23",
     "previous_years": {
       "2021": 51.56,

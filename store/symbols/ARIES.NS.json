@@ -9913,21 +9913,21 @@
       "volume": 242615
     },
     {
-      "date": "2025-08-01T06:58:22.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 389,
       "high": 411.70001220703125,
-      "low": 389,
-      "close": 404.1000061035156,
-      "volume": 253513
+      "low": 383,
+      "close": 385.54998779296875,
+      "volume": 372902
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ARIES.NS",
     "current_year": 2025,
-    "current_year_vwap": 319.95,
+    "current_year_vwap": 320.75,
     "signal_price": 320.9,
-    "last_price": 404.1,
+    "last_price": 385.55,
     "condition_date": "2025-05-20",
     "previous_years": {
       "2021": 136.56,

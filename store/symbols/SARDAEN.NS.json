@@ -9913,21 +9913,21 @@
       "volume": 214624
     },
     {
-      "date": "2025-08-01T06:53:34.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 447,
       "high": 450.79998779296875,
-      "low": 442.95001220703125,
-      "close": 449.04998779296875,
-      "volume": 100959
+      "low": 438.1000061035156,
+      "close": 439.29998779296875,
+      "volume": 210751
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SARDAEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 474.2,
+    "current_year_vwap": 474.17,
     "signal_price": 482.35,
-    "last_price": 449.05,
+    "last_price": 439.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 57.75,

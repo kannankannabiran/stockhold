@@ -9913,21 +9913,21 @@
       "volume": 6136890
     },
     {
-      "date": "2025-08-01T07:06:38.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 680,
       "high": 683.2999877929688,
       "low": 670.8499755859375,
-      "close": 677.4500122070312,
-      "volume": 1904459
+      "close": 672.4500122070312,
+      "volume": 3475461
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HINDALCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 637.5,
+    "current_year_vwap": 637.57,
     "signal_price": 638.8,
-    "last_price": 677.45,
+    "last_price": 672.45,
     "condition_date": "2025-02-20",
     "previous_years": {
       "2021": 381.2,

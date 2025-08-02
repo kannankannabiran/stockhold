@@ -9913,21 +9913,21 @@
       "volume": 2475
     },
     {
-      "date": "2025-08-01T06:53:08.000Z",
+      "date": "2025-08-01T09:59:23.000Z",
       "open": 5036,
       "high": 5125,
-      "low": 5036,
-      "close": 5083,
-      "volume": 379
+      "low": 5026,
+      "close": 5029.5,
+      "volume": 1525
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PILANIINVS.NS",
     "current_year": 2025,
-    "current_year_vwap": 4774.76,
+    "current_year_vwap": 4775.02,
     "signal_price": 5404,
-    "last_price": 5083,
+    "last_price": 5029.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1856.12,

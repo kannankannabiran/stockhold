@@ -9913,21 +9913,21 @@
       "volume": 136231
     },
     {
-      "date": "2025-08-01T07:04:47.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 840.5,
       "high": 848.7999877929688,
-      "low": 834.0499877929688,
-      "close": 835.4000244140625,
-      "volume": 30687
+      "low": 810,
+      "close": 814.7999877929688,
+      "volume": 87419
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASAHIINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 761.07,
+    "current_year_vwap": 761.13,
     "signal_price": 770.7,
-    "last_price": 835.4,
+    "last_price": 814.8,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 396.11,

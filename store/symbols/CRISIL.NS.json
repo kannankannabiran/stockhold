@@ -9913,21 +9913,21 @@
       "volume": 37743
     },
     {
-      "date": "2025-08-01T07:00:50.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 5304,
       "high": 5382,
-      "low": 5260,
-      "close": 5290.5,
-      "volume": 12879
+      "low": 5192,
+      "close": 5216,
+      "volume": 41112
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CRISIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 5195.19,
+    "current_year_vwap": 5195.3,
     "signal_price": 6408.65,
-    "last_price": 5290.5,
+    "last_price": 5216,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2671.52,

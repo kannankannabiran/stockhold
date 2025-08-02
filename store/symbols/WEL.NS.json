@@ -9905,21 +9905,21 @@
       "volume": 185947
     },
     {
-      "date": "2025-08-01T06:51:08.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 162.00999450683594,
       "high": 166.99000549316406,
       "low": 160.41000366210938,
-      "close": 165.42999267578125,
-      "volume": 170438
+      "close": 164.2100067138672,
+      "volume": 319075
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 172.39,
+    "current_year_vwap": 172.36,
     "signal_price": 176.59,
-    "last_price": 165.43,
+    "last_price": 164.21,
     "condition_date": "2025-01-15",
     "previous_years": {
       "2021": 5.03,

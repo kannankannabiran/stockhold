@@ -9913,21 +9913,21 @@
       "volume": 15472
     },
     {
-      "date": "2025-08-01T07:00:55.000Z",
+      "date": "2025-08-01T09:59:50.000Z",
       "open": 3793.10009765625,
       "high": 3798.300048828125,
-      "low": 3688.699951171875,
-      "close": 3713.89990234375,
-      "volume": 6122
+      "low": 3624.5,
+      "close": 3635.89990234375,
+      "volume": 14722
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AKZOINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 3547.04,
+    "current_year_vwap": 3547.17,
     "signal_price": 3563.45,
-    "last_price": 3713.9,
+    "last_price": 3635.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2243.92,

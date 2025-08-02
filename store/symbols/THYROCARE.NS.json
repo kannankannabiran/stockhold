@@ -9913,21 +9913,21 @@
       "volume": 143952
     },
     {
-      "date": "2025-08-01T06:57:04.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 1331,
       "high": 1375,
       "low": 1300,
-      "close": 1343.0999755859375,
-      "volume": 175923
+      "close": 1320.800048828125,
+      "volume": 215337
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "THYROCARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 983.9,
+    "current_year_vwap": 984.62,
     "signal_price": 1017.9,
-    "last_price": 1343.1,
+    "last_price": 1320.8,
     "condition_date": "2025-01-06",
     "previous_years": {
       "2021": 1177.13,

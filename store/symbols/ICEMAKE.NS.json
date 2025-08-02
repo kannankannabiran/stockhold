@@ -9905,21 +9905,21 @@
       "volume": 32885
     },
     {
-      "date": "2025-08-01T07:01:21.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 810,
       "high": 812,
-      "low": 791.25,
-      "close": 796.9500122070312,
-      "volume": 3701
+      "low": 781,
+      "close": 783.6500244140625,
+      "volume": 7981
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ICEMAKE.NS",
     "current_year": 2025,
-    "current_year_vwap": 857.38,
+    "current_year_vwap": 857.34,
     "signal_price": 866,
-    "last_price": 796.95,
+    "last_price": 783.65,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 79.19,

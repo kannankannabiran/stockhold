@@ -8457,21 +8457,21 @@
       "volume": 229887
     },
     {
-      "date": "2025-08-01T07:01:21.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 475,
       "high": 499,
       "low": 475,
-      "close": 486,
-      "volume": 246987
+      "close": 481.95001220703125,
+      "volume": 319864
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DEEPINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 487.24,
+    "current_year_vwap": 487.22,
     "signal_price": 553.05,
-    "last_price": 486,
+    "last_price": 481.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 60.22,

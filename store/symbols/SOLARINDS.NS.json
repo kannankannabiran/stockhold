@@ -9913,21 +9913,21 @@
       "volume": 202685
     },
     {
-      "date": "2025-08-01T06:59:10.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 14198,
       "high": 14206,
       "low": 13631,
-      "close": 13968,
-      "volume": 114368
+      "close": 13807,
+      "volume": 214998
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SOLARINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 13294.59,
+    "current_year_vwap": 13297.14,
     "signal_price": 13452,
-    "last_price": 13968,
+    "last_price": 13807,
     "condition_date": "2025-04-29",
     "previous_years": {
       "2021": 1980.14,

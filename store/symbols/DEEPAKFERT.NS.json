@@ -9913,21 +9913,21 @@
       "volume": 482920
     },
     {
-      "date": "2025-08-01T07:03:53.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1600,
       "high": 1606.5999755859375,
-      "low": 1561.4000244140625,
-      "close": 1563.5,
-      "volume": 123741
+      "low": 1552,
+      "close": 1558.5,
+      "volume": 198069
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DEEPAKFERT.NS",
     "current_year": 2025,
-    "current_year_vwap": 1289.25,
+    "current_year_vwap": 1289.47,
     "signal_price": 1296.55,
-    "last_price": 1563.5,
+    "last_price": 1558.5,
     "condition_date": "2025-01-29",
     "previous_years": {
       "2021": 290.81,

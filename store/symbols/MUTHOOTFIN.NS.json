@@ -9913,21 +9913,21 @@
       "volume": 622451
     },
     {
-      "date": "2025-08-01T06:57:08.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2612.300048828125,
       "high": 2630.89990234375,
-      "low": 2588.300048828125,
-      "close": 2607.199951171875,
-      "volume": 117783
+      "low": 2582.39990234375,
+      "close": 2592.699951171875,
+      "volume": 210509
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "MUTHOOTFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 2276.6,
+    "current_year_vwap": 2276.85,
     "signal_price": 2317.8,
-    "last_price": 2607.2,
+    "last_price": 2592.7,
     "condition_date": "2025-02-13",
     "previous_years": {
       "2021": 1384.47,

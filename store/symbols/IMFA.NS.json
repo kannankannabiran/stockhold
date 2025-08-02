@@ -9913,21 +9913,21 @@
       "volume": 56451
     },
     {
-      "date": "2025-08-01T06:48:47.000Z",
+      "date": "2025-08-01T09:59:41.000Z",
       "open": 729,
       "high": 740,
-      "low": 725.0999755859375,
-      "close": 729.7999877929688,
-      "volume": 23190
+      "low": 720.2999877929688,
+      "close": 724.0999755859375,
+      "volume": 37035
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "IMFA.NS",
     "current_year": 2025,
-    "current_year_vwap": 716.58,
+    "current_year_vwap": 716.59,
     "signal_price": 902.6,
-    "last_price": 729.8,
+    "last_price": 724.1,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 299.4,

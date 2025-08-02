@@ -9913,21 +9913,21 @@
       "volume": 5787462
     },
     {
-      "date": "2025-08-01T06:54:58.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 173,
       "high": 174.7100067138672,
-      "low": 172,
-      "close": 172.69000244140625,
-      "volume": 797897
+      "low": 169,
+      "close": 169.94000244140625,
+      "volume": 1585152
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "APOLLO.NS",
     "current_year": 2025,
-    "current_year_vwap": 146.94,
+    "current_year_vwap": 146.95,
     "signal_price": 151.28,
-    "last_price": 172.69,
+    "last_price": 169.94,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 12.45,

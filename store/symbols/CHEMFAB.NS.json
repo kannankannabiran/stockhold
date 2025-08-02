@@ -9913,21 +9913,21 @@
       "volume": 8286
     },
     {
-      "date": "2025-08-01T06:55:01.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 795,
       "high": 849,
-      "low": 721.2999877929688,
-      "close": 741.1500244140625,
-      "volume": 83380
+      "low": 716,
+      "close": 719.5,
+      "volume": 98700
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CHEMFAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 822.84,
+    "current_year_vwap": 821.57,
     "signal_price": 1031.8,
-    "last_price": 741.15,
+    "last_price": 719.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 169.64,

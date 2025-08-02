@@ -9913,21 +9913,21 @@
       "volume": 200376
     },
     {
-      "date": "2025-08-01T07:04:21.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 1576,
       "high": 1587,
       "low": 1550,
-      "close": 1565.300048828125,
-      "volume": 159083
+      "close": 1574.699951171875,
+      "volume": 276868
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WABAG.NS",
     "current_year": 2025,
-    "current_year_vwap": 1454.04,
+    "current_year_vwap": 1454.26,
     "signal_price": 1677.6,
-    "last_price": 1565.3,
+    "last_price": 1574.7,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 300.36,

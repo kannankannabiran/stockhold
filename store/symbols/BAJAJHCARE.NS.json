@@ -7297,21 +7297,21 @@
       "volume": 125588
     },
     {
-      "date": "2025-08-01T06:49:21.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 489,
       "high": 489.70001220703125,
-      "low": 479.8999938964844,
-      "close": 482.20001220703125,
-      "volume": 44561
+      "low": 464.29998779296875,
+      "close": 468.3500061035156,
+      "volume": 114757
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BAJAJHCARE.NS",
     "current_year": 2025,
-    "current_year_vwap": 604.81,
+    "current_year_vwap": 604.65,
     "signal_price": 632.25,
-    "last_price": 482.2,
+    "last_price": 468.35,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 393.58,

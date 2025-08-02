@@ -9913,14 +9913,28 @@
       "volume": 1038
     },
     {
-      "date": "2025-08-01T06:45:09.000Z",
+      "date": "2025-08-01T09:44:32.000Z",
       "open": 7.119999885559082,
-      "high": 7.150000095367432,
+      "high": 7.289999961853027,
       "low": 7.119999885559082,
-      "close": 7.150000095367432,
-      "volume": 7702
+      "close": 7.28000020980835,
+      "volume": 11470
     }
   ],
   "lastScanDate": "2025-08-01",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "CREATIVEYE.NS",
+    "current_year": 2025,
+    "current_year_vwap": 8.59,
+    "signal_price": 8.87,
+    "last_price": 7.28,
+    "condition_date": "2025-02-10",
+    "previous_years": {
+      "2021": 3.68,
+      "2022": 4.83,
+      "2023": 3.98,
+      "2024": 7.16
+    },
+    "trend": "Price > 4Y VWAPs"
+  }
 }

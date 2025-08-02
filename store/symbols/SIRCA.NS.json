@@ -9913,21 +9913,21 @@
       "volume": 552715
     },
     {
-      "date": "2025-08-01T06:54:40.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 438,
       "high": 444.6499938964844,
-      "low": 436.6000061035156,
-      "close": 438.20001220703125,
-      "volume": 201251
+      "low": 432.79998779296875,
+      "close": 434.54998779296875,
+      "volume": 373915
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SIRCA.NS",
     "current_year": 2025,
-    "current_year_vwap": 351.89,
+    "current_year_vwap": 352.35,
     "signal_price": 354.25,
-    "last_price": 438.2,
+    "last_price": 434.55,
     "condition_date": "2025-06-02",
     "previous_years": {
       "2021": 205.99,

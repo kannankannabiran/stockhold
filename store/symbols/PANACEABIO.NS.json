@@ -9913,22 +9913,22 @@
       "volume": 342524
     },
     {
-      "date": "2025-08-01T06:53:33.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 400.1000061035156,
       "high": 411.6499938964844,
-      "low": 400.1000061035156,
-      "close": 408.1000061035156,
-      "volume": 77821
+      "low": 393.70001220703125,
+      "close": 401.3999938964844,
+      "volume": 154073
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PANACEABIO.NS",
     "current_year": 2025,
-    "current_year_vwap": 439.55,
-    "signal_price": 443.2,
-    "last_price": 408.1,
-    "condition_date": "2025-01-03",
+    "current_year_vwap": 439.46,
+    "signal_price": 439.5,
+    "last_price": 401.4,
+    "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 309.64,
       "2022": 168.63,

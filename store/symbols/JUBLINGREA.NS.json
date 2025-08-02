@@ -8641,21 +8641,21 @@
       "volume": 1374167
     },
     {
-      "date": "2025-08-01T07:04:55.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 784.0999755859375,
       "high": 799,
-      "low": 769.9000244140625,
-      "close": 773.4000244140625,
-      "volume": 306876
+      "low": 743.1500244140625,
+      "close": 754.4000244140625,
+      "volume": 741921
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JUBLINGREA.NS",
     "current_year": 2025,
-    "current_year_vwap": 734.38,
+    "current_year_vwap": 734.46,
     "signal_price": 823.4,
-    "last_price": 773.4,
+    "last_price": 754.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 609.33,

@@ -9913,21 +9913,21 @@
       "volume": 21605
     },
     {
-      "date": "2025-08-01T06:51:03.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 6699,
       "high": 6740.5,
-      "low": 6581.5,
-      "close": 6624.5,
-      "volume": 5194
+      "low": 6431,
+      "close": 6461.5,
+      "volume": 8929
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ICRA.NS",
     "current_year": 2025,
-    "current_year_vwap": 6250.13,
+    "current_year_vwap": 6250.57,
     "signal_price": 6467.55,
-    "last_price": 6624.5,
+    "last_price": 6461.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3426.31,

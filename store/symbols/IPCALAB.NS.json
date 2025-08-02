@@ -9913,21 +9913,21 @@
       "volume": 302398
     },
     {
-      "date": "2025-08-01T07:00:57.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1484.0999755859375,
       "high": 1489.4000244140625,
       "low": 1439.300048828125,
-      "close": 1456.800048828125,
-      "volume": 73999
+      "close": 1450.199951171875,
+      "volume": 151738
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "IPCALAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 1459.68,
+    "current_year_vwap": 1459.67,
     "signal_price": 1692.95,
-    "last_price": 1456.8,
+    "last_price": 1450.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1062.83,

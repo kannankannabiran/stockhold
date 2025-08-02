@@ -9913,21 +9913,21 @@
       "volume": 2688715
     },
     {
-      "date": "2025-08-01T07:01:58.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 608.75,
       "high": 609.9500122070312,
       "low": 592.2000122070312,
-      "close": 593.5499877929688,
-      "volume": 330150
+      "close": 595.4000244140625,
+      "volume": 559307
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASTERDM.NS",
     "current_year": 2025,
-    "current_year_vwap": 534.06,
+    "current_year_vwap": 534.14,
     "signal_price": 535,
-    "last_price": 593.55,
+    "last_price": 595.4,
     "condition_date": "2025-05-07",
     "previous_years": {
       "2021": 184.21,

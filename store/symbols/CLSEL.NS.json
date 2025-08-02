@@ -8369,21 +8369,21 @@
       "volume": 47305
     },
     {
-      "date": "2025-08-01T07:01:29.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 317,
       "high": 320.79998779296875,
-      "low": 312.3999938964844,
-      "close": 315.3999938964844,
-      "volume": 19122
+      "low": 308.6000061035156,
+      "close": 311.6499938964844,
+      "volume": 48748
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CLSEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 342.4,
+    "current_year_vwap": 342.33,
     "signal_price": 420.4,
-    "last_price": 315.4,
+    "last_price": 311.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 127.18,

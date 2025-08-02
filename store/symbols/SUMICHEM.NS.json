@@ -9913,21 +9913,21 @@
       "volume": 1493087
     },
     {
-      "date": "2025-08-01T07:03:35.000Z",
+      "date": "2025-08-01T09:59:51.000Z",
       "open": 651,
       "high": 656,
-      "low": 643,
-      "close": 648.5,
-      "volume": 368611
+      "low": 626.2000122070312,
+      "close": 630.6500244140625,
+      "volume": 681580
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SUMICHEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 536.61,
+    "current_year_vwap": 537.01,
     "signal_price": 541,
-    "last_price": 648.5,
+    "last_price": 630.65,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 363.36,

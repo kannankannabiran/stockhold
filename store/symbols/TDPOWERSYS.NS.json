@@ -9913,21 +9913,21 @@
       "volume": 1586663
     },
     {
-      "date": "2025-08-01T07:05:57.000Z",
+      "date": "2025-08-01T09:59:55.000Z",
       "open": 510.1000061035156,
       "high": 518.7000122070312,
       "low": 498.70001220703125,
-      "close": 508.1499938964844,
-      "volume": 335138
+      "close": 504.95001220703125,
+      "volume": 678919
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TDPOWERSYS.NS",
     "current_year": 2025,
-    "current_year_vwap": 437.64,
+    "current_year_vwap": 437.82,
     "signal_price": 446.5,
-    "last_price": 508.15,
+    "last_price": 504.95,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 50.23,

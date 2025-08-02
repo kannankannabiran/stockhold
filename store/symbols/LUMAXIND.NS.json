@@ -9913,21 +9913,21 @@
       "volume": 7402
     },
     {
-      "date": "2025-08-01T06:58:46.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 3929.5,
       "high": 3970,
-      "low": 3841,
-      "close": 3855.60009765625,
-      "volume": 4934
+      "low": 3680,
+      "close": 3732.89990234375,
+      "volume": 13218
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "LUMAXIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3123.41,
+    "current_year_vwap": 3126.5,
     "signal_price": 3132,
-    "last_price": 3855.6,
+    "last_price": 3732.9,
     "condition_date": "2025-06-06",
     "previous_years": {
       "2021": 1492.92,

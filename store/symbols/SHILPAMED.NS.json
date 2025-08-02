@@ -9913,21 +9913,21 @@
       "volume": 105637
     },
     {
-      "date": "2025-08-01T06:54:10.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 883.75,
       "high": 883.75,
-      "low": 861,
-      "close": 879.5999755859375,
-      "volume": 17412
+      "low": 854,
+      "close": 857.25,
+      "volume": 56291
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "SHILPAMED.NS",
     "current_year": 2025,
-    "current_year_vwap": 770.26,
+    "current_year_vwap": 770.35,
     "signal_price": 817.55,
-    "last_price": 879.6,
+    "last_price": 857.25,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 527.16,

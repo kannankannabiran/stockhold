@@ -9913,21 +9913,21 @@
       "volume": 8617317
     },
     {
-      "date": "2025-08-01T06:59:10.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 202.67999267578125,
       "high": 202.9199981689453,
-      "low": 197.5,
-      "close": 198.1300048828125,
-      "volume": 4615024
+      "low": 194.41000366210938,
+      "close": 196.05999755859375,
+      "volume": 10944722
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "FEDERALBNK.NS",
     "current_year": 2025,
-    "current_year_vwap": 197.38,
+    "current_year_vwap": 197.37,
     "signal_price": 200.51,
-    "last_price": 198.13,
+    "last_price": 196.06,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 84.03,

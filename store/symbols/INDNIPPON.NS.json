@@ -9913,21 +9913,21 @@
       "volume": 9264
     },
     {
-      "date": "2025-08-01T07:00:39.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 769.5,
-      "high": 777,
+      "high": 804.3499755859375,
       "low": 752.0499877929688,
-      "close": 769.9000244140625,
-      "volume": 4064
+      "close": 783.6500244140625,
+      "volume": 25580
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDNIPPON.NS",
     "current_year": 2025,
-    "current_year_vwap": 691.25,
+    "current_year_vwap": 691.93,
     "signal_price": 704.05,
-    "last_price": 769.9,
+    "last_price": 783.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 385.44,

@@ -9913,21 +9913,21 @@
       "volume": 55115
     },
     {
-      "date": "2025-08-01T06:57:44.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 894,
       "high": 910.2000122070312,
-      "low": 893.9500122070312,
-      "close": 906.4000244140625,
-      "volume": 24635
+      "low": 872,
+      "close": 884.4000244140625,
+      "volume": 55186
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GANESHHOUC.NS",
     "current_year": 2025,
-    "current_year_vwap": 1152.63,
+    "current_year_vwap": 1152.31,
     "signal_price": 1247.55,
-    "last_price": 906.4,
+    "last_price": 884.4,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 130.96,

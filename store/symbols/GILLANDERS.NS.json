@@ -9913,21 +9913,21 @@
       "volume": 158681
     },
     {
-      "date": "2025-08-01T07:01:14.000Z",
+      "date": "2025-08-01T09:59:33.000Z",
       "open": 148.1999969482422,
       "high": 151.89999389648438,
-      "low": 145,
-      "close": 147.6300048828125,
-      "volume": 192525
+      "low": 143.5,
+      "close": 145.30999755859375,
+      "volume": 226022
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GILLANDERS.NS",
     "current_year": 2025,
-    "current_year_vwap": 133.12,
+    "current_year_vwap": 133.16,
     "signal_price": 135.15,
-    "last_price": 147.63,
+    "last_price": 145.31,
     "condition_date": "2025-06-18",
     "previous_years": {
       "2021": 50.92,

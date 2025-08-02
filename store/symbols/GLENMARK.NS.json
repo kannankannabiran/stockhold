@@ -9913,21 +9913,21 @@
       "volume": 994348
     },
     {
-      "date": "2025-08-01T07:00:28.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2133,
       "high": 2133,
-      "low": 2061.39990234375,
-      "close": 2072,
-      "volume": 672899
+      "low": 2053.699951171875,
+      "close": 2067.800048828125,
+      "volume": 1484673
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GLENMARK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1700.97,
+    "current_year_vwap": 1703.2,
     "signal_price": 1717.1,
-    "last_price": 2072,
+    "last_price": 2067.8,
     "condition_date": "2025-06-25",
     "previous_years": {
       "2021": 555.09,

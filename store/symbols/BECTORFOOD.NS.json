@@ -9105,21 +9105,21 @@
       "volume": 50723
     },
     {
-      "date": "2025-08-01T07:04:27.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1511.199951171875,
       "high": 1521,
-      "low": 1482.5,
-      "close": 1484,
-      "volume": 18759
+      "low": 1450,
+      "close": 1461.300048828125,
+      "volume": 33448
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BECTORFOOD.NS",
     "current_year": 2025,
-    "current_year_vwap": 1463.6,
+    "current_year_vwap": 1463.59,
     "signal_price": 1639.7,
-    "last_price": 1484,
+    "last_price": 1461.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 416.39,

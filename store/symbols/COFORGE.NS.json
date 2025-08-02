@@ -9913,21 +9913,21 @@
       "volume": 2814159
     },
     {
-      "date": "2025-08-01T06:57:57.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 1744.800048828125,
       "high": 1746.5,
-      "low": 1717.699951171875,
-      "close": 1729.9000244140625,
-      "volume": 514640
+      "low": 1700.4000244140625,
+      "close": 1706.300048828125,
+      "volume": 1167451
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "COFORGE.NS",
     "current_year": 2025,
-    "current_year_vwap": 1607.72,
+    "current_year_vwap": 1607.87,
     "signal_price": 1925.71,
-    "last_price": 1729.9,
+    "last_price": 1706.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 804.7,

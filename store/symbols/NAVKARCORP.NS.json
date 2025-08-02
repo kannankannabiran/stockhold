@@ -9913,21 +9913,21 @@
       "volume": 1015323
     },
     {
-      "date": "2025-08-01T07:00:05.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 132.2100067138672,
       "high": 132.7899932861328,
-      "low": 129.1999969482422,
-      "close": 129.6199951171875,
-      "volume": 259374
+      "low": 124.0999984741211,
+      "close": 125.02999877929688,
+      "volume": 889351
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NAVKARCORP.NS",
     "current_year": 2025,
-    "current_year_vwap": 117.05,
+    "current_year_vwap": 117.09,
     "signal_price": 165.26,
-    "last_price": 129.62,
+    "last_price": 125.03,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 43.2,

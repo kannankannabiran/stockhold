@@ -9913,21 +9913,21 @@
       "volume": 135845
     },
     {
-      "date": "2025-08-01T06:56:08.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 750.0999755859375,
-      "high": 759.2000122070312,
-      "low": 746.75,
-      "close": 748.25,
-      "volume": 54413
+      "high": 767,
+      "low": 739.3499755859375,
+      "close": 757.7000122070312,
+      "volume": 113623
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PSPPROJECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 696.31,
+    "current_year_vwap": 696.49,
     "signal_price": 698.65,
-    "last_price": 748.25,
+    "last_price": 757.7,
     "condition_date": "2025-06-13",
     "previous_years": {
       "2021": 475.15,

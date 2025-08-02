@@ -9913,21 +9913,21 @@
       "volume": 633255
     },
     {
-      "date": "2025-08-01T07:01:56.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 564,
       "high": 567.9500122070312,
-      "low": 548.0499877929688,
-      "close": 548.0499877929688,
-      "volume": 73790
+      "low": 535.0499877929688,
+      "close": 537.3499755859375,
+      "volume": 186410
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KRISHANA.NS",
     "current_year": 2025,
-    "current_year_vwap": 384.7,
+    "current_year_vwap": 385.33,
     "signal_price": 396.9,
-    "last_price": 548.05,
+    "last_price": 537.35,
     "condition_date": "2025-05-26",
     "previous_years": {
       "2021": 64.66,

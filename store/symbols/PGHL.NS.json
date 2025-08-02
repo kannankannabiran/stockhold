@@ -9913,14 +9913,28 @@
       "volume": 6996
     },
     {
-      "date": "2025-08-01T06:59:41.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 5895.5,
-      "high": 5959,
+      "high": 6500,
       "low": 5895.5,
-      "close": 5941.5,
-      "volume": 6681
+      "close": 6217,
+      "volume": 240924
     }
   ],
   "lastScanDate": "2025-08-01",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "PGHL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 5586.26,
+    "signal_price": 5729.5,
+    "last_price": 6217,
+    "condition_date": "2025-05-28",
+    "previous_years": {
+      "2021": 5976.86,
+      "2022": 4323.49,
+      "2023": 4930.22,
+      "2024": 5145.47
+    },
+    "trend": "Price > 4Y VWAPs"
+  }
 }

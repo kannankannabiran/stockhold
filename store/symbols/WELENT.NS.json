@@ -9913,21 +9913,21 @@
       "volume": 66768
     },
     {
-      "date": "2025-08-01T06:52:39.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 492,
       "high": 495.79998779296875,
-      "low": 490,
-      "close": 490,
-      "volume": 29188
+      "low": 478.1000061035156,
+      "close": 483.79998779296875,
+      "volume": 114170
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WELENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 529.18,
+    "current_year_vwap": 529.08,
     "signal_price": 601.05,
-    "last_price": 490,
+    "last_price": 483.8,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 108.97,

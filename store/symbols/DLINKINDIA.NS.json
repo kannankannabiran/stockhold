@@ -9913,21 +9913,21 @@
       "volume": 91441
     },
     {
-      "date": "2025-08-01T07:03:51.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 509.1000061035156,
       "high": 522.2000122070312,
-      "low": 507,
-      "close": 507.3500061035156,
-      "volume": 71305
+      "low": 504.1000061035156,
+      "close": 509.8500061035156,
+      "volume": 140389
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DLINKINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 498.44,
+    "current_year_vwap": 498.47,
     "signal_price": 547.7,
-    "last_price": 507.35,
+    "last_price": 509.85,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 139.73,

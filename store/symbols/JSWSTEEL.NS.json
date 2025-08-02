@@ -9913,21 +9913,21 @@
       "volume": 3144726
     },
     {
-      "date": "2025-08-01T06:55:58.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1054,
       "high": 1054,
-      "low": 1025.0999755859375,
-      "close": 1034.9000244140625,
-      "volume": 972522
+      "low": 1023.5999755859375,
+      "close": 1027.800048828125,
+      "volume": 1604652
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JSWSTEEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 992.87,
+    "current_year_vwap": 992.96,
     "signal_price": 1002.7,
-    "last_price": 1034.9,
+    "last_price": 1027.8,
     "condition_date": "2025-03-05",
     "previous_years": {
       "2021": 615.49,

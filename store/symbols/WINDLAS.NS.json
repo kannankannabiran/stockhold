@@ -7841,21 +7841,21 @@
       "volume": 38037
     },
     {
-      "date": "2025-08-01T07:00:05.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 999.9000244140625,
       "high": 999.9000244140625,
-      "low": 981,
-      "close": 990,
-      "volume": 8303
+      "low": 960.2999877929688,
+      "close": 966.0499877929688,
+      "volume": 28742
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "WINDLAS.NS",
     "current_year": 2025,
-    "current_year_vwap": 916.5,
+    "current_year_vwap": 916.59,
     "signal_price": 1044,
-    "last_price": 990,
+    "last_price": 966.05,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 370.66,

@@ -9913,21 +9913,21 @@
       "volume": 12526255
     },
     {
-      "date": "2025-08-01T06:54:17.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 363.04998779296875,
       "high": 364.20001220703125,
-      "low": 351,
-      "close": 351.6000061035156,
-      "volume": 3691079
+      "low": 343.8500061035156,
+      "close": 345.1000061035156,
+      "volume": 6249889
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "INDUSTOWER.NS",
     "current_year": 2025,
-    "current_year_vwap": 371.26,
+    "current_year_vwap": 371.19,
     "signal_price": 375.6,
-    "last_price": 351.6,
+    "last_price": 345.1,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 263.11,

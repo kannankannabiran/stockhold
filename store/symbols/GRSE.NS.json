@@ -9913,21 +9913,21 @@
       "volume": 1204116
     },
     {
-      "date": "2025-08-01T06:53:31.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 2620,
       "high": 2621.89990234375,
       "low": 2552.10009765625,
-      "close": 2557.5,
-      "volume": 281176
+      "close": 2580.699951171875,
+      "volume": 524682
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GRSE.NS",
     "current_year": 2025,
-    "current_year_vwap": 2274.23,
+    "current_year_vwap": 2274.44,
     "signal_price": 2481.7,
-    "last_price": 2557.5,
+    "last_price": 2580.7,
     "condition_date": "2025-05-16",
     "previous_years": {
       "2021": 212.66,

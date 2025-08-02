@@ -8113,21 +8113,21 @@
       "volume": 41867
     },
     {
-      "date": "2025-08-01T06:53:40.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 1275,
       "high": 1311.4000244140625,
       "low": 1274.199951171875,
-      "close": 1295.199951171875,
-      "volume": 26673
+      "close": 1287.300048828125,
+      "volume": 45579
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "DODLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1246.28,
+    "current_year_vwap": 1246.35,
     "signal_price": 1255.75,
-    "last_price": 1295.2,
+    "last_price": 1287.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 601.65,

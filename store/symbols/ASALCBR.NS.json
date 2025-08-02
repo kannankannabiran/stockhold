@@ -9913,21 +9913,21 @@
       "volume": 27881
     },
     {
-      "date": "2025-08-01T06:53:38.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 1042,
       "high": 1049.9000244140625,
-      "low": 1008.2000122070312,
-      "close": 1026.0999755859375,
-      "volume": 31155
+      "low": 997,
+      "close": 1002.7000122070312,
+      "volume": 83163
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASALCBR.NS",
     "current_year": 2025,
-    "current_year_vwap": 1185.76,
+    "current_year_vwap": 1184.91,
     "signal_price": 1188.6,
-    "last_price": 1026.1,
+    "last_price": 1002.7,
     "condition_date": "2025-01-20",
     "previous_years": {
       "2021": 465.95,

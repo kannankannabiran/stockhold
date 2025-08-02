@@ -8617,21 +8617,21 @@
       "volume": 64836
     },
     {
-      "date": "2025-08-01T06:55:33.000Z",
+      "date": "2025-08-01T09:59:55.000Z",
       "open": 1142,
       "high": 1147,
-      "low": 1125.0999755859375,
-      "close": 1126.699951171875,
-      "volume": 13387
+      "low": 1125,
+      "close": 1136.5999755859375,
+      "volume": 54478
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ANURAS.NS",
     "current_year": 2025,
-    "current_year_vwap": 873.06,
+    "current_year_vwap": 873.36,
     "signal_price": 875.6,
-    "last_price": 1126.7,
+    "last_price": 1136.6,
     "condition_date": "2025-05-05",
     "previous_years": {
       "2021": 655.04,

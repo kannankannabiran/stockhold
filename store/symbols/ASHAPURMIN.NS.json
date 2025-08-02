@@ -9913,22 +9913,22 @@
       "volume": 507477
     },
     {
-      "date": "2025-08-01T06:57:11.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 553.9000244140625,
       "high": 553.9000244140625,
-      "low": 542.9000244140625,
-      "close": 543.4000244140625,
-      "volume": 117566
+      "low": 523.75,
+      "close": 528.8499755859375,
+      "volume": 330729
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ASHAPURMIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 443.69,
-    "signal_price": 443.7,
-    "last_price": 543.4,
-    "condition_date": "2025-01-03",
+    "current_year_vwap": 443.95,
+    "signal_price": 484.65,
+    "last_price": 528.85,
+    "condition_date": "2025-01-08",
     "previous_years": {
       "2021": 131.38,
       "2022": 116.97,

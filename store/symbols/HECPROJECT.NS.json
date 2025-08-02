@@ -9905,19 +9905,19 @@
       "volume": 8366
     },
     {
-      "date": "2025-08-01T06:45:11.000Z",
+      "date": "2025-08-01T09:44:32.000Z",
       "open": 165.6999969482422,
       "high": 165.85000610351562,
       "low": 165.6999969482422,
       "close": 165.85000610351562,
-      "volume": 1500
+      "volume": 3400
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HECPROJECT.NS",
     "current_year": 2025,
-    "current_year_vwap": 136.42,
+    "current_year_vwap": 136.45,
     "signal_price": 138.34,
     "last_price": 165.85,
     "condition_date": "2025-05-27",

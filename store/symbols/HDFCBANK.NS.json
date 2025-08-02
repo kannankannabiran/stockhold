@@ -9913,21 +9913,21 @@
       "volume": 11091516
     },
     {
-      "date": "2025-08-01T07:00:00.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 2014,
       "high": 2028.300048828125,
-      "low": 2010.199951171875,
-      "close": 2014.4000244140625,
-      "volume": 2757365
+      "low": 2009.300048828125,
+      "close": 2012.199951171875,
+      "volume": 5658415
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "HDFCBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 1833.64,
+    "current_year_vwap": 1833.98,
     "signal_price": 1864.9,
-    "last_price": 2014.4,
+    "last_price": 2012.2,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 1504.34,

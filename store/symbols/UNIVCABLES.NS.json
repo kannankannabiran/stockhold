@@ -9913,21 +9913,21 @@
       "volume": 38035
     },
     {
-      "date": "2025-08-01T06:59:53.000Z",
+      "date": "2025-08-01T09:59:57.000Z",
       "open": 744.0999755859375,
       "high": 744.0999755859375,
-      "low": 728.2999877929688,
-      "close": 728.2999877929688,
-      "volume": 3864
+      "low": 712.1500244140625,
+      "close": 718.4500122070312,
+      "volume": 11593
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "UNIVCABLES.NS",
     "current_year": 2025,
-    "current_year_vwap": 584.68,
+    "current_year_vwap": 584.78,
     "signal_price": 833.3,
-    "last_price": 728.3,
+    "last_price": 718.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 173.73,

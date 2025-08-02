@@ -7689,21 +7689,21 @@
       "volume": 314926
     },
     {
-      "date": "2025-08-01T07:05:00.000Z",
+      "date": "2025-08-01T09:59:56.000Z",
       "open": 1074.800048828125,
-      "high": 1094.0999755859375,
+      "high": 1094.4000244140625,
       "low": 1061.800048828125,
-      "close": 1086.5999755859375,
-      "volume": 238535
+      "close": 1083.300048828125,
+      "volume": 347287
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "VIJAYA.NS",
     "current_year": 2025,
-    "current_year_vwap": 1027.52,
+    "current_year_vwap": 1027.56,
     "signal_price": 1062.75,
-    "last_price": 1086.6,
+    "last_price": 1083.3,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 597.74,

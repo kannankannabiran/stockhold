@@ -9057,21 +9057,21 @@
       "volume": 22812
     },
     {
-      "date": "2025-08-01T06:36:34.000Z",
+      "date": "2025-08-01T09:59:47.000Z",
       "open": 197.00999450683594,
-      "high": 204.89999389648438,
+      "high": 205.9499969482422,
       "low": 196.5,
-      "close": 202.25,
-      "volume": 3461
+      "close": 205.05999755859375,
+      "volume": 10630
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "KANPRPLA.NS",
     "current_year": 2025,
-    "current_year_vwap": 167.83,
+    "current_year_vwap": 167.87,
     "signal_price": 175.16,
-    "last_price": 202.25,
+    "last_price": 205.06,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 138.38,

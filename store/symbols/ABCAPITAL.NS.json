@@ -9913,21 +9913,21 @@
       "volume": 8649553
     },
     {
-      "date": "2025-08-01T06:58:22.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 256.5,
       "high": 256.6000061035156,
-      "low": 252.75,
-      "close": 253.6999969482422,
-      "volume": 1419669
+      "low": 250.0500030517578,
+      "close": 251.4499969482422,
+      "volume": 3521065
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "ABCAPITAL.NS",
     "current_year": 2025,
-    "current_year_vwap": 211.19,
+    "current_year_vwap": 211.3,
     "signal_price": 218.33,
-    "last_price": 253.7,
+    "last_price": 251.45,
     "condition_date": "2025-05-14",
     "previous_years": {
       "2021": 113.63,

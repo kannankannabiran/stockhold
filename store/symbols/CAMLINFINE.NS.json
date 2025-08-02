@@ -9913,22 +9913,22 @@
       "volume": 174722
     },
     {
-      "date": "2025-08-01T06:57:56.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 280.79998779296875,
       "high": 280.79998779296875,
-      "low": 269,
-      "close": 269,
-      "volume": 437512
+      "low": 257,
+      "close": 271.20001220703125,
+      "volume": 782147
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CAMLINFINE.NS",
     "current_year": 2025,
-    "current_year_vwap": 183.03,
-    "signal_price": 183.05,
-    "last_price": 269,
-    "condition_date": "2025-05-14",
+    "current_year_vwap": 183.15,
+    "signal_price": 197.04,
+    "last_price": 271.2,
+    "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 166.1,
       "2022": 137.76,

@@ -9913,21 +9913,21 @@
       "volume": 6059279
     },
     {
-      "date": "2025-08-01T07:01:06.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 169,
       "high": 169.50999450683594,
       "low": 164.69000244140625,
-      "close": 168.25,
-      "volume": 2698220
+      "close": 165.52999877929688,
+      "volume": 4702135
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CESC.NS",
     "current_year": 2025,
-    "current_year_vwap": 156.34,
+    "current_year_vwap": 156.37,
     "signal_price": 186.12,
-    "last_price": 168.25,
+    "last_price": 165.53,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 76.25,

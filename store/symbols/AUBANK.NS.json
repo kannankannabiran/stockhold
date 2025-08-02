@@ -9913,21 +9913,21 @@
       "volume": 3573228
     },
     {
-      "date": "2025-08-01T06:56:07.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 741.5,
       "high": 751.4500122070312,
       "low": 739.0499877929688,
-      "close": 747.6500244140625,
-      "volume": 1384018
+      "close": 741.0499877929688,
+      "volume": 2251662
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AUBANK.NS",
     "current_year": 2025,
-    "current_year_vwap": 645.7,
+    "current_year_vwap": 645.87,
     "signal_price": 665.45,
-    "last_price": 747.65,
+    "last_price": 741.05,
     "condition_date": "2025-04-23",
     "previous_years": {
       "2021": 557.92,

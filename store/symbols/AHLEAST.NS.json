@@ -9913,21 +9913,21 @@
       "volume": 6135
     },
     {
-      "date": "2025-08-01T06:45:58.000Z",
+      "date": "2025-08-01T09:59:37.000Z",
       "open": 159.74000549316406,
-      "high": 160.61000061035156,
-      "low": 159.74000549316406,
-      "close": 160.5399932861328,
-      "volume": 120
+      "high": 160.80999755859375,
+      "low": 155,
+      "close": 157.5,
+      "volume": 7529
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "AHLEAST.NS",
     "current_year": 2025,
-    "current_year_vwap": 144.31,
+    "current_year_vwap": 144.37,
     "signal_price": 171.02,
-    "last_price": 160.54,
+    "last_price": 157.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 91.83,

@@ -9913,21 +9913,21 @@
       "volume": 111901
     },
     {
-      "date": "2025-08-01T06:54:41.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 594,
       "high": 595.7999877929688,
-      "low": 586.0499877929688,
-      "close": 587.4500122070312,
-      "volume": 61742
+      "low": 573.2000122070312,
+      "close": 575.1500244140625,
+      "volume": 143258
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BANCOINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 500.02,
+    "current_year_vwap": 500.13,
     "signal_price": 513.15,
-    "last_price": 587.45,
+    "last_price": 575.15,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 87.84,

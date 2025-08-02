@@ -9913,21 +9913,21 @@
       "volume": 2267059
     },
     {
-      "date": "2025-08-01T07:05:59.000Z",
+      "date": "2025-08-01T09:59:59.000Z",
       "open": 812.0999755859375,
       "high": 816.6500244140625,
-      "low": 788.3499755859375,
-      "close": 788.5,
-      "volume": 1160015
+      "low": 775,
+      "close": 778.6500244140625,
+      "volume": 1991125
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "PGEL.NS",
     "current_year": 2025,
-    "current_year_vwap": 819.77,
+    "current_year_vwap": 819.64,
     "signal_price": 1023.7,
-    "last_price": 788.5,
+    "last_price": 778.65,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 46.53,

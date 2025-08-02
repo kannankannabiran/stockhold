@@ -9913,21 +9913,21 @@
       "volume": 324
     },
     {
-      "date": "2025-08-01T07:00:32.000Z",
+      "date": "2025-08-01T09:59:39.000Z",
       "open": 3798,
-      "high": 3850.10009765625,
+      "high": 3871.39990234375,
       "low": 3750,
-      "close": 3850,
-      "volume": 398
+      "close": 3801.199951171875,
+      "volume": 615
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BANARISUG.NS",
     "current_year": 2025,
-    "current_year_vwap": 3893.27,
+    "current_year_vwap": 3893.18,
     "signal_price": 4135.8,
-    "last_price": 3850,
+    "last_price": 3801.2,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 2001.63,

@@ -8609,21 +8609,21 @@
       "volume": 54212
     },
     {
-      "date": "2025-08-01T07:01:44.000Z",
+      "date": "2025-08-01T10:00:01.000Z",
       "open": 6674,
       "high": 6675,
-      "low": 6540,
-      "close": 6574,
-      "volume": 16076
+      "low": 6417,
+      "close": 6465,
+      "volume": 28885
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "CRAFTSMAN.NS",
     "current_year": 2025,
-    "current_year_vwap": 5157.08,
+    "current_year_vwap": 5158.84,
     "signal_price": 5324.2,
-    "last_price": 6574,
+    "last_price": 6465,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1728.66,

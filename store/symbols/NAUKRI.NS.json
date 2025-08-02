@@ -9913,21 +9913,21 @@
       "volume": 1082367
     },
     {
-      "date": "2025-08-01T06:53:59.000Z",
+      "date": "2025-08-01T10:00:00.000Z",
       "open": 1395,
       "high": 1399.9000244140625,
-      "low": 1379.4000244140625,
-      "close": 1383.0999755859375,
-      "volume": 233462
+      "low": 1364.199951171875,
+      "close": 1367.9000244140625,
+      "volume": 432220
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "NAUKRI.NS",
     "current_year": 2025,
-    "current_year_vwap": 1454.65,
+    "current_year_vwap": 1454.57,
     "signal_price": 1746.08,
-    "last_price": 1383.1,
+    "last_price": 1367.9,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1050.45,

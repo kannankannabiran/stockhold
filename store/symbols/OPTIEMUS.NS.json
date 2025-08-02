@@ -9913,12 +9913,12 @@
       "volume": 241262
     },
     {
-      "date": "2025-08-01T06:58:21.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 595,
       "high": 610.4000244140625,
-      "low": 593.4000244140625,
-      "close": 603.3499755859375,
-      "volume": 72701
+      "low": 591,
+      "close": 600,
+      "volume": 160074
     }
   ],
   "lastScanDate": "2025-08-01",
@@ -9927,7 +9927,7 @@
     "current_year": 2025,
     "current_year_vwap": 598.87,
     "signal_price": 720.85,
-    "last_price": 603.35,
+    "last_price": 600,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 222.4,

@@ -9913,21 +9913,21 @@
       "volume": 10081
     },
     {
-      "date": "2025-08-01T06:55:29.000Z",
+      "date": "2025-08-01T09:59:56.000Z",
       "open": 979,
       "high": 979,
-      "low": 920,
-      "close": 930.9500122070312,
-      "volume": 6287
+      "low": 899.4500122070312,
+      "close": 902.75,
+      "volume": 11535
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "BIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 731.07,
+    "current_year_vwap": 732.15,
     "signal_price": 812.7,
-    "last_price": 930.95,
+    "last_price": 902.75,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 256.45,

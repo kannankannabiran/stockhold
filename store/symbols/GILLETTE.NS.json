@@ -9913,21 +9913,21 @@
       "volume": 162247
     },
     {
-      "date": "2025-08-01T07:03:33.000Z",
+      "date": "2025-08-01T09:59:49.000Z",
       "open": 10802,
-      "high": 10856,
+      "high": 10916,
       "low": 10474,
-      "close": 10760,
-      "volume": 24032
+      "close": 10712,
+      "volume": 40476
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GILLETTE.NS",
     "current_year": 2025,
-    "current_year_vwap": 8875.49,
+    "current_year_vwap": 8879.08,
     "signal_price": 9754.35,
-    "last_price": 10760,
+    "last_price": 10712,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 5756.22,

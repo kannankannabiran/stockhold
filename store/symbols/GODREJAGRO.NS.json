@@ -9913,21 +9913,21 @@
       "volume": 468498
     },
     {
-      "date": "2025-08-01T06:55:03.000Z",
+      "date": "2025-08-01T10:00:02.000Z",
       "open": 847.7000122070312,
       "high": 867.1500244140625,
-      "low": 835,
-      "close": 838.4500122070312,
-      "volume": 254888
+      "low": 809.25,
+      "close": 814,
+      "volume": 452621
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "GODREJAGRO.NS",
     "current_year": 2025,
-    "current_year_vwap": 763.41,
+    "current_year_vwap": 763.59,
     "signal_price": 782.05,
-    "last_price": 838.45,
+    "last_price": 814,
     "condition_date": "2025-02-04",
     "previous_years": {
       "2021": 593.53,

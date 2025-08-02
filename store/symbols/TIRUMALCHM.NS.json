@@ -9913,21 +9913,21 @@
       "volume": 376380
     },
     {
-      "date": "2025-08-01T06:55:55.000Z",
+      "date": "2025-08-01T09:59:58.000Z",
       "open": 299,
       "high": 302.8999938964844,
-      "low": 293,
-      "close": 294.3500061035156,
-      "volume": 84595
+      "low": 290.04998779296875,
+      "close": 291.20001220703125,
+      "volume": 184708
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "TIRUMALCHM.NS",
     "current_year": 2025,
-    "current_year_vwap": 271.97,
+    "current_year_vwap": 272.01,
     "signal_price": 333.6,
-    "last_price": 294.35,
+    "last_price": 291.2,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 169.28,

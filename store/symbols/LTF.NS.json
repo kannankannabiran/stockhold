@@ -9913,21 +9913,21 @@
       "volume": 3524054
     },
     {
-      "date": "2025-08-01T07:00:56.000Z",
+      "date": "2025-08-01T10:00:03.000Z",
       "open": 202.8000030517578,
       "high": 203.9499969482422,
-      "low": 201.14999389648438,
-      "close": 202,
-      "volume": 2065507
+      "low": 200.3300018310547,
+      "close": 201.13999938964844,
+      "volume": 4536476
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "LTF.NS",
     "current_year": 2025,
-    "current_year_vwap": 172.97,
+    "current_year_vwap": 173.05,
     "signal_price": 173.33,
-    "last_price": 202,
+    "last_price": 201.14,
     "condition_date": "2025-04-22",
     "previous_years": {
       "2021": 92.12,

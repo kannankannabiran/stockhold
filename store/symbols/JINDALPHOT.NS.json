@@ -9913,21 +9913,21 @@
       "volume": 344
     },
     {
-      "date": "2025-08-01T06:52:37.000Z",
+      "date": "2025-08-01T09:59:51.000Z",
       "open": 841.2000122070312,
-      "high": 883,
+      "high": 884.7999877929688,
       "low": 841.2000122070312,
-      "close": 883,
-      "volume": 207
+      "close": 860.4500122070312,
+      "volume": 618
     }
   ],
   "lastScanDate": "2025-08-01",
   "latestResult": {
     "symbol": "JINDALPHOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 789.71,
+    "current_year_vwap": 789.72,
     "signal_price": 891.9,
-    "last_price": 883,
+    "last_price": 860.45,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 183.93,

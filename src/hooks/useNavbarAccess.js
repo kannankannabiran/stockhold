@@ -16,6 +16,7 @@ export const useNavbarAccess = () => {
     
     try {
       const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+      alert(userId);
       if (!userId) return false;
       
       const membersData = require('../../data/members.json');

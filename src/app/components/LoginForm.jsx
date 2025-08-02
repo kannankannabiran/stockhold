@@ -20,8 +20,12 @@ export function LoginForm({ onSuccess, onError }) {
     setLoading(true);
     const resp = await api('login', { mobile, password });
     setLoading(false);
-    if (resp.success) onSuccess && onSuccess(resp.member);
-    else onError && onError(resp.error);
+    if (resp.success) {
+      localStorage.setItem('userId', resp.member.id);
+      onSuccess && onSuccess(resp.member);
+    } else {
+      onError && onError(resp.error);
+    }
   };
 
   return (

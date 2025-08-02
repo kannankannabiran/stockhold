@@ -4,7 +4,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
 
-const DATA_FILE = path.join(process.cwd(), '..', 'stockhold_data', 'members.json');
+const DATA_FILE = path.join(process.cwd(), 'data', 'members.json');
 
 async function ensureDataFile() {
   const dir = path.dirname(DATA_FILE);

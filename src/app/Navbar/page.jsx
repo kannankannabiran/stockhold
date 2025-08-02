@@ -125,7 +125,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Left */}
         <div className="flex items-center space-x-6">
-          <Link href="https://stockhold.in/">
+          <Link href="/">
             <Image src={Logo} alt="Logo" className="w-[200px]" />
           </Link>
 

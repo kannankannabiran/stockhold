@@ -50,6 +50,7 @@ const PROTECTED_PATHS = [
   "/trendingoi",
   "/openhighnifty",
   "/herozero",
+  "/individual",
 ];
 
 export default function Navbar() {

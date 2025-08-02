@@ -6,6 +6,7 @@ import Home_page_monitor from '../../../public/about_page_chart_image.svg';
 import Mentor_img from '../../../public/kannabiran.svg';
 import Footer from '../Footer/page';
 import EssentialPrinciples from "./EssentialPrinciples";
+import Link from "next/link";
 
 // Animated Counter Component
 function AnimatedCounter({ end, label, duration = 2000 }) {
@@ -66,9 +67,9 @@ export default function Chart() {
 
               {/* Button */}
               <div className="flex flex-col sm:flex-row gap-4 mt-5">
-                <button className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center gap-2 cursor-pointer justify-center">
+                <Link href="/signup" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center gap-2 cursor-pointer justify-center">
                   Get Started <FiArrowRight />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

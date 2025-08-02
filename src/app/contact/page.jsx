@@ -5,6 +5,7 @@ import { FaYoutube, FaInstagram, FaWhatsapp, FaTelegram, FaTwitter, FaPhoneAlt }
 import { FiArrowRight } from "react-icons/fi";
 import Home_page_monitor from "../../../public/contact_page_img.svg";
 import Footer from "../Footer/page";
+import Link from "next/link";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -55,9 +56,9 @@ export default function ContactPage() {
                 what we do and the amazing team that makes it all happen!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mt-5">
-                <button className="bg-green-600 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-700 hover:text-white transition duration-200 flex items-center gap-2 cursor-pointer justify-center">
+                <Link href="/signup" className="bg-green-600 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-700 hover:text-white transition duration-200 flex items-center gap-2 cursor-pointer justify-center">
                   Get Started <FiArrowRight />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import Chart_img from '../../../public/onetoone.svg';
 import { FiArrowRight } from "react-icons/fi";
 import { FaYoutube } from "react-icons/fa";
 import Footer from '../Footer/page';
+import Link from 'next/link';
 
 export default function Chart() {
   return (
@@ -30,9 +31,9 @@ export default function Chart() {
 
       {/* Button Row */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <button className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
+        <Link href="/signup" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
           Get Started <FiArrowRight />
-        </button>
+        </Link>
 
         <button className="bg-red-400 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
           <FaYoutube className="text-white text-xl" />

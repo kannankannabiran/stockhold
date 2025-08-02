@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import articles from "./content_data/articlesData"; // adjust path as needed
+import Link from "next/link";
 
 export default function PopularArticles() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -16,9 +17,9 @@ export default function PopularArticles() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-blue-600">Popular Trading Articles</h2>
-        <button className="bg-blue-500 text-white px-5 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700 transition cursor-pointer">
+        <Link href="/signup" className="bg-blue-500 text-white px-5 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700 transition cursor-pointer">
           Get Started <FiArrowRight />
-        </button>
+        </Link>
       </div>
 
       {/* Accordion */}

@@ -12,7 +12,7 @@ const services = [
     title: "Candle Stick Pattern",
     description:
       "A social assistant that's flexible and can accommodate your schedule and needs, making life easier.",
-    link: "/signup",
+    link: "/candlestick_pattern",
   },
   {
     icon: Supplay_icon,

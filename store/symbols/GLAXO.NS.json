@@ -9919,15 +9919,55 @@
       "low": 2890,
       "close": 2936.5,
       "volume": 282729
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 2930.10009765625,
+      "high": 2936,
+      "low": 2828,
+      "close": 2869,
+      "volume": 143804
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 2869,
+      "high": 2895,
+      "low": 2811.10009765625,
+      "close": 2828.800048828125,
+      "volume": 100660
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 2824,
+      "high": 2830.699951171875,
+      "low": 2720,
+      "close": 2734.89990234375,
+      "volume": 90193
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 2720,
+      "high": 2721.199951171875,
+      "low": 2645,
+      "close": 2677.5,
+      "volume": 124214
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 2676,
+      "high": 2676,
+      "low": 2630,
+      "close": 2651,
+      "volume": 77212
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "GLAXO.NS",
     "current_year": 2025,
-    "current_year_vwap": 2660.39,
+    "current_year_vwap": 2661.99,
     "signal_price": 2693.3,
-    "last_price": 2936.5,
+    "last_price": 2651,
     "condition_date": "2025-03-05",
     "previous_years": {
       "2021": 1593.08,

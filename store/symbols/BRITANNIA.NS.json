@@ -9919,15 +9919,55 @@
       "low": 5776.5,
       "close": 5798,
       "volume": 244840
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5752.5,
+      "high": 5802,
+      "low": 5714,
+      "close": 5787,
+      "volume": 189672
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5795,
+      "high": 5795,
+      "low": 5610.5,
+      "close": 5635.5,
+      "volume": 380387
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5599.5,
+      "high": 5625,
+      "low": 5371,
+      "close": 5402.5,
+      "volume": 1123534
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5380.5,
+      "high": 5560,
+      "low": 5380.5,
+      "close": 5476.5,
+      "volume": 795974
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 5479.5,
+      "high": 5503,
+      "low": 5380,
+      "close": 5387,
+      "volume": 551426
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "BRITANNIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 5155.27,
+    "current_year_vwap": 5173.93,
     "signal_price": 5176.25,
-    "last_price": 5798,
+    "last_price": 5387,
     "condition_date": "2025-01-27",
     "previous_years": {
       "2021": 3601.69,

@@ -9919,15 +9919,55 @@
       "low": 40105,
       "close": 40390,
       "volume": 59925
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 40150,
+      "high": 41280,
+      "low": 40035,
+      "close": 41115,
+      "volume": 66056
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 41145,
+      "high": 41290,
+      "low": 39445,
+      "close": 40595,
+      "volume": 114355
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 40500,
+      "high": 40555,
+      "low": 38150,
+      "close": 38255,
+      "volume": 103119
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 38225,
+      "high": 38750,
+      "low": 37900,
+      "close": 38570,
+      "volume": 54977
+    },
+    {
+      "date": "2025-08-08T09:59:54.000Z",
+      "open": 38570,
+      "high": 39150,
+      "low": 38220,
+      "close": 38325,
+      "volume": 32501
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "BOSCHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 31959.9,
+    "current_year_vwap": 32567.18,
     "signal_price": 34032.55,
-    "last_price": 40390,
+    "last_price": 38325,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 15671.3,

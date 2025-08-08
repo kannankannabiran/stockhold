@@ -9919,15 +9919,55 @@
       "low": 3750,
       "close": 3801.199951171875,
       "volume": 615
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 3851,
+      "high": 3851,
+      "low": 3750,
+      "close": 3758.60009765625,
+      "volume": 732
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 3798.800048828125,
+      "high": 3810,
+      "low": 3750,
+      "close": 3751.800048828125,
+      "volume": 708
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 3709,
+      "high": 3798,
+      "low": 3709,
+      "close": 3750.300048828125,
+      "volume": 561
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 3799,
+      "high": 3800,
+      "low": 3750,
+      "close": 3752.89990234375,
+      "volume": 1232
+    },
+    {
+      "date": "2025-08-08T09:59:09.000Z",
+      "open": 3760,
+      "high": 3785,
+      "low": 3750.5,
+      "close": 3768.89990234375,
+      "volume": 158
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "BANARISUG.NS",
     "current_year": 2025,
-    "current_year_vwap": 3893.18,
+    "current_year_vwap": 3891.44,
     "signal_price": 4135.8,
-    "last_price": 3801.2,
+    "last_price": 3768.9,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 2001.63,

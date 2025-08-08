@@ -9919,15 +9919,55 @@
       "low": 15100,
       "close": 15271,
       "volume": 11566
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 15272,
+      "high": 15740,
+      "low": 14921,
+      "close": 15094,
+      "volume": 9340
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 15115,
+      "high": 15309,
+      "low": 14600,
+      "close": 14722,
+      "volume": 8143
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 14840,
+      "high": 15128,
+      "low": 14729,
+      "close": 15016,
+      "volume": 8614
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 14999,
+      "high": 14999,
+      "low": 14515,
+      "close": 14603,
+      "volume": 5579
+    },
+    {
+      "date": "2025-08-08T09:59:54.000Z",
+      "open": 14720,
+      "high": 15098,
+      "low": 14569,
+      "close": 14646,
+      "volume": 7816
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "MAHSCOOTER.NS",
     "current_year": 2025,
-    "current_year_vwap": 12171.64,
+    "current_year_vwap": 12246.84,
     "signal_price": 12330,
-    "last_price": 15271,
+    "last_price": 14646,
     "condition_date": "2025-05-15",
     "previous_years": {
       "2021": 4072.63,

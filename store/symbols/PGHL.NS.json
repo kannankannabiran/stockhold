@@ -9919,15 +9919,55 @@
       "low": 5895.5,
       "close": 6217,
       "volume": 240924
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6440,
+      "high": 6450,
+      "low": 6235,
+      "close": 6284.5,
+      "volume": 61427
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 6345.5,
+      "high": 6345.5,
+      "low": 6129.5,
+      "close": 6173,
+      "volume": 15461
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 6179,
+      "high": 6216,
+      "low": 6062,
+      "close": 6152.5,
+      "volume": 7069
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 6155,
+      "high": 6350,
+      "low": 6082.5,
+      "close": 6313,
+      "volume": 26559
+    },
+    {
+      "date": "2025-08-08T09:59:57.000Z",
+      "open": 6313,
+      "high": 6350,
+      "low": 6230.5,
+      "close": 6343,
+      "volume": 9735
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "PGHL.NS",
     "current_year": 2025,
-    "current_year_vwap": 5586.26,
+    "current_year_vwap": 5634.35,
     "signal_price": 5729.5,
-    "last_price": 6217,
+    "last_price": 6343,
     "condition_date": "2025-05-28",
     "previous_years": {
       "2021": 5976.86,

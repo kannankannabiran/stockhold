@@ -9919,15 +9919,55 @@
       "low": 6750,
       "close": 6782.5,
       "volume": 56748
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6806,
+      "high": 7165,
+      "low": 6745.5,
+      "close": 6976,
+      "volume": 246285
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 7100,
+      "high": 7630,
+      "low": 7075.5,
+      "close": 7138,
+      "volume": 1347839
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 7150,
+      "high": 7218,
+      "low": 7057,
+      "close": 7084.5,
+      "volume": 116467
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 7093,
+      "high": 7122,
+      "low": 6850,
+      "close": 6902.5,
+      "volume": 93813
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 6970,
+      "high": 6970,
+      "low": 6853,
+      "close": 6894.5,
+      "volume": 51325
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "TATAINVEST.NS",
     "current_year": 2025,
-    "current_year_vwap": 6337.28,
+    "current_year_vwap": 6461.89,
     "signal_price": 6849.05,
-    "last_price": 6782.5,
+    "last_price": 6894.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1305.16,

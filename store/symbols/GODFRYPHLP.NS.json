@@ -9919,16 +9919,56 @@
       "low": 8750,
       "close": 8777,
       "volume": 159176
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 8860,
+      "high": 9150,
+      "low": 8722.5,
+      "close": 8983.5,
+      "volume": 194975
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 9450,
+      "high": 9881.5,
+      "low": 9361.5,
+      "close": 9874.5,
+      "volume": 1053509
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 9918,
+      "high": 10861.5,
+      "low": 9900,
+      "close": 10854.5,
+      "volume": 1406657
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 11120,
+      "high": 11444,
+      "low": 9830.5,
+      "close": 9998.5,
+      "volume": 1029409
+    },
+    {
+      "date": "2025-08-08T10:00:02.000Z",
+      "open": 10105.5,
+      "high": 10450,
+      "low": 9770,
+      "close": 9949.5,
+      "volume": 637060
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "GODFRYPHLP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6780.61,
-    "signal_price": 7038,
-    "last_price": 8777,
-    "condition_date": "2025-02-17",
+    "current_year_vwap": 7148.73,
+    "signal_price": 7173.5,
+    "last_price": 9949.5,
+    "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 1058.16,
       "2022": 1489.83,

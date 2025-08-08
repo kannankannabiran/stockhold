@@ -9919,15 +9919,55 @@
       "low": 6502,
       "close": 6544,
       "volume": 7395
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6598,
+      "high": 6672,
+      "low": 6474,
+      "close": 6647,
+      "volume": 9934
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 6725,
+      "high": 6778,
+      "low": 6650,
+      "close": 6683,
+      "volume": 4179
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 6665,
+      "high": 6709,
+      "low": 6626.5,
+      "close": 6658,
+      "volume": 4073
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 6640.5,
+      "high": 6699.5,
+      "low": 6534.5,
+      "close": 6628,
+      "volume": 6833
+    },
+    {
+      "date": "2025-08-08T09:59:14.000Z",
+      "open": 6785,
+      "high": 6826,
+      "low": 6616.5,
+      "close": 6690.5,
+      "volume": 6594
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "NSIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 6614.17,
+    "current_year_vwap": 6614.67,
     "signal_price": 7892.85,
-    "last_price": 6544,
+    "last_price": 6690.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1508.21,

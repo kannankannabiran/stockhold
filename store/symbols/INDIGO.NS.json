@@ -9919,16 +9919,56 @@
       "low": 5780.5,
       "close": 5788.5,
       "volume": 523253
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5800,
+      "high": 5817,
+      "low": 5742,
+      "close": 5780.5,
+      "volume": 545636
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5765.5,
+      "high": 5802,
+      "low": 5706,
+      "close": 5781.5,
+      "volume": 929923
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5800,
+      "high": 5916,
+      "low": 5781.5,
+      "close": 5893.5,
+      "volume": 980678
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5893.5,
+      "high": 5907,
+      "low": 5793.5,
+      "close": 5859,
+      "volume": 483125
+    },
+    {
+      "date": "2025-08-08T10:00:01.000Z",
+      "open": 5848.5,
+      "high": 5865,
+      "low": 5761,
+      "close": 5769.5,
+      "volume": 345639
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "INDIGO.NS",
     "current_year": 2025,
-    "current_year_vwap": 5155.12,
-    "signal_price": 5157.05,
-    "last_price": 5788.5,
-    "condition_date": "2025-04-08",
+    "current_year_vwap": 5167.1,
+    "signal_price": 5193.75,
+    "last_price": 5769.5,
+    "condition_date": "2025-04-09",
     "previous_years": {
       "2021": 1823.16,
       "2022": 1888.29,

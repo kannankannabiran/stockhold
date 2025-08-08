@@ -9919,15 +9919,55 @@
       "low": 6335.5,
       "close": 6361.5,
       "volume": 467198
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6372,
+      "high": 6513.5,
+      "low": 6343,
+      "close": 6489.5,
+      "volume": 351237
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 6489.5,
+      "high": 6530.5,
+      "low": 6363.5,
+      "close": 6409,
+      "volume": 377699
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 6410.5,
+      "high": 6449,
+      "low": 6054.5,
+      "close": 6133.5,
+      "volume": 984259
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 6150,
+      "high": 6174.5,
+      "low": 5960.5,
+      "close": 6131.5,
+      "volume": 1004420
+    },
+    {
+      "date": "2025-08-08T09:59:58.000Z",
+      "open": 6100,
+      "high": 6118,
+      "low": 5893.5,
+      "close": 5914.5,
+      "volume": 541273
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "DIVISLAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 6146.64,
+    "current_year_vwap": 6148.59,
     "signal_price": 6215.5,
-    "last_price": 6361.5,
+    "last_price": 5914.5,
     "condition_date": "2025-04-24",
     "previous_years": {
       "2021": 4249.33,

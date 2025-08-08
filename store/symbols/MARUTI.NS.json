@@ -9919,15 +9919,55 @@
       "low": 12273,
       "close": 12302,
       "volume": 345966
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 12326,
+      "high": 12425,
+      "low": 12225,
+      "close": 12365,
+      "volume": 255693
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 12400,
+      "high": 12577,
+      "low": 12370,
+      "close": 12537,
+      "volume": 233560
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 12570,
+      "high": 12619,
+      "low": 12483,
+      "close": 12524,
+      "volume": 151608
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 12525,
+      "high": 12654,
+      "low": 12429,
+      "close": 12632,
+      "volume": 173393
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 12630,
+      "high": 12725,
+      "low": 12564,
+      "close": 12590,
+      "volume": 247047
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "MARUTI.NS",
     "current_year": 2025,
-    "current_year_vwap": 12207.25,
+    "current_year_vwap": 12212.85,
     "signal_price": 12310.65,
-    "last_price": 12302,
+    "last_price": 12590,
     "condition_date": "2025-01-31",
     "previous_years": {
       "2021": 7264.32,

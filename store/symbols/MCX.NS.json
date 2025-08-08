@@ -9919,15 +9919,55 @@
       "low": 7534.5,
       "close": 7595.5,
       "volume": 382830
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 7809.5,
+      "high": 8060,
+      "low": 7757,
+      "close": 7977.5,
+      "volume": 1376194
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 7981,
+      "high": 7981,
+      "low": 7680,
+      "close": 7877,
+      "volume": 882130
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 7898,
+      "high": 7898,
+      "low": 7725,
+      "close": 7743,
+      "volume": 342792
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 7714.5,
+      "high": 7899.5,
+      "low": 7701,
+      "close": 7885,
+      "volume": 405677
+    },
+    {
+      "date": "2025-08-08T10:00:00.000Z",
+      "open": 7900,
+      "high": 7909.5,
+      "low": 7655.5,
+      "close": 7712.5,
+      "volume": 323627
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "MCX.NS",
     "current_year": 2025,
-    "current_year_vwap": 6718.06,
+    "current_year_vwap": 6762.68,
     "signal_price": 6832.5,
-    "last_price": 7595.5,
+    "last_price": 7712.5,
     "condition_date": "2025-06-03",
     "previous_years": {
       "2021": 1690.23,

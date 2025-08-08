@@ -9919,15 +9919,55 @@
       "low": 33205,
       "close": 33595,
       "volume": 7113
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 33595,
+      "high": 34220,
+      "low": 33235,
+      "close": 33995,
+      "volume": 5526
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 33855,
+      "high": 34100,
+      "low": 33200,
+      "close": 33255,
+      "volume": 7996
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 33320,
+      "high": 33500,
+      "low": 32415,
+      "close": 32605,
+      "volume": 8725
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 32250,
+      "high": 32900,
+      "low": 32250,
+      "close": 32720,
+      "volume": 4237
+    },
+    {
+      "date": "2025-08-08T10:00:00.000Z",
+      "open": 32720,
+      "high": 32990,
+      "low": 32600,
+      "close": 32845,
+      "volume": 3018
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "ABBOTINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 30413.21,
+    "current_year_vwap": 30459.69,
     "signal_price": 31183.55,
-    "last_price": 33595,
+    "last_price": 32845,
     "condition_date": "2025-03-03",
     "previous_years": {
       "2021": 17665.18,

@@ -9919,15 +9919,55 @@
       "low": 5256.5,
       "close": 5355,
       "volume": 6110
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5355,
+      "high": 5481,
+      "low": 5200,
+      "close": 5253.5,
+      "volume": 4004
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5283.5,
+      "high": 5283.5,
+      "low": 5088.5,
+      "close": 5126,
+      "volume": 3585
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5105,
+      "high": 5178,
+      "low": 4922,
+      "close": 5005,
+      "volume": 2710
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5020,
+      "high": 5059,
+      "low": 4830,
+      "close": 4887,
+      "volume": 2957
+    },
+    {
+      "date": "2025-08-08T09:59:54.000Z",
+      "open": 4928,
+      "high": 4971,
+      "low": 4780,
+      "close": 4827.5,
+      "volume": 2422
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "FOSECOIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 4653.66,
+    "current_year_vwap": 4668.01,
     "signal_price": 4704.8,
-    "last_price": 5355,
+    "last_price": 4827.5,
     "condition_date": "2025-06-11",
     "previous_years": {
       "2021": 1508.79,

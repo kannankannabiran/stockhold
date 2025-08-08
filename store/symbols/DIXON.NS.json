@@ -9919,15 +9919,55 @@
       "low": 16787,
       "close": 16848,
       "volume": 341296
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 16896,
+      "high": 17129,
+      "low": 16820,
+      "close": 17002,
+      "volume": 208266
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 17002,
+      "high": 17099,
+      "low": 16763,
+      "close": 16849,
+      "volume": 208975
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 16849,
+      "high": 16881,
+      "low": 16458,
+      "close": 16513,
+      "volume": 250727
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 16250,
+      "high": 16698,
+      "low": 16250,
+      "close": 16663,
+      "volume": 232821
+    },
+    {
+      "date": "2025-08-08T09:59:59.000Z",
+      "open": 16690,
+      "high": 16700,
+      "low": 15810,
+      "close": 15864,
+      "volume": 328305
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "DIXON.NS",
     "current_year": 2025,
-    "current_year_vwap": 15207.29,
+    "current_year_vwap": 15232.79,
     "signal_price": 17994.2,
-    "last_price": 16848,
+    "last_price": 15864,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 4380.72,

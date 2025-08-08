@@ -9919,15 +9919,55 @@
       "low": 145050,
       "close": 145905,
       "volume": 6369
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 145900,
+      "high": 147195,
+      "low": 143995,
+      "close": 144285,
+      "volume": 6882
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 144600,
+      "high": 146280,
+      "low": 144200,
+      "close": 145845,
+      "volume": 3962
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 147000,
+      "high": 147385,
+      "low": 145700,
+      "close": 146385,
+      "volume": 4222
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 145500,
+      "high": 146130,
+      "low": 143500,
+      "close": 144265,
+      "volume": 4325
+    },
+    {
+      "date": "2025-08-08T09:59:46.000Z",
+      "open": 144700,
+      "high": 144700,
+      "low": 142000,
+      "close": 142715,
+      "volume": 2850
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "MRF.NS",
     "current_year": 2025,
-    "current_year_vwap": 128906.16,
+    "current_year_vwap": 129219.11,
     "signal_price": 129374.5,
-    "last_price": 145905,
+    "last_price": 142715,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 84235.07,

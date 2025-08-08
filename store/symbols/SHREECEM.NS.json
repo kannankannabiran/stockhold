@@ -9919,15 +9919,55 @@
       "low": 30540,
       "close": 30675,
       "volume": 29448
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 30725,
+      "high": 31110,
+      "low": 30120,
+      "close": 30645,
+      "volume": 91108
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 30880,
+      "high": 30880,
+      "low": 30000,
+      "close": 30205,
+      "volume": 38269
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 30300,
+      "high": 30675,
+      "low": 30100,
+      "close": 30570,
+      "volume": 45369
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 30300,
+      "high": 30710,
+      "low": 30180,
+      "close": 30655,
+      "volume": 13398
+    },
+    {
+      "date": "2025-08-08T10:00:02.000Z",
+      "open": 30560,
+      "high": 30935,
+      "low": 30330,
+      "close": 30415,
+      "volume": 14155
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "SHREECEM.NS",
     "current_year": 2025,
-    "current_year_vwap": 29283.78,
+    "current_year_vwap": 29329.22,
     "signal_price": 29442.65,
-    "last_price": 30675,
+    "last_price": 30415,
     "condition_date": "2025-03-24",
     "previous_years": {
       "2021": 27792.99,

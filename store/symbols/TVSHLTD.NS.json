@@ -9919,16 +9919,56 @@
       "low": 11531,
       "close": 11654,
       "volume": 19388
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 11747,
+      "high": 12354,
+      "low": 11655,
+      "close": 12015,
+      "volume": 11526
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 12020,
+      "high": 12020,
+      "low": 11725,
+      "close": 11803,
+      "volume": 6008
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 11915,
+      "high": 11984,
+      "low": 11479,
+      "close": 11536,
+      "volume": 5588
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 11540,
+      "high": 11570,
+      "low": 11152,
+      "close": 11365,
+      "volume": 7080
+    },
+    {
+      "date": "2025-08-08T10:00:02.000Z",
+      "open": 11439,
+      "high": 11529,
+      "low": 11230,
+      "close": 11288,
+      "volume": 3623
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "TVSHLTD.NS",
     "current_year": 2025,
-    "current_year_vwap": 10089.77,
-    "signal_price": 10120.2,
-    "last_price": 11654,
-    "condition_date": "2025-01-07",
+    "current_year_vwap": 10125.04,
+    "signal_price": 10234.6,
+    "last_price": 11288,
+    "condition_date": "2025-01-09",
     "previous_years": {
       "2021": 3115.03,
       "2022": 3806.58,

@@ -9919,16 +9919,56 @@
       "low": 5586,
       "close": 5615,
       "volume": 279556
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5614.5,
+      "high": 5725,
+      "low": 5602.5,
+      "close": 5685,
+      "volume": 398255
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5700,
+      "high": 5704,
+      "low": 5628.5,
+      "close": 5673.5,
+      "volume": 439851
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5691,
+      "high": 5714.5,
+      "low": 5651,
+      "close": 5681,
+      "volume": 417367
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5661,
+      "high": 5699,
+      "low": 5577,
+      "close": 5664.5,
+      "volume": 384798
+    },
+    {
+      "date": "2025-08-08T10:00:01.000Z",
+      "open": 5667,
+      "high": 5667,
+      "low": 5530.5,
+      "close": 5562,
+      "volume": 252275
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "HDFCAMC.NS",
     "current_year": 2025,
-    "current_year_vwap": 4481.65,
-    "signal_price": 4509.6,
-    "last_price": 5615,
-    "condition_date": "2025-04-22",
+    "current_year_vwap": 4511.53,
+    "signal_price": 4559.5,
+    "last_price": 5562,
+    "condition_date": "2025-04-23",
     "previous_years": {
       "2021": 2920.63,
       "2022": 2035.94,

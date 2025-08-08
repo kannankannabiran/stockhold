@@ -9919,15 +9919,55 @@
       "low": 1045,
       "close": 1060.5999755859375,
       "volume": 6
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 1060,
+      "high": 1060,
+      "low": 1060,
+      "close": 1060,
+      "volume": 40
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 1038.800048828125,
+      "high": 1060,
+      "low": 1038.800048828125,
+      "close": 1038.800048828125,
+      "volume": 120
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 1035.0999755859375,
+      "high": 1035.0999755859375,
+      "low": 1018.0999755859375,
+      "close": 1035.0999755859375,
+      "volume": 461
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 1048,
+      "high": 1049,
+      "low": 1048,
+      "close": 1048,
+      "volume": 100
+    },
+    {
+      "date": "2025-08-08T09:44:30.000Z",
+      "open": 1048,
+      "high": 1048,
+      "low": 1037,
+      "close": 1037,
+      "volume": 5
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "WELINV.NS",
     "current_year": 2025,
-    "current_year_vwap": 899.9,
+    "current_year_vwap": 900.1,
     "signal_price": 921.9,
-    "last_price": 1060.6,
+    "last_price": 1037,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 390.59,

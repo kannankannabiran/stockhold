@@ -9919,15 +9919,55 @@
       "low": 5475,
       "close": 5528,
       "volume": 1408753
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5527.5,
+      "high": 5670,
+      "low": 5520,
+      "close": 5621,
+      "volume": 505407
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5625,
+      "high": 5690,
+      "low": 5584.5,
+      "close": 5681,
+      "volume": 458305
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5684.5,
+      "high": 5712.5,
+      "low": 5651,
+      "close": 5668,
+      "volume": 202535
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5660,
+      "high": 5694.5,
+      "low": 5588,
+      "close": 5681.5,
+      "volume": 266900
+    },
+    {
+      "date": "2025-08-08T10:00:01.000Z",
+      "open": 5681.5,
+      "high": 5711.5,
+      "low": 5655.5,
+      "close": 5663,
+      "volume": 373863
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "EICHERMOT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5319.47,
+    "current_year_vwap": 5327.53,
     "signal_price": 5390.15,
-    "last_price": 5528,
+    "last_price": 5663,
     "condition_date": "2025-02-01",
     "previous_years": {
       "2021": 2667.83,

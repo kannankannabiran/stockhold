@@ -9919,15 +9919,55 @@
       "low": 5026,
       "close": 5029.5,
       "volume": 1525
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5006,
+      "high": 5080,
+      "low": 5005.5,
+      "close": 5054.5,
+      "volume": 1853
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5025,
+      "high": 5131.5,
+      "low": 5020.5,
+      "close": 5061,
+      "volume": 2702
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5025.5,
+      "high": 5053,
+      "low": 4951,
+      "close": 5033.5,
+      "volume": 3486
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5048.5,
+      "high": 5048.5,
+      "low": 4917,
+      "close": 5002.5,
+      "volume": 2506
+    },
+    {
+      "date": "2025-08-08T09:59:29.000Z",
+      "open": 4950,
+      "high": 5029,
+      "low": 4932.5,
+      "close": 4978,
+      "volume": 2113
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "PILANIINVS.NS",
     "current_year": 2025,
-    "current_year_vwap": 4775.02,
+    "current_year_vwap": 4777.52,
     "signal_price": 5404,
-    "last_price": 5029.5,
+    "last_price": 4978,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1856.12,

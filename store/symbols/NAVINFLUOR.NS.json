@@ -9919,15 +9919,55 @@
       "low": 4940,
       "close": 5011.5,
       "volume": 144072
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5011.5,
+      "high": 5133,
+      "low": 4975,
+      "close": 5100.5,
+      "volume": 64754
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5125,
+      "high": 5189,
+      "low": 5080.5,
+      "close": 5176.5,
+      "volume": 124379
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5175,
+      "high": 5182.5,
+      "low": 5030.5,
+      "close": 5055.5,
+      "volume": 83144
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5005,
+      "high": 5050,
+      "low": 4910,
+      "close": 4951.5,
+      "volume": 55070
+    },
+    {
+      "date": "2025-08-08T09:59:53.000Z",
+      "open": 4925,
+      "high": 4953.5,
+      "low": 4775,
+      "close": 4813.5,
+      "volume": 78913
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "NAVINFLUOR.NS",
     "current_year": 2025,
-    "current_year_vwap": 4219.82,
+    "current_year_vwap": 4229.93,
     "signal_price": 4252.45,
-    "last_price": 5011.5,
+    "last_price": 4813.5,
     "condition_date": "2025-02-05",
     "previous_years": {
       "2021": 3424.43,

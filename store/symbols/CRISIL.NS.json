@@ -9919,15 +9919,55 @@
       "low": 5192,
       "close": 5216,
       "volume": 41112
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5220,
+      "high": 5333,
+      "low": 5178.5,
+      "close": 5292.5,
+      "volume": 60173
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5332.5,
+      "high": 5400,
+      "low": 5280.5,
+      "close": 5355,
+      "volume": 25782
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5306,
+      "high": 5363.5,
+      "low": 5188,
+      "close": 5211,
+      "volume": 47095
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5200.5,
+      "high": 5237.5,
+      "low": 5115.5,
+      "close": 5183,
+      "volume": 36396
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 5214,
+      "high": 5244.5,
+      "low": 5126,
+      "close": 5204,
+      "volume": 26520
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "CRISIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 5195.3,
+    "current_year_vwap": 5196.23,
     "signal_price": 6408.65,
-    "last_price": 5216,
+    "last_price": 5204,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 2671.52,

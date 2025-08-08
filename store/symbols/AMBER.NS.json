@@ -9919,15 +9919,55 @@
       "low": 7850,
       "close": 7871,
       "volume": 466338
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 7913.5,
+      "high": 8048.5,
+      "low": 7825,
+      "close": 7960,
+      "volume": 304230
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 8050,
+      "high": 8054.5,
+      "low": 7825.5,
+      "close": 7891.5,
+      "volume": 198943
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 7850,
+      "high": 7878,
+      "low": 7565.5,
+      "close": 7628,
+      "volume": 397729
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 7595,
+      "high": 7785,
+      "low": 7595,
+      "close": 7729.5,
+      "volume": 185434
+    },
+    {
+      "date": "2025-08-08T09:59:59.000Z",
+      "open": 7777,
+      "high": 7786,
+      "low": 7278.5,
+      "close": 7354.5,
+      "volume": 332143
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "AMBER.NS",
     "current_year": 2025,
-    "current_year_vwap": 6745.31,
+    "current_year_vwap": 6763.26,
     "signal_price": 7671.7,
-    "last_price": 7871,
+    "last_price": 7354.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3028.09,

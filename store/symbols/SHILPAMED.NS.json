@@ -9919,15 +9919,55 @@
       "low": 854,
       "close": 857.25,
       "volume": 56291
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 855,
+      "high": 880,
+      "low": 840,
+      "close": 850.4000244140625,
+      "volume": 27094
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 850.4000244140625,
+      "high": 872,
+      "low": 832.25,
+      "close": 861.9000244140625,
+      "volume": 39149
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 859.9500122070312,
+      "high": 861.9000244140625,
+      "low": 818.7999877929688,
+      "close": 821.4500122070312,
+      "volume": 29331
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 818,
+      "high": 832.5,
+      "low": 796,
+      "close": 822.2000122070312,
+      "volume": 76094
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 822.2000122070312,
+      "high": 850,
+      "low": 802.5,
+      "close": 832,
+      "volume": 41981
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "SHILPAMED.NS",
     "current_year": 2025,
-    "current_year_vwap": 770.35,
+    "current_year_vwap": 770.68,
     "signal_price": 817.55,
-    "last_price": 857.25,
+    "last_price": 832,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 527.16,

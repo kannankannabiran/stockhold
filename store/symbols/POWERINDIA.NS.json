@@ -9919,15 +9919,55 @@
       "low": 19815,
       "close": 20550,
       "volume": 219060
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 20650,
+      "high": 21300,
+      "low": 20300,
+      "close": 21200,
+      "volume": 155302
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 21200,
+      "high": 21650,
+      "low": 20980,
+      "close": 21345,
+      "volume": 131939
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 21350,
+      "high": 21355,
+      "low": 20305,
+      "close": 20420,
+      "volume": 138080
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 20380,
+      "high": 21090,
+      "low": 20185,
+      "close": 20710,
+      "volume": 134418
+    },
+    {
+      "date": "2025-08-08T10:00:00.000Z",
+      "open": 20845,
+      "high": 20900,
+      "low": 20205,
+      "close": 20295,
+      "volume": 105565
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "POWERINDIA.NS",
     "current_year": 2025,
-    "current_year_vwap": 15228.18,
+    "current_year_vwap": 15422.58,
     "signal_price": 15428.5,
-    "last_price": 20550,
+    "last_price": 20295,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1963.44,

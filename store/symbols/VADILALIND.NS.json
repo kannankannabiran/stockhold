@@ -9919,15 +9919,55 @@
       "low": 5160,
       "close": 5187,
       "volume": 3951
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5167,
+      "high": 5274,
+      "low": 5167,
+      "close": 5239,
+      "volume": 2882
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5294,
+      "high": 5294,
+      "low": 5234,
+      "close": 5257.5,
+      "volume": 1990
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5300,
+      "high": 5400.5,
+      "low": 5191,
+      "close": 5264,
+      "volume": 3934
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5299.5,
+      "high": 5299.5,
+      "low": 4907,
+      "close": 5014.5,
+      "volume": 32562
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 5010,
+      "high": 5038.5,
+      "low": 4851,
+      "close": 4863.5,
+      "volume": 14145
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "VADILALIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 5606.51,
+    "current_year_vwap": 5599.85,
     "signal_price": 5704.15,
-    "last_price": 5187,
+    "last_price": 4863.5,
     "condition_date": "2025-04-02",
     "previous_years": {
       "2021": 1020.17,

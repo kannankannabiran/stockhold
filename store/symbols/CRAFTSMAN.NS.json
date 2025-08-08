@@ -8615,15 +8615,55 @@
       "low": 6417,
       "close": 6465,
       "volume": 28885
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6433,
+      "high": 6650,
+      "low": 6405.5,
+      "close": 6628,
+      "volume": 38577
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 6649,
+      "high": 6687,
+      "low": 6401,
+      "close": 6457.5,
+      "volume": 36047
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 6471,
+      "high": 6506.5,
+      "low": 6255,
+      "close": 6347.5,
+      "volume": 36006
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 6300,
+      "high": 6440,
+      "low": 6277.5,
+      "close": 6399,
+      "volume": 24727
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 6460.5,
+      "high": 6598,
+      "low": 6380.5,
+      "close": 6520,
+      "volume": 22533
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "CRAFTSMAN.NS",
     "current_year": 2025,
-    "current_year_vwap": 5158.84,
+    "current_year_vwap": 5180.95,
     "signal_price": 5324.2,
-    "last_price": 6465,
+    "last_price": 6520,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1728.66,

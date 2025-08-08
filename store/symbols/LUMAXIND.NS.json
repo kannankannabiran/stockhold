@@ -9919,16 +9919,56 @@
       "low": 3680,
       "close": 3732.89990234375,
       "volume": 13218
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 3751,
+      "high": 3865,
+      "low": 3733.800048828125,
+      "close": 3844.800048828125,
+      "volume": 11954
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 3874.5,
+      "high": 3920,
+      "low": 3834.5,
+      "close": 3881,
+      "volume": 6862
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 3899,
+      "high": 3948.10009765625,
+      "low": 3800,
+      "close": 3812.199951171875,
+      "volume": 13984
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 3788,
+      "high": 3788,
+      "low": 3323.60009765625,
+      "close": 3386,
+      "volume": 67009
+    },
+    {
+      "date": "2025-08-08T09:59:34.000Z",
+      "open": 3400,
+      "high": 3498.699951171875,
+      "low": 3272,
+      "close": 3391,
+      "volume": 58252
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "LUMAXIND.NS",
     "current_year": 2025,
-    "current_year_vwap": 3126.5,
-    "signal_price": 3132,
-    "last_price": 3732.9,
-    "condition_date": "2025-06-06",
+    "current_year_vwap": 3161.72,
+    "signal_price": 3196.9,
+    "last_price": 3391,
+    "condition_date": "2025-06-09",
     "previous_years": {
       "2021": 1492.92,
       "2022": 1407.21,

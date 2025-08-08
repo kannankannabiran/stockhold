@@ -9919,15 +9919,55 @@
       "low": 4545,
       "close": 4568.5,
       "volume": 58820
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 4550,
+      "high": 4594,
+      "low": 4444.5,
+      "close": 4459.2001953125,
+      "volume": 94087
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 4431.5,
+      "high": 4670,
+      "low": 4431.5,
+      "close": 4646.10009765625,
+      "volume": 105531
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 4650.89990234375,
+      "high": 4675.5,
+      "low": 4456.10009765625,
+      "close": 4491.89990234375,
+      "volume": 79167
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 4492,
+      "high": 4679,
+      "low": 4492,
+      "close": 4652,
+      "volume": 74411
+    },
+    {
+      "date": "2025-08-08T10:00:01.000Z",
+      "open": 4612.10009765625,
+      "high": 4632,
+      "low": 4494.60009765625,
+      "close": 4502.7998046875,
+      "volume": 30436
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "SUNDARMFIN.NS",
     "current_year": 2025,
-    "current_year_vwap": 4745.45,
+    "current_year_vwap": 4741.54,
     "signal_price": 4746.35,
-    "last_price": 4568.5,
+    "last_price": 4502.8,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 2393.6,

@@ -9919,15 +9919,55 @@
       "low": 18980,
       "close": 19161,
       "volume": 1014
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 19201,
+      "high": 19400,
+      "low": 18800,
+      "close": 19060,
+      "volume": 1565
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 19177,
+      "high": 19279,
+      "low": 18905,
+      "close": 19037,
+      "volume": 1001
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 19037,
+      "high": 19199,
+      "low": 18700,
+      "close": 18935,
+      "volume": 1059
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 18750,
+      "high": 18936,
+      "low": 17989,
+      "close": 18205,
+      "volume": 1930
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 18699,
+      "high": 19115,
+      "low": 18271,
+      "close": 18476,
+      "volume": 3579
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "JSWHL.NS",
     "current_year": 2025,
-    "current_year_vwap": 21671.8,
+    "current_year_vwap": 21624.76,
     "signal_price": 21898.95,
-    "last_price": 19161,
+    "last_price": 18476,
     "condition_date": "2025-03-20",
     "previous_years": {
       "2021": 4258.99,

@@ -9919,15 +9919,55 @@
       "low": 8840,
       "close": 8893.5,
       "volume": 16505
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 8909,
+      "high": 8983.5,
+      "low": 8865,
+      "close": 8957.5,
+      "volume": 8507
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 8912.5,
+      "high": 8999,
+      "low": 8831,
+      "close": 8855.5,
+      "volume": 7831
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 8850,
+      "high": 8892,
+      "low": 8731,
+      "close": 8834.5,
+      "volume": 12030
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 8800,
+      "high": 8807,
+      "low": 8666,
+      "close": 8723.5,
+      "volume": 9367
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 8750,
+      "high": 8888,
+      "low": 8661,
+      "close": 8784.5,
+      "volume": 15302
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "ASTRAZEN.NS",
     "current_year": 2025,
-    "current_year_vwap": 8724.97,
+    "current_year_vwap": 8725.63,
     "signal_price": 8873.5,
-    "last_price": 8893.5,
+    "last_price": 8784.5,
     "condition_date": "2025-04-15",
     "previous_years": {
       "2021": 3816.9,

@@ -9919,15 +9919,55 @@
       "low": 13631,
       "close": 13807,
       "volume": 214998
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 13900,
+      "high": 14430,
+      "low": 13750,
+      "close": 14366,
+      "volume": 148641
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 14426,
+      "high": 14957,
+      "low": 14264,
+      "close": 14920,
+      "volume": 182223
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 15014,
+      "high": 15248,
+      "low": 14925,
+      "close": 15014,
+      "volume": 188951
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 15020,
+      "high": 15059,
+      "low": 14595,
+      "close": 14896,
+      "volume": 109095
+    },
+    {
+      "date": "2025-08-08T09:59:59.000Z",
+      "open": 14950,
+      "high": 14950,
+      "low": 14313,
+      "close": 14462,
+      "volume": 181786
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "SOLARINDS.NS",
     "current_year": 2025,
-    "current_year_vwap": 13297.14,
+    "current_year_vwap": 13349.31,
     "signal_price": 13452,
-    "last_price": 13807,
+    "last_price": 14462,
     "condition_date": "2025-04-29",
     "previous_years": {
       "2021": 1980.14,

@@ -9919,15 +9919,55 @@
       "low": 12251,
       "close": 13017,
       "volume": 308850
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 12992,
+      "high": 13190,
+      "low": 12624,
+      "close": 13083,
+      "volume": 80684
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 13050,
+      "high": 13230,
+      "low": 12777,
+      "close": 12829,
+      "volume": 44349
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 12810,
+      "high": 12879,
+      "low": 12450,
+      "close": 12806,
+      "volume": 42852
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 12821,
+      "high": 12936,
+      "low": 12614,
+      "close": 12831,
+      "volume": 39229
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 12831,
+      "high": 13520,
+      "low": 12747,
+      "close": 13099,
+      "volume": 135661
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "NEULANDLAB.NS",
     "current_year": 2025,
-    "current_year_vwap": 12876.04,
+    "current_year_vwap": 12879.29,
     "signal_price": 14294.1,
-    "last_price": 13017,
+    "last_price": 13099,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1850.76,

@@ -9919,15 +9919,55 @@
       "low": 5040,
       "close": 5061.5,
       "volume": 329277
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 5055,
+      "high": 5187.5,
+      "low": 5017.5,
+      "close": 5177.5,
+      "volume": 468127
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 5177.5,
+      "high": 5202,
+      "low": 5113.5,
+      "close": 5191.5,
+      "volume": 404213
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 5192,
+      "high": 5196,
+      "low": 5036,
+      "close": 5047,
+      "volume": 414065
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 5025,
+      "high": 5195,
+      "low": 5008.5,
+      "close": 5182.5,
+      "volume": 469097
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 5187,
+      "high": 5193.5,
+      "low": 5085.5,
+      "close": 5105.5,
+      "volume": 250484
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "PERSISTENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5510.38,
+    "current_year_vwap": 5501.88,
     "signal_price": 6436.8,
-    "last_price": 5061.5,
+    "last_price": 5105.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 1562.14,

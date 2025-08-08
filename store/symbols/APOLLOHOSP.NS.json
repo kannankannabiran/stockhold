@@ -9919,15 +9919,55 @@
       "low": 7331.5,
       "close": 7351.5,
       "volume": 215224
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 7387,
+      "high": 7388,
+      "low": 7295,
+      "close": 7308,
+      "volume": 260996
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 7312,
+      "high": 7342,
+      "low": 7235.5,
+      "close": 7274,
+      "volume": 282791
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 7270,
+      "high": 7279,
+      "low": 7164.5,
+      "close": 7189.5,
+      "volume": 296623
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 7164,
+      "high": 7197.5,
+      "low": 7053.5,
+      "close": 7170,
+      "volume": 407857
+    },
+    {
+      "date": "2025-08-08T09:59:54.000Z",
+      "open": 7170,
+      "high": 7198.5,
+      "low": 7066,
+      "close": 7084.5,
+      "volume": 327091
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "APOLLOHOSP.NS",
     "current_year": 2025,
-    "current_year_vwap": 6897.4,
+    "current_year_vwap": 6905.23,
     "signal_price": 7369.65,
-    "last_price": 7351.5,
+    "last_price": 7084.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 3845.7,

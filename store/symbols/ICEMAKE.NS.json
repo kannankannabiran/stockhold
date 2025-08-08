@@ -9911,15 +9911,55 @@
       "low": 781,
       "close": 783.6500244140625,
       "volume": 7981
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 780,
+      "high": 799,
+      "low": 775.5,
+      "close": 788.1500244140625,
+      "volume": 10611
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 779,
+      "high": 798.4500122070312,
+      "low": 779,
+      "close": 786.0999755859375,
+      "volume": 7221
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 781,
+      "high": 789.0999755859375,
+      "low": 755,
+      "close": 758.9500122070312,
+      "volume": 20627
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 742.0999755859375,
+      "high": 794,
+      "low": 702.0499877929688,
+      "close": 780.5499877929688,
+      "volume": 148883
+    },
+    {
+      "date": "2025-08-08T09:59:56.000Z",
+      "open": 760,
+      "high": 760,
+      "low": 725,
+      "close": 730.25,
+      "volume": 44281
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "ICEMAKE.NS",
     "current_year": 2025,
-    "current_year_vwap": 857.34,
+    "current_year_vwap": 854.55,
     "signal_price": 866,
-    "last_price": 783.65,
+    "last_price": 730.25,
     "condition_date": "2025-03-17",
     "previous_years": {
       "2021": 79.19,

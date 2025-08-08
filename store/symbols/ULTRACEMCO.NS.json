@@ -9919,15 +9919,55 @@
       "low": 12075,
       "close": 12113,
       "volume": 212570
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 12158,
+      "high": 12290,
+      "low": 12132,
+      "close": 12257,
+      "volume": 207875
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 12330,
+      "high": 12378,
+      "low": 12262,
+      "close": 12298,
+      "volume": 267535
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 12298,
+      "high": 12390,
+      "low": 12208,
+      "close": 12226,
+      "volume": 192086
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 12204,
+      "high": 12309,
+      "low": 12125,
+      "close": 12273,
+      "volume": 202031
+    },
+    {
+      "date": "2025-08-08T09:59:59.000Z",
+      "open": 12285,
+      "high": 12315,
+      "low": 12135,
+      "close": 12157,
+      "volume": 201746
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "ULTRACEMCO.NS",
     "current_year": 2025,
-    "current_year_vwap": 11407.21,
+    "current_year_vwap": 11425.72,
     "signal_price": 11447,
-    "last_price": 12113,
+    "last_price": 12157,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 6719.64,

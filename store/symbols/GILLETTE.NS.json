@@ -9919,15 +9919,55 @@
       "low": 10474,
       "close": 10712,
       "volume": 40476
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 10722,
+      "high": 10732,
+      "low": 10389,
+      "close": 10550,
+      "volume": 33617
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 10551,
+      "high": 10764,
+      "low": 10551,
+      "close": 10720,
+      "volume": 37434
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 10725,
+      "high": 11100,
+      "low": 10573,
+      "close": 10632,
+      "volume": 32229
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 10594,
+      "high": 10767,
+      "low": 10502,
+      "close": 10649,
+      "volume": 14823
+    },
+    {
+      "date": "2025-08-08T10:00:00.000Z",
+      "open": 10670,
+      "high": 10670,
+      "low": 10054,
+      "close": 10225,
+      "volume": 17891
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "GILLETTE.NS",
     "current_year": 2025,
-    "current_year_vwap": 8879.08,
+    "current_year_vwap": 8906.79,
     "signal_price": 9754.35,
-    "last_price": 10712,
+    "last_price": 10225,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 5756.22,

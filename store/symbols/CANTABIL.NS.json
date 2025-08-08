@@ -9919,15 +9919,55 @@
       "low": 259,
       "close": 261.45001220703125,
       "volume": 86166
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 259,
+      "high": 263,
+      "low": 257.25,
+      "close": 261.5,
+      "volume": 66874
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 265,
+      "high": 270,
+      "low": 260,
+      "close": 266.04998779296875,
+      "volume": 170926
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 268.5,
+      "high": 269,
+      "low": 247.5,
+      "close": 251.14999389648438,
+      "volume": 569423
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 251,
+      "high": 255,
+      "low": 245.25,
+      "close": 253.35000610351562,
+      "volume": 119646
+    },
+    {
+      "date": "2025-08-08T09:59:58.000Z",
+      "open": 254.6999969482422,
+      "high": 256,
+      "low": 250.0500030517578,
+      "close": 253.5,
+      "volume": 122445
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "CANTABIL.NS",
     "current_year": 2025,
-    "current_year_vwap": 274.3,
+    "current_year_vwap": 273.82,
     "signal_price": 280.85,
-    "last_price": 261.45,
+    "last_price": 253.5,
     "condition_date": "2025-01-01",
     "previous_years": {
       "2021": 87.82,

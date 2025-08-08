@@ -9919,16 +9919,56 @@
       "low": 13781,
       "close": 13848,
       "volume": 21383
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 13715,
+      "high": 14250,
+      "low": 13641,
+      "close": 13899,
+      "volume": 48902
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 13964,
+      "high": 13987,
+      "low": 13800,
+      "close": 13861,
+      "volume": 22438
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 13900,
+      "high": 13974,
+      "low": 13531,
+      "close": 13607,
+      "volume": 49939
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 14000,
+      "high": 14445,
+      "low": 13645,
+      "close": 13780,
+      "volume": 293772
+    },
+    {
+      "date": "2025-08-08T10:00:02.000Z",
+      "open": 13909,
+      "high": 14374,
+      "low": 13667,
+      "close": 13718,
+      "volume": 94449
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "BAJAJHLDNG.NS",
     "current_year": 2025,
-    "current_year_vwap": 12487.61,
-    "signal_price": 12521.5,
-    "last_price": 13848,
-    "condition_date": "2025-03-25",
+    "current_year_vwap": 12550.33,
+    "signal_price": 12599.05,
+    "last_price": 13718,
+    "condition_date": "2025-03-26",
     "previous_years": {
       "2021": 4138.9,
       "2022": 5968.66,

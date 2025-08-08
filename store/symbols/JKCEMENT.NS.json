@@ -9919,16 +9919,56 @@
       "low": 6600,
       "close": 6681.5,
       "volume": 88504
+    },
+    {
+      "date": "2025-08-04T03:45:00.000Z",
+      "open": 6676,
+      "high": 6815,
+      "low": 6621,
+      "close": 6784,
+      "volume": 91397
+    },
+    {
+      "date": "2025-08-05T03:45:00.000Z",
+      "open": 6799,
+      "high": 7064.5,
+      "low": 6790,
+      "close": 6928,
+      "volume": 228112
+    },
+    {
+      "date": "2025-08-06T03:45:00.000Z",
+      "open": 6968,
+      "high": 7031,
+      "low": 6930.5,
+      "close": 6960,
+      "volume": 125952
+    },
+    {
+      "date": "2025-08-07T03:45:00.000Z",
+      "open": 6960,
+      "high": 7098,
+      "low": 6617,
+      "close": 6888.5,
+      "volume": 129669
+    },
+    {
+      "date": "2025-08-08T10:00:03.000Z",
+      "open": 6848.5,
+      "high": 7135.5,
+      "low": 6800,
+      "close": 7051,
+      "volume": 128222
     }
   ],
-  "lastScanDate": "2025-08-01",
+  "lastScanDate": "2025-08-08",
   "latestResult": {
     "symbol": "JKCEMENT.NS",
     "current_year": 2025,
-    "current_year_vwap": 5270.82,
-    "signal_price": 5308.5,
-    "last_price": 6681.5,
-    "condition_date": "2025-05-14",
+    "current_year_vwap": 5332.94,
+    "signal_price": 5453,
+    "last_price": 7051,
+    "condition_date": "2025-05-28",
     "previous_years": {
       "2021": 2949.49,
       "2022": 2608.38,

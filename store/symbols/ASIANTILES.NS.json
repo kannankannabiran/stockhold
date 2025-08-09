@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ASIANTILES.NS",
+    "current_year": 2025,
+    "current_year_vwap": 55.34,
+    "signal_price": 70.26,
+    "last_price": 57.25,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 116.03,
+      "2022": 65.62,
+      "2023": 62.01,
+      "2024": 76.55
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

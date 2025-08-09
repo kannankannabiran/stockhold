@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "DABUR.NS",
+    "current_year": 2025,
+    "current_year_vwap": 499.08,
+    "signal_price": 510.95,
+    "last_price": 507.25,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 566.03,
+      "2022": 549.38,
+      "2023": 544.7,
+      "2024": 570.6
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

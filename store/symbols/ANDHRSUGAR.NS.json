@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ANDHRSUGAR.NS",
+    "current_year": 2025,
+    "current_year_vwap": 77.36,
+    "signal_price": 97.42,
+    "last_price": 78.45,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 100.05,
+      "2022": 148.03,
+      "2023": 115.76,
+      "2024": 114.08
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

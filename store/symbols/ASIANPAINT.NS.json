@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ASIANPAINT.NS",
+    "current_year": 2025,
+    "current_year_vwap": 2317.99,
+    "signal_price": 2343.25,
+    "last_price": 2475.6,
+    "condition_date": "2025-01-02",
+    "previous_years": {
+      "2021": 2807.66,
+      "2022": 3087.96,
+      "2023": 3075,
+      "2024": 2887.22
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

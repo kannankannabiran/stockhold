@@ -7258,5 +7258,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "STARHEALTH.NS",
+    "current_year": 2025,
+    "current_year_vwap": 411.49,
+    "signal_price": 481.35,
+    "last_price": 434.9,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 872.9,
+      "2022": 662.51,
+      "2023": 572.64,
+      "2024": 550.3
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

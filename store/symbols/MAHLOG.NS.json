@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "MAHLOG.NS",
+    "current_year": 2025,
+    "current_year_vwap": 312.89,
+    "signal_price": 384.1,
+    "last_price": 322,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 643.53,
+      "2022": 500.99,
+      "2023": 383.67,
+      "2024": 450.54
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ENIL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 146.75,
+    "signal_price": 178.49,
+    "last_price": 163.51,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 183.1,
+      "2022": 186.8,
+      "2023": 162.94,
+      "2024": 261.51
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

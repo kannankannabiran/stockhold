@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "AVTNPL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 66.73,
+    "signal_price": 76.43,
+    "last_price": 70.6,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 68.1,
+      "2022": 107.27,
+      "2023": 89.04,
+      "2024": 93.43
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

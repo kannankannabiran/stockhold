@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ORIENTPPR.NS",
+    "current_year": 2025,
+    "current_year_vwap": 27.71,
+    "signal_price": 36.98,
+    "last_price": 27.74,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 29.72,
+      "2022": 33.96,
+      "2023": 45.82,
+      "2024": 51.94
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

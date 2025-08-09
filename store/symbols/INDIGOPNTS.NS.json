@@ -8946,5 +8946,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "INDIGOPNTS.NS",
+    "current_year": 2025,
+    "current_year_vwap": 1079.7,
+    "signal_price": 1384.1,
+    "last_price": 1152.4,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 2730.16,
+      "2022": 1567.54,
+      "2023": 1341.72,
+      "2024": 1498.13
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

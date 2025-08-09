@@ -9975,6 +9975,6 @@
       "2023": 1259.64,
       "2024": 1306.13
     },
-    "trend": "Price > 4Y VWAPs"
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
   }
 }

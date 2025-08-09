@@ -8122,5 +8122,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "IPL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 193.2,
+    "signal_price": 197.29,
+    "last_price": 226.83,
+    "condition_date": "2025-05-28",
+    "previous_years": {
+      "2021": 336.26,
+      "2022": 285.87,
+      "2023": 303.92,
+      "2024": 307.7
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

@@ -7874,5 +7874,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "MOL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 83.23,
+    "signal_price": 86.85,
+    "last_price": 85.85,
+    "condition_date": "2025-06-02",
+    "previous_years": {
+      "2021": 111.54,
+      "2022": 122.58,
+      "2023": 84.35,
+      "2024": 92.99
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

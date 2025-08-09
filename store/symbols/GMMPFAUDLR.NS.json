@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "GMMPFAUDLR.NS",
+    "current_year": 2025,
+    "current_year_vwap": 1162.94,
+    "signal_price": 1180.2,
+    "last_price": 1283.4,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 1495.23,
+      "2022": 1690.21,
+      "2023": 1588.22,
+      "2024": 1369.19
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

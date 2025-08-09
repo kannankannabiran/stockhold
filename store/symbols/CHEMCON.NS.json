@@ -9618,5 +9618,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "CHEMCON.NS",
+    "current_year": 2025,
+    "current_year_vwap": 214.24,
+    "signal_price": 231.23,
+    "last_price": 228.04,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 468.52,
+      "2022": 366.36,
+      "2023": 277.51,
+      "2024": 265.99
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

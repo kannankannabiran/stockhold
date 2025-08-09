@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "TNPETRO.NS",
+    "current_year": 2025,
+    "current_year_vwap": 91.4,
+    "signal_price": 92.12,
+    "last_price": 96.48,
+    "condition_date": "2025-06-11",
+    "previous_years": {
+      "2021": 92.3,
+      "2022": 107.05,
+      "2023": 91.74,
+      "2024": 97.71
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

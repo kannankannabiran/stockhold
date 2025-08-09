@@ -8762,5 +8762,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "HERANBA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 323.83,
+    "signal_price": 426.65,
+    "last_price": 348.95,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 763.61,
+      "2022": 610.56,
+      "2023": 363.98,
+      "2024": 429.03
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

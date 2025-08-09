@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "AKSHARCHEM.NS",
+    "current_year": 2025,
+    "current_year_vwap": 258.8,
+    "signal_price": 306.35,
+    "last_price": 261.7,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 397.42,
+      "2022": 361.19,
+      "2023": 266.16,
+      "2024": 316.64
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

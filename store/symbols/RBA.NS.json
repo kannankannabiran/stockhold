@@ -9218,5 +9218,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "RBA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 76.37,
+    "signal_price": 84.68,
+    "last_price": 79.81,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 155.68,
+      "2022": 116.54,
+      "2023": 116.43,
+      "2024": 107.82
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

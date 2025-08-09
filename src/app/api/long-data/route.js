@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import yahooFinance from "yahoo-finance2";
 import stocklist from "@/app/symbol/data";
-import {readSymbol,writeSymbol,} from "../utils/store"; // adjust path if needed
+import { readSymbol, writeSymbol } from "../utils/store"; // adjust path if needed
 
 const symbols = stocklist.map((s) => s.value);
 
@@ -10,7 +10,7 @@ function calculateYearlyVWAP(data) {
   data.forEach((row) => {
     const date = new Date(row.date);
     const year = date.getFullYear();
-    const TP = (row.high + row.low + row.close) / 3;
+    const TP = (row.high + row.low + row.close) / 2;
     const TPV = TP * row.volume;
     if (!yearlyMap[year]) yearlyMap[year] = { TPV: 0, volume: 0 };
     yearlyMap[year].TPV += TPV;
@@ -126,9 +126,19 @@ export async function GET() {
         ),
       };
 
+      // NEW CONDITION:
+      // 1. All last 4 years' VWAPs are ABOVE current year's VWAP
+      // 2. Latest close price is ABOVE current year's VWAP
       const prevVWAPs = previousYears.map((y) => yearlyVWAP[y]);
-      if (prevVWAPs.length === 4 && prevVWAPs.every((v) => lastClose > v)) {
-        const finalObj = { ...resultObj, trend: "Price > 4Y VWAPs" };
+      if (
+        prevVWAPs.length === 4 &&
+        prevVWAPs.every((v) => v > currentVWAP) &&
+        lastClose > currentVWAP
+      ) {
+        const finalObj = {
+          ...resultObj,
+          trend: "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP",
+        };
         resultRise.push(finalObj);
         symbolEntry.latestResult = finalObj;
       }

@@ -7986,5 +7986,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "TATVA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 950.94,
+    "signal_price": 965.85,
+    "last_price": 1042.1,
+    "condition_date": "2025-05-21",
+    "previous_years": {
+      "2021": 2338.12,
+      "2022": 2390.06,
+      "2023": 1675.27,
+      "2024": 1072.32
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

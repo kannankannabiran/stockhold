@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "HTMEDIA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 20.02,
+    "signal_price": 23.27,
+    "last_price": 24.42,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 26.81,
+      "2022": 29,
+      "2023": 23.72,
+      "2024": 29.12
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

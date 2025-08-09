@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "CGCL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 177.5,
+    "signal_price": 187.34,
+    "last_price": 182.17,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 416.55,
+      "2022": 655.18,
+      "2023": 739.13,
+      "2024": 224.86
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

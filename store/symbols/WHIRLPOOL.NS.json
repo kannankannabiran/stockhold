@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "WHIRLPOOL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 1193.07,
+    "signal_price": 1814.85,
+    "last_price": 1264.6,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 2175.67,
+      "2022": 1660.49,
+      "2023": 1428.46,
+      "2024": 1765.91
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

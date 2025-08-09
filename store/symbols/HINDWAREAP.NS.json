@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "HINDWAREAP.NS",
+    "current_year": 2025,
+    "current_year_vwap": 224.65,
+    "signal_price": 277.25,
+    "last_price": 271.95,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 305.89,
+      "2022": 370.86,
+      "2023": 488.97,
+      "2024": 378.12
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

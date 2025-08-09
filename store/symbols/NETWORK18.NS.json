@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "NETWORK18.NS",
+    "current_year": 2025,
+    "current_year_vwap": 55.75,
+    "signal_price": 71.58,
+    "last_price": 57.76,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 61.58,
+      "2022": 82.51,
+      "2023": 73.72,
+      "2024": 95.37
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

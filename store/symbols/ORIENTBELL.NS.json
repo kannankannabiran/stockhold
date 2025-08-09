@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ORIENTBELL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 267.67,
+    "signal_price": 333,
+    "last_price": 295.3,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 288.52,
+      "2022": 579.52,
+      "2023": 487.2,
+      "2024": 371.1
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

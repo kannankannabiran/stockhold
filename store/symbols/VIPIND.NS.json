@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "VIPIND.NS",
+    "current_year": 2025,
+    "current_year_vwap": 382.69,
+    "signal_price": 483.05,
+    "last_price": 425.95,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 452.16,
+      "2022": 648.39,
+      "2023": 640.93,
+      "2024": 518.9
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

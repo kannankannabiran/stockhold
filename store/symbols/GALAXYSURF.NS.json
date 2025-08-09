@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "GALAXYSURF.NS",
+    "current_year": 2025,
+    "current_year_vwap": 2295.93,
+    "signal_price": 2504.3,
+    "last_price": 2439,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 2920.4,
+      "2022": 2996.84,
+      "2023": 2611.67,
+      "2024": 2730.16
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

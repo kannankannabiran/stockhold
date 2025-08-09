@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "VISAKAIND.NS",
+    "current_year": 2025,
+    "current_year_vwap": 79.18,
+    "signal_price": 90.86,
+    "last_price": 90.64,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 121.3,
+      "2022": 113.81,
+      "2023": 86.54,
+      "2024": 118.65
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

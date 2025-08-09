@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ALKYLAMINE.NS",
+    "current_year": 2025,
+    "current_year_vwap": 1960.98,
+    "signal_price": 1967.5,
+    "last_price": 2064.1,
+    "condition_date": "2025-05-29",
+    "previous_years": {
+      "2021": 3042.56,
+      "2022": 3041.98,
+      "2023": 2439.41,
+      "2024": 2189.56
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

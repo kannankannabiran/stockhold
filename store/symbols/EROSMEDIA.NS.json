@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "EROSMEDIA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 7.77,
+    "signal_price": 14.42,
+    "last_price": 7.81,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 24.76,
+      "2022": 31.1,
+      "2023": 21.97,
+      "2024": 22.26
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

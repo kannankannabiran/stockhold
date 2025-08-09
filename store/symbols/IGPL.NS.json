@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "IGPL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 461.17,
+    "signal_price": 571.55,
+    "last_price": 463.15,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 635.01,
+      "2022": 656.65,
+      "2023": 483.49,
+      "2024": 564.37
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

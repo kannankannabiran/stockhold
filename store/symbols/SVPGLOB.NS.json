@@ -8066,5 +8066,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "SVPGLOB.NS",
+    "current_year": 2025,
+    "current_year_vwap": 3.59,
+    "signal_price": 5.1,
+    "last_price": 3.63,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 115.27,
+      "2022": 50.15,
+      "2023": 19.6,
+      "2024": 7.15
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

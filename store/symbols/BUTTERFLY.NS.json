@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "BUTTERFLY.NS",
+    "current_year": 2025,
+    "current_year_vwap": 705.43,
+    "signal_price": 799.5,
+    "last_price": 706.9,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 715.67,
+      "2022": 1390.48,
+      "2023": 1188.98,
+      "2024": 946.88
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

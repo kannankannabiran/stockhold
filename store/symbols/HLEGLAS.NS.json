@@ -8834,5 +8834,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "HLEGLAS.NS",
+    "current_year": 2025,
+    "current_year_vwap": 379.06,
+    "signal_price": 393.8,
+    "last_price": 430.05,
+    "condition_date": "2025-05-21",
+    "previous_years": {
+      "2021": 945.99,
+      "2022": 803.66,
+      "2023": 576.72,
+      "2024": 441.97
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

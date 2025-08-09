@@ -9965,9 +9965,9 @@
   "latestResult": {
     "symbol": "HINDUNILVR.NS",
     "current_year": 2025,
-    "current_year_vwap": 2349.9,
+    "current_year_vwap": 2354.09,
     "signal_price": 2370,
-    "last_price": 2557,
+    "last_price": 2498.6,
     "condition_date": "2025-01-02",
     "previous_years": {
       "2021": 2403.34,
@@ -9975,6 +9975,6 @@
       "2023": 2556.78,
       "2024": 2512.02
     },
-    "trend": "Price > 4Y VWAPs"
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
   }
 }

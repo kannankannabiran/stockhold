@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "TASTYBITE.NS",
+    "current_year": 2025,
+    "current_year_vwap": 9921.73,
+    "signal_price": 9980.8,
+    "last_price": 10768,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 16339.55,
+      "2022": 11721.58,
+      "2023": 13654.68,
+      "2024": 12636.17
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

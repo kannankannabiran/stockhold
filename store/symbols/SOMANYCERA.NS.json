@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "SOMANYCERA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 512.24,
+    "signal_price": 655.55,
+    "last_price": 525.45,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 538.18,
+      "2022": 644.75,
+      "2023": 639.02,
+      "2024": 722.29
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

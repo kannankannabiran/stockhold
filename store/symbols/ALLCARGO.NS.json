@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ALLCARGO.NS",
+    "current_year": 2025,
+    "current_year_vwap": 33.66,
+    "signal_price": 50.45,
+    "last_price": 34.83,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 54.01,
+      "2022": 94.63,
+      "2023": 80.53,
+      "2024": 70.51
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

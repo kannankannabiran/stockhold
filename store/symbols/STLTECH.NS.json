@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "STLTECH.NS",
+    "current_year": 2025,
+    "current_year_vwap": 102.75,
+    "signal_price": 115.8,
+    "last_price": 126.34,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 249.78,
+      "2022": 187.84,
+      "2023": 156.68,
+      "2024": 133.32
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

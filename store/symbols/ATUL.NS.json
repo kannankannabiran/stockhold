@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "ATUL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 6254.51,
+    "signal_price": 6909.7,
+    "last_price": 6628.5,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 8308.97,
+      "2022": 8992.86,
+      "2023": 6918.61,
+      "2024": 6927.28
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

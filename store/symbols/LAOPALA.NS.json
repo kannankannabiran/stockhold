@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "LAOPALA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 238.13,
+    "signal_price": 325.45,
+    "last_price": 247.4,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 313.29,
+      "2022": 350.42,
+      "2023": 405.37,
+      "2024": 340.4
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

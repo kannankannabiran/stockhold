@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "APCL.NS",
+    "current_year": 2025,
+    "current_year_vwap": 127.87,
+    "signal_price": 168.49,
+    "last_price": 140.43,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 307.04,
+      "2022": 239.54,
+      "2023": 198.86,
+      "2024": 193.55
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

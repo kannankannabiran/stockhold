@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "BANDHANBNK.NS",
+    "current_year": 2025,
+    "current_year_vwap": 160.62,
+    "signal_price": 160.93,
+    "last_price": 165.19,
+    "condition_date": "2025-01-02",
+    "previous_years": {
+      "2021": 318.23,
+      "2022": 281.45,
+      "2023": 231.13,
+      "2024": 198.02
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

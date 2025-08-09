@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "SATIA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 80,
+    "signal_price": 95.56,
+    "last_price": 80.73,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 98.5,
+      "2022": 123.91,
+      "2023": 128.53,
+      "2024": 122.63
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

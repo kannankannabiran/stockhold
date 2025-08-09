@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "INDOCO.NS",
+    "current_year": 2025,
+    "current_year_vwap": 276.55,
+    "signal_price": 332.2,
+    "last_price": 291.85,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 421.62,
+      "2022": 377.23,
+      "2023": 347.8,
+      "2024": 340.8
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

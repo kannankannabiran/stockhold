@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "AARTIDRUGS.NS",
+    "current_year": 2025,
+    "current_year_vwap": 447.75,
+    "signal_price": 455.5,
+    "last_price": 491.75,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 704.82,
+      "2022": 466.47,
+      "2023": 481.05,
+      "2024": 521.47
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

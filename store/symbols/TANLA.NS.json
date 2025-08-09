@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "TANLA.NS",
+    "current_year": 2025,
+    "current_year_vwap": 617.84,
+    "signal_price": 750.25,
+    "last_price": 618.4,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 1072.24,
+      "2022": 961.59,
+      "2023": 975.03,
+      "2024": 952.79
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "BERGEPAINT.NS",
+    "current_year": 2025,
+    "current_year_vwap": 521.69,
+    "signal_price": 535.55,
+    "last_price": 551.05,
+    "condition_date": "2025-04-08",
+    "previous_years": {
+      "2021": 648.58,
+      "2022": 531.48,
+      "2023": 551.56,
+      "2024": 527.46
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

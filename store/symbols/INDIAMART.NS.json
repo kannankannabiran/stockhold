@@ -9962,5 +9962,19 @@
     }
   ],
   "lastScanDate": "2025-08-08",
-  "latestResult": null
+  "latestResult": {
+    "symbol": "INDIAMART.NS",
+    "current_year": 2025,
+    "current_year_vwap": 2277.62,
+    "signal_price": 2284.8,
+    "last_price": 2561.3,
+    "condition_date": "2025-01-01",
+    "previous_years": {
+      "2021": 3953.01,
+      "2022": 2320.35,
+      "2023": 2769.31,
+      "2024": 2690.17
+    },
+    "trend": "4Y VWAPs > Current Year VWAP & Price > Current Year VWAP"
+  }
 }

@@ -51,15 +51,15 @@ const AvatarPlaceholder = () => (
 );
 
 const PROTECTED_PAYMENT_ROUTES = {
-  "/chart": "/payment/chart-access",
+  "/chart": "/payment/Longtermstockscanner",
   "/longterm": "/payment/Longtermstockscanner",
-  "/stocklist": "/payment/stocklist-access",
-  "/backtest": "/payment/backtest-tool",
-  "/options": "/payment/option-chain",
-  "/trendingoi": "/payment/candlestick",
-  "/openhighnifty": "/payment/nifty-ohlc",
-  "/herozero": "/payment/hero-zero",
-  "/individual": "/payment/individual-strike",
+  "/stocklist": "/payment/Longtermstockscanner",
+  "/backtest": "/payment/Longtermstockscanner",
+  "/options": "/payment/Longtermstockscanner",
+  "/trendingoi": "/payment/Longtermstockscanner",
+  "/openhighnifty": "/payment/Longtermstockscanner",
+  "/herozero": "/payment/Longtermstockscanner",
+  "/individual": "/payment/Longtermstockscanner",
 };
 
 const PROTECTED_PATHS = Object.keys(PROTECTED_PAYMENT_ROUTES);
@@ -320,6 +320,12 @@ export default function Navbar() {
                     </div>
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleLogout("/")}
+                    >
+                      Logout
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleNavigate("/admin")}
                     >
                       Admin
@@ -437,6 +443,12 @@ export default function Navbar() {
                       onClick={() => handleNavigate("/signup")}
                     >
                       Signup
+                    </div>
+                    <div
+                      className="cursor-pointer hover:underline"
+                      onClick={() => handleLogout("/")}
+                    >
+                      Logout
                     </div>
                     <div
                       className="cursor-pointer hover:underline"

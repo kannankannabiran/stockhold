@@ -332,14 +332,6 @@ export default function Navbar() {
                     </div>
                   </>
                 )}
-                {user.isAuthenticated && (
-                  <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </div>
-                )}
               </div>
             )}
           </div>
@@ -444,13 +436,7 @@ export default function Navbar() {
                     >
                       Signup
                     </div>
-                    <div
-                      className="cursor-pointer hover:underline"
-                      onClick={() => handleLogout("/")}
-                    >
-                      Logout
-                    </div>
-                    <div
+                     <div
                       className="cursor-pointer hover:underline"
                       onClick={() => handleNavigate("/login")}
                     >
@@ -458,19 +444,18 @@ export default function Navbar() {
                     </div>
                     <div
                       className="cursor-pointer hover:underline"
+                      onClick={() => handleLogout("/")}
+                    >
+                      Logout
+                    </div>
+                   
+                    <div
+                      className="cursor-pointer hover:underline"
                       onClick={() => handleNavigate("/admin")}
                     >
                       Admin
                     </div>
                   </>
-                )}
-                {user.isAuthenticated && (
-                  <div
-                    className="cursor-pointer hover:underline"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </div>
                 )}
               </div>
             </div>

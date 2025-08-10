@@ -4,9 +4,20 @@ import Chart_img from '../../../public/onetoone.svg';
 import { FiArrowRight } from "react-icons/fi";
 import { FaYoutube } from "react-icons/fa";
 import Footer from '../Footer/page';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Chart() {
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      router.push('/payment/Longtermstock');
+    } else {
+      localStorage.setItem('redirectAfterSignup', '/payment/Longtermstock');
+      router.push('/signup');
+    }
+  };
   return (
     <>
   <div style={{ backgroundImage: 'url("/onetoonebg.svg")', backgroundSize: 'cover', backgroundPosition: 'center bottom' }} className='pb-30'>
@@ -31,9 +42,12 @@ export default function Chart() {
 
       {/* Button Row */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/payment/Longtermstock" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
+        <button 
+          onClick={() => handleGetStarted()}
+          className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer"
+        >
           Get Started <FiArrowRight />
-        </Link>
+        </button>
 
         <button className="bg-red-400 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
           <FaYoutube className="text-white text-xl" />

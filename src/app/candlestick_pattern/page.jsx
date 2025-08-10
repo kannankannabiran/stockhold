@@ -5,9 +5,20 @@ import marbozo from '../../../public/candlestick_marbozo.svg';
 import { FiArrowRight } from "react-icons/fi";
 import { FaYoutube } from "react-icons/fa";
 import Footer from '../Footer/page';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Chart() {
+  const router = useRouter();
+
+  const handleBuyNow = () => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      router.push('/payment/candlestick');
+    } else {
+      localStorage.setItem('redirectAfterSignup', '/payment/candlestick');
+      router.push('/signup');
+    }
+  };
   return (
     <>
   <div style={{ backgroundImage: 'url("/onetoonebg.svg")', backgroundSize: 'cover', backgroundPosition: 'center bottom' }} className='pb-30 mb-5'>
@@ -32,9 +43,12 @@ export default function Chart() {
 
       {/* Button Row */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/payment/candlestick" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
+        <button 
+          onClick={() => handleBuyNow()}
+          className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer"
+        >
           Buy Now <FiArrowRight />
-        </Link>
+        </button>
 
         <button className="bg-red-400 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
           <FaYoutube className="text-white text-xl" />
@@ -52,9 +66,12 @@ export default function Chart() {
       </p>
   <Image src={marbozo} alt='Candle'  className='mx-auto w-4xl'/>
    <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/payment/candlestick" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer text-center mx-auto mb-10">
+        <button 
+          onClick={() => handleBuyNow()}
+          className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer text-center mx-auto mb-10"
+        >
           Buy Now <FiArrowRight />
-        </Link>
+        </button>
       </div>
 </div>
 <Footer />

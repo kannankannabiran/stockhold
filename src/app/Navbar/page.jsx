@@ -20,6 +20,24 @@ function useUser() {
     name: "",
   });
 
+  useEffect(() => {
+    const checkAuth = () => {
+      const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
+      setUser(prev => ({ ...prev, isAuthenticated: !!userId }));
+    };
+    
+    checkAuth();
+    
+    const handleStorageChange = () => checkAuth();
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userLogin', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userLogin', handleStorageChange);
+    };
+  }, []);
+
   const login = (overrides = {}) =>
     setUser((u) => ({ ...u, isAuthenticated: true, ...overrides }));
   const logout = () => {
@@ -304,7 +322,7 @@ export default function Navbar() {
             </button>
             {showProfileMenu && (
               <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md w-36 z-30">
-                {!user.isAuthenticated && (
+                {!user.isAuthenticated ? (
                   <>
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -320,17 +338,18 @@ export default function Navbar() {
                     </div>
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => handleLogout("/")}
-                    >
-                      Logout
-                    </div>
-                    <div
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleNavigate("/admin")}
                     >
                       Admin
                     </div>
                   </>
+                ) : (
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </div>
                 )}
               </div>
             )}
@@ -428,7 +447,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <AvatarPlaceholder />
               <div className="flex flex-col">
-                {!user.isAuthenticated && (
+                {!user.isAuthenticated ? (
                   <>
                     <div
                       className="cursor-pointer hover:underline"
@@ -436,7 +455,7 @@ export default function Navbar() {
                     >
                       Signup
                     </div>
-                     <div
+                    <div
                       className="cursor-pointer hover:underline"
                       onClick={() => handleNavigate("/login")}
                     >
@@ -444,18 +463,18 @@ export default function Navbar() {
                     </div>
                     <div
                       className="cursor-pointer hover:underline"
-                      onClick={() => handleLogout("/")}
-                    >
-                      Logout
-                    </div>
-                   
-                    <div
-                      className="cursor-pointer hover:underline"
                       onClick={() => handleNavigate("/admin")}
                     >
                       Admin
                     </div>
                   </>
+                ) : (
+                  <div
+                    className="cursor-pointer hover:underline"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </div>
                 )}
               </div>
             </div>

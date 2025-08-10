@@ -21,8 +21,23 @@ export function SignupForm({ onSuccess, onError }) {
     setLoading(true);
     const resp = await api('signup', { name, mobile, password });
     setLoading(false);
-    if (resp.success) onSuccess && onSuccess(resp.member);
-    else onError && onError(resp.error);
+    if (resp.success) {
+      localStorage.setItem('userId', resp.member.id);
+      window.dispatchEvent(new Event('userLogin'));
+      
+      const redirectUrl = localStorage.getItem('redirectAfterSignup');
+      const allowedRedirectPages = ['/payment/candlestick', '/payment/Longtermstock', '/payment/Longtermstockscanner'];
+      
+      if (redirectUrl && allowedRedirectPages.includes(redirectUrl)) {
+        localStorage.removeItem('redirectAfterSignup');
+        window.location.href = redirectUrl;
+        return;
+      }
+      
+      onSuccess && onSuccess(resp.member);
+    } else {
+      onError && onError(resp.error);
+    }
   };
 
   return (

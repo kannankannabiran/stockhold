@@ -22,6 +22,7 @@ export function LoginForm({ onSuccess, onError }) {
     setLoading(false);
     if (resp.success) {
       localStorage.setItem('userId', resp.member.id);
+      window.dispatchEvent(new Event('userLogin'));
       onSuccess && onSuccess(resp.member);
     } else {
       onError && onError(resp.error);

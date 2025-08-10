@@ -99,6 +99,12 @@ export default function Navbar() {
 
   const handleNavigate = async (path) => {
     const access = await hasAccess(path);
+    const userId = localStorage.getItem('userId');
+    if (path === '/longterm' && !userId) {
+      localStorage.setItem('redirectAfterSignup', '/payment/Longtermstockscanner');
+      router.push('/signup');
+      return;
+    }
     if (!access) {
       const paymentUrl = PROTECTED_PAYMENT_ROUTES[path];
       if (paymentUrl) {

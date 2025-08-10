@@ -86,16 +86,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
                 }`}
                 aria-disabled={!isValidMobile}
               >
-                Compleate Payment <FiArrowRight />
-              </Link>
-              <Link
-                href={signupLink}
-                className={`mt-2 inline-flex bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-400 hover:text-white transition duration-200 items-center justify-center gap-2 ${
-                  !isValidMobile ? "opacity-60 pointer-events-none" : ""
-                }`}
-                aria-disabled={!isValidMobile}
-              >
-                Download <FiArrowRight />
+                Compleate<FiArrowRight />
               </Link>
             </div>
           </div>

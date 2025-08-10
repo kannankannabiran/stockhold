@@ -28,7 +28,7 @@ const paymentProducts = [
   },
     {
     id: "Longtermstockscanner",
-    image: "/longtermstockscourse.svg", // you can also import in the page if you prefer
+    image: "/payment-longterm-scanner.svg", // you can also import in the page if you prefer
     title: (
       <>
         Scanner For <span className="text-green-400">Long Term Stocks</span> 

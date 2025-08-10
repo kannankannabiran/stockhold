@@ -7,6 +7,7 @@ import Image from "next/image";
 import Logo from '../../../public/navbar_logo.svg';
 import Link from "next/link";
 import { useNavbarAccess } from "../../hooks/useNavbarAccess";
+import PaymentDetailPage from "../payment/[id]/page";
 
 /**
  * Stubbed user hook. Replace with real auth/session logic.
@@ -75,7 +76,8 @@ export default function Navbar() {
   const handleNavigate = async (path) => {
     const access = await hasAccess(path);
     if (!access) {
-      alert("You don't have access Please Payment Once Complete After Access.");
+      // alert("You don't have access Please Payment Once Complete After Access.");
+      router.push("/payment/Longtermstockscanner");
       return;
     }
     setShowCourseDropdown(false);

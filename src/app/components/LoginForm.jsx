@@ -23,6 +23,18 @@ export function LoginForm({ onSuccess, onError }) {
     if (resp.success) {
       localStorage.setItem('userId', resp.member.id);
       window.dispatchEvent(new Event('userLogin'));
+      const redirectUrl = localStorage.getItem('redirectAfterSignup');
+      if (redirectUrl) {
+        // Import paymentData to check allowed redirect pages
+        const paymentProducts = (await import('../content_data/paymentData.js')).default;
+        const allowedRedirectPages = paymentProducts.map(product => `/payment/${product.id}`);
+
+        if (allowedRedirectPages.includes(redirectUrl)) {
+          localStorage.removeItem('redirectAfterSignup');
+          window.location.href = redirectUrl;
+          return;
+        }
+      }
       onSuccess && onSuccess(resp.member);
     } else {
       onError && onError(resp.error);

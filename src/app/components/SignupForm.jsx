@@ -26,12 +26,16 @@ export function SignupForm({ onSuccess, onError }) {
       window.dispatchEvent(new Event('userLogin'));
       
       const redirectUrl = localStorage.getItem('redirectAfterSignup');
-      const allowedRedirectPages = ['/payment/candlestick', '/payment/Longtermstock', '/payment/Longtermstockscanner'];
-      
-      if (redirectUrl && allowedRedirectPages.includes(redirectUrl)) {
-        localStorage.removeItem('redirectAfterSignup');
-        window.location.href = redirectUrl;
-        return;
+      if (redirectUrl) {
+        // Import paymentData to check allowed redirect pages
+        const paymentProducts = (await import('../content_data/paymentData.js')).default;
+        const allowedRedirectPages = paymentProducts.map(product => `/payment/${product.id}`);
+        
+        if (allowedRedirectPages.includes(redirectUrl)) {
+          localStorage.removeItem('redirectAfterSignup');
+          window.location.href = redirectUrl;
+          return;
+        }
       }
       
       onSuccess && onSuccess(resp.member);

@@ -32,6 +32,11 @@ export function AdminPanel() {
     setRefresh((r) => r + 1);
   };
 
+  const setReqUrl = async (mobile, requestId, allow) => {
+    await api('url-request', { mobile, requestId, allow });
+    setRefresh((r) => r + 1);
+  };
+
   const URL_LIST = [
     '/chart',
     '/longterm',
@@ -44,7 +49,6 @@ export function AdminPanel() {
     '/individual'
   ];
 
-  // Filter members based on search & inactive filter
   const filteredMembers = members.filter((m) => {
     const matchesSearch =
       m.mobile.includes(searchTerm.trim()) ||
@@ -55,7 +59,6 @@ export function AdminPanel() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
-      
       {/* Search + Filter */}
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between bg-white p-4 rounded-lg shadow">
         <input
@@ -113,8 +116,9 @@ export function AdminPanel() {
             </div>
           </div>
 
-          {/* URL Buttons */}
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {/* URL Access Buttons */}
+          <h3 className="font-semibold text-base mb-2">URL Access</h3>
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
             {URL_LIST.map((url) => {
               const hasAccess = m.urlAccess?.includes(url);
               return (
@@ -157,6 +161,60 @@ export function AdminPanel() {
               );
             })}
           </div>
+
+          {/* URL Requests Section */}
+          {m.urlRequests?.length > 0 && (
+            <>
+              <h3 className="font-semibold text-base mb-2">URL Requests</h3>
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4">
+                {m.urlRequests.map((req) => {
+                  const hasAccess = m.urlRequestsGranted?.includes(req.id);
+                  return (
+                    <div
+                      key={req.id}
+                      className={`p-4 rounded-xl border ${
+                        hasAccess
+                          ? 'bg-green-50 border-green-300'
+                          : 'bg-gray-50 border-gray-200'
+                      }`}
+                    >
+                      <div className="font-medium">{req.title}</div>
+                      <div className="text-xs text-gray-500 mb-1">
+                        ₹{req.price}
+                      </div>
+                      <div className="text-xs text-blue-600 break-all">
+                        {req.downloadUrl}
+                      </div>
+                      <div className="flex gap-2 mt-3">
+                        <button
+                          onClick={() => setReqUrl(m.mobile, req.id, true)}
+                          disabled={hasAccess}
+                          className={`px-3 py-1 text-sm rounded-lg text-white ${
+                            hasAccess
+                              ? 'bg-gray-300 cursor-not-allowed'
+                              : 'bg-blue-500 hover:bg-blue-600'
+                          }`}
+                        >
+                          Grant
+                        </button>
+                        <button
+                          onClick={() => setReqUrl(m.mobile, req.id, false)}
+                          disabled={!hasAccess}
+                          className={`px-3 py-1 text-sm rounded-lg text-white ${
+                            !hasAccess
+                              ? 'bg-gray-300 cursor-not-allowed'
+                              : 'bg-red-500 hover:bg-red-600'
+                          }`}
+                        >
+                          Revoke
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       ))}
     </div>

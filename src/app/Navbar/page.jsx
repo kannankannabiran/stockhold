@@ -37,7 +37,7 @@ function useUser() {
 }
 
 const AvatarPlaceholder = () => (
-  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden hidden md:block">
+  <div className="w-8 h-8 rounded-full bg-gray-200 items-center justify-center overflow-hidden hidden md:flex">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="8" r="4" stroke="#555" strokeWidth="1.5" />
       <path

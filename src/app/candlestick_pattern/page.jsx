@@ -32,7 +32,7 @@ export default function Chart() {
 
       {/* Button Row */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/payment" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
+        <Link href="/payment/candlestick" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
           Buy Now <FiArrowRight />
         </Link>
 
@@ -52,7 +52,7 @@ export default function Chart() {
       </p>
   <Image src={marbozo} alt='Candle'  className='mx-auto w-4xl'/>
    <div className="flex flex-col sm:flex-row gap-4">
-        <Link href="/payment" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer text-center mx-auto mb-10">
+        <Link href="/payment/candlestick" className="bg-green-400 text-gray-700 px-6 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 flex items-center justify-center gap-2 cursor-pointer text-center mx-auto mb-10">
           Buy Now <FiArrowRight />
         </Link>
       </div>

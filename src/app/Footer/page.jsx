@@ -56,7 +56,7 @@ export default function Footer() {
 
       {/* Second Row */}
       <div className="text-center text-sm text-gray-400 pb-6">
-        © 2025 ALL Rights Reserved By <span className="font-semibold text-green-400"><Link href="https://stockhold.in/">Stock Hold</Link></span>
+        © 2025 ALL Rights Reserved By <span className="font-semibold text-green-400"><Link href="/">Stock Hold</Link></span>
       </div>
     </footer>
   );

@@ -105,6 +105,16 @@ export default function Navbar() {
       router.push('/signup');
       return;
     }
+    if (path === '/stocklist' && !userId) {
+      localStorage.setItem('redirectAfterSignup', '/payment/Longtermstockscanner');
+      router.push('/signup');
+      return;
+    }
+    if (path === '/backtest' && !userId) {
+      localStorage.setItem('redirectAfterSignup', '/payment/Longtermstockscanner');
+      router.push('/signup');
+      return;
+    }
     if (!access) {
       const paymentUrl = PROTECTED_PAYMENT_ROUTES[path];
       if (paymentUrl) {

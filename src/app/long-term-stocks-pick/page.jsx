@@ -111,7 +111,7 @@ export default function Chart() {
         </div>
       </div>
       <p className='text-normal m-15'>Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations. Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations.</p>
-        <div className='text-center bg-green-400 text-gray-700 rounded-2xl w-fit p-2 w-10 mx-auto px-8 mb-10 hover:bg-green-600 cursor-pointer hover:text-white' onClick={handleGetStarted}>Join Now</div>
+        <div className='text-center bg-green-400 text-gray-700 rounded-2xl p-2 w-10 mx-auto px-8 mb-10 hover:bg-green-600 cursor-pointer hover:text-white' onClick={handleGetStarted}>Join Now</div>
       {/* Footer */}
       <Footer />
     </>

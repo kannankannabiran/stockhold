@@ -9959,9 +9959,17 @@
       "low": 1130,
       "close": 1136.199951171875,
       "volume": 311554
+    },
+    {
+      "date": "2025-08-11T04:11:49.000Z",
+      "open": 1136.199951171875,
+      "high": 1148.5,
+      "low": 1130.9000244140625,
+      "close": 1138.5,
+      "volume": 33285
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PEL.NS",
     "current_year": 2025,

@@ -7671,9 +7671,17 @@
       "low": 1230.0999755859375,
       "close": 1237,
       "volume": 33369
+    },
+    {
+      "date": "2025-08-11T04:13:27.000Z",
+      "open": 1243.5,
+      "high": 1251.4000244140625,
+      "low": 1235,
+      "close": 1242.4000244140625,
+      "volume": 3304
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SANSERA.NS",
     "current_year": 2025,

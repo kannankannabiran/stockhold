@@ -9959,9 +9959,17 @@
       "low": 1732.5999755859375,
       "close": 1740.699951171875,
       "volume": 168127
+    },
+    {
+      "date": "2025-08-11T04:10:33.000Z",
+      "open": 1750,
+      "high": 1805,
+      "low": 1742.5,
+      "close": 1798.699951171875,
+      "volume": 25017
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDIAGLYCO.NS",
     "current_year": 2025,

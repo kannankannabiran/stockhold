@@ -9959,9 +9959,17 @@
       "low": 578,
       "close": 580,
       "volume": 1251672
+    },
+    {
+      "date": "2025-08-11T04:10:32.000Z",
+      "open": 580.1500244140625,
+      "high": 585.4000244140625,
+      "low": 580.0499877929688,
+      "close": 582.7000122070312,
+      "volume": 79887
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AMBUJACEM.NS",
     "current_year": 2025,

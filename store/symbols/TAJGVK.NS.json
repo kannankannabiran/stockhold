@@ -9959,9 +9959,17 @@
       "low": 408,
       "close": 408.79998779296875,
       "volume": 107106
+    },
+    {
+      "date": "2025-08-11T04:11:19.000Z",
+      "open": 408,
+      "high": 413.1000061035156,
+      "low": 406.45001220703125,
+      "close": 410.5,
+      "volume": 12484
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TAJGVK.NS",
     "current_year": 2025,

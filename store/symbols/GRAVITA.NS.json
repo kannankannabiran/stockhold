@@ -9959,9 +9959,17 @@
       "low": 1765,
       "close": 1778.300048828125,
       "volume": 217983
+    },
+    {
+      "date": "2025-08-11T04:09:30.000Z",
+      "open": 1790,
+      "high": 1797,
+      "low": 1766,
+      "close": 1790.0999755859375,
+      "volume": 18327
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GRAVITA.NS",
     "current_year": 2025,

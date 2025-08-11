@@ -9959,9 +9959,17 @@
       "low": 997,
       "close": 1010,
       "volume": 205354
+    },
+    {
+      "date": "2025-08-11T04:13:45.000Z",
+      "open": 1009,
+      "high": 1035,
+      "low": 1001,
+      "close": 1013.5999755859375,
+      "volume": 139331
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GABRIEL.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 287.25,
       "close": 303.04998779296875,
       "volume": 15844
+    },
+    {
+      "date": "2025-08-11T04:11:24.000Z",
+      "open": 311.6499938964844,
+      "high": 318.20001220703125,
+      "low": 311.6499938964844,
+      "close": 318.20001220703125,
+      "volume": 1115
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASIANHOTNR.NS",
     "current_year": 2025,

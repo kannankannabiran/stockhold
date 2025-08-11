@@ -7135,9 +7135,17 @@
       "low": 440.75,
       "close": 444.1499938964844,
       "volume": 422771
+    },
+    {
+      "date": "2025-08-11T04:12:17.000Z",
+      "open": 444,
+      "high": 448.3500061035156,
+      "low": 439.20001220703125,
+      "close": 445.25,
+      "volume": 97769
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CMSINFO.NS",
     "current_year": 2025,

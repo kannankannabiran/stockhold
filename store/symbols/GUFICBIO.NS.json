@@ -9959,9 +9959,17 @@
       "low": 359.1000061035156,
       "close": 361.25,
       "volume": 27342
+    },
+    {
+      "date": "2025-08-11T04:12:04.000Z",
+      "open": 361.25,
+      "high": 371.70001220703125,
+      "low": 360,
+      "close": 360.79998779296875,
+      "volume": 4808
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GUFICBIO.NS",
     "current_year": 2025,

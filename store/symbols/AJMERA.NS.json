@@ -9959,9 +9959,17 @@
       "low": 850,
       "close": 854.8499755859375,
       "volume": 40890
+    },
+    {
+      "date": "2025-08-11T04:12:14.000Z",
+      "open": 850,
+      "high": 867.25,
+      "low": 850,
+      "close": 855.5999755859375,
+      "volume": 14041
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AJMERA.NS",
     "current_year": 2025,

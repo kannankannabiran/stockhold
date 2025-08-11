@@ -9959,9 +9959,17 @@
       "low": 807,
       "close": 816.0499877929688,
       "volume": 336117
+    },
+    {
+      "date": "2025-08-11T04:09:53.000Z",
+      "open": 817.0499877929688,
+      "high": 822.25,
+      "low": 810.7000122070312,
+      "close": 812,
+      "volume": 31414
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GODREJAGRO.NS",
     "current_year": 2025,

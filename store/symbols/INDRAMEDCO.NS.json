@@ -9959,9 +9959,17 @@
       "low": 448.75,
       "close": 450.3500061035156,
       "volume": 220040
+    },
+    {
+      "date": "2025-08-11T04:10:11.000Z",
+      "open": 446,
+      "high": 454.25,
+      "low": 443.1000061035156,
+      "close": 452.1000061035156,
+      "volume": 47573
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDRAMEDCO.NS",
     "current_year": 2025,

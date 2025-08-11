@@ -9959,9 +9959,17 @@
       "low": 590.0999755859375,
       "close": 590.5499877929688,
       "volume": 5429
+    },
+    {
+      "date": "2025-08-11T04:07:30.000Z",
+      "open": 590.2999877929688,
+      "high": 593,
+      "low": 590.2999877929688,
+      "close": 593,
+      "volume": 1717
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HEUBACHIND.NS",
     "current_year": 2025,

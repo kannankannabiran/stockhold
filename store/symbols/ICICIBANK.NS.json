@@ -9959,9 +9959,17 @@
       "low": 1432,
       "close": 1435.9000244140625,
       "volume": 5415245
+    },
+    {
+      "date": "2025-08-11T04:12:28.000Z",
+      "open": 1427.9000244140625,
+      "high": 1430.800048828125,
+      "low": 1420.4000244140625,
+      "close": 1425.5,
+      "volume": 807280
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ICICIBANK.NS",
     "current_year": 2025,

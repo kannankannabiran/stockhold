@@ -9959,9 +9959,17 @@
       "low": 1160.4000244140625,
       "close": 1171.5999755859375,
       "volume": 25482
+    },
+    {
+      "date": "2025-08-11T04:13:21.000Z",
+      "open": 1172,
+      "high": 1179.5,
+      "low": 1167.5999755859375,
+      "close": 1175.4000244140625,
+      "volume": 7128
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GULFOILLUB.NS",
     "current_year": 2025,

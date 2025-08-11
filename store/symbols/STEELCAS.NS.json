@@ -7359,9 +7359,17 @@
       "low": 1017.5,
       "close": 1023.9000244140625,
       "volume": 19544
+    },
+    {
+      "date": "2025-08-11T04:10:37.000Z",
+      "open": 1029.300048828125,
+      "high": 1029.300048828125,
+      "low": 1018,
+      "close": 1021.0999755859375,
+      "volume": 1345
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "STEELCAS.NS",
     "current_year": 2025,

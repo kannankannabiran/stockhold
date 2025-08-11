@@ -9959,9 +9959,17 @@
       "low": 4780,
       "close": 4827.5,
       "volume": 2422
+    },
+    {
+      "date": "2025-08-11T04:12:18.000Z",
+      "open": 4757.5,
+      "high": 4874,
+      "low": 4757.5,
+      "close": 4800,
+      "volume": 155
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "FOSECOIND.NS",
     "current_year": 2025,

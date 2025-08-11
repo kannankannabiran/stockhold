@@ -9959,9 +9959,17 @@
       "low": 2380.199951171875,
       "close": 2394.89990234375,
       "volume": 28572
+    },
+    {
+      "date": "2025-08-11T04:10:58.000Z",
+      "open": 2394,
+      "high": 2394,
+      "low": 2369.800048828125,
+      "close": 2369.800048828125,
+      "volume": 4004
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SHRIPISTON.NS",
     "current_year": 2025,

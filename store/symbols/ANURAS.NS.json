@@ -8663,9 +8663,17 @@
       "low": 1108,
       "close": 1120.5,
       "volume": 82100
+    },
+    {
+      "date": "2025-08-11T04:10:14.000Z",
+      "open": 1120.5,
+      "high": 1136.0999755859375,
+      "low": 1118.5,
+      "close": 1120.300048828125,
+      "volume": 5427
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ANURAS.NS",
     "current_year": 2025,

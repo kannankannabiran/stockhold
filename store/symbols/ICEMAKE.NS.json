@@ -9951,9 +9951,17 @@
       "low": 725,
       "close": 730.25,
       "volume": 44281
+    },
+    {
+      "date": "2025-08-11T04:12:26.000Z",
+      "open": 730.25,
+      "high": 742.4000244140625,
+      "low": 724,
+      "close": 732.5499877929688,
+      "volume": 3902
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ICEMAKE.NS",
     "current_year": 2025,

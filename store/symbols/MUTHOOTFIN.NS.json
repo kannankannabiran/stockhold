@@ -9959,9 +9959,17 @@
       "low": 2595,
       "close": 2617.800048828125,
       "volume": 223808
+    },
+    {
+      "date": "2025-08-11T04:10:53.000Z",
+      "open": 2605.199951171875,
+      "high": 2626.39990234375,
+      "low": 2592.300048828125,
+      "close": 2595.60009765625,
+      "volume": 50103
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MUTHOOTFIN.NS",
     "current_year": 2025,

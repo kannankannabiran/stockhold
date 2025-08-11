@@ -9959,9 +9959,17 @@
       "low": 2630,
       "close": 2651,
       "volume": 77212
+    },
+    {
+      "date": "2025-08-11T04:11:48.000Z",
+      "open": 2651,
+      "high": 2654.89990234375,
+      "low": 2621.10009765625,
+      "close": 2622.89990234375,
+      "volume": 7127
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GLAXO.NS",
     "current_year": 2025,

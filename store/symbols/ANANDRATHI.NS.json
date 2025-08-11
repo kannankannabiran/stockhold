@@ -7239,9 +7239,17 @@
       "low": 2540,
       "close": 2587.800048828125,
       "volume": 76076
+    },
+    {
+      "date": "2025-08-11T04:13:22.000Z",
+      "open": 2590.300048828125,
+      "high": 2680,
+      "low": 2590.300048828125,
+      "close": 2649.800048828125,
+      "volume": 61347
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ANANDRATHI.NS",
     "current_year": 2025,

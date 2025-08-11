@@ -9959,9 +9959,17 @@
       "low": 1726,
       "close": 1737.199951171875,
       "volume": 390487
+    },
+    {
+      "date": "2025-08-11T04:12:03.000Z",
+      "open": 1727,
+      "high": 1744.300048828125,
+      "low": 1700,
+      "close": 1718.4000244140625,
+      "volume": 119565
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "NH.NS",
     "current_year": 2025,

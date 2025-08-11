@@ -9959,9 +9959,17 @@
       "low": 202,
       "close": 202.9600067138672,
       "volume": 5621
+    },
+    {
+      "date": "2025-08-11T04:12:01.000Z",
+      "open": 203,
+      "high": 203.55999755859375,
+      "low": 198,
+      "close": 199.2100067138672,
+      "volume": 2918
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HISARMETAL.NS",
     "current_year": 2025,

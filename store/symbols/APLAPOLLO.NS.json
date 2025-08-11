@@ -9959,9 +9959,17 @@
       "low": 1575,
       "close": 1582.5999755859375,
       "volume": 257479
+    },
+    {
+      "date": "2025-08-11T04:10:23.000Z",
+      "open": 1580,
+      "high": 1590,
+      "low": 1572,
+      "close": 1574.0999755859375,
+      "volume": 19227
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "APLAPOLLO.NS",
     "current_year": 2025,

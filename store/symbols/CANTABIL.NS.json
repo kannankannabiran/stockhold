@@ -9959,9 +9959,17 @@
       "low": 250.0500030517578,
       "close": 253.5,
       "volume": 122445
+    },
+    {
+      "date": "2025-08-11T04:08:58.000Z",
+      "open": 256.5,
+      "high": 256.5,
+      "low": 250.39999389648438,
+      "close": 251.14999389648438,
+      "volume": 4984
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CANTABIL.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 702.5499877929688,
       "close": 706.9000244140625,
       "volume": 19869
+    },
+    {
+      "date": "2025-08-11T04:09:22.000Z",
+      "open": 706.9500122070312,
+      "high": 710.4500122070312,
+      "low": 700.25,
+      "close": 710.4500122070312,
+      "volume": 2111
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BUTTERFLY.NS",
     "current_year": 2025,

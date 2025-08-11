@@ -9959,9 +9959,17 @@
       "low": 732.7999877929688,
       "close": 735.75,
       "volume": 1778467
+    },
+    {
+      "date": "2025-08-11T04:09:45.000Z",
+      "open": 736,
+      "high": 740.5999755859375,
+      "low": 735.9500122070312,
+      "close": 737.8499755859375,
+      "volume": 191240
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDHOTEL.NS",
     "current_year": 2025,

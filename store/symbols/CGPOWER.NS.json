@@ -9959,9 +9959,17 @@
       "low": 664,
       "close": 666.4000244140625,
       "volume": 1735094
+    },
+    {
+      "date": "2025-08-11T04:10:16.000Z",
+      "open": 666,
+      "high": 667.8499755859375,
+      "low": 659.2999877929688,
+      "close": 663,
+      "volume": 228611
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CGPOWER.NS",
     "current_year": 2025,

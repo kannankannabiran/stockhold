@@ -9959,9 +9959,17 @@
       "low": 506,
       "close": 507.25,
       "volume": 510377
+    },
+    {
+      "date": "2025-08-11T04:10:02.000Z",
+      "open": 507.70001220703125,
+      "high": 507.75,
+      "low": 500.75,
+      "close": 501.25,
+      "volume": 128866
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "DABUR.NS",
     "current_year": 2025,

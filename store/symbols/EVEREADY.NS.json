@@ -9959,9 +9959,17 @@
       "low": 405.8999938964844,
       "close": 408.75,
       "volume": 190140
+    },
+    {
+      "date": "2025-08-11T04:10:29.000Z",
+      "open": 406.6000061035156,
+      "high": 412.5,
+      "low": 406,
+      "close": 408.8999938964844,
+      "volume": 18037
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "EVEREADY.NS",
     "current_year": 2025,

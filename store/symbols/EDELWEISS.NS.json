@@ -9959,9 +9959,17 @@
       "low": 95,
       "close": 95.48999786376953,
       "volume": 3935583
+    },
+    {
+      "date": "2025-08-11T04:13:14.000Z",
+      "open": 95.68000030517578,
+      "high": 96.41999816894531,
+      "low": 93.80000305175781,
+      "close": 93.91999816894531,
+      "volume": 1455106
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "EDELWEISS.NS",
     "current_year": 2025,

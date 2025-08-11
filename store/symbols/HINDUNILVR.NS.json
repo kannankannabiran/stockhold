@@ -9959,9 +9959,17 @@
       "low": 2486.60009765625,
       "close": 2498.60009765625,
       "volume": 839742
+    },
+    {
+      "date": "2025-08-11T04:13:54.000Z",
+      "open": 2490.10009765625,
+      "high": 2497.5,
+      "low": 2478.60009765625,
+      "close": 2482.199951171875,
+      "volume": 59226
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HINDUNILVR.NS",
     "current_year": 2025,

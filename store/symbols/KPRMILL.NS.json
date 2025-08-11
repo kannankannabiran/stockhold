@@ -9959,9 +9959,17 @@
       "low": 980.0999755859375,
       "close": 984.7999877929688,
       "volume": 280562
+    },
+    {
+      "date": "2025-08-11T04:12:59.000Z",
+      "open": 975,
+      "high": 983,
+      "low": 963.5999755859375,
+      "close": 970.5999755859375,
+      "volume": 85741
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KPRMILL.NS",
     "current_year": 2025,

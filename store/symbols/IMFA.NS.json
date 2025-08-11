@@ -9959,9 +9959,17 @@
       "low": 717.4000244140625,
       "close": 734.6500244140625,
       "volume": 42226
+    },
+    {
+      "date": "2025-08-11T04:10:01.000Z",
+      "open": 727,
+      "high": 732,
+      "low": 727,
+      "close": 729.4500122070312,
+      "volume": 3154
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "IMFA.NS",
     "current_year": 2025,

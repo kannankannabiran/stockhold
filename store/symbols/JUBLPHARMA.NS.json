@@ -9959,9 +9959,17 @@
       "low": 1086.300048828125,
       "close": 1100.199951171875,
       "volume": 143926
+    },
+    {
+      "date": "2025-08-11T04:13:05.000Z",
+      "open": 1100.199951171875,
+      "high": 1108,
+      "low": 1087,
+      "close": 1096.0999755859375,
+      "volume": 13146
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "JUBLPHARMA.NS",
     "current_year": 2025,

@@ -9615,9 +9615,17 @@
       "low": 225.0500030517578,
       "close": 228.0399932861328,
       "volume": 69378
+    },
+    {
+      "date": "2025-08-11T04:09:09.000Z",
+      "open": 242.5,
+      "high": 242.5,
+      "low": 230.1300048828125,
+      "close": 235.61000061035156,
+      "volume": 69940
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CHEMCON.NS",
     "current_year": 2025,

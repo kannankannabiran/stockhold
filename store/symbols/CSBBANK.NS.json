@@ -9959,9 +9959,17 @@
       "low": 430,
       "close": 432,
       "volume": 225237
+    },
+    {
+      "date": "2025-08-11T04:08:37.000Z",
+      "open": 430.1000061035156,
+      "high": 440.79998779296875,
+      "low": 430.1000061035156,
+      "close": 437.29998779296875,
+      "volume": 34256
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CSBBANK.NS",
     "current_year": 2025,

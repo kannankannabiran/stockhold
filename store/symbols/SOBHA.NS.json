@@ -9959,9 +9959,17 @@
       "low": 1490,
       "close": 1512.0999755859375,
       "volume": 304279
+    },
+    {
+      "date": "2025-08-11T04:12:16.000Z",
+      "open": 1513.199951171875,
+      "high": 1527.199951171875,
+      "low": 1505.9000244140625,
+      "close": 1517,
+      "volume": 12427
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SOBHA.NS",
     "current_year": 2025,

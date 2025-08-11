@@ -9959,9 +9959,17 @@
       "low": 2252.10009765625,
       "close": 2340.699951171875,
       "volume": 14635
+    },
+    {
+      "date": "2025-08-11T04:10:54.000Z",
+      "open": 2340.699951171875,
+      "high": 2340.699951171875,
+      "low": 2304,
+      "close": 2306.699951171875,
+      "volume": 578
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "RPGLIFE.NS",
     "current_year": 2025,

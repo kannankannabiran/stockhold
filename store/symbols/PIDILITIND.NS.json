@@ -9959,9 +9959,17 @@
       "low": 3035,
       "close": 3081.300048828125,
       "volume": 637664
+    },
+    {
+      "date": "2025-08-11T04:10:01.000Z",
+      "open": 3099,
+      "high": 3099,
+      "low": 3065,
+      "close": 3082.300048828125,
+      "volume": 48762
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PIDILITIND.NS",
     "current_year": 2025,

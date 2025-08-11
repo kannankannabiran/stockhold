@@ -9959,9 +9959,17 @@
       "low": 10574,
       "close": 10768,
       "volume": 5307
+    },
+    {
+      "date": "2025-08-11T04:13:38.000Z",
+      "open": 10610,
+      "high": 10789,
+      "low": 10610,
+      "close": 10687,
+      "volume": 256
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TASTYBITE.NS",
     "current_year": 2025,

@@ -9151,9 +9151,17 @@
       "low": 1437.4000244140625,
       "close": 1449.5,
       "volume": 54748
+    },
+    {
+      "date": "2025-08-11T04:13:01.000Z",
+      "open": 1460.9000244140625,
+      "high": 1461.0999755859375,
+      "low": 1438.9000244140625,
+      "close": 1443,
+      "volume": 7518
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BECTORFOOD.NS",
     "current_year": 2025,

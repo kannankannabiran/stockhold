@@ -9959,9 +9959,17 @@
       "low": 900,
       "close": 903.7999877929688,
       "volume": 53308
+    },
+    {
+      "date": "2025-08-11T04:12:53.000Z",
+      "open": 903.9000244140625,
+      "high": 903.9000244140625,
+      "low": 893.0999755859375,
+      "close": 894,
+      "volume": 10849
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "JKLAKSHMI.NS",
     "current_year": 2025,

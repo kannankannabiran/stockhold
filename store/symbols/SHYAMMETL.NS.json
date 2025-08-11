@@ -8175,9 +8175,17 @@
       "low": 945,
       "close": 952.3499755859375,
       "volume": 156772
+    },
+    {
+      "date": "2025-08-11T04:09:43.000Z",
+      "open": 942,
+      "high": 964.5999755859375,
+      "low": 941.1500244140625,
+      "close": 961.0499877929688,
+      "volume": 25411
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SHYAMMETL.NS",
     "current_year": 2025,

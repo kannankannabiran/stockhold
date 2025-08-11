@@ -9959,9 +9959,17 @@
       "low": 971.25,
       "close": 974.0999755859375,
       "volume": 922955
+    },
+    {
+      "date": "2025-08-11T04:10:51.000Z",
+      "open": 975.0499877929688,
+      "high": 991.8499755859375,
+      "low": 972.3499755859375,
+      "close": 984.0499877929688,
+      "volume": 192332
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "JINDALSTEL.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 927.5999755859375,
       "close": 936.0999755859375,
       "volume": 157323
+    },
+    {
+      "date": "2025-08-11T04:12:45.000Z",
+      "open": 922.2000122070312,
+      "high": 936,
+      "low": 909.7000122070312,
+      "close": 929,
+      "volume": 49002
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INTELLECT.NS",
     "current_year": 2025,

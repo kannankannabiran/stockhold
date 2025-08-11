@@ -9959,9 +9959,17 @@
       "low": 8560,
       "close": 8696.5,
       "volume": 55838
+    },
+    {
+      "date": "2025-08-11T04:11:57.000Z",
+      "open": 8699,
+      "high": 8743,
+      "low": 8630,
+      "close": 8665,
+      "volume": 8737
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "APARINDS.NS",
     "current_year": 2025,

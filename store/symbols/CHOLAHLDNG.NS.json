@@ -9959,9 +9959,17 @@
       "low": 1829.199951171875,
       "close": 1853.4000244140625,
       "volume": 475129
+    },
+    {
+      "date": "2025-08-11T04:10:12.000Z",
+      "open": 1845,
+      "high": 1862.0999755859375,
+      "low": 1825.5,
+      "close": 1855.699951171875,
+      "volume": 10688
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CHOLAHLDNG.NS",
     "current_year": 2025,

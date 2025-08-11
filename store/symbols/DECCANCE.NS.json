@@ -9959,9 +9959,17 @@
       "low": 1043,
       "close": 1048.0999755859375,
       "volume": 44238
+    },
+    {
+      "date": "2025-08-11T04:11:38.000Z",
+      "open": 1050,
+      "high": 1050.0999755859375,
+      "low": 1024.300048828125,
+      "close": 1042.199951171875,
+      "volume": 7391
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "DECCANCE.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 865.5499877929688,
       "close": 869.6500244140625,
       "volume": 270139
+    },
+    {
+      "date": "2025-08-11T04:12:48.000Z",
+      "open": 866.5999755859375,
+      "high": 871.5,
+      "low": 856.7999877929688,
+      "close": 865.75,
+      "volume": 55739
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "WELCORP.NS",
     "current_year": 2025,

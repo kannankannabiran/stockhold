@@ -9959,9 +9959,17 @@
       "low": 3658,
       "close": 3806.89990234375,
       "volume": 3620653
+    },
+    {
+      "date": "2025-08-11T04:10:03.000Z",
+      "open": 3806.89990234375,
+      "high": 3822.39990234375,
+      "low": 3781.5,
+      "close": 3787.699951171875,
+      "volume": 67843
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CUMMINSIND.NS",
     "current_year": 2025,

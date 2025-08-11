@@ -9959,9 +9959,17 @@
       "low": 1012.7999877929688,
       "close": 1024.5999755859375,
       "volume": 42354
+    },
+    {
+      "date": "2025-08-11T04:10:20.000Z",
+      "open": 1024,
+      "high": 1035,
+      "low": 1015.4000244140625,
+      "close": 1021.0999755859375,
+      "volume": 4741
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "COSMOFIRST.NS",
     "current_year": 2025,

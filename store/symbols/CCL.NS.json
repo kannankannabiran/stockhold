@@ -9959,9 +9959,17 @@
       "low": 837,
       "close": 864.3499755859375,
       "volume": 141348
+    },
+    {
+      "date": "2025-08-11T04:12:58.000Z",
+      "open": 870,
+      "high": 873.9500122070312,
+      "low": 847.2000122070312,
+      "close": 857.2000122070312,
+      "volume": 22168
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CCL.NS",
     "current_year": 2025,

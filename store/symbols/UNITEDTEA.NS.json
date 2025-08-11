@@ -9959,9 +9959,17 @@
       "low": 448.5,
       "close": 457.70001220703125,
       "volume": 673
+    },
+    {
+      "date": "2025-08-11T04:11:04.000Z",
+      "open": 452,
+      "high": 456.20001220703125,
+      "low": 448.1000061035156,
+      "close": 449.29998779296875,
+      "volume": 347
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "UNITEDTEA.NS",
     "current_year": 2025,

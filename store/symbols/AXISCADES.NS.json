@@ -9959,9 +9959,17 @@
       "low": 1295.0999755859375,
       "close": 1295.0999755859375,
       "volume": 141072
+    },
+    {
+      "date": "2025-08-11T04:11:58.000Z",
+      "open": 1269,
+      "high": 1270,
+      "low": 1230.4000244140625,
+      "close": 1231.699951171875,
+      "volume": 31685
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AXISCADES.NS",
     "current_year": 2025,

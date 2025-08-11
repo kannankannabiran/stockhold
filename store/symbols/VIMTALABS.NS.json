@@ -9959,9 +9959,17 @@
       "low": 627.5,
       "close": 635.0999755859375,
       "volume": 3583002
+    },
+    {
+      "date": "2025-08-11T04:12:21.000Z",
+      "open": 640,
+      "high": 645.8499755859375,
+      "low": 625.7999877929688,
+      "close": 632.4000244140625,
+      "volume": 383253
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "VIMTALABS.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 820.25,
       "close": 826,
       "volume": 83079
+    },
+    {
+      "date": "2025-08-11T04:13:25.000Z",
+      "open": 826,
+      "high": 836.5999755859375,
+      "low": 822.7999877929688,
+      "close": 828,
+      "volume": 8569
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASAHIINDIA.NS",
     "current_year": 2025,

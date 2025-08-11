@@ -9959,9 +9959,17 @@
       "low": 1152.0999755859375,
       "close": 1162.5,
       "volume": 80551
+    },
+    {
+      "date": "2025-08-11T04:11:45.000Z",
+      "open": 1159.9000244140625,
+      "high": 1184.699951171875,
+      "low": 1155,
+      "close": 1163.5,
+      "volume": 16280
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GLOBUSSPR.NS",
     "current_year": 2025,

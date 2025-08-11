@@ -9959,9 +9959,17 @@
       "low": 1754.300048828125,
       "close": 1804.699951171875,
       "volume": 302283
+    },
+    {
+      "date": "2025-08-11T04:13:40.000Z",
+      "open": 1806.5,
+      "high": 1812.5,
+      "low": 1792,
+      "close": 1793.800048828125,
+      "volume": 46370
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PATANJALI.NS",
     "current_year": 2025,

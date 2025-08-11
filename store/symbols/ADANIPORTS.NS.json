@@ -9959,9 +9959,17 @@
       "low": 1317.699951171875,
       "close": 1325,
       "volume": 1560384
+    },
+    {
+      "date": "2025-08-11T04:10:04.000Z",
+      "open": 1325,
+      "high": 1331.199951171875,
+      "low": 1313.699951171875,
+      "close": 1325.5,
+      "volume": 384874
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ADANIPORTS.NS",
     "current_year": 2025,

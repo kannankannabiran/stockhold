@@ -9959,9 +9959,17 @@
       "low": 282.75,
       "close": 289.04998779296875,
       "volume": 200491
+    },
+    {
+      "date": "2025-08-11T04:10:38.000Z",
+      "open": 289.45001220703125,
+      "high": 291.8999938964844,
+      "low": 287.8500061035156,
+      "close": 288.5,
+      "volume": 37953
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TIRUMALCHM.NS",
     "current_year": 2025,

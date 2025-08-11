@@ -9959,9 +9959,17 @@
       "low": 2290.199951171875,
       "close": 2421.300048828125,
       "volume": 43212
+    },
+    {
+      "date": "2025-08-11T04:12:10.000Z",
+      "open": 2469,
+      "high": 2499,
+      "low": 2433.10009765625,
+      "close": 2459.39990234375,
+      "volume": 9032
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CENTUM.NS",
     "current_year": 2025,

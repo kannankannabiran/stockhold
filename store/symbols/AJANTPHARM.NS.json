@@ -9959,9 +9959,17 @@
       "low": 2574.800048828125,
       "close": 2605.5,
       "volume": 53988
+    },
+    {
+      "date": "2025-08-11T04:12:00.000Z",
+      "open": 2605.5,
+      "high": 2625.699951171875,
+      "low": 2586,
+      "close": 2617.60009765625,
+      "volume": 3798
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AJANTPHARM.NS",
     "current_year": 2025,

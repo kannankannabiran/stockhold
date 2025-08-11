@@ -9959,9 +9959,17 @@
       "low": 170.0500030517578,
       "close": 171.97999572753906,
       "volume": 96801
+    },
+    {
+      "date": "2025-08-11T04:12:13.000Z",
+      "open": 173,
+      "high": 173,
+      "low": 169.00999450683594,
+      "close": 169.27999877929688,
+      "volume": 55782
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PRECWIRE.NS",
     "current_year": 2025,

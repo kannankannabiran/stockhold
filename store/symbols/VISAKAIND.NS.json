@@ -9959,9 +9959,17 @@
       "low": 88,
       "close": 90.63999938964844,
       "volume": 694701
+    },
+    {
+      "date": "2025-08-11T04:12:11.000Z",
+      "open": 89,
+      "high": 89,
+      "low": 86.1500015258789,
+      "close": 87.62999725341797,
+      "volume": 33751
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "VISAKAIND.NS",
     "current_year": 2025,

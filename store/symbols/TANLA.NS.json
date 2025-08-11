@@ -9959,9 +9959,17 @@
       "low": 614.0999755859375,
       "close": 618.4000244140625,
       "volume": 456649
+    },
+    {
+      "date": "2025-08-11T04:13:17.000Z",
+      "open": 615.4000244140625,
+      "high": 624.9500122070312,
+      "low": 610,
+      "close": 613.25,
+      "volume": 214813
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TANLA.NS",
     "current_year": 2025,

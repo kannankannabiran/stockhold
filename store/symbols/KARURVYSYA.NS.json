@@ -9959,9 +9959,17 @@
       "low": 259.8500061035156,
       "close": 262.8999938964844,
       "volume": 1677509
+    },
+    {
+      "date": "2025-08-11T04:11:43.000Z",
+      "open": 262.8999938964844,
+      "high": 264.8999938964844,
+      "low": 262.1000061035156,
+      "close": 263,
+      "volume": 147304
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KARURVYSYA.NS",
     "current_year": 2025,

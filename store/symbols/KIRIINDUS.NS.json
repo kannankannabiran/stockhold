@@ -9959,9 +9959,17 @@
       "low": 553.75,
       "close": 556.0499877929688,
       "volume": 155719
+    },
+    {
+      "date": "2025-08-11T04:10:50.000Z",
+      "open": 560.4500122070312,
+      "high": 568.5,
+      "low": 555.25,
+      "close": 560.7999877929688,
+      "volume": 42449
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KIRIINDUS.NS",
     "current_year": 2025,

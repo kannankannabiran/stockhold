@@ -9959,9 +9959,17 @@
       "low": 976.5,
       "close": 989.25,
       "volume": 383953
+    },
+    {
+      "date": "2025-08-11T04:10:55.000Z",
+      "open": 962.2999877929688,
+      "high": 980,
+      "low": 915.0999755859375,
+      "close": 923.1500244140625,
+      "volume": 130892
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "DATAMATICS.NS",
     "current_year": 2025,

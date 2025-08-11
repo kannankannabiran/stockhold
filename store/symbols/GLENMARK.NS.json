@@ -9959,9 +9959,17 @@
       "low": 2014,
       "close": 2019.5999755859375,
       "volume": 297537
+    },
+    {
+      "date": "2025-08-11T04:11:57.000Z",
+      "open": 2018.0999755859375,
+      "high": 2030.199951171875,
+      "low": 2015,
+      "close": 2019.0999755859375,
+      "volume": 54242
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GLENMARK.NS",
     "current_year": 2025,

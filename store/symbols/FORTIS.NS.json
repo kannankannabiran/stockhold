@@ -9959,9 +9959,17 @@
       "low": 879.1500244140625,
       "close": 897.3499755859375,
       "volume": 3788926
+    },
+    {
+      "date": "2025-08-11T04:11:40.000Z",
+      "open": 899,
+      "high": 909.5999755859375,
+      "low": 895,
+      "close": 908.0999755859375,
+      "volume": 349539
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "FORTIS.NS",
     "current_year": 2025,

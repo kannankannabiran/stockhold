@@ -8039,9 +8039,17 @@
       "low": 1200.5,
       "close": 1215.199951171875,
       "volume": 15620
+    },
+    {
+      "date": "2025-08-11T04:09:21.000Z",
+      "open": 1210.800048828125,
+      "high": 1229.9000244140625,
+      "low": 1207.0999755859375,
+      "close": 1215,
+      "volume": 2889
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GRINFRA.NS",
     "current_year": 2025,

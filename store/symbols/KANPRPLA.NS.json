@@ -9103,9 +9103,17 @@
       "low": 197.5,
       "close": 203.7100067138672,
       "volume": 21307
+    },
+    {
+      "date": "2025-08-11T04:08:32.000Z",
+      "open": 202,
+      "high": 205,
+      "low": 202,
+      "close": 205,
+      "volume": 82
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KANPRPLA.NS",
     "current_year": 2025,

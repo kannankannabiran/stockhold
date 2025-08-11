@@ -9959,9 +9959,17 @@
       "low": 373,
       "close": 375.95001220703125,
       "volume": 360696
+    },
+    {
+      "date": "2025-08-11T04:13:03.000Z",
+      "open": 369.3999938964844,
+      "high": 374.3999938964844,
+      "low": 365,
+      "close": 366.3500061035156,
+      "volume": 244919
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PCBL.NS",
     "current_year": 2025,

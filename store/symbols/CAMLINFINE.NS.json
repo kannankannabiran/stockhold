@@ -9959,9 +9959,17 @@
       "low": 234,
       "close": 238.10000610351562,
       "volume": 327632
+    },
+    {
+      "date": "2025-08-11T04:11:12.000Z",
+      "open": 226.1999969482422,
+      "high": 226.1999969482422,
+      "low": 226.1999969482422,
+      "close": 226.1999969482422,
+      "volume": 10271
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CAMLINFINE.NS",
     "current_year": 2025,

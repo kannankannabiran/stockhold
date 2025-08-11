@@ -9959,9 +9959,17 @@
       "low": 6800,
       "close": 7051,
       "volume": 128222
+    },
+    {
+      "date": "2025-08-11T04:12:08.000Z",
+      "open": 7006.5,
+      "high": 7114,
+      "low": 6999,
+      "close": 7058.5,
+      "volume": 24753
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "JKCEMENT.NS",
     "current_year": 2025,

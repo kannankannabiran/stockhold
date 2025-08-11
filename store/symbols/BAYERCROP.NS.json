@@ -9959,9 +9959,17 @@
       "low": 5485.5,
       "close": 5572.5,
       "volume": 34335
+    },
+    {
+      "date": "2025-08-11T04:12:48.000Z",
+      "open": 5540,
+      "high": 5600,
+      "low": 5512.5,
+      "close": 5550,
+      "volume": 3841
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BAYERCROP.NS",
     "current_year": 2025,

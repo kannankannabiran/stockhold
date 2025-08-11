@@ -9959,9 +9959,17 @@
       "low": 6105.5,
       "close": 6157,
       "volume": 2651
+    },
+    {
+      "date": "2025-08-11T04:09:53.000Z",
+      "open": 6155,
+      "high": 6155,
+      "low": 6095,
+      "close": 6098.5,
+      "volume": 427
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ICRA.NS",
     "current_year": 2025,

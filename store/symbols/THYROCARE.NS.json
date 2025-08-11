@@ -9959,9 +9959,17 @@
       "low": 1314,
       "close": 1337.4000244140625,
       "volume": 116995
+    },
+    {
+      "date": "2025-08-11T04:10:35.000Z",
+      "open": 1325,
+      "high": 1350,
+      "low": 1322.5999755859375,
+      "close": 1335.199951171875,
+      "volume": 12911
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "THYROCARE.NS",
     "current_year": 2025,

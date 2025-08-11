@@ -9959,9 +9959,17 @@
       "low": 74.72000122070312,
       "close": 78.44999694824219,
       "volume": 216541
+    },
+    {
+      "date": "2025-08-11T04:10:46.000Z",
+      "open": 80,
+      "high": 86.69999694824219,
+      "low": 80,
+      "close": 82.37000274658203,
+      "volume": 712064
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ANDHRSUGAR.NS",
     "current_year": 2025,

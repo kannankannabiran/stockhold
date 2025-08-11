@@ -9959,9 +9959,17 @@
       "low": 4433.5,
       "close": 4440.60009765625,
       "volume": 659120
+    },
+    {
+      "date": "2025-08-11T04:09:55.000Z",
+      "open": 4460,
+      "high": 4488,
+      "low": 4455,
+      "close": 4476.2998046875,
+      "volume": 113802
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HAL.NS",
     "current_year": 2025,

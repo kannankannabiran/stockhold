@@ -9959,9 +9959,17 @@
       "low": 788.8499755859375,
       "close": 800.5999755859375,
       "volume": 489987
+    },
+    {
+      "date": "2025-08-11T04:11:50.000Z",
+      "open": 800,
+      "high": 809.2000122070312,
+      "low": 796,
+      "close": 804.25,
+      "volume": 34552
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "NAM-INDIA.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 270,
       "close": 273.3999938964844,
       "volume": 2717422
+    },
+    {
+      "date": "2025-08-11T04:12:01.000Z",
+      "open": 276.79998779296875,
+      "high": 282.8500061035156,
+      "low": 274.5,
+      "close": 279,
+      "volume": 380918
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "RELINFRA.NS",
     "current_year": 2025,

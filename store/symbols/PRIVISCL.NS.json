@@ -9959,9 +9959,17 @@
       "low": 2427.10009765625,
       "close": 2442.199951171875,
       "volume": 34585
+    },
+    {
+      "date": "2025-08-11T04:11:35.000Z",
+      "open": 2445,
+      "high": 2498.10009765625,
+      "low": 2445,
+      "close": 2491.800048828125,
+      "volume": 6861
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PRIVISCL.NS",
     "current_year": 2025,

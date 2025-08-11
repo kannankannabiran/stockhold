@@ -7159,9 +7159,17 @@
       "low": 652,
       "close": 657.75,
       "volume": 100129
+    },
+    {
+      "date": "2025-08-11T04:10:59.000Z",
+      "open": 654.7999877929688,
+      "high": 662.4000244140625,
+      "low": 652.4500122070312,
+      "close": 655.5999755859375,
+      "volume": 15928
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SUPRIYA.NS",
     "current_year": 2025,

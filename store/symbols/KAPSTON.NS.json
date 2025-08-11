@@ -9959,9 +9959,17 @@
       "low": 246.60000610351562,
       "close": 251.5800018310547,
       "volume": 10053
+    },
+    {
+      "date": "2025-08-11T03:56:51.000Z",
+      "open": 254.5,
+      "high": 254.5,
+      "low": 246.50999450683594,
+      "close": 247.25999450683594,
+      "volume": 606
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KAPSTON.NS",
     "current_year": 2025,

@@ -9631,9 +9631,17 @@
       "low": 17650,
       "close": 17804,
       "volume": 56101
+    },
+    {
+      "date": "2025-08-11T04:12:59.000Z",
+      "open": 17831,
+      "high": 18230,
+      "low": 17831,
+      "close": 18174,
+      "volume": 16783
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "FORCEMOT.NS",
     "current_year": 2025,

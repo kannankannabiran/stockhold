@@ -9959,9 +9959,17 @@
       "low": 310.79998779296875,
       "close": 313.1499938964844,
       "volume": 475873
+    },
+    {
+      "date": "2025-08-11T04:13:15.000Z",
+      "open": 314.29998779296875,
+      "high": 317.5,
+      "low": 310.3999938964844,
+      "close": 313.6499938964844,
+      "volume": 22955
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SURYAROSNI.NS",
     "current_year": 2025,

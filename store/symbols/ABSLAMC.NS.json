@@ -7583,9 +7583,17 @@
       "low": 845,
       "close": 848.8499755859375,
       "volume": 206525
+    },
+    {
+      "date": "2025-08-11T04:09:26.000Z",
+      "open": 849.1500244140625,
+      "high": 861.75,
+      "low": 849.1500244140625,
+      "close": 857.4000244140625,
+      "volume": 15863
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ABSLAMC.NS",
     "current_year": 2025,

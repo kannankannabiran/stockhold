@@ -9959,9 +9959,17 @@
       "low": 1376.800048828125,
       "close": 1386.800048828125,
       "volume": 55814
+    },
+    {
+      "date": "2025-08-11T04:12:07.000Z",
+      "open": 1380,
+      "high": 1391.800048828125,
+      "low": 1375,
+      "close": 1377.0999755859375,
+      "volume": 9001
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "IPCALAB.NS",
     "current_year": 2025,

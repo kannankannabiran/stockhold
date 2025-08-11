@@ -9959,9 +9959,17 @@
       "low": 346.5,
       "close": 354.70001220703125,
       "volume": 476377
+    },
+    {
+      "date": "2025-08-11T04:12:13.000Z",
+      "open": 357.6000061035156,
+      "high": 365,
+      "low": 352.3999938964844,
+      "close": 359.25,
+      "volume": 108422
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MANGCHEFER.NS",
     "current_year": 2025,

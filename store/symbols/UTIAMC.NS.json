@@ -9559,9 +9559,17 @@
       "low": 1317,
       "close": 1322.9000244140625,
       "volume": 63314
+    },
+    {
+      "date": "2025-08-11T04:12:44.000Z",
+      "open": 1322.9000244140625,
+      "high": 1328.300048828125,
+      "low": 1314.5,
+      "close": 1314.5,
+      "volume": 15420
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "UTIAMC.NS",
     "current_year": 2025,

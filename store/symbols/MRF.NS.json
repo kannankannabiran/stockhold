@@ -9959,9 +9959,17 @@
       "low": 142000,
       "close": 142715,
       "volume": 2850
+    },
+    {
+      "date": "2025-08-11T04:10:30.000Z",
+      "open": 142850,
+      "high": 143485,
+      "low": 142155,
+      "close": 142500,
+      "volume": 611
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MRF.NS",
     "current_year": 2025,

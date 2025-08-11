@@ -9959,9 +9959,17 @@
       "low": 465,
       "close": 469.79998779296875,
       "volume": 636413
+    },
+    {
+      "date": "2025-08-11T04:10:23.000Z",
+      "open": 469.79998779296875,
+      "high": 478,
+      "low": 464.8999938964844,
+      "close": 476.25,
+      "volume": 225945
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TI.NS",
     "current_year": 2025,

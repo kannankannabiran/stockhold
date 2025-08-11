@@ -7735,9 +7735,17 @@
       "low": 1047.4000244140625,
       "close": 1054.4000244140625,
       "volume": 151840
+    },
+    {
+      "date": "2025-08-11T04:13:27.000Z",
+      "open": 1054,
+      "high": 1058,
+      "low": 1049,
+      "close": 1051,
+      "volume": 7386
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "VIJAYA.NS",
     "current_year": 2025,

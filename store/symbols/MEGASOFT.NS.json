@@ -9959,9 +9959,17 @@
       "low": 118.11000061035156,
       "close": 118.11000061035156,
       "volume": 66745
+    },
+    {
+      "date": "2025-08-11T04:11:48.000Z",
+      "open": 121,
+      "high": 124.01000213623047,
+      "low": 119,
+      "close": 123.5,
+      "volume": 182278
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MEGASOFT.NS",
     "current_year": 2025,

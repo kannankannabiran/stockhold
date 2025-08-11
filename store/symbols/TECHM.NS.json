@@ -9959,9 +9959,17 @@
       "low": 1473.800048828125,
       "close": 1480.4000244140625,
       "volume": 1371598
+    },
+    {
+      "date": "2025-08-11T04:09:44.000Z",
+      "open": 1480.4000244140625,
+      "high": 1485,
+      "low": 1472,
+      "close": 1472.9000244140625,
+      "volume": 85223
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TECHM.NS",
     "current_year": 2025,

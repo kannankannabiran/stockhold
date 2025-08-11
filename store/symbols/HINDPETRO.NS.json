@@ -9959,9 +9959,17 @@
       "low": 399.5,
       "close": 409.5,
       "volume": 12286024
+    },
+    {
+      "date": "2025-08-11T04:10:29.000Z",
+      "open": 414.04998779296875,
+      "high": 418,
+      "low": 412.3500061035156,
+      "close": 414.3500061035156,
+      "volume": 1474714
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HINDPETRO.NS",
     "current_year": 2025,

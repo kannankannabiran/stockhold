@@ -9951,9 +9951,17 @@
       "low": 71.38999938964844,
       "close": 72.6500015258789,
       "volume": 149557
+    },
+    {
+      "date": "2025-08-11T04:11:42.000Z",
+      "open": 72.25,
+      "high": 73.44000244140625,
+      "low": 72.0199966430664,
+      "close": 72.83999633789062,
+      "volume": 9874
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TARACHAND.NS",
     "current_year": 2025,

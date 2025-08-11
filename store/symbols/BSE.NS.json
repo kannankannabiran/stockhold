@@ -9959,9 +9959,17 @@
       "low": 2382.300048828125,
       "close": 2392.89990234375,
       "volume": 6682710
+    },
+    {
+      "date": "2025-08-11T04:11:32.000Z",
+      "open": 2400,
+      "high": 2415,
+      "low": 2370,
+      "close": 2402.10009765625,
+      "volume": 744775
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BSE.NS",
     "current_year": 2025,

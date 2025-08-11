@@ -9959,9 +9959,17 @@
       "low": 151.7899932861328,
       "close": 154.27999877929688,
       "volume": 2572064
+    },
+    {
+      "date": "2025-08-11T04:10:23.000Z",
+      "open": 155,
+      "high": 156,
+      "low": 151.00999450683594,
+      "close": 151.82000732421875,
+      "volume": 512281
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "DIACABS.NS",
     "current_year": 2025,

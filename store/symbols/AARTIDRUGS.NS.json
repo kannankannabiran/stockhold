@@ -9959,9 +9959,17 @@
       "low": 487.5,
       "close": 491.75,
       "volume": 107902
+    },
+    {
+      "date": "2025-08-11T04:09:58.000Z",
+      "open": 485.6499938964844,
+      "high": 490,
+      "low": 483.6499938964844,
+      "close": 486.3500061035156,
+      "volume": 21125
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AARTIDRUGS.NS",
     "current_year": 2025,

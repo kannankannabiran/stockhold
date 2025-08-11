@@ -9959,9 +9959,17 @@
       "low": 863,
       "close": 868.25,
       "volume": 189858
+    },
+    {
+      "date": "2025-08-11T04:13:17.000Z",
+      "open": 870.7000122070312,
+      "high": 879.7000122070312,
+      "low": 865.7000122070312,
+      "close": 876.0999755859375,
+      "volume": 34270
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CHALET.NS",
     "current_year": 2025,

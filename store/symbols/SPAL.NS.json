@@ -9959,9 +9959,17 @@
       "low": 724.9000244140625,
       "close": 741.4000244140625,
       "volume": 18472
+    },
+    {
+      "date": "2025-08-11T04:10:46.000Z",
+      "open": 733,
+      "high": 748.4500122070312,
+      "low": 733,
+      "close": 744.2999877929688,
+      "volume": 4011
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SPAL.NS",
     "current_year": 2025,

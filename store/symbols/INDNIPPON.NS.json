@@ -9959,9 +9959,17 @@
       "low": 783.5499877929688,
       "close": 791.8499755859375,
       "volume": 21352
+    },
+    {
+      "date": "2025-08-11T04:13:15.000Z",
+      "open": 791.8499755859375,
+      "high": 810.8499755859375,
+      "low": 788.75,
+      "close": 788.75,
+      "volume": 5761
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDNIPPON.NS",
     "current_year": 2025,

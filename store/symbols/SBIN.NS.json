@@ -9959,9 +9959,17 @@
       "low": 790,
       "close": 804.2999877929688,
       "volume": 15706132
+    },
+    {
+      "date": "2025-08-11T04:13:56.000Z",
+      "open": 808,
+      "high": 822.3499755859375,
+      "low": 808,
+      "close": 822.1500244140625,
+      "volume": 3898909
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SBIN.NS",
     "current_year": 2025,

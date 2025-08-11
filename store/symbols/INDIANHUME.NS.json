@@ -9959,9 +9959,17 @@
       "low": 392.04998779296875,
       "close": 394.95001220703125,
       "volume": 27718
+    },
+    {
+      "date": "2025-08-11T04:09:47.000Z",
+      "open": 395,
+      "high": 397,
+      "low": 391.54998779296875,
+      "close": 393.29998779296875,
+      "volume": 2247
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDIANHUME.NS",
     "current_year": 2025,

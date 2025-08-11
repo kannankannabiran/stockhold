@@ -9959,9 +9959,17 @@
       "low": 447.3500061035156,
       "close": 450.6499938964844,
       "volume": 118075
+    },
+    {
+      "date": "2025-08-11T04:10:09.000Z",
+      "open": 447.5,
+      "high": 453.45001220703125,
+      "low": 445.5,
+      "close": 451.5,
+      "volume": 18102
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SUNDARMHLD.NS",
     "current_year": 2025,

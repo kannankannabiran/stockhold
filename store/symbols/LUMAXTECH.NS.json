@@ -9959,9 +9959,17 @@
       "low": 954.0999755859375,
       "close": 992,
       "volume": 445750
+    },
+    {
+      "date": "2025-08-11T04:10:46.000Z",
+      "open": 992.2000122070312,
+      "high": 1017.9000244140625,
+      "low": 990,
+      "close": 1009.9000244140625,
+      "volume": 26210
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "LUMAXTECH.NS",
     "current_year": 2025,

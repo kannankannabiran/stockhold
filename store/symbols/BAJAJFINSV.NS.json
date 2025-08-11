@@ -9959,9 +9959,17 @@
       "low": 1906.4000244140625,
       "close": 1919.199951171875,
       "volume": 507879
+    },
+    {
+      "date": "2025-08-11T04:10:15.000Z",
+      "open": 1918,
+      "high": 1925,
+      "low": 1905.199951171875,
+      "close": 1911.199951171875,
+      "volume": 104388
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BAJAJFINSV.NS",
     "current_year": 2025,

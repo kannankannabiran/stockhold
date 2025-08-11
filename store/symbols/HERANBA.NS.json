@@ -8759,9 +8759,17 @@
       "low": 345.5,
       "close": 348.95001220703125,
       "volume": 44717
+    },
+    {
+      "date": "2025-08-11T04:11:28.000Z",
+      "open": 351.1499938964844,
+      "high": 352.75,
+      "low": 333.1499938964844,
+      "close": 342.8999938964844,
+      "volume": 61260
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HERANBA.NS",
     "current_year": 2025,

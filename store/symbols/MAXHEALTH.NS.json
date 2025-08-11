@@ -9847,9 +9847,17 @@
       "low": 1242.300048828125,
       "close": 1245.300048828125,
       "volume": 548958
+    },
+    {
+      "date": "2025-08-11T04:14:02.000Z",
+      "open": 1245.300048828125,
+      "high": 1254.800048828125,
+      "low": 1243.300048828125,
+      "close": 1252,
+      "volume": 77471
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MAXHEALTH.NS",
     "current_year": 2025,

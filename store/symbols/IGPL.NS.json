@@ -9959,9 +9959,17 @@
       "low": 457.6499938964844,
       "close": 463.1499938964844,
       "volume": 13580
+    },
+    {
+      "date": "2025-08-11T04:08:01.000Z",
+      "open": 463.79998779296875,
+      "high": 467.8999938964844,
+      "low": 458.5,
+      "close": 465.5,
+      "volume": 2474
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "IGPL.NS",
     "current_year": 2025,

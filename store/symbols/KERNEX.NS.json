@@ -9959,9 +9959,17 @@
       "low": 1025,
       "close": 1085.699951171875,
       "volume": 27952
+    },
+    {
+      "date": "2025-08-11T04:14:08.000Z",
+      "open": 1135,
+      "high": 1139.9000244140625,
+      "low": 1125,
+      "close": 1139,
+      "volume": 35060
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KERNEX.NS",
     "current_year": 2025,

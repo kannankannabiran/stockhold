@@ -9959,9 +9959,17 @@
       "low": 35.400001525878906,
       "close": 35.4900016784668,
       "volume": 293603
+    },
+    {
+      "date": "2025-08-11T04:10:12.000Z",
+      "open": 35.70000076293945,
+      "high": 35.70000076293945,
+      "low": 34.52000045776367,
+      "close": 35,
+      "volume": 119571
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MCLEODRUSS.NS",
     "current_year": 2025,

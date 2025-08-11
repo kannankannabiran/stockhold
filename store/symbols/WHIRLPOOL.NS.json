@@ -9959,9 +9959,17 @@
       "low": 1257,
       "close": 1264.5999755859375,
       "volume": 89079
+    },
+    {
+      "date": "2025-08-11T04:12:22.000Z",
+      "open": 1257.199951171875,
+      "high": 1261.9000244140625,
+      "low": 1249.5,
+      "close": 1252.0999755859375,
+      "volume": 11481
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "WHIRLPOOL.NS",
     "current_year": 2025,

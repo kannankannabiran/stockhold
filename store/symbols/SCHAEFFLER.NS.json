@@ -9959,9 +9959,17 @@
       "low": 3855.60009765625,
       "close": 3903.89990234375,
       "volume": 39036
+    },
+    {
+      "date": "2025-08-11T04:12:08.000Z",
+      "open": 3880,
+      "high": 3911.5,
+      "low": 3865,
+      "close": 3874.5,
+      "volume": 3620
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SCHAEFFLER.NS",
     "current_year": 2025,

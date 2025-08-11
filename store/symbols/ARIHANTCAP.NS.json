@@ -8231,9 +8231,17 @@
       "low": 95.5999984741211,
       "close": 96.44999694824219,
       "volume": 259883
+    },
+    {
+      "date": "2025-08-11T04:10:32.000Z",
+      "open": 96.44999694824219,
+      "high": 100.80000305175781,
+      "low": 96.06999969482422,
+      "close": 100,
+      "volume": 97876
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ARIHANTCAP.NS",
     "current_year": 2025,

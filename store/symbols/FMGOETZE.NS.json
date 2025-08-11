@@ -9959,9 +9959,17 @@
       "low": 525.9000244140625,
       "close": 528.6500244140625,
       "volume": 61594
+    },
+    {
+      "date": "2025-08-11T04:11:30.000Z",
+      "open": 535.75,
+      "high": 535.75,
+      "low": 527,
+      "close": 529,
+      "volume": 9818
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "FMGOETZE.NS",
     "current_year": 2025,

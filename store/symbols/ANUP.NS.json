@@ -9959,9 +9959,17 @@
       "low": 2271.5,
       "close": 2310.199951171875,
       "volume": 44729
+    },
+    {
+      "date": "2025-08-11T04:12:21.000Z",
+      "open": 2309.10009765625,
+      "high": 2310,
+      "low": 2276.5,
+      "close": 2293.10009765625,
+      "volume": 5876
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ANUP.NS",
     "current_year": 2025,

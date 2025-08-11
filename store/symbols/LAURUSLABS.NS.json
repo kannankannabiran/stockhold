@@ -9959,9 +9959,17 @@
       "low": 817.5499877929688,
       "close": 821.8499755859375,
       "volume": 1073827
+    },
+    {
+      "date": "2025-08-11T04:12:19.000Z",
+      "open": 818,
+      "high": 827.25,
+      "low": 816.8499755859375,
+      "close": 823.5999755859375,
+      "volume": 200276
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "LAURUSLABS.NS",
     "current_year": 2025,

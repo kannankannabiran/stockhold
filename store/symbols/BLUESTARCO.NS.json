@@ -9959,9 +9959,17 @@
       "low": 1763,
       "close": 1800.300048828125,
       "volume": 631666
+    },
+    {
+      "date": "2025-08-11T04:11:53.000Z",
+      "open": 1794.9000244140625,
+      "high": 1794.9000244140625,
+      "low": 1740,
+      "close": 1748.0999755859375,
+      "volume": 287384
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BLUESTARCO.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 43,
       "close": 43.58000183105469,
       "volume": 411719
+    },
+    {
+      "date": "2025-08-11T04:08:53.000Z",
+      "open": 43.79999923706055,
+      "high": 43.79999923706055,
+      "low": 43,
+      "close": 43.470001220703125,
+      "volume": 13396
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PROZONER.NS",
     "current_year": 2025,

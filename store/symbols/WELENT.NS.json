@@ -9959,9 +9959,17 @@
       "low": 440,
       "close": 444.75,
       "volume": 163921
+    },
+    {
+      "date": "2025-08-11T04:08:08.000Z",
+      "open": 445,
+      "high": 456.3999938964844,
+      "low": 442.5,
+      "close": 450.6000061035156,
+      "volume": 29166
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "WELENT.NS",
     "current_year": 2025,

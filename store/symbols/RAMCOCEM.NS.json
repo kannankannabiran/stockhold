@@ -9959,9 +9959,17 @@
       "low": 1055,
       "close": 1071.800048828125,
       "volume": 841163
+    },
+    {
+      "date": "2025-08-11T04:13:08.000Z",
+      "open": 1051,
+      "high": 1065,
+      "low": 1032.5,
+      "close": 1062,
+      "volume": 86076
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "RAMCOCEM.NS",
     "current_year": 2025,

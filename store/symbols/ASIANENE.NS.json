@@ -7263,9 +7263,17 @@
       "low": 335.04998779296875,
       "close": 344.70001220703125,
       "volume": 297499
+    },
+    {
+      "date": "2025-08-11T04:10:38.000Z",
+      "open": 346.5,
+      "high": 354.95001220703125,
+      "low": 344,
+      "close": 350.3500061035156,
+      "volume": 40874
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASIANENE.NS",
     "current_year": 2025,

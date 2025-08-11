@@ -9959,9 +9959,17 @@
       "low": 601.0999755859375,
       "close": 617.1500244140625,
       "volume": 171323
+    },
+    {
+      "date": "2025-08-11T04:10:19.000Z",
+      "open": 618,
+      "high": 654.9500122070312,
+      "low": 610,
+      "close": 639.7999877929688,
+      "volume": 115782
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HCG.NS",
     "current_year": 2025,

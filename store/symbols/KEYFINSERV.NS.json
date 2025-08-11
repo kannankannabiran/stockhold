@@ -9959,9 +9959,17 @@
       "low": 255,
       "close": 256,
       "volume": 529
+    },
+    {
+      "date": "2025-08-11T04:08:16.000Z",
+      "open": 257.29998779296875,
+      "high": 259,
+      "low": 250.10000610351562,
+      "close": 253.10000610351562,
+      "volume": 709
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KEYFINSERV.NS",
     "current_year": 2025,

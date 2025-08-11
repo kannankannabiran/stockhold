@@ -9959,9 +9959,17 @@
       "low": 5380,
       "close": 5387,
       "volume": 551426
+    },
+    {
+      "date": "2025-08-11T04:09:36.000Z",
+      "open": 5361,
+      "high": 5375.5,
+      "low": 5322.5,
+      "close": 5331,
+      "volume": 55163
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BRITANNIA.NS",
     "current_year": 2025,

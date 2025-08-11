@@ -9959,9 +9959,17 @@
       "low": 2468.5,
       "close": 2475.60009765625,
       "volume": 1178105
+    },
+    {
+      "date": "2025-08-11T04:13:58.000Z",
+      "open": 2463.89990234375,
+      "high": 2481.199951171875,
+      "low": 2452,
+      "close": 2474.199951171875,
+      "volume": 146454
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASIANPAINT.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 500,
       "close": 503.20001220703125,
       "volume": 493464
+    },
+    {
+      "date": "2025-08-11T04:11:42.000Z",
+      "open": 502.95001220703125,
+      "high": 508,
+      "low": 493.3500061035156,
+      "close": 503.6000061035156,
+      "volume": 88440
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SKIPPER.NS",
     "current_year": 2025,

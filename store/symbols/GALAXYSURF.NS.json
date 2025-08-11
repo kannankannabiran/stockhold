@@ -9959,9 +9959,17 @@
       "low": 2425,
       "close": 2439,
       "volume": 10287
+    },
+    {
+      "date": "2025-08-11T04:12:34.000Z",
+      "open": 2426,
+      "high": 2437.10009765625,
+      "low": 2412.10009765625,
+      "close": 2417.89990234375,
+      "volume": 1296
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GALAXYSURF.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 251.60000610351562,
       "close": 254.85000610351562,
       "volume": 668575
+    },
+    {
+      "date": "2025-08-11T04:13:47.000Z",
+      "open": 254,
+      "high": 255.3000030517578,
+      "low": 250.85000610351562,
+      "close": 251.5,
+      "volume": 203137
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "RELIGARE.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 4020,
       "close": 4109.2998046875,
       "volume": 162944
+    },
+    {
+      "date": "2025-08-11T04:12:45.000Z",
+      "open": 4113.39990234375,
+      "high": 4200,
+      "low": 4094.699951171875,
+      "close": 4138.60009765625,
+      "volume": 35099
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ECLERX.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 779,
       "close": 785.6500244140625,
       "volume": 168462
+    },
+    {
+      "date": "2025-08-11T04:11:58.000Z",
+      "open": 785.5999755859375,
+      "high": 796,
+      "low": 779,
+      "close": 790.0499877929688,
+      "volume": 33272
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ZENSARTECH.NS",
     "current_year": 2025,

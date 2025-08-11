@@ -9959,9 +9959,17 @@
       "low": 2672.60009765625,
       "close": 2691.60009765625,
       "volume": 1162886
+    },
+    {
+      "date": "2025-08-11T04:10:11.000Z",
+      "open": 2726,
+      "high": 2782,
+      "low": 2720,
+      "close": 2748.5,
+      "volume": 271247
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GRASIM.NS",
     "current_year": 2025,

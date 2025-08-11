@@ -9959,9 +9959,17 @@
       "low": 3680.10009765625,
       "close": 3853.199951171875,
       "volume": 61506
+    },
+    {
+      "date": "2025-08-11T04:12:00.000Z",
+      "open": 3948,
+      "high": 4034,
+      "low": 3801,
+      "close": 3904,
+      "volume": 74047
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SMLISUZU.NS",
     "current_year": 2025,

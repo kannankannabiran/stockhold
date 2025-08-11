@@ -7983,9 +7983,17 @@
       "low": 1036.199951171875,
       "close": 1042.0999755859375,
       "volume": 90979
+    },
+    {
+      "date": "2025-08-11T04:12:48.000Z",
+      "open": 1065,
+      "high": 1065,
+      "low": 1012.7999877929688,
+      "close": 1016.7999877929688,
+      "volume": 18407
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TATVA.NS",
     "current_year": 2025,

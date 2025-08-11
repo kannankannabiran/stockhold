@@ -9959,9 +9959,17 @@
       "low": 672.0999755859375,
       "close": 684.75,
       "volume": 59666
+    },
+    {
+      "date": "2025-08-11T04:10:00.000Z",
+      "open": 682.0499877929688,
+      "high": 682.2000122070312,
+      "low": 665.5499877929688,
+      "close": 674.9500122070312,
+      "volume": 30960
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PSPPROJECT.NS",
     "current_year": 2025,

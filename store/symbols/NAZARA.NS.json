@@ -8639,9 +8639,17 @@
       "low": 1380,
       "close": 1392,
       "volume": 431982
+    },
+    {
+      "date": "2025-08-11T04:09:55.000Z",
+      "open": 1401,
+      "high": 1411.5999755859375,
+      "low": 1392,
+      "close": 1392.5999755859375,
+      "volume": 41792
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "NAZARA.NS",
     "current_year": 2025,

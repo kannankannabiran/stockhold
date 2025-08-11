@@ -9959,9 +9959,17 @@
       "low": 1885.5999755859375,
       "close": 1890.800048828125,
       "volume": 154278
+    },
+    {
+      "date": "2025-08-11T04:13:06.000Z",
+      "open": 1890,
+      "high": 1903.4000244140625,
+      "low": 1857.0999755859375,
+      "close": 1885,
+      "volume": 24363
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KIRLOSBROS.NS",
     "current_year": 2025,

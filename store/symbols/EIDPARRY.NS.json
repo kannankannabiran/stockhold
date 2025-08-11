@@ -9959,9 +9959,17 @@
       "low": 1052,
       "close": 1117.5999755859375,
       "volume": 274345
+    },
+    {
+      "date": "2025-08-11T04:12:32.000Z",
+      "open": 1122,
+      "high": 1158.0999755859375,
+      "low": 1122,
+      "close": 1135.4000244140625,
+      "volume": 151270
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "EIDPARRY.NS",
     "current_year": 2025,

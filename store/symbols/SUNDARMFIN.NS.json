@@ -9959,9 +9959,17 @@
       "low": 4494.60009765625,
       "close": 4502.7998046875,
       "volume": 30436
+    },
+    {
+      "date": "2025-08-11T04:11:11.000Z",
+      "open": 4505,
+      "high": 4609,
+      "low": 4503,
+      "close": 4599.7998046875,
+      "volume": 5705
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SUNDARMFIN.NS",
     "current_year": 2025,

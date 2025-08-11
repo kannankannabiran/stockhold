@@ -9959,9 +9959,17 @@
       "low": 813,
       "close": 850.2999877929688,
       "volume": 16059
+    },
+    {
+      "date": "2025-08-11T04:07:38.000Z",
+      "open": 888,
+      "high": 888,
+      "low": 856.5,
+      "close": 868.4500122070312,
+      "volume": 798
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BIL.NS",
     "current_year": 2025,

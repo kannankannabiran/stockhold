@@ -9959,9 +9959,17 @@
       "low": 1252,
       "close": 1308.5,
       "volume": 1995317
+    },
+    {
+      "date": "2025-08-11T04:12:30.000Z",
+      "open": 1307.199951171875,
+      "high": 1307.9000244140625,
+      "low": 1266.699951171875,
+      "close": 1275.800048828125,
+      "volume": 151823
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "KAJARIACER.NS",
     "current_year": 2025,

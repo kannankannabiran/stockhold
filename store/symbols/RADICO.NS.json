@@ -9959,9 +9959,17 @@
       "low": 2808,
       "close": 2824.10009765625,
       "volume": 158604
+    },
+    {
+      "date": "2025-08-11T04:12:20.000Z",
+      "open": 2824.10009765625,
+      "high": 2884,
+      "low": 2824.10009765625,
+      "close": 2845.699951171875,
+      "volume": 38138
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "RADICO.NS",
     "current_year": 2025,

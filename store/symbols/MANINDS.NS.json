@@ -9959,9 +9959,17 @@
       "low": 414.04998779296875,
       "close": 419.75,
       "volume": 182055
+    },
+    {
+      "date": "2025-08-11T04:11:05.000Z",
+      "open": 420,
+      "high": 431.5,
+      "low": 418.3500061035156,
+      "close": 422.8500061035156,
+      "volume": 61424
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MANINDS.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 330.70001220703125,
       "close": 332.54998779296875,
       "volume": 13407121
+    },
+    {
+      "date": "2025-08-11T04:09:52.000Z",
+      "open": 335,
+      "high": 336,
+      "low": 330.04998779296875,
+      "close": 330.5,
+      "volume": 433340
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDUSTOWER.NS",
     "current_year": 2025,

@@ -8935,9 +8935,17 @@
       "low": 1194,
       "close": 1202.300048828125,
       "volume": 211543
+    },
+    {
+      "date": "2025-08-11T04:12:53.000Z",
+      "open": 1215,
+      "high": 1264.4000244140625,
+      "low": 1215,
+      "close": 1257.9000244140625,
+      "volume": 373245
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HOMEFIRST.NS",
     "current_year": 2025,

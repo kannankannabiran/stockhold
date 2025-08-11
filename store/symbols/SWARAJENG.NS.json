@@ -9959,9 +9959,17 @@
       "low": 3852,
       "close": 3887.89990234375,
       "volume": 12000
+    },
+    {
+      "date": "2025-08-11T04:10:04.000Z",
+      "open": 3865,
+      "high": 3920.89990234375,
+      "low": 3852.10009765625,
+      "close": 3900,
+      "volume": 1992
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SWARAJENG.NS",
     "current_year": 2025,

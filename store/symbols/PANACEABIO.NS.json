@@ -9959,9 +9959,17 @@
       "low": 407.1000061035156,
       "close": 409.45001220703125,
       "volume": 117574
+    },
+    {
+      "date": "2025-08-11T04:09:26.000Z",
+      "open": 409.45001220703125,
+      "high": 413.5,
+      "low": 399.75,
+      "close": 409.20001220703125,
+      "volume": 55065
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PANACEABIO.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 292,
       "close": 295.29998779296875,
       "volume": 5085
+    },
+    {
+      "date": "2025-08-11T04:10:52.000Z",
+      "open": 291.6000061035156,
+      "high": 294.54998779296875,
+      "low": 290.04998779296875,
+      "close": 290.04998779296875,
+      "volume": 577
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ORIENTBELL.NS",
     "current_year": 2025,

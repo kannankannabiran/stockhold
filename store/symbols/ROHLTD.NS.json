@@ -9959,9 +9959,17 @@
       "low": 402,
       "close": 402.8500061035156,
       "volume": 28090
+    },
+    {
+      "date": "2025-08-11T04:08:44.000Z",
+      "open": 402,
+      "high": 407.1499938964844,
+      "low": 402,
+      "close": 404.29998779296875,
+      "volume": 5081
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ROHLTD.NS",
     "current_year": 2025,

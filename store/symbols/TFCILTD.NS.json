@@ -9959,9 +9959,17 @@
       "low": 280.5,
       "close": 284.3500061035156,
       "volume": 1407671
+    },
+    {
+      "date": "2025-08-11T04:10:56.000Z",
+      "open": 286.5,
+      "high": 289.70001220703125,
+      "low": 282.54998779296875,
+      "close": 286.6000061035156,
+      "volume": 106460
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TFCILTD.NS",
     "current_year": 2025,

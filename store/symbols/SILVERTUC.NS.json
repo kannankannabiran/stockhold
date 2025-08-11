@@ -9951,9 +9951,17 @@
       "low": 733.8499755859375,
       "close": 738.6500244140625,
       "volume": 10952
+    },
+    {
+      "date": "2025-08-11T04:08:09.000Z",
+      "open": 749.75,
+      "high": 749.75,
+      "low": 726,
+      "close": 727.4000244140625,
+      "volume": 1155
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SILVERTUC.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 5085.5,
       "close": 5105.5,
       "volume": 250484
+    },
+    {
+      "date": "2025-08-11T04:10:26.000Z",
+      "open": 5090.5,
+      "high": 5131,
+      "low": 5066,
+      "close": 5080,
+      "volume": 27410
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PERSISTENT.NS",
     "current_year": 2025,

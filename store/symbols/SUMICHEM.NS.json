@@ -9959,9 +9959,17 @@
       "low": 573,
       "close": 577.0999755859375,
       "volume": 297475
+    },
+    {
+      "date": "2025-08-11T04:12:55.000Z",
+      "open": 581.8499755859375,
+      "high": 583,
+      "low": 572.0499877929688,
+      "close": 575.2999877929688,
+      "volume": 42204
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SUMICHEM.NS",
     "current_year": 2025,

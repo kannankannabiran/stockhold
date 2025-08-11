@@ -9959,9 +9959,17 @@
       "low": 73.18000030517578,
       "close": 73.19000244140625,
       "volume": 9474
+    },
+    {
+      "date": "2025-08-11T04:11:13.000Z",
+      "open": 73.25,
+      "high": 75.87000274658203,
+      "low": 73.25,
+      "close": 75.87000274658203,
+      "volume": 4710
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "BYKE.NS",
     "current_year": 2025,

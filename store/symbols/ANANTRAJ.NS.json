@@ -9959,9 +9959,17 @@
       "low": 531.4000244140625,
       "close": 533.9500122070312,
       "volume": 817542
+    },
+    {
+      "date": "2025-08-11T04:13:10.000Z",
+      "open": 535,
+      "high": 539.9500122070312,
+      "low": 529.25,
+      "close": 531.3499755859375,
+      "volume": 288566
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ANANTRAJ.NS",
     "current_year": 2025,

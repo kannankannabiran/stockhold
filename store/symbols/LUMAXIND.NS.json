@@ -9959,9 +9959,17 @@
       "low": 3272,
       "close": 3391,
       "volume": 58252
+    },
+    {
+      "date": "2025-08-11T04:11:32.000Z",
+      "open": 3374,
+      "high": 3394.699951171875,
+      "low": 3292.800048828125,
+      "close": 3301.10009765625,
+      "volume": 2661
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "LUMAXIND.NS",
     "current_year": 2025,

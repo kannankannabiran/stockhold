@@ -9959,9 +9959,17 @@
       "low": 5761,
       "close": 5769.5,
       "volume": 345639
+    },
+    {
+      "date": "2025-08-11T04:09:35.000Z",
+      "open": 5742,
+      "high": 5815.5,
+      "low": 5734.5,
+      "close": 5807,
+      "volume": 64163
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "INDIGO.NS",
     "current_year": 2025,

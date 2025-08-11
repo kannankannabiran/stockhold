@@ -9959,9 +9959,17 @@
       "low": 410,
       "close": 414.8999938964844,
       "volume": 232437
+    },
+    {
+      "date": "2025-08-11T04:10:43.000Z",
+      "open": 414.04998779296875,
+      "high": 422,
+      "low": 414.04998779296875,
+      "close": 417.6499938964844,
+      "volume": 44701
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "REFEX.NS",
     "current_year": 2025,

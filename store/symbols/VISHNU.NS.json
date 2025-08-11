@@ -9959,9 +9959,17 @@
       "low": 467.75,
       "close": 476.29998779296875,
       "volume": 167137
+    },
+    {
+      "date": "2025-08-11T04:12:28.000Z",
+      "open": 482,
+      "high": 497.95001220703125,
+      "low": 470,
+      "close": 491.1000061035156,
+      "volume": 103469
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "VISHNU.NS",
     "current_year": 2025,

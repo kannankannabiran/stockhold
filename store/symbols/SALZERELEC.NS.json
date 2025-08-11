@@ -9959,9 +9959,17 @@
       "low": 832.0999755859375,
       "close": 900.7000122070312,
       "volume": 1181279
+    },
+    {
+      "date": "2025-08-11T04:09:35.000Z",
+      "open": 900.5499877929688,
+      "high": 920,
+      "low": 900.5,
+      "close": 915.3499755859375,
+      "volume": 58792
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SALZERELEC.NS",
     "current_year": 2025,

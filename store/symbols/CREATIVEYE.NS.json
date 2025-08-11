@@ -9959,9 +9959,17 @@
       "low": 7.349999904632568,
       "close": 7.5,
       "volume": 15184
+    },
+    {
+      "date": "2025-08-11T04:01:02.000Z",
+      "open": 7.179999828338623,
+      "high": 7.300000190734863,
+      "low": 7.179999828338623,
+      "close": 7.300000190734863,
+      "volume": 9087
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CREATIVEYE.NS",
     "current_year": 2025,

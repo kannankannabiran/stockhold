@@ -9959,9 +9959,17 @@
       "low": 14569,
       "close": 14646,
       "volume": 7816
+    },
+    {
+      "date": "2025-08-11T04:09:26.000Z",
+      "open": 14766,
+      "high": 15000,
+      "low": 14750,
+      "close": 14898,
+      "volume": 859
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "MAHSCOOTER.NS",
     "current_year": 2025,

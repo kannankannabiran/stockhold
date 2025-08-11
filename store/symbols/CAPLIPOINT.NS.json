@@ -9959,9 +9959,17 @@
       "low": 2008.0999755859375,
       "close": 2111,
       "volume": 459482
+    },
+    {
+      "date": "2025-08-11T04:13:12.000Z",
+      "open": 2099.10009765625,
+      "high": 2119.89990234375,
+      "low": 2071,
+      "close": 2079.199951171875,
+      "volume": 20697
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CAPLIPOINT.NS",
     "current_year": 2025,

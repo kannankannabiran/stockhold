@@ -9959,9 +9959,17 @@
       "low": 446,
       "close": 453.1000061035156,
       "volume": 1075159
+    },
+    {
+      "date": "2025-08-11T04:10:04.000Z",
+      "open": 458.79998779296875,
+      "high": 461.20001220703125,
+      "low": 451.54998779296875,
+      "close": 452,
+      "volume": 71036
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SIRCA.NS",
     "current_year": 2025,

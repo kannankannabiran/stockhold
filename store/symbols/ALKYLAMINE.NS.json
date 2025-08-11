@@ -9959,9 +9959,17 @@
       "low": 2055.60009765625,
       "close": 2064.10009765625,
       "volume": 29695
+    },
+    {
+      "date": "2025-08-11T04:08:37.000Z",
+      "open": 2063,
+      "high": 2071.10009765625,
+      "low": 2033.800048828125,
+      "close": 2050.10009765625,
+      "volume": 7136
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ALKYLAMINE.NS",
     "current_year": 2025,

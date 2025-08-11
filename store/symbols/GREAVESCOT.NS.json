@@ -9959,9 +9959,17 @@
       "low": 205,
       "close": 206.27999877929688,
       "volume": 1052286
+    },
+    {
+      "date": "2025-08-11T04:10:24.000Z",
+      "open": 205.97000122070312,
+      "high": 207.25,
+      "low": 203.25999450683594,
+      "close": 204.89999389648438,
+      "volume": 286207
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "GREAVESCOT.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 3591,
       "close": 3644.60009765625,
       "volume": 80799
+    },
+    {
+      "date": "2025-08-11T04:13:09.000Z",
+      "open": 3519.699951171875,
+      "high": 3540,
+      "low": 3448.60009765625,
+      "close": 3450.60009765625,
+      "volume": 17675
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AKZOINDIA.NS",
     "current_year": 2025,

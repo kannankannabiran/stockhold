@@ -8687,9 +8687,17 @@
       "low": 695,
       "close": 700.7999877929688,
       "volume": 206694
+    },
+    {
+      "date": "2025-08-11T04:13:22.000Z",
+      "open": 697,
+      "high": 704.9500122070312,
+      "low": 692.3499755859375,
+      "close": 693.5499877929688,
+      "volume": 23147
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "JUBLINGREA.NS",
     "current_year": 2025,

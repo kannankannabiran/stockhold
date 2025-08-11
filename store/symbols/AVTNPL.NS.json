@@ -9959,9 +9959,17 @@
       "low": 69.25,
       "close": 70.5999984741211,
       "volume": 59876
+    },
+    {
+      "date": "2025-08-11T04:10:50.000Z",
+      "open": 70.94999694824219,
+      "high": 71,
+      "low": 69.63999938964844,
+      "close": 70,
+      "volume": 7210
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "AVTNPL.NS",
     "current_year": 2025,

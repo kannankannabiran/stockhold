@@ -9959,9 +9959,17 @@
       "low": 2960,
       "close": 2968.89990234375,
       "volume": 387092
+    },
+    {
+      "date": "2025-08-11T04:10:06.000Z",
+      "open": 2985,
+      "high": 2999,
+      "low": 2968,
+      "close": 2971.199951171875,
+      "volume": 46706
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "TVSMOTOR.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 12135,
       "close": 12157,
       "volume": 201746
+    },
+    {
+      "date": "2025-08-11T04:13:53.000Z",
+      "open": 12161,
+      "high": 12250,
+      "low": 12161,
+      "close": 12219,
+      "volume": 7810
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ULTRACEMCO.NS",
     "current_year": 2025,

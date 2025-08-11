@@ -9959,9 +9959,17 @@
       "low": 1590.800048828125,
       "close": 1603.5999755859375,
       "volume": 888374
+    },
+    {
+      "date": "2025-08-11T04:11:14.000Z",
+      "open": 1603.699951171875,
+      "high": 1617.4000244140625,
+      "low": 1598,
+      "close": 1614.5,
+      "volume": 29289
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PRESTIGE.NS",
     "current_year": 2025,

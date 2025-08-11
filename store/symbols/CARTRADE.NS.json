@@ -7863,9 +7863,17 @@
       "low": 2092.60009765625,
       "close": 2168.60009765625,
       "volume": 323678
+    },
+    {
+      "date": "2025-08-11T04:13:24.000Z",
+      "open": 2164.10009765625,
+      "high": 2195.199951171875,
+      "low": 2145,
+      "close": 2158.5,
+      "volume": 40362
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CARTRADE.NS",
     "current_year": 2025,

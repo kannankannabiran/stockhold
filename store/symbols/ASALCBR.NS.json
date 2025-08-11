@@ -9959,9 +9959,17 @@
       "low": 1018.4000244140625,
       "close": 1028.800048828125,
       "volume": 37571
+    },
+    {
+      "date": "2025-08-11T04:09:06.000Z",
+      "open": 1035,
+      "high": 1066,
+      "low": 1032.699951171875,
+      "close": 1049.300048828125,
+      "volume": 21957
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASALCBR.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 258.5,
       "close": 259.7699890136719,
       "volume": 1495981
+    },
+    {
+      "date": "2025-08-11T04:10:14.000Z",
+      "open": 260,
+      "high": 266.4800109863281,
+      "low": 258,
+      "close": 258.7200012207031,
+      "volume": 243570
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "STARCEMENT.NS",
     "current_year": 2025,

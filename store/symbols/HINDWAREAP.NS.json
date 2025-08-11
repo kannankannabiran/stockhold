@@ -9959,9 +9959,17 @@
       "low": 270,
       "close": 271.95001220703125,
       "volume": 56856
+    },
+    {
+      "date": "2025-08-11T04:08:01.000Z",
+      "open": 270,
+      "high": 278.95001220703125,
+      "low": 270,
+      "close": 276.6499938964844,
+      "volume": 3084
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "HINDWAREAP.NS",
     "current_year": 2025,

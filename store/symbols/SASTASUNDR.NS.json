@@ -9959,9 +9959,17 @@
       "low": 278.25,
       "close": 286.3500061035156,
       "volume": 6746
+    },
+    {
+      "date": "2025-08-11T04:09:38.000Z",
+      "open": 289,
+      "high": 289,
+      "low": 285.6000061035156,
+      "close": 285.6000061035156,
+      "volume": 90
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SASTASUNDR.NS",
     "current_year": 2025,

@@ -9959,9 +9959,17 @@
       "low": 56.75,
       "close": 57.25,
       "volume": 92681
+    },
+    {
+      "date": "2025-08-11T04:11:39.000Z",
+      "open": 57,
+      "high": 58.29999923706055,
+      "low": 57,
+      "close": 57.5,
+      "volume": 30952
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "ASIANTILES.NS",
     "current_year": 2025,

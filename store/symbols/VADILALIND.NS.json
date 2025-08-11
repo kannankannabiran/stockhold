@@ -9959,9 +9959,17 @@
       "low": 4851,
       "close": 4863.5,
       "volume": 14145
+    },
+    {
+      "date": "2025-08-11T04:11:38.000Z",
+      "open": 4915.5,
+      "high": 4946,
+      "low": 4870,
+      "close": 4928.5,
+      "volume": 1161
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "VADILALIND.NS",
     "current_year": 2025,

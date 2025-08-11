@@ -9959,9 +9959,17 @@
       "low": 116.19999694824219,
       "close": 117.9000015258789,
       "volume": 707807
+    },
+    {
+      "date": "2025-08-11T04:12:32.000Z",
+      "open": 118,
+      "high": 120.08999633789062,
+      "low": 117.1500015258789,
+      "close": 118.69000244140625,
+      "volume": 101129
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "NAVKARCORP.NS",
     "current_year": 2025,

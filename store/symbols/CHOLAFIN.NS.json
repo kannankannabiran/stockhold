@@ -9959,9 +9959,17 @@
       "low": 1450,
       "close": 1451.0999755859375,
       "volume": 840276
+    },
+    {
+      "date": "2025-08-11T04:09:53.000Z",
+      "open": 1452,
+      "high": 1466.699951171875,
+      "low": 1448,
+      "close": 1463.9000244140625,
+      "volume": 89599
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "CHOLAFIN.NS",
     "current_year": 2025,

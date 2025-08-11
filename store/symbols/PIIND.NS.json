@@ -9959,9 +9959,17 @@
       "low": 3904.300048828125,
       "close": 3919.10009765625,
       "volume": 101780
+    },
+    {
+      "date": "2025-08-11T04:10:15.000Z",
+      "open": 3875,
+      "high": 3875,
+      "low": 3802.5,
+      "close": 3847.800048828125,
+      "volume": 36594
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "PIIND.NS",
     "current_year": 2025,

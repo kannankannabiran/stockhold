@@ -9959,9 +9959,17 @@
       "low": 802.5,
       "close": 832,
       "volume": 41981
+    },
+    {
+      "date": "2025-08-11T04:09:14.000Z",
+      "open": 850,
+      "high": 868,
+      "low": 850,
+      "close": 855,
+      "volume": 11526
     }
   ],
-  "lastScanDate": "2025-08-08",
+  "lastScanDate": "2025-08-11",
   "latestResult": {
     "symbol": "SHILPAMED.NS",
     "current_year": 2025,

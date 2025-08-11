@@ -28,7 +28,7 @@ export default function ThanksPage() {
 
         {/* Paragraph */}
         <p className="mt-4 text-gray-600 text-lg">
-          Your transaction Detail once Confirmation Successful. Purchasing Product Activate with in 5 Min Please Wait ... Any Clearfication Please Fell Free Contacct :7200630057...
+          Your transaction Detail once Confirmation Successful. Purchasing Product Activate with in 5 Min Please Wait ... Any Clearfication Please Fell Free Contact :7200630057...
         </p>
 
         {/* Optional button */}

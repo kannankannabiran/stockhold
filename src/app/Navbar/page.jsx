@@ -105,12 +105,6 @@ export default function Navbar() {
       router.push('/signup');
       return;
     }
-    if (userId) {
-      router.push('/payment/Longtermstock');
-    } else {
-      localStorage.setItem('redirectAfterSignup', '/payment/Longtermstock');
-      router.push('/signup');
-    }
     if (!access) {
       const paymentUrl = PROTECTED_PAYMENT_ROUTES[path];
       if (paymentUrl) {

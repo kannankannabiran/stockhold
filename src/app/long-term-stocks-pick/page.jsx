@@ -28,6 +28,12 @@ export default function Chart() {
     { left: "5", right: "Market Decode With our Data" },
     { left: "6", right: "Convert Loss To Profitable" },
     { left: "7", right: "Market Direction" },
+    { left: "8", right: "Exact Entry Point" },
+    { left: "9", right: "Option Trading Advance" },
+    { left: "10", right: "Advance Option Chain" },
+    { left: "11", right: "How to Identfy Fii Dii Entry Point" },
+    { left: "12", right: "How to Identfy Trending Days" },
+    { left: "13", right: "How to use Our Indicator" },
   ];
 
   return (
@@ -92,8 +98,8 @@ export default function Chart() {
             >
               {/* Left side - gray bg with vertical green line */}
               <div className="relative flex items-center bg-gray-200 px-5 py-4 flex-1">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-600 rounded-l-md"></div>
-                <p className="ml-4 text-gray-800 font-medium">{left}</p>
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-400 rounded-l-md"></div>
+                <p className="ml-4 font-medium text-white p-3 w-12 text-center rounded-full text-xl" style={{background: 'oklch(0.26 0.04 170.89)'}}>{left}</p>
               </div>
 
               {/* Right side - green bg with white text */}
@@ -105,7 +111,7 @@ export default function Chart() {
         </div>
       </div>
       <p className='text-normal m-15'>Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations. Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations.</p>
-
+        <div className='text-center bg-green-400 text-gray-700 rounded-2xl w-fit p-2 w-10 mx-auto px-8 mb-10 hover:bg-green-600 cursor-pointer hover:text-white' onClick={handleGetStarted}>Join Now</div>
       {/* Footer */}
       <Footer />
     </>

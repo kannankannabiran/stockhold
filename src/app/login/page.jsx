@@ -5,7 +5,8 @@ import { LoginForm } from '../components/LoginForm';
 export default function LoginPage() {
   const [message, setMessage] = React.useState(null);
 
-  const handleSuccess = (member) => {
+  const handleSuccess = (member, mobile) => {
+    localStorage.setItem("user",mobile)
     setMessage(`✅ Logged in as ${member.name}.`);
   };
   const handleError = (err) => {

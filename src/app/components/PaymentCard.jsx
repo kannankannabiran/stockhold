@@ -10,6 +10,12 @@ export default function PaymentCard({ image, title, price, description, signupLi
 
   const isValidMobile = /^\d{10}$/.test(mobile);
   const showError = touched && !isValidMobile;
+  const userMobile = localStorage.getItem('user')
+
+  const handleComplete = (data)=>{
+    const {title, price, description, signupLink} = data;
+    console.log("hnsle com[lete data",data)
+  }
 
   return (
     <div style={{ background: "#fff" }}>
@@ -81,6 +87,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
 
               <Link
                 href={signupLink}
+                onClick={()=>handleComplete({title:title, price:price, mobile:userMobile, signupLink:signupLink })}
                 className="mt-2 inline-flex bg-green-400 text-gray-700 px-6 mr-2 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 items-center justify-center gap-2"
               >
                 Compleate<FiArrowRight />

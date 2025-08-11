@@ -35,7 +35,7 @@ export function LoginForm({ onSuccess, onError }) {
           return;
         }
       }
-      onSuccess && onSuccess(resp.member);
+      onSuccess && onSuccess(resp.member, mobile);
     } else {
       onError && onError(resp.error);
     }

@@ -1,21 +1,22 @@
 {
   "members": [
     {
-      "id": "FVYQ2YMn6JVxWvnLAXKjC",
+      "id": "16FYe613dYF_PtAjLQ5T9",
       "name": "Kannabiran",
       "mobile": "7200630057",
-      "password": "$2b$10$jPP4enn3rIMMIlm4r/vAo.lEMbYWtBDhMUsRNZd2MJSrrqXAP.V6u",
-      "createdAt": "2025-08-01T18:34:15.539Z",
+      "password": "$2b$10$mcxyWGpaykzmH9CCaWbareIstUB3aCNtVpdTirBh3tVqt6CH1Y7O2",
+      "createdAt": "2025-08-02T16:55:10.989Z",
       "active": true,
       "urlAccess": [
-        "/longterm",
         "/chart",
-        "/stocklist",
+        "/longterm",
         "/backtest",
         "/options",
         "/trendingoi",
         "/openhighnifty",
-        "/herozero"
+        "/herozero",
+        "/individual",
+        "/stocklist"
       ]
     }
   ]

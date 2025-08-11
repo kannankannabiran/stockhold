@@ -22,9 +22,8 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-gray-300">
            <li><Link href="/" className="border-b-2 border-transparent hover:border-green-400 pb-1 transition-all">Home</Link></li>
           <li><Link href="/about" className="border-b-2 border-transparent hover:border-green-400 transition-all">About</Link></li>
-          <li><Link href="#" className="border-b-2 border-transparent hover:border-green-400 transition-all">Course</Link></li>
-          <li><Link href="#" className="border-b-2 border-transparent hover:border-green-400 transition-all">Products</Link></li>
-          <li><Link href="#" className="border-b-2 border-transparent hover:border-green-400 transition-all">Contact</Link></li>
+          <li><Link href="/long-term-stocks-pick" className="border-b-2 border-transparent hover:border-green-400 transition-all">Course</Link></li>
+          <li><Link href="/contact" className="border-b-2 border-transparent hover:border-green-400 transition-all">Contact</Link></li>
           </ul>
         </div>
 

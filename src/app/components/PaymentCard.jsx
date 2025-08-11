@@ -52,7 +52,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
 
             {/* Input + Button */}
             <div className="sm:block flex flex-col sm:flex-row gap-4 mt-5">
-              <div className="flex-1 min-w-0">
+              {/* <div className="flex-1 min-w-0">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Mobile Number
                 </label>
@@ -77,14 +77,11 @@ export default function PaymentCard({ image, title, price, description, signupLi
                     Please enter a valid 10-digit mobile number.
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <Link
                 href={signupLink}
-                className={`mt-2 inline-flex bg-green-400 text-gray-700 px-6 mr-2 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 items-center justify-center gap-2 ${
-                  !isValidMobile ? "opacity-60 pointer-events-none" : ""
-                }`}
-                aria-disabled={!isValidMobile}
+                className="mt-2 inline-flex bg-green-400 text-gray-700 px-6 mr-2 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 items-center justify-center gap-2"
               >
                 Compleate<FiArrowRight />
               </Link>

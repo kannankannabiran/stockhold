@@ -5,7 +5,7 @@ const paymentProducts = [
     image: "/candlestick_payment.svg", // you can also import in the page if you prefer
     title: (
       <>
-        All <span className="text-green-400">Candle Stick</span> Pattern
+        All Candle Stick Pattern
       </>
     ),
     price: 199,
@@ -18,7 +18,7 @@ const paymentProducts = [
     image: "/longtermstockscourse.svg", // you can also import in the page if you prefer
     title: (
       <>
-        How to Select <span className="text-green-400">Long Term Stocks</span> 
+        How to Select Long Term Stocks
       </>
     ),
     price: 4999,
@@ -31,7 +31,7 @@ const paymentProducts = [
     image: "/payment-longterm-scanner.svg", // you can also import in the page if you prefer
     title: (
       <>
-        Scanner For <span className="text-green-400">Long Term Stocks</span> 
+        Scanner For Long Term Stocks
       </>
     ),
     price: 2499,

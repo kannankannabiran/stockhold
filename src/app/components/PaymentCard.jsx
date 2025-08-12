@@ -14,7 +14,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
 
   const handleComplete = (data)=>{
     const {title, price, description, signupLink} = data;
-    console.log("hnsle com[lete data",data)
+    console.log("purchase product",data)
   }
 
   return (
@@ -46,7 +46,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
             <p className="text-lg font-bold mb-2 mt-10 text-gray-700">
               Scan To Pay
             </p>
-            <p className="mb-1 text-3xl sm:text-4xl font-semibold mt-2">
+            <p className="mb-1 text-3xl sm:text-4xl font-semibold mt-2 text-green-400">
               {title}
             </p>
             <p className="text-xxl font-bold my-2 text-gray-700">

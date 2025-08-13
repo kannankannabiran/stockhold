@@ -353,20 +353,23 @@ export default function Navbar() {
                     >
                       Login
                     </div>
-                    <div
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => handleNavigate("/admin")}
-                    >
-                      Admin
-                    </div>
+                    
                   </>
                 ) : (
+                    <>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleNavigate("/order")}
+                    >
+                      Order
+                    </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleLogout}
                   >
                     Logout
                   </div>
+                  </>
                 )}
               </div>
             )}
@@ -478,20 +481,22 @@ export default function Navbar() {
                     >
                       Login
                     </div>
-                    <div
-                      className="cursor-pointer hover:underline"
-                      onClick={() => handleNavigate("/admin")}
-                    >
-                      Admin
-                    </div>
                   </>
                 ) : (
+                  <>
+                  <div
+                    className="cursor-pointer hover:underline"
+                    onClick={() => handleNavigate("/order")}
+                  >
+                    Order
+                  </div>
                   <div
                     className="cursor-pointer hover:underline"
                     onClick={handleLogout}
                   >
                     Logout
                   </div>
+                  </>
                 )}
               </div>
             </div>

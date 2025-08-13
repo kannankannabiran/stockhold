@@ -9967,9 +9967,25 @@
       "low": 38320,
       "close": 38455,
       "volume": 3959
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 39000,
+      "high": 39010,
+      "low": 38540,
+      "close": 38610,
+      "volume": 20383
+    },
+    {
+      "date": "2025-08-13T05:33:57.000Z",
+      "open": 38795,
+      "high": 38910,
+      "low": 38600,
+      "close": 38775,
+      "volume": 4311
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "BOSCHLTD.NS",
     "current_year": 2025,

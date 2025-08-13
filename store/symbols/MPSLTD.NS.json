@@ -9967,9 +9967,25 @@
       "low": 2284.10009765625,
       "close": 2310.89990234375,
       "volume": 4490
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 2340,
+      "high": 2390,
+      "low": 2335,
+      "close": 2364.5,
+      "volume": 25656
+    },
+    {
+      "date": "2025-08-13T05:35:54.000Z",
+      "open": 2330,
+      "high": 2344,
+      "low": 2213,
+      "close": 2217,
+      "volume": 34289
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "MPSLTD.NS",
     "current_year": 2025,

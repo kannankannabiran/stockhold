@@ -9967,9 +9967,25 @@
       "low": 5670,
       "close": 5683.5,
       "volume": 35440
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 5679.5,
+      "high": 5694,
+      "low": 5643,
+      "close": 5658,
+      "volume": 429572
+    },
+    {
+      "date": "2025-08-13T05:34:09.000Z",
+      "open": 5658,
+      "high": 5752.5,
+      "low": 5648.5,
+      "close": 5740,
+      "volume": 125620
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "EICHERMOT.NS",
     "current_year": 2025,

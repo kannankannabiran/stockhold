@@ -9967,9 +9967,25 @@
       "low": 365.54998779296875,
       "close": 370,
       "volume": 3614
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 376,
+      "high": 376,
+      "low": 369.5,
+      "close": 371,
+      "volume": 6797
+    },
+    {
+      "date": "2025-08-13T05:35:43.000Z",
+      "open": 373,
+      "high": 374.8999938964844,
+      "low": 370.6000061035156,
+      "close": 371.95001220703125,
+      "volume": 3919
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "EIHAHOTELS.NS",
     "current_year": 2025,

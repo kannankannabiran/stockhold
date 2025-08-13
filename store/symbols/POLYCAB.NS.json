@@ -9967,9 +9967,25 @@
       "low": 6711,
       "close": 6743,
       "volume": 18301
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 6764,
+      "high": 6823,
+      "low": 6620,
+      "close": 6803.5,
+      "volume": 522463
+    },
+    {
+      "date": "2025-08-13T05:35:09.000Z",
+      "open": 6827,
+      "high": 6948.5,
+      "low": 6820,
+      "close": 6942.5,
+      "volume": 105487
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "POLYCAB.NS",
     "current_year": 2025,

@@ -9967,9 +9967,25 @@
       "low": 6265.5,
       "close": 6308.5,
       "volume": 2063
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 6338,
+      "high": 6350,
+      "low": 6257,
+      "close": 6336,
+      "volume": 5728
+    },
+    {
+      "date": "2025-08-13T05:39:11.000Z",
+      "open": 6370,
+      "high": 6390,
+      "low": 6252,
+      "close": 6287.5,
+      "volume": 3114
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "PGHL.NS",
     "current_year": 2025,

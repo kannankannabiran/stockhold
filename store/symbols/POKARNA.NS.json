@@ -9967,9 +9967,25 @@
       "low": 888.4000244140625,
       "close": 893.4500122070312,
       "volume": 7705
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 907,
+      "high": 926,
+      "low": 898,
+      "close": 907,
+      "volume": 73542
+    },
+    {
+      "date": "2025-08-13T05:37:06.000Z",
+      "open": 907.9000244140625,
+      "high": 918,
+      "low": 900,
+      "close": 913.25,
+      "volume": 20130
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "POKARNA.NS",
     "current_year": 2025,

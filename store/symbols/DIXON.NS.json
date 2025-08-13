@@ -9967,9 +9967,25 @@
       "low": 15780,
       "close": 15950,
       "volume": 49033
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 16088,
+      "high": 16120,
+      "low": 15801,
+      "close": 15828,
+      "volume": 164396
+    },
+    {
+      "date": "2025-08-13T05:36:23.000Z",
+      "open": 15900,
+      "high": 16020,
+      "low": 15850,
+      "close": 16002,
+      "volume": 63232
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "DIXON.NS",
     "current_year": 2025,

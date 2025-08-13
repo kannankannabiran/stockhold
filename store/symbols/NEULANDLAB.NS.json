@@ -9967,9 +9967,25 @@
       "low": 12903,
       "close": 13038,
       "volume": 7317
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 13296,
+      "high": 13330,
+      "low": 12850,
+      "close": 12979,
+      "volume": 26949
+    },
+    {
+      "date": "2025-08-13T05:38:56.000Z",
+      "open": 13020,
+      "high": 13134,
+      "low": 12964,
+      "close": 13111,
+      "volume": 9199
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "NEULANDLAB.NS",
     "current_year": 2025,

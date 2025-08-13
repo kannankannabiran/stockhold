@@ -9967,9 +9967,25 @@
       "low": 20020,
       "close": 20575,
       "volume": 22211
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 20900,
+      "high": 21800,
+      "low": 20530,
+      "close": 20695,
+      "volume": 215564
+    },
+    {
+      "date": "2025-08-13T05:38:02.000Z",
+      "open": 20845,
+      "high": 21240,
+      "low": 20800,
+      "close": 20975,
+      "volume": 62272
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "POWERINDIA.NS",
     "current_year": 2025,

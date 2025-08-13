@@ -9967,9 +9967,25 @@
       "low": 6650.5,
       "close": 6679.5,
       "volume": 799
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 6755,
+      "high": 6900,
+      "low": 6672,
+      "close": 6720.5,
+      "volume": 8705
+    },
+    {
+      "date": "2025-08-13T05:36:18.000Z",
+      "open": 6802,
+      "high": 6802,
+      "low": 6687,
+      "close": 6764.5,
+      "volume": 1616
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "NSIL.NS",
     "current_year": 2025,

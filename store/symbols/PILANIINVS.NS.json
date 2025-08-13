@@ -9967,9 +9967,25 @@
       "low": 4920.5,
       "close": 4939.5,
       "volume": 216
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 4895,
+      "high": 4903.5,
+      "low": 4860,
+      "close": 4874.5,
+      "volume": 989
+    },
+    {
+      "date": "2025-08-13T05:33:33.000Z",
+      "open": 4846.5,
+      "high": 4890,
+      "low": 4846.5,
+      "close": 4882,
+      "volume": 326
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "PILANIINVS.NS",
     "current_year": 2025,

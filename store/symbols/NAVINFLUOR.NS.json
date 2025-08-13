@@ -9967,9 +9967,25 @@
       "low": 4800,
       "close": 4817,
       "volume": 12028
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 4848,
+      "high": 4914,
+      "low": 4808.5,
+      "close": 4895.5,
+      "volume": 65184
+    },
+    {
+      "date": "2025-08-13T05:37:47.000Z",
+      "open": 4938,
+      "high": 5019,
+      "low": 4920,
+      "close": 4957,
+      "volume": 24377
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "NAVINFLUOR.NS",
     "current_year": 2025,

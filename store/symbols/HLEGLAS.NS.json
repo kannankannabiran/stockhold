@@ -8839,9 +8839,25 @@
       "low": 426.25,
       "close": 430.70001220703125,
       "volume": 13289
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 444,
+      "high": 476.8500061035156,
+      "low": 442,
+      "close": 446.3500061035156,
+      "volume": 853640
+    },
+    {
+      "date": "2025-08-13T05:37:41.000Z",
+      "open": 448,
+      "high": 456.75,
+      "low": 435,
+      "close": 436.5,
+      "volume": 59420
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "HLEGLAS.NS",
     "current_year": 2025,

@@ -9967,9 +9967,25 @@
       "low": 420.20001220703125,
       "close": 428.25,
       "volume": 17999
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 426,
+      "high": 431,
+      "low": 417,
+      "close": 421.75,
+      "volume": 144456
+    },
+    {
+      "date": "2025-08-13T05:33:52.000Z",
+      "open": 426,
+      "high": 426.3500061035156,
+      "low": 417.1499938964844,
+      "close": 419.25,
+      "volume": 22905
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "MBAPL.NS",
     "current_year": 2025,

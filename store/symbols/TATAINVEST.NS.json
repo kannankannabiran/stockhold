@@ -9967,9 +9967,25 @@
       "low": 6880,
       "close": 6959,
       "volume": 9397
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 6926.5,
+      "high": 6937,
+      "low": 6843,
+      "close": 6889.5,
+      "volume": 26036
+    },
+    {
+      "date": "2025-08-13T05:40:08.000Z",
+      "open": 6909.5,
+      "high": 6949,
+      "low": 6900,
+      "close": 6906,
+      "volume": 10335
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "TATAINVEST.NS",
     "current_year": 2025,

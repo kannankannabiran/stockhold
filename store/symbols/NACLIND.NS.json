@@ -9967,9 +9967,25 @@
       "low": 295,
       "close": 304,
       "volume": 50917
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 284.25,
+      "high": 299.8999938964844,
+      "low": 284.25,
+      "close": 294.75,
+      "volume": 128704
+    },
+    {
+      "date": "2025-08-13T05:36:08.000Z",
+      "open": 286,
+      "high": 294,
+      "low": 286,
+      "close": 291,
+      "volume": 75141
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "NACLIND.NS",
     "current_year": 2025,

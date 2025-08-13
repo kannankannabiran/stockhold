@@ -9967,9 +9967,25 @@
       "low": 567.2000122070312,
       "close": 567.2000122070312,
       "volume": 69
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 621,
+      "high": 644,
+      "low": 620,
+      "close": 620,
+      "volume": 753
+    },
+    {
+      "date": "2025-08-13T05:37:49.000Z",
+      "open": 620,
+      "high": 630,
+      "low": 600,
+      "close": 629,
+      "volume": 289
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "PKTEA.NS",
     "current_year": 2025,

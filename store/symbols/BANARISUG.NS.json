@@ -9967,9 +9967,25 @@
       "low": 3665,
       "close": 3772.199951171875,
       "volume": 57
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 3752.800048828125,
+      "high": 3787.5,
+      "low": 3750,
+      "close": 3750.699951171875,
+      "volume": 308
+    },
+    {
+      "date": "2025-08-13T05:33:39.000Z",
+      "open": 3800,
+      "high": 3800,
+      "low": 3751.10009765625,
+      "close": 3766.5,
+      "volume": 142
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "BANARISUG.NS",
     "current_year": 2025,

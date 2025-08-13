@@ -9967,9 +9967,25 @@
       "low": 7020.5,
       "close": 7027.5,
       "volume": 49340
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 7259,
+      "high": 7285,
+      "low": 7205,
+      "close": 7236.5,
+      "volume": 342006
+    },
+    {
+      "date": "2025-08-13T05:40:25.000Z",
+      "open": 7403,
+      "high": 7719,
+      "low": 7389,
+      "close": 7683,
+      "volume": 1081897
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "APOLLOHOSP.NS",
     "current_year": 2025,

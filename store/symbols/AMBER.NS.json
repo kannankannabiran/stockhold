@@ -9967,9 +9967,25 @@
       "low": 6801.5,
       "close": 6844,
       "volume": 265133
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 6947,
+      "high": 7012,
+      "low": 6818,
+      "close": 6843,
+      "volume": 369764
+    },
+    {
+      "date": "2025-08-13T05:37:47.000Z",
+      "open": 6862,
+      "high": 7003,
+      "low": 6837.5,
+      "close": 6941,
+      "volume": 181379
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "AMBER.NS",
     "current_year": 2025,

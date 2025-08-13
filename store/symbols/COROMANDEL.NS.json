@@ -9967,9 +9967,25 @@
       "low": 2407.39990234375,
       "close": 2449.699951171875,
       "volume": 38658
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 2453,
+      "high": 2453,
+      "low": 2383.699951171875,
+      "close": 2397.199951171875,
+      "volume": 198802
+    },
+    {
+      "date": "2025-08-13T05:37:37.000Z",
+      "open": 2365,
+      "high": 2376,
+      "low": 2257,
+      "close": 2279,
+      "volume": 375425
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "COROMANDEL.NS",
     "current_year": 2025,

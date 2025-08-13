@@ -9463,9 +9463,25 @@
       "low": 100.5,
       "close": 105,
       "volume": 37227
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 107,
+      "high": 110.9800033569336,
+      "low": 107,
+      "close": 108.98999786376953,
+      "volume": 136409
+    },
+    {
+      "date": "2025-08-13T05:34:59.000Z",
+      "open": 108.9800033569336,
+      "high": 111,
+      "low": 107,
+      "close": 109,
+      "volume": 51108
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "KHAICHEM.NS",
     "current_year": 2025,

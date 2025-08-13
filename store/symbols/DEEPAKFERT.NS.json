@@ -9967,9 +9967,25 @@
       "low": 1408,
       "close": 1458.5999755859375,
       "volume": 92676
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 1474,
+      "high": 1483.5999755859375,
+      "low": 1440,
+      "close": 1447.699951171875,
+      "volume": 133335
+    },
+    {
+      "date": "2025-08-13T05:39:17.000Z",
+      "open": 1455,
+      "high": 1466,
+      "low": 1442,
+      "close": 1455,
+      "volume": 96200
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "DEEPAKFERT.NS",
     "current_year": 2025,

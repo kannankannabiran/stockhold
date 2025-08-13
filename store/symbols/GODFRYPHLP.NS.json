@@ -9967,9 +9967,25 @@
       "low": 9927.5,
       "close": 9993,
       "volume": 60110
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 9860,
+      "high": 9960,
+      "low": 9565.5,
+      "close": 9630,
+      "volume": 175190
+    },
+    {
+      "date": "2025-08-13T05:39:08.000Z",
+      "open": 9727,
+      "high": 9975,
+      "low": 9621.5,
+      "close": 9854.5,
+      "volume": 125868
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "GODFRYPHLP.NS",
     "current_year": 2025,

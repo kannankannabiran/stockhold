@@ -9967,9 +9967,25 @@
       "low": 10186,
       "close": 10288,
       "volume": 2908
+    },
+    {
+      "date": "2025-08-12T03:45:00.000Z",
+      "open": 10330,
+      "high": 10500,
+      "low": 10325,
+      "close": 10399,
+      "volume": 15211
+    },
+    {
+      "date": "2025-08-13T05:38:59.000Z",
+      "open": 10455,
+      "high": 10536,
+      "low": 10387,
+      "close": 10508,
+      "volume": 6053
     }
   ],
-  "lastScanDate": "2025-08-11",
+  "lastScanDate": "2025-08-13",
   "latestResult": {
     "symbol": "GILLETTE.NS",
     "current_year": 2025,

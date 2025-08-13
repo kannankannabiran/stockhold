@@ -1,4 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/purchases.json",
+        destination: "/data/purchases.json",
+      },
+    ];
+  },
+};
 
 export default nextConfig;

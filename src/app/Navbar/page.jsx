@@ -43,6 +43,7 @@ function useUser() {
   const logout = () => {
     localStorage.removeItem("userId");
     sessionStorage.removeItem("userId");
+    localStorage.removeItem("user");
     setUser({
       isAdmin: false,
       permissions: [],

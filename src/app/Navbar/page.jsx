@@ -41,9 +41,9 @@ function useUser() {
   const login = (overrides = {}) =>
     setUser((u) => ({ ...u, isAuthenticated: true, ...overrides }));
   const logout = () => {
+    localStorage.removeItem("user");
     localStorage.removeItem("userId");
     sessionStorage.removeItem("userId");
-    localStorage.removeItem("user");
     setUser({
       isAdmin: false,
       permissions: [],

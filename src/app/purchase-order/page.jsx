@@ -1,7 +1,9 @@
 "use client";
+import { useAccessControl } from "@/hooks/useAccessControl";
 import { useEffect, useState } from "react";
 
 export default function PurchaseOrderPage() {
+  const { hasAccess, loading } = useAccessControl('/purchase-order');
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
@@ -38,6 +40,9 @@ export default function PurchaseOrderPage() {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (!hasAccess) return null;
 
   return (
     <div className="max-w-6xl mx-auto p-6">

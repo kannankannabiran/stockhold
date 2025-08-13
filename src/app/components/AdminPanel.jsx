@@ -46,7 +46,8 @@ export function AdminPanel() {
     '/trendingoi',
     '/openhighnifty',
     '/herozero',
-    '/individual'
+    '/individual',
+    '/purchase-order'
   ];
 
   const filteredMembers = members.filter((m) => {

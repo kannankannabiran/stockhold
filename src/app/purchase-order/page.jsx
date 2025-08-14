@@ -46,7 +46,7 @@ export default function PurchaseOrderPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">📦 Purchase Orders</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">📦 Purchase Orders</h1>
       <div className="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
         <table className="w-full text-sm text-left text-gray-700">
           <thead className="bg-blue-200 text-gray-700">

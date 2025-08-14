@@ -53,7 +53,7 @@ export default function PurchaseOrderPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">
         📦 Purchase Orders
       </h1>
       <div className="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">

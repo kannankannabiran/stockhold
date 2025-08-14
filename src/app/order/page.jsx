@@ -3,7 +3,7 @@ import { useAccessControl } from "@/hooks/useAccessControl";
 import { useEffect, useState } from "react";
 
 export default function PurchaseOrderPage() {
-  const { hasAccess, loading } = useAccessControl("/purchase-order");
+  const { hasAccess, loading } = useAccessControl("/order");
   const [orders, setOrders] = useState([]);
   const [mobile, setMobile] = useState("");
 

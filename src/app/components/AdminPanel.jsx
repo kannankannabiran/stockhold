@@ -47,7 +47,8 @@ export function AdminPanel() {
     '/openhighnifty',
     '/herozero',
     '/individual',
-    '/purchase-order'
+    '/purchase-order',
+    '/order'
   ];
 
   const filteredMembers = members.filter((m) => {

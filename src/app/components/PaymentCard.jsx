@@ -50,7 +50,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
 
             <button
               onClick={handleComplete}
-              className="mt-2 inline-flex bg-green-400 text-gray-700 px-6 mr-2 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 items-center justify-center gap-2"
+              className="mt-2 inline-flex bg-green-400 text-gray-700 px-6 mr-2 py-2 rounded-lg hover:bg-green-600 hover:text-white transition duration-200 items-center justify-center gap-2 cursor-pointer"
             >
               Complete <FiArrowRight />
             </button>

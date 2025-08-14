@@ -19,23 +19,12 @@ export default function PurchaseOrderPage() {
       (order) => order.mobile === storedMobile
     );
 
-    // Sort: pending first, then by date (latest first)
-    const sortedData = filteredData.sort((a, b) => {
-      if (a.status === "pending" && b.status !== "pending") return -1;
-      if (a.status !== "pending" && b.status === "pending") return 1;
-      return new Date(b.date) - new Date(a.date); // latest first
-    });
+    // Sort by date (latest first)
+    const sortedData = filteredData.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
 
     setOrders(sortedData);
-  };
-
-  const updateStatus = async (id, status) => {
-    await fetch("/api/updateStatus", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status }),
-    });
-    fetchOrders();
   };
 
   const formatDate = (dateString) => {
@@ -76,8 +65,7 @@ export default function PurchaseOrderPage() {
               <th className="p-4">Price</th>
               <th className="p-4">Mobile</th>
               <th className="p-4">Date & Time</th>
-              <th className="p-4">Status</th>
-              <th className="p-4">Action</th>
+              <th className="p-4">Purchase</th>
             </tr>
           </thead>
           <tbody>
@@ -97,31 +85,17 @@ export default function PurchaseOrderPage() {
                     {order.date ? formatDate(order.date) : "—"}
                   </td>
                   <td className="p-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        order.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-green-100 text-green-700"
-                      }`}
+                    <button
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-lg shadow-md transition duration-150 cursor-pointer"
                     >
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    {order.status === "pending" && (
-                      <button
-                        onClick={() => updateStatus(order.id, "complete")}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-lg shadow-md transition duration-150"
-                      >
-                        ✅ Mark Complete
-                      </button>
-                    )}
+                      View
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="p-6 text-center text-gray-500">
+                <td colSpan="6" className="p-6 text-center text-gray-500">
                   No orders found.
                 </td>
               </tr>

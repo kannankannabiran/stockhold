@@ -3,15 +3,24 @@ import { useAccessControl } from "@/hooks/useAccessControl";
 import { useEffect, useState } from "react";
 
 export default function PurchaseOrderPage() {
-  const { hasAccess, loading } = useAccessControl('/purchase-order');
+  const { hasAccess, loading } = useAccessControl("/purchase-order");
   const [orders, setOrders] = useState([]);
+  const [mobile, setMobile] = useState("");
 
   const fetchOrders = async () => {
+    const storedMobile = localStorage.getItem("user"); // get mobile from localStorage
+    setMobile(storedMobile || "");
+
     const res = await fetch("/api/getPurchases");
     const data = await res.json();
 
+    // Filter only for current logged-in mobile number
+    const filteredData = data.filter(
+      (order) => order.mobile === storedMobile
+    );
+
     // Sort: pending first, then by date (latest first)
-    const sortedData = data.sort((a, b) => {
+    const sortedData = filteredData.sort((a, b) => {
       if (a.status === "pending" && b.status !== "pending") return -1;
       if (a.status !== "pending" && b.status === "pending") return 1;
       return new Date(b.date) - new Date(a.date); // latest first
@@ -44,9 +53,20 @@ export default function PurchaseOrderPage() {
   if (loading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
+  // If no mobile in localStorage, don't show orders
+  if (!mobile) {
+    return (
+      <div className="text-center text-gray-600 mt-20 text-lg">
+        Please log in to see your orders.
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">📦 Purchase Orders</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        📦 Purchase Orders
+      </h1>
       <div className="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
         <table className="w-full text-sm text-left text-gray-700">
           <thead className="bg-blue-200 text-gray-700">

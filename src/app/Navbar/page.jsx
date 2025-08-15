@@ -19,8 +19,10 @@ function useUser() {
     isAuthenticated: false,
     name: "",
   });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkAuth = () => {
       const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
       setUser(prev => ({ ...prev, isAuthenticated: !!userId }));
@@ -52,7 +54,7 @@ function useUser() {
     });
   };
 
-  return { user, login, logout };
+  return { user: mounted ? user : { ...user, isAuthenticated: false }, login, logout, mounted };
 }
 
 const AvatarPlaceholder = () => (

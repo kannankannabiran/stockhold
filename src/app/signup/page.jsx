@@ -6,6 +6,8 @@ export default function SignupPage() {
   const [message, setMessage] = React.useState(null);
 
   const handleSuccess = (member) => {
+    localStorage.setItem("userId", member.id);
+    localStorage.setItem("user", member.mobile);
     setMessage(
       `✅ Signup successful for ${member.name}. Account is pending activation by admin.`
     );

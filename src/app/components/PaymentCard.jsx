@@ -2,15 +2,30 @@
 import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
 
-export default function PaymentCard({ image, title, price, description, signupLink }) {
-  const userMobile = typeof window !== "undefined" ? localStorage.getItem("user") : "";
-
+export default function PaymentCard({ image, title, price, description, signupLink, productId }) {
   const handleComplete = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      window.location.href = '/signup';
+      return;
+    }
+
+    // Get user data from members API
+    const membersRes = await fetch('/api/members');
+    const { members } = await membersRes.json();
+    const currentUser = members.find(member => member.id === userId);
+    
+    if (!currentUser) {
+      window.location.href = '/signup';
+      return;
+    }
+
     const purchaseData = {
       title,
       price,
-      mobile: userMobile || "",
-      signupLink
+      mobile: currentUser.mobile,
+      signupLink,
+      productId
     };
 
     try {

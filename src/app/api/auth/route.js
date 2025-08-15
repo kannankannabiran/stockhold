@@ -6,8 +6,8 @@ import {
   setActive,
   setUrlAccess,
   getMemberByMobile,
-} from '../../lib/membersStore/page';
-import { signToken, verifyToken } from '../../lib/auth/page';
+} from '../../../lib/membersStore';
+import { signToken, verifyToken } from '../../../lib/auth';
 
 export async function POST(request) {
   const url = new URL(request.url);

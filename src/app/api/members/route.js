@@ -1,6 +1,6 @@
 // app/api/members/route.js
 import { NextResponse } from 'next/server';
-import { getAllMembers } from '../../lib/membersStore/page';
+import { getAllMembers } from '../../../lib/membersStore';
 
 export async function GET() {
   try {

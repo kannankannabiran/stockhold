@@ -6,8 +6,16 @@ export default function LoginPage() {
   const [message, setMessage] = React.useState(null);
 
   const handleSuccess = (member, mobile) => {
-    localStorage.setItem("user",mobile)
-    setMessage(`✅ Logged in as ${member.name}.`);
+    localStorage.setItem("userId", member.id);
+    localStorage.setItem("user", mobile);
+    
+    const redirectUrl = localStorage.getItem('redirectAfterSignup');
+    if (!redirectUrl) {
+      setMessage(`✅ Logged in as ${member.name}. Redirecting to home in 10 seconds...`);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 10000);
+    }
   };
   const handleError = (err) => {
     setMessage(`❌ ${err}`);

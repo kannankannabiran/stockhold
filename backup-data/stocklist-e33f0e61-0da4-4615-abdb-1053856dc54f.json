@@ -2,16 +2,6 @@
   "results": {},
   "stockList": [
     {
-      "symbol": "HIRECT",
-      "date": "2025-08-09",
-      "addPrice": 1834.4
-    },
-    {
-      "symbol": "ZUARI",
-      "date": "2025-08-09",
-      "addPrice": 362.35
-    },
-    {
       "symbol": "TIMESGTY",
       "date": "2025-08-09",
       "addPrice": 297.95
@@ -60,6 +50,16 @@
       "symbol": "DCMSHRIRAM",
       "date": "2025-08-09",
       "addPrice": 1352.3
+    },
+    {
+      "symbol": "HIRECT",
+      "date": "2025-08-11",
+      "addPrice": 1876.8
+    },
+    {
+      "symbol": "ZUARI",
+      "date": "2025-08-11",
+      "addPrice": 369.2
     }
   ]
 }

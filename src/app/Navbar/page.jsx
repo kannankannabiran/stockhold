@@ -236,7 +236,7 @@ export default function Navbar() {
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
                       onMouseDown={() => setShowScannerSubmenu(true)}
                     >
-                      <span>Scanner</span>
+                      <span>Long Scanner</span>
                       <FaChevronRight className="text-xs ml-2" />
                     </div>
                     {showScannerSubmenu && (
@@ -416,7 +416,7 @@ export default function Navbar() {
                     onClick={() => setShowScannerSubmenu((v) => !v)}
                     className="flex items-center justify-between"
                   >
-                    <span>Scanner</span> <FaChevronDown className="text-xs" />
+                    <span>Long Scanner</span> <FaChevronDown className="text-xs" />
                   </div>
                   {showScannerSubmenu && (
                     <div className="ml-4">

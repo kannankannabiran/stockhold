@@ -10,9 +10,18 @@ import ServiceCards from './servicecards';
 import HeroSection from './HeroSection';
 import Footer from './Footer/page';
 import Link from 'next/link';
+//offer banner
+import { useState } from "react";
+import TopOfferBanner from "../app/components/TopOfferBanner";
+//offer banner
 export default function Chart() {
+  //offer banner
+  const [bannerVisible, setBannerVisible] = useState(true);
+  //offer banner
   return (
     <>
+<TopOfferBanner />
+
 <div className="container mx-auto py-8 px-4">
   <div className="flex flex-col md:flex-row items-center justify-between gap-8">
     {/* Left Column */}

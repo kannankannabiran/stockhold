@@ -61,7 +61,7 @@ export default function Chart() {
 </div>
 <div className='mt-10'>
   <h4 className='font-bold text-4xl text-center'>Sample One Candle Stick Pattern <span className='block text-green-500'>Bullish Marubozu</span> </h4>
-   <p className="text-gray-700 my-2 px-50 text-center">
+   <p className="text-gray-700 my-2 md:px-50 text-center">
        This pdf You Get Alomost 30 + Candle Stick and 30+ Chart Pattern, This is Sample One candle stick Pattern Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations.
       </p>
   <Image src={marbozo} alt='Candle'  className='mx-auto w-4xl'/>

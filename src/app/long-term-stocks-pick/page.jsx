@@ -222,7 +222,7 @@ export default function Chart() {
               </ul>
               <button
                 onClick={handleGetStarted}
-                className={`w-full py-2 rounded-lg ${p.highlighted ? "bg-white text-green-700 hover:bg-gray-200" : "bg-green-500 text-white hover:bg-green-600"}`}
+                className={`w-full py-2 rounded-lg ${p.highlighted ? "bg-white text-green-700 hover:bg-gray-200 cursor-pointer" : "bg-green-500 text-white hover:bg-green-600 cursor-pointer"}`}
               >
                 Choose Plan
               </button>
@@ -237,7 +237,7 @@ export default function Chart() {
         <p className="mb-6">Don’t wait! Learn, invest, and grow your wealth with us.</p>
         <button
           onClick={handleGetStarted}
-          className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
+          className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition cursor-pointer"
         >
           Join Now
         </button>

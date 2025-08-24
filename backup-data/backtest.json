@@ -17,7 +17,7 @@
     },
     {
       "symbol": "AARON.NS",
-      "occurrences": 3,
+      "occurrences": 4,
       "details": [
         {
           "year": 2022,
@@ -44,6 +44,15 @@
           "start_price": 298.85,
           "end_price": 379.35,
           "percent_change": 26.94,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-05-19",
+          "end_date": "2025-08-22",
+          "start_price": 400.2,
+          "end_price": 215,
+          "percent_change": -46.28,
           "trend": "rise"
         }
       ]
@@ -193,10 +202,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-30",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 184.01,
-          "end_price": 171.82,
-          "percent_change": -6.62,
+          "end_price": 160.81,
+          "percent_change": -12.61,
           "trend": "rise"
         }
       ]
@@ -451,10 +460,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-10",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 8.87,
-          "end_price": 7.9,
-          "percent_change": -10.94,
+          "end_price": 7.23,
+          "percent_change": -18.49,
           "trend": "rise"
         }
       ]
@@ -506,8 +515,8 @@
           "year": 2021,
           "start_date": "2021-01-29",
           "end_date": "2021-12-30",
-          "start_price": 32.58,
-          "end_price": 35,
+          "start_price": 13.03,
+          "end_price": 14,
           "percent_change": 7.44,
           "trend": "rise"
         },
@@ -515,8 +524,8 @@
           "year": 2022,
           "start_date": "2022-04-27",
           "end_date": "2022-12-30",
-          "start_price": 103.03,
-          "end_price": 128.3,
+          "start_price": 41.21,
+          "end_price": 51.32,
           "percent_change": 24.53,
           "trend": "rise"
         },
@@ -524,8 +533,8 @@
           "year": 2023,
           "start_date": "2023-05-31",
           "end_date": "2023-12-29",
-          "start_price": 139.6,
-          "end_price": 162.75,
+          "start_price": 55.84,
+          "end_price": 65.1,
           "percent_change": 16.58,
           "trend": "rise"
         }
@@ -643,10 +652,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 154.79,
-          "end_price": 140.76,
-          "percent_change": -9.06,
+          "end_price": 131.58,
+          "percent_change": -14.99,
           "trend": "rise"
         }
       ]
@@ -790,10 +799,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 175.16,
-          "end_price": 215.79,
-          "percent_change": 23.2,
+          "end_price": 211.31,
+          "percent_change": 20.64,
           "trend": "rise"
         }
       ]
@@ -1026,11 +1035,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-20",
-          "end_date": "2025-07-23",
-          "start_price": 375.35,
-          "end_price": 424.85,
-          "percent_change": 13.19,
+          "start_date": "2025-06-23",
+          "end_date": "2025-08-22",
+          "start_price": 416.7,
+          "end_price": 444.5,
+          "percent_change": 6.67,
           "trend": "rise"
         }
       ]
@@ -1084,10 +1093,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-17",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 303.01,
-          "end_price": 205.71,
-          "percent_change": -32.11,
+          "end_price": 195.25,
+          "percent_change": -35.56,
           "trend": "rise"
         }
       ]
@@ -1314,11 +1323,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-20",
-          "end_date": "2025-07-23",
-          "start_price": 45.22,
-          "end_price": 57.03,
-          "percent_change": 26.12,
+          "start_date": "2025-03-24",
+          "end_date": "2025-08-22",
+          "start_price": 46.85,
+          "end_price": 75.6,
+          "percent_change": 61.37,
           "trend": "rise"
         }
       ]
@@ -1365,11 +1374,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 720.25,
-          "end_price": 759.25,
-          "percent_change": 5.41,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 727.4,
+          "end_price": 724.65,
+          "percent_change": -0.38,
           "trend": "rise"
         }
       ]
@@ -1504,10 +1513,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 281.6,
-          "end_price": 273.94,
-          "percent_change": -2.72,
+          "end_price": 275.6,
+          "percent_change": -2.13,
           "trend": "rise"
         }
       ]
@@ -1567,10 +1576,10 @@
         {
           "year": 2025,
           "start_date": "2025-06-10",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 14.29,
-          "end_price": 14.43,
-          "percent_change": 0.98,
+          "end_price": 12.24,
+          "percent_change": -14.35,
           "trend": "rise"
         }
       ]
@@ -1840,10 +1849,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 5390.15,
-          "end_price": 5441.5,
-          "percent_change": 0.95,
+          "end_price": 5924.5,
+          "percent_change": 9.91,
           "trend": "rise"
         }
       ]
@@ -1856,8 +1865,8 @@
           "year": 2015,
           "start_date": "2015-01-01",
           "end_date": "2015-12-30",
-          "start_price": 631.79,
-          "end_price": 583.98,
+          "start_price": 315.9,
+          "end_price": 291.99,
           "percent_change": -7.57,
           "trend": "rise"
         },
@@ -1865,8 +1874,8 @@
           "year": 2017,
           "start_date": "2017-05-10",
           "end_date": "2017-12-29",
-          "start_price": 692.03,
-          "end_price": 787.09,
+          "start_price": 346.02,
+          "end_price": 393.55,
           "percent_change": 13.74,
           "trend": "rise"
         },
@@ -1874,8 +1883,8 @@
           "year": 2018,
           "start_date": "2018-05-11",
           "end_date": "2018-12-28",
-          "start_price": 952.3,
-          "end_price": 1125.86,
+          "start_price": 476.15,
+          "end_price": 562.93,
           "percent_change": 18.23,
           "trend": "rise"
         },
@@ -1883,8 +1892,8 @@
           "year": 2019,
           "start_date": "2019-08-21",
           "end_date": "2019-12-30",
-          "start_price": 1259.41,
-          "end_price": 1485.19,
+          "start_price": 629.71,
+          "end_price": 742.59,
           "percent_change": 17.93,
           "trend": "rise"
         },
@@ -1892,8 +1901,8 @@
           "year": 2020,
           "start_date": "2020-02-19",
           "end_date": "2020-12-30",
-          "start_price": 1678.51,
-          "end_price": 1837.93,
+          "start_price": 839.25,
+          "end_price": 918.96,
           "percent_change": 9.5,
           "trend": "rise"
         },
@@ -1901,8 +1910,8 @@
           "year": 2023,
           "start_date": "2023-06-07",
           "end_date": "2023-12-29",
-          "start_price": 2236.77,
-          "end_price": 2658.03,
+          "start_price": 1118.39,
+          "end_price": 1329.02,
           "percent_change": 18.83,
           "trend": "rise"
         }
@@ -1993,10 +2002,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-16",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2481.7,
-          "end_price": 2646.7,
-          "percent_change": 6.65,
+          "end_price": 2552.8,
+          "percent_change": 2.86,
           "trend": "rise"
         }
       ]
@@ -2246,7 +2255,7 @@
     },
     {
       "symbol": "SARDAEN.NS",
-      "occurrences": 5,
+      "occurrences": 6,
       "details": [
         {
           "year": 2017,
@@ -2291,6 +2300,15 @@
           "start_price": 326.45,
           "end_price": 484.45,
           "percent_change": 48.4,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-03-11",
+          "end_date": "2025-08-22",
+          "start_price": 527.45,
+          "end_price": 596.8,
+          "percent_change": 13.15,
           "trend": "rise"
         }
       ]
@@ -2461,10 +2479,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-05",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 488.51,
-          "end_price": 549.8,
-          "percent_change": 12.55,
+          "end_price": 531.1,
+          "percent_change": 8.72,
           "trend": "rise"
         }
       ]
@@ -2544,11 +2562,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-13",
-          "end_date": "2025-07-23",
-          "start_price": 1519.3,
-          "end_price": 1850.4,
-          "percent_change": 21.79,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 1541.4,
+          "end_price": 1623.3,
+          "percent_change": 5.31,
           "trend": "rise"
         }
       ]
@@ -2734,10 +2752,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1002.3,
-          "end_price": 988.4,
-          "percent_change": -1.39,
+          "end_price": 1008.75,
+          "percent_change": 0.64,
           "trend": "rise"
         }
       ]
@@ -2912,7 +2930,7 @@
     },
     {
       "symbol": "SUDARSCHEM.NS",
-      "occurrences": 7,
+      "occurrences": 8,
       "details": [
         {
           "year": 2014,
@@ -2976,6 +2994,15 @@
           "end_price": 1124.15,
           "percent_change": 29.61,
           "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-05-30",
+          "end_date": "2025-08-22",
+          "start_price": 1180.3,
+          "end_price": 1428,
+          "percent_change": 20.99,
+          "trend": "rise"
         }
       ]
     },
@@ -3021,11 +3048,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-08",
-          "end_date": "2025-07-23",
-          "start_price": 5157.05,
-          "end_price": 5897,
-          "percent_change": 14.35,
+          "start_date": "2025-04-15",
+          "end_date": "2025-08-22",
+          "start_price": 5256,
+          "end_price": 6086.5,
+          "percent_change": 15.8,
           "trend": "rise"
         }
       ]
@@ -3600,11 +3627,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-30",
-          "end_date": "2025-07-23",
-          "start_price": 1293.6,
-          "end_price": 1131.5,
-          "percent_change": -12.53,
+          "start_date": "2025-01-20",
+          "end_date": "2025-08-22",
+          "start_price": 1188.6,
+          "end_price": 1052.4,
+          "percent_change": -11.46,
           "trend": "rise"
         }
       ]
@@ -3737,7 +3764,7 @@
     },
     {
       "symbol": "HIRECT.NS",
-      "occurrences": 5,
+      "occurrences": 6,
       "details": [
         {
           "year": 2017,
@@ -3783,6 +3810,15 @@
           "end_price": 1361.6,
           "percent_change": 52.12,
           "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-29",
+          "end_date": "2025-08-22",
+          "start_price": 1712.2,
+          "end_price": 1653,
+          "percent_change": -3.46,
+          "trend": "rise"
         }
       ]
     },
@@ -3819,11 +3855,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
-          "start_price": 443.2,
-          "end_price": 432.2,
-          "percent_change": -2.48,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 439.5,
+          "end_price": 408.15,
+          "percent_change": -7.13,
           "trend": "rise"
         }
       ]
@@ -4235,7 +4271,7 @@
     },
     {
       "symbol": "JAGSNPHARM.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -4289,6 +4325,15 @@
           "start_price": 208.66,
           "end_price": 239.22,
           "percent_change": 14.65,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 259.76,
+          "end_price": 235.05,
+          "percent_change": -9.51,
           "trend": "rise"
         }
       ]
@@ -4572,11 +4617,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-06",
-          "end_date": "2025-07-23",
-          "start_price": 387.65,
-          "end_price": 435.5,
-          "percent_change": 12.34,
+          "start_date": "2025-07-18",
+          "end_date": "2025-08-22",
+          "start_price": 428.7,
+          "end_price": 482.7,
+          "percent_change": 12.6,
           "trend": "rise"
         }
       ]
@@ -4651,10 +4696,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-09",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1181.1,
-          "end_price": 1232.5,
-          "percent_change": 4.35,
+          "end_price": 1257.2,
+          "percent_change": 6.44,
           "trend": "rise"
         }
       ]
@@ -4708,10 +4753,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-19",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 859.6,
-          "end_price": 925.75,
-          "percent_change": 7.7,
+          "end_price": 940,
+          "percent_change": 9.35,
           "trend": "rise"
         }
       ]
@@ -4782,11 +4827,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-21",
-          "end_date": "2025-07-23",
-          "start_price": 1628.5,
-          "end_price": 1809.5,
-          "percent_change": 11.11,
+          "start_date": "2025-04-25",
+          "end_date": "2025-08-22",
+          "start_price": 1695.1,
+          "end_price": 1859,
+          "percent_change": 9.67,
           "trend": "rise"
         }
       ]
@@ -4885,10 +4930,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 338,
-          "end_price": 343.05,
-          "percent_change": 1.49,
+          "end_price": 337,
+          "percent_change": -0.3,
           "trend": "rise"
         }
       ]
@@ -4937,7 +4982,7 @@
     },
     {
       "symbol": "PRAKASH.NS",
-      "occurrences": 3,
+      "occurrences": 4,
       "details": [
         {
           "year": 2017,
@@ -4964,6 +5009,15 @@
           "start_price": 193.3,
           "end_price": 152.74,
           "percent_change": -20.98,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-20",
+          "end_date": "2025-08-22",
+          "start_price": 174.08,
+          "end_price": 162.07,
+          "percent_change": -6.9,
           "trend": "rise"
         }
       ]
@@ -5002,10 +5056,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 246.07,
-          "end_price": 245.55,
-          "percent_change": -0.21,
+          "end_price": 236.29,
+          "percent_change": -3.97,
           "trend": "rise"
         }
       ]
@@ -5119,10 +5173,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 704.7,
-          "end_price": 762.5,
-          "percent_change": 8.2,
+          "end_price": 788.75,
+          "percent_change": 11.93,
           "trend": "rise"
         }
       ]
@@ -5400,11 +5454,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
-          "start_price": 12330,
-          "end_price": 15014,
-          "percent_change": 21.77,
+          "start_date": "2025-05-16",
+          "end_date": "2025-08-22",
+          "start_price": 12572,
+          "end_price": 15586,
+          "percent_change": 23.97,
           "trend": "rise"
         }
       ]
@@ -5582,7 +5636,7 @@
     },
     {
       "symbol": "SPIC.NS",
-      "occurrences": 2,
+      "occurrences": 3,
       "details": [
         {
           "year": 2017,
@@ -5600,6 +5654,15 @@
           "start_price": 70.75,
           "end_price": 87.3,
           "percent_change": 23.39,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-06-30",
+          "end_date": "2025-08-22",
+          "start_price": 92.75,
+          "end_price": 110.38,
+          "percent_change": 19.01,
           "trend": "rise"
         }
       ]
@@ -5761,10 +5824,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 694.2,
-          "end_price": 720.6,
-          "percent_change": 3.8,
+          "end_price": 730.7,
+          "percent_change": 5.26,
           "trend": "rise"
         }
       ]
@@ -5785,10 +5848,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-20",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 375.6,
-          "end_price": 405.25,
-          "percent_change": 7.89,
+          "end_price": 353.55,
+          "percent_change": -5.87,
           "trend": "rise"
         }
       ]
@@ -5827,10 +5890,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 4319.2,
-          "end_price": 4715.8,
-          "percent_change": 9.18,
+          "end_price": 4473,
+          "percent_change": 3.56,
           "trend": "rise"
         }
       ]
@@ -6025,10 +6088,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-19",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1513.25,
-          "end_price": 1556.1,
-          "percent_change": 2.83,
+          "end_price": 1524.1,
+          "percent_change": 0.72,
           "trend": "rise"
         }
       ]
@@ -6123,11 +6186,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-05-13",
-          "end_date": "2025-07-23",
-          "start_price": 1195.4,
-          "end_price": 1416.8,
-          "percent_change": 18.52,
+          "start_date": "2025-05-14",
+          "end_date": "2025-08-22",
+          "start_price": 1221.2,
+          "end_price": 1157,
+          "percent_change": -5.26,
           "trend": "rise"
         }
       ]
@@ -6199,31 +6262,16 @@
       ]
     },
     {
-      "symbol": "AMIORG.NS",
-      "occurrences": 1,
-      "details": [
-        {
-          "year": 2025,
-          "start_date": "2025-01-08",
-          "end_date": "2025-07-22",
-          "start_price": 1170.13,
-          "end_price": 1177.6,
-          "percent_change": 0.64,
-          "trend": "rise"
-        }
-      ]
-    },
-    {
       "symbol": "TEGA.NS",
       "occurrences": 1,
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-07-04",
-          "end_date": "2025-07-23",
-          "start_price": 1688,
-          "end_price": 1952.8,
-          "percent_change": 15.69,
+          "start_date": "2025-07-07",
+          "end_date": "2025-08-22",
+          "start_price": 1755.3,
+          "end_price": 1874.5,
+          "percent_change": 6.79,
           "trend": "rise"
         }
       ]
@@ -6413,8 +6461,8 @@
           "year": 2022,
           "start_date": "2022-04-21",
           "end_date": "2022-12-30",
-          "start_price": 619.55,
-          "end_price": 541.5,
+          "start_price": 309.77,
+          "end_price": 270.75,
           "percent_change": -12.6,
           "trend": "rise"
         },
@@ -6422,8 +6470,8 @@
           "year": 2023,
           "start_date": "2023-04-12",
           "end_date": "2023-12-29",
-          "start_price": 661.4,
-          "end_price": 770.45,
+          "start_price": 330.7,
+          "end_price": 385.23,
           "percent_change": 16.49,
           "trend": "rise"
         }
@@ -6507,11 +6555,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-28",
-          "end_date": "2025-07-23",
-          "start_price": 30395.65,
-          "end_price": 34735,
-          "percent_change": 14.28,
+          "start_date": "2025-03-03",
+          "end_date": "2025-08-22",
+          "start_price": 31183.55,
+          "end_price": 31875,
+          "percent_change": 2.22,
           "trend": "rise"
         }
       ]
@@ -6645,11 +6693,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
-          "start_price": 2932.35,
-          "end_price": 2918.9,
-          "percent_change": -0.46,
+          "start_date": "2025-01-09",
+          "end_date": "2025-08-22",
+          "start_price": 2958.25,
+          "end_price": 3087.2,
+          "percent_change": 4.36,
           "trend": "rise"
         }
       ]
@@ -7623,11 +7671,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-31",
-          "end_date": "2025-07-23",
-          "start_price": 179.29,
-          "end_price": 187.95,
-          "percent_change": 4.83,
+          "start_date": "2025-07-28",
+          "end_date": "2025-08-22",
+          "start_price": 241.12,
+          "end_price": 274.05,
+          "percent_change": 13.66,
           "trend": "rise"
         }
       ]
@@ -7680,11 +7728,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-20",
-          "end_date": "2025-07-23",
-          "start_price": 151.28,
-          "end_price": 180.73,
-          "percent_change": 19.47,
+          "start_date": "2025-05-27",
+          "end_date": "2025-08-22",
+          "start_price": 155.81,
+          "end_price": 235.16,
+          "percent_change": 50.93,
           "trend": "rise"
         }
       ]
@@ -7825,10 +7873,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 42.26,
-          "end_price": 40.24,
-          "percent_change": -4.78,
+          "end_price": 39.98,
+          "percent_change": -5.4,
           "trend": "rise"
         }
       ]
@@ -7876,10 +7924,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-22",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 142.35,
-          "end_price": 160.79,
-          "percent_change": 12.95,
+          "end_price": 140.06,
+          "percent_change": -1.61,
           "trend": "rise"
         }
       ]
@@ -8139,11 +8187,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-03",
-          "end_date": "2025-07-23",
-          "start_price": 2653.75,
-          "end_price": 2802.6,
-          "percent_change": 5.61,
+          "start_date": "2025-04-17",
+          "end_date": "2025-08-22",
+          "start_price": 2679.3,
+          "end_price": 3294.6,
+          "percent_change": 22.96,
           "trend": "rise"
         }
       ]
@@ -8209,10 +8257,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-17",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1259.4,
-          "end_price": 1420.8,
-          "percent_change": 12.82,
+          "end_price": 1341.2,
+          "percent_change": 6.5,
           "trend": "rise"
         }
       ]
@@ -8295,11 +8343,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-27",
-          "end_date": "2025-07-23",
-          "start_price": 2618.7,
-          "end_price": 2709.1,
-          "percent_change": 3.45,
+          "start_date": "2025-04-03",
+          "end_date": "2025-08-22",
+          "start_price": 2651.9,
+          "end_price": 2813.8,
+          "percent_change": 6.11,
           "trend": "rise"
         }
       ]
@@ -8374,10 +8422,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 3999,
-          "end_price": 4482.3,
-          "percent_change": 12.09,
+          "end_price": 4131.5,
+          "percent_change": 3.31,
           "trend": "rise"
         }
       ]
@@ -8503,10 +8551,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 137.04,
-          "end_price": 152.35,
-          "percent_change": 11.17,
+          "end_price": 139.95,
+          "percent_change": 2.12,
           "trend": "rise"
         }
       ]
@@ -8573,7 +8621,7 @@
     },
     {
       "symbol": "ASHOKLEY.NS",
-      "occurrences": 9,
+      "occurrences": 10,
       "details": [
         {
           "year": 2014,
@@ -8654,6 +8702,15 @@
           "start_price": 103.32,
           "end_price": 111.69,
           "percent_change": 8.1,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 118.04,
+          "end_price": 131.2,
+          "percent_change": 11.15,
           "trend": "rise"
         }
       ]
@@ -8762,7 +8819,7 @@
     },
     {
       "symbol": "DHANUKA.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2015,
@@ -8816,6 +8873,15 @@
           "start_price": 1521.7,
           "end_price": 1493.4,
           "percent_change": -1.86,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-05-16",
+          "end_date": "2025-08-22",
+          "start_price": 1613,
+          "end_price": 1604.2,
+          "percent_change": -0.55,
           "trend": "rise"
         }
       ]
@@ -8923,10 +8989,10 @@
         {
           "year": 2025,
           "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1743.6,
-          "end_price": 2010.4,
-          "percent_change": 15.3,
+          "end_price": 2056.7,
+          "percent_change": 17.96,
           "trend": "rise"
         }
       ]
@@ -8992,10 +9058,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 513.15,
-          "end_price": 644.3,
-          "percent_change": 25.56,
+          "end_price": 580.65,
+          "percent_change": 13.15,
           "trend": "rise"
         }
       ]
@@ -9378,11 +9444,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
-          "start_price": 392.95,
-          "end_price": 390.75,
-          "percent_change": -0.56,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 386.4,
+          "end_price": 374.45,
+          "percent_change": -3.09,
           "trend": "rise"
         }
       ]
@@ -9471,11 +9537,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-21",
-          "end_date": "2025-07-23",
-          "start_price": 4459.8,
-          "end_price": 5599,
-          "percent_change": 25.54,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 4702.4,
+          "end_price": 5828,
+          "percent_change": 23.94,
           "trend": "rise"
         }
       ]
@@ -9537,11 +9603,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
-          "start_price": 756.65,
-          "end_price": 848.6,
-          "percent_change": 12.15,
+          "start_date": "2025-02-04",
+          "end_date": "2025-08-22",
+          "start_price": 782.05,
+          "end_price": 746.05,
+          "percent_change": -4.6,
           "trend": "rise"
         }
       ]
@@ -9919,17 +9985,17 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 6144.75,
-          "end_price": 6653,
-          "percent_change": 8.27,
+          "end_price": 6151.5,
+          "percent_change": 0.11,
           "trend": "rise"
         }
       ]
     },
     {
       "symbol": "STARCEMENT.NS",
-      "occurrences": 2,
+      "occurrences": 3,
       "details": [
         {
           "year": 2023,
@@ -9947,6 +10013,15 @@
           "start_price": 232.3,
           "end_price": 224.65,
           "percent_change": -3.29,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-22",
+          "end_date": "2025-08-22",
+          "start_price": 238.17,
+          "end_price": 276.71,
+          "percent_change": 16.18,
           "trend": "rise"
         }
       ]
@@ -10066,10 +10141,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1255.75,
-          "end_price": 1340.4,
-          "percent_change": 6.74,
+          "end_price": 1349.9,
+          "percent_change": 7.5,
           "trend": "rise"
         }
       ]
@@ -10090,10 +10165,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1883.7,
-          "end_price": 1936.8,
-          "percent_change": 2.82,
+          "end_price": 1910.7,
+          "percent_change": 1.43,
           "trend": "rise"
         }
       ]
@@ -10168,10 +10243,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-27",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1925.55,
-          "end_price": 2060.5,
-          "percent_change": 7.01,
+          "end_price": 1965.9,
+          "percent_change": 2.1,
           "trend": "rise"
         }
       ]
@@ -10242,11 +10317,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-24",
-          "end_date": "2025-07-23",
-          "start_price": 544.4,
-          "end_price": 569.9,
-          "percent_change": 4.68,
+          "start_date": "2025-04-15",
+          "end_date": "2025-08-22",
+          "start_price": 574.65,
+          "end_price": 677.7,
+          "percent_change": 17.93,
           "trend": "rise"
         }
       ]
@@ -10649,7 +10724,7 @@
     },
     {
       "symbol": "RAMASTEEL.NS",
-      "occurrences": 4,
+      "occurrences": 3,
       "details": [
         {
           "year": 2022,
@@ -10677,15 +10752,6 @@
           "end_price": 12.02,
           "percent_change": -20.92,
           "trend": "rise"
-        },
-        {
-          "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 12.36,
-          "end_price": 11.58,
-          "percent_change": -6.31,
-          "trend": "rise"
         }
       ]
     },
@@ -10705,10 +10771,10 @@
         {
           "year": 2025,
           "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 953.35,
-          "end_price": 1110.5,
-          "percent_change": 16.48,
+          "end_price": 1011.9,
+          "percent_change": 6.14,
           "trend": "rise"
         }
       ]
@@ -10762,10 +10828,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 627.1,
-          "end_price": 603.85,
-          "percent_change": -3.71,
+          "end_price": 551.7,
+          "percent_change": -12.02,
           "trend": "rise"
         }
       ]
@@ -10889,7 +10955,7 @@
     },
     {
       "symbol": "PROZONER.NS",
-      "occurrences": 1,
+      "occurrences": 2,
       "details": [
         {
           "year": 2017,
@@ -10898,6 +10964,15 @@
           "start_price": 56.85,
           "end_price": 71.65,
           "percent_change": 26.03,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-03",
+          "end_date": "2025-08-22",
+          "start_price": 39.21,
+          "end_price": 41.77,
+          "percent_change": 6.53,
           "trend": "rise"
         }
       ]
@@ -10992,11 +11067,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 100.38,
-          "end_price": 107.8,
-          "percent_change": 7.39,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 101.1,
+          "end_price": 109.93,
+          "percent_change": 8.73,
           "trend": "rise"
         }
       ]
@@ -11792,7 +11867,7 @@
     },
     {
       "symbol": "AMBUJACEM.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -11846,6 +11921,15 @@
           "start_price": 602.95,
           "end_price": 544.6,
           "percent_change": -9.68,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 549.85,
+          "end_price": 577.15,
+          "percent_change": 4.96,
           "trend": "rise"
         }
       ]
@@ -11911,10 +11995,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-05",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1002.7,
-          "end_price": 1033.8,
-          "percent_change": 3.1,
+          "end_price": 1054.6,
+          "percent_change": 5.18,
           "trend": "rise"
         }
       ]
@@ -12118,10 +12202,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-20",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 21898.95,
-          "end_price": 21735,
-          "percent_change": -0.75,
+          "end_price": 17992,
+          "percent_change": -17.84,
           "trend": "rise"
         }
       ]
@@ -12514,10 +12598,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1616.75,
-          "end_price": 1679.3,
-          "percent_change": 3.87,
+          "end_price": 1649.5,
+          "percent_change": 2.03,
           "trend": "rise"
         }
       ]
@@ -12829,10 +12913,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2942.7,
-          "end_price": 3193,
-          "percent_change": 8.51,
+          "end_price": 2917.5,
+          "percent_change": -0.86,
           "trend": "rise"
         }
       ]
@@ -12994,10 +13078,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 131.29,
-          "end_price": 143.38,
-          "percent_change": 9.21,
+          "end_price": 134.76,
+          "percent_change": 2.64,
           "trend": "rise"
         }
       ]
@@ -13274,8 +13358,8 @@
           "year": 2017,
           "start_date": "2017-10-06",
           "end_date": "2017-12-29",
-          "start_price": 304.95,
-          "end_price": 461.1,
+          "start_price": 152.48,
+          "end_price": 230.55,
           "percent_change": 51.21,
           "trend": "rise"
         },
@@ -13283,8 +13367,8 @@
           "year": 2018,
           "start_date": "2018-01-05",
           "end_date": "2018-12-28",
-          "start_price": 507.15,
-          "end_price": 306.7,
+          "start_price": 253.57,
+          "end_price": 153.35,
           "percent_change": -39.52,
           "trend": "rise"
         },
@@ -13292,8 +13376,8 @@
           "year": 2021,
           "start_date": "2021-07-01",
           "end_date": "2021-12-30",
-          "start_price": 747.9,
-          "end_price": 902.35,
+          "start_price": 373.95,
+          "end_price": 451.17,
           "percent_change": 20.65,
           "trend": "rise"
         },
@@ -13301,18 +13385,18 @@
           "year": 2024,
           "start_date": "2024-07-25",
           "end_date": "2024-12-30",
-          "start_price": 1174.75,
-          "end_price": 1294.85,
+          "start_price": 587.38,
+          "end_price": 647.42,
           "percent_change": 10.22,
           "trend": "rise"
         },
         {
           "year": 2025,
           "start_date": "2025-05-12",
-          "end_date": "2025-07-23",
-          "start_price": 1544.7,
-          "end_price": 1772.4,
-          "percent_change": 14.74,
+          "end_date": "2025-08-22",
+          "start_price": 772.35,
+          "end_price": 853.9,
+          "percent_change": 10.56,
           "trend": "rise"
         }
       ]
@@ -13352,7 +13436,7 @@
     },
     {
       "symbol": "SHARDACROP.NS",
-      "occurrences": 2,
+      "occurrences": 3,
       "details": [
         {
           "year": 2022,
@@ -13370,6 +13454,15 @@
           "start_price": 589.65,
           "end_price": 780.05,
           "percent_change": 32.29,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 812.25,
+          "end_price": 961.2,
+          "percent_change": 18.34,
           "trend": "rise"
         }
       ]
@@ -13485,11 +13578,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 203.6,
-          "end_price": 252.56,
-          "percent_change": 24.05,
+          "start_date": "2025-05-23",
+          "end_date": "2025-08-22",
+          "start_price": 215.68,
+          "end_price": 257.47,
+          "percent_change": 19.38,
           "trend": "rise"
         }
       ]
@@ -13702,10 +13795,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-13",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 109.09,
-          "end_price": 95.64,
-          "percent_change": -12.33,
+          "end_price": 81.85,
+          "percent_change": -24.97,
           "trend": "rise"
         }
       ]
@@ -14811,11 +14904,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-30",
-          "end_date": "2025-07-23",
-          "start_price": 811.55,
-          "end_price": 1140.9,
-          "percent_change": 40.58,
+          "start_date": "2025-06-02",
+          "end_date": "2025-08-22",
+          "start_price": 898.65,
+          "end_price": 1142.2,
+          "percent_change": 27.1,
           "trend": "rise"
         }
       ]
@@ -15322,10 +15415,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 29442.65,
-          "end_price": 32115,
-          "percent_change": 9.08,
+          "end_price": 30005,
+          "percent_change": 1.91,
           "trend": "rise"
         }
       ]
@@ -15372,11 +15465,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
-          "start_price": 82.47,
-          "end_price": 86.48,
-          "percent_change": 4.86,
+          "start_date": "2025-01-03",
+          "end_date": "2025-08-22",
+          "start_price": 83.09,
+          "end_price": 80.71,
+          "percent_change": -2.86,
           "trend": "rise"
         }
       ]
@@ -15447,11 +15540,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-27",
-          "end_date": "2025-07-23",
-          "start_price": 821.3,
-          "end_price": 1028,
-          "percent_change": 25.17,
+          "start_date": "2025-06-04",
+          "end_date": "2025-08-22",
+          "start_price": 910.95,
+          "end_price": 1032.5,
+          "percent_change": 13.34,
           "trend": "rise"
         }
       ]
@@ -15912,11 +16005,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-13",
-          "end_date": "2025-07-23",
-          "start_price": 2317.8,
-          "end_price": 2690,
-          "percent_change": 16.06,
+          "start_date": "2025-03-19",
+          "end_date": "2025-08-22",
+          "start_price": 2416.45,
+          "end_price": 2680.6,
+          "percent_change": 10.93,
           "trend": "rise"
         }
       ]
@@ -16498,10 +16591,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-27",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2529.6,
-          "end_price": 2420.6,
-          "percent_change": -4.31,
+          "end_price": 2207,
+          "percent_change": -12.75,
           "trend": "rise"
         }
       ]
@@ -16790,7 +16883,7 @@
     },
     {
       "symbol": "SHRIPISTON.NS",
-      "occurrences": 2,
+      "occurrences": 3,
       "details": [
         {
           "year": 2023,
@@ -16808,6 +16901,15 @@
           "start_price": 1940.7,
           "end_price": 2145,
           "percent_change": 10.53,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-05-09",
+          "end_date": "2025-08-22",
+          "start_price": 2191.4,
+          "end_price": 2622,
+          "percent_change": 19.65,
           "trend": "rise"
         }
       ]
@@ -16930,10 +17032,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 290.95,
-          "end_price": 294.35,
-          "percent_change": 1.17,
+          "end_price": 291.85,
+          "percent_change": 0.31,
           "trend": "rise"
         }
       ]
@@ -16991,7 +17093,7 @@
     },
     {
       "symbol": "DATAMATICS.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -17045,6 +17147,15 @@
           "start_price": 524.6,
           "end_price": 724.25,
           "percent_change": 38.06,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-23",
+          "end_date": "2025-08-22",
+          "start_price": 846.25,
+          "end_price": 980.2,
+          "percent_change": 15.83,
           "trend": "rise"
         }
       ]
@@ -17164,10 +17275,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 632.25,
-          "end_price": 517.9,
-          "percent_change": -18.09,
+          "end_price": 444.4,
+          "percent_change": -29.71,
           "trend": "rise"
         }
       ]
@@ -17421,11 +17532,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-03",
-          "end_date": "2025-07-23",
-          "start_price": 130.32,
-          "end_price": 302.11,
-          "percent_change": 131.82,
+          "start_date": "2025-04-07",
+          "end_date": "2025-08-22",
+          "start_price": 141.63,
+          "end_price": 283.85,
+          "percent_change": 100.42,
           "trend": "rise"
         }
       ]
@@ -17470,10 +17581,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 176.59,
-          "end_price": 170.58,
-          "percent_change": -3.4,
+          "end_price": 144.25,
+          "percent_change": -18.31,
           "trend": "rise"
         }
       ]
@@ -17632,10 +17743,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 347.91,
-          "end_price": 307.64,
-          "percent_change": -11.57,
+          "end_price": 287.75,
+          "percent_change": -17.29,
           "trend": "rise"
         }
       ]
@@ -17656,10 +17767,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-22",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 43.63,
-          "end_price": 45.52,
-          "percent_change": 4.33,
+          "end_price": 52.67,
+          "percent_change": 20.72,
           "trend": "rise"
         }
       ]
@@ -17697,11 +17808,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-05",
-          "end_date": "2025-07-23",
-          "start_price": 280.55,
-          "end_price": 243.72,
-          "percent_change": -13.13,
+          "start_date": "2025-02-04",
+          "end_date": "2025-08-22",
+          "start_price": 279.34,
+          "end_price": 305.83,
+          "percent_change": 9.48,
           "trend": "rise"
         }
       ]
@@ -17948,7 +18059,7 @@
     },
     {
       "symbol": "PANAMAPET.NS",
-      "occurrences": 6,
+      "occurrences": 5,
       "details": [
         {
           "year": 2015,
@@ -17993,15 +18104,6 @@
           "start_price": 371.55,
           "end_price": 365,
           "percent_change": -1.76,
-          "trend": "rise"
-        },
-        {
-          "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 369.6,
-          "end_price": 359.6,
-          "percent_change": -2.71,
           "trend": "rise"
         }
       ]
@@ -18130,10 +18232,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 549.45,
-          "end_price": 588.95,
-          "percent_change": 7.19,
+          "end_price": 594.3,
+          "percent_change": 8.16,
           "trend": "rise"
         }
       ]
@@ -18379,10 +18481,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2337.5,
-          "end_price": 2494.3,
-          "percent_change": 6.71,
+          "end_price": 2358.2,
+          "percent_change": 0.89,
           "trend": "rise"
         }
       ]
@@ -18531,11 +18633,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-23",
-          "end_date": "2025-07-23",
-          "start_price": 765.3,
-          "end_price": 990.65,
-          "percent_change": 29.45,
+          "start_date": "2025-05-27",
+          "end_date": "2025-08-22",
+          "start_price": 817.1,
+          "end_price": 849.5,
+          "percent_change": 3.97,
           "trend": "rise"
         }
       ]
@@ -18565,10 +18667,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-08",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 350.9,
-          "end_price": 438.6,
-          "percent_change": 24.99,
+          "end_price": 404.25,
+          "percent_change": 15.2,
           "trend": "rise"
         }
       ]
@@ -18901,10 +19003,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-23",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 248.94,
-          "end_price": 264.95,
-          "percent_change": 6.43,
+          "end_price": 255.65,
+          "percent_change": 2.7,
           "trend": "rise"
         }
       ]
@@ -18990,11 +19092,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
-          "start_price": 443.7,
-          "end_price": 569.5,
-          "percent_change": 28.35,
+          "start_date": "2025-01-08",
+          "end_date": "2025-08-22",
+          "start_price": 484.65,
+          "end_price": 488.8,
+          "percent_change": 0.86,
           "trend": "rise"
         }
       ]
@@ -19069,10 +19171,10 @@
         {
           "year": 2025,
           "start_date": "2025-06-16",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 987.9,
-          "end_price": 866.05,
-          "percent_change": -12.33,
+          "end_price": 869.85,
+          "percent_change": -11.95,
           "trend": "rise"
         }
       ]
@@ -19120,10 +19222,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 457.1,
-          "end_price": 313.8,
-          "percent_change": -31.35,
+          "end_price": 295.9,
+          "percent_change": -35.27,
           "trend": "rise"
         }
       ]
@@ -19788,11 +19890,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-17",
-          "end_date": "2025-07-23",
-          "start_price": 4746.35,
-          "end_price": 5187,
-          "percent_change": 9.28,
+          "start_date": "2025-03-20",
+          "end_date": "2025-08-22",
+          "start_price": 4850.5,
+          "end_price": 5268.4,
+          "percent_change": 8.62,
           "trend": "rise"
         }
       ]
@@ -19819,10 +19921,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 756.5,
-          "end_price": 699.75,
-          "percent_change": -7.5,
+          "end_price": 689.55,
+          "percent_change": -8.85,
           "trend": "rise"
         }
       ]
@@ -19851,11 +19953,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
-          "start_price": 183.05,
-          "end_price": 290.45,
-          "percent_change": 58.67,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 197.04,
+          "end_price": 214.25,
+          "percent_change": 8.73,
           "trend": "rise"
         }
       ]
@@ -20294,7 +20396,7 @@
     },
     {
       "symbol": "TORNTPOWER.NS",
-      "occurrences": 7,
+      "occurrences": 6,
       "details": [
         {
           "year": 2016,
@@ -20349,15 +20451,6 @@
           "end_price": 1409.3,
           "percent_change": -10.14,
           "trend": "rise"
-        },
-        {
-          "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 1494.25,
-          "end_price": 1357,
-          "percent_change": -9.19,
-          "trend": "rise"
         }
       ]
     },
@@ -20385,11 +20478,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
-          "start_price": 218.33,
-          "end_price": 268.6,
-          "percent_change": 23.02,
+          "start_date": "2025-05-21",
+          "end_date": "2025-08-22",
+          "start_price": 221.46,
+          "end_price": 286.35,
+          "percent_change": 29.3,
           "trend": "rise"
         }
       ]
@@ -20497,10 +20590,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2858.15,
-          "end_price": 3287.8,
-          "percent_change": 15.03,
+          "end_price": 2763.5,
+          "percent_change": -3.31,
           "trend": "rise"
         }
       ]
@@ -20932,10 +21025,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 441.95,
-          "end_price": 423.8,
-          "percent_change": -4.11,
+          "end_price": 439.15,
+          "percent_change": -0.63,
           "trend": "rise"
         }
       ]
@@ -21343,10 +21436,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 635.25,
-          "end_price": 569.45,
-          "percent_change": -10.36,
+          "end_price": 540.2,
+          "percent_change": -14.96,
           "trend": "rise"
         }
       ]
@@ -21426,11 +21519,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-29",
-          "end_date": "2025-07-23",
-          "start_price": 202.44,
-          "end_price": 283.05,
-          "percent_change": 39.82,
+          "start_date": "2025-05-26",
+          "end_date": "2025-08-22",
+          "start_price": 215.09,
+          "end_price": 309.05,
+          "percent_change": 43.68,
           "trend": "rise"
         }
       ]
@@ -21767,7 +21860,7 @@
     },
     {
       "symbol": "KINGFA.NS",
-      "occurrences": 7,
+      "occurrences": 8,
       "details": [
         {
           "year": 2014,
@@ -21830,6 +21923,15 @@
           "start_price": 2851.45,
           "end_price": 3399.15,
           "percent_change": 19.21,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 3435,
+          "end_price": 4509.1,
+          "percent_change": 31.27,
           "trend": "rise"
         }
       ]
@@ -21979,10 +22081,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 131.55,
-          "end_price": 141.59,
-          "percent_change": 7.63,
+          "end_price": 125.29,
+          "percent_change": -4.76,
           "trend": "rise"
         }
       ]
@@ -22063,10 +22165,10 @@
         {
           "year": 2025,
           "start_date": "2025-07-11",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 64.66,
-          "end_price": 104.8,
-          "percent_change": 62.08,
+          "end_price": 87.05,
+          "percent_change": 34.63,
           "trend": "rise"
         }
       ]
@@ -22093,10 +22195,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-17",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1033.1,
-          "end_price": 1217,
-          "percent_change": 17.8,
+          "end_price": 1093.2,
+          "percent_change": 5.82,
           "trend": "rise"
         }
       ]
@@ -22415,7 +22517,7 @@
     },
     {
       "symbol": "POCL.NS",
-      "occurrences": 4,
+      "occurrences": 5,
       "details": [
         {
           "year": 2014,
@@ -22451,6 +22553,15 @@
           "start_price": 615.33,
           "end_price": 854.7,
           "percent_change": 38.9,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-03",
+          "end_date": "2025-08-22",
+          "start_price": 894.4,
+          "end_price": 1094.2,
+          "percent_change": 22.34,
           "trend": "rise"
         }
       ]
@@ -22615,10 +22726,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 501.15,
-          "end_price": 561.8,
-          "percent_change": 12.1,
+          "end_price": 564.45,
+          "percent_change": 12.63,
           "trend": "rise"
         }
       ]
@@ -22869,11 +22980,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-09",
-          "end_date": "2025-07-23",
-          "start_price": 1014.25,
-          "end_price": 1182.15,
-          "percent_change": 16.55,
+          "start_date": "2025-07-01",
+          "end_date": "2025-08-22",
+          "start_price": 1090.45,
+          "end_price": 1269.7,
+          "percent_change": 16.44,
           "trend": "rise"
         }
       ]
@@ -22929,11 +23040,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
-          "start_price": 311.7,
-          "end_price": 369.05,
-          "percent_change": 18.4,
+          "start_date": "2025-07-08",
+          "end_date": "2025-08-22",
+          "start_price": 362.5,
+          "end_price": 429.1,
+          "percent_change": 18.37,
           "trend": "rise"
         }
       ]
@@ -23020,10 +23131,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 61.92,
-          "end_price": 63.84,
-          "percent_change": 3.1,
+          "end_price": 59.32,
+          "percent_change": -4.2,
           "trend": "rise"
         }
       ]
@@ -23137,10 +23248,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-21",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2095,
-          "end_price": 2557.2,
-          "percent_change": 22.06,
+          "end_price": 2332.8,
+          "percent_change": 11.35,
           "trend": "rise"
         }
       ]
@@ -23247,11 +23358,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
-          "start_price": 398.15,
-          "end_price": 509.95,
-          "percent_change": 28.08,
+          "start_date": "2025-06-09",
+          "end_date": "2025-08-22",
+          "start_price": 412.6,
+          "end_price": 495.5,
+          "percent_change": 20.09,
           "trend": "rise"
         }
       ]
@@ -23613,11 +23724,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-06",
-          "end_date": "2025-07-23",
-          "start_price": 3132,
-          "end_price": 3864.6,
-          "percent_change": 23.39,
+          "start_date": "2025-06-10",
+          "end_date": "2025-08-22",
+          "start_price": 3216.5,
+          "end_price": 3832.4,
+          "percent_change": 19.15,
           "trend": "rise"
         }
       ]
@@ -23911,10 +24022,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 949.6,
-          "end_price": 1083,
-          "percent_change": 14.05,
+          "end_price": 960.2,
+          "percent_change": 1.12,
           "trend": "rise"
         }
       ]
@@ -23953,10 +24064,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 36.26,
-          "end_price": 34.49,
-          "percent_change": -4.88,
+          "end_price": 32.87,
+          "percent_change": -9.35,
           "trend": "rise"
         }
       ]
@@ -23986,10 +24097,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-30",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 58.1,
-          "end_price": 62.92,
-          "percent_change": 8.3,
+          "end_price": 48.91,
+          "percent_change": -15.82,
           "trend": "rise"
         }
       ]
@@ -24123,11 +24234,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-24",
-          "end_date": "2025-07-23",
-          "start_price": 13247,
-          "end_price": 14826,
-          "percent_change": 11.92,
+          "start_date": "2025-04-29",
+          "end_date": "2025-08-22",
+          "start_price": 13452,
+          "end_price": 14845,
+          "percent_change": 10.36,
           "trend": "rise"
         }
       ]
@@ -24166,10 +24277,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 437.1,
-          "end_price": 453.4,
-          "percent_change": 3.73,
+          "end_price": 409.4,
+          "percent_change": -6.34,
           "trend": "rise"
         }
       ]
@@ -24433,10 +24544,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-31",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1379.85,
-          "end_price": 1483.4,
-          "percent_change": 7.5,
+          "end_price": 1327.1,
+          "percent_change": -3.82,
           "trend": "rise"
         }
       ]
@@ -24484,10 +24595,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-21",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 234.16,
-          "end_price": 273.3,
-          "percent_change": 16.72,
+          "end_price": 266.75,
+          "percent_change": 13.92,
           "trend": "rise"
         }
       ]
@@ -24672,11 +24783,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
-          "start_price": 468.95,
-          "end_price": 592.6,
-          "percent_change": 26.37,
+          "start_date": "2025-06-05",
+          "end_date": "2025-08-22",
+          "start_price": 483.05,
+          "end_price": 533.1,
+          "percent_change": 10.36,
           "trend": "rise"
         }
       ]
@@ -24697,10 +24808,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1134.2,
-          "end_price": 1032.6,
-          "percent_change": -8.96,
+          "end_price": 914,
+          "percent_change": -19.41,
           "trend": "rise"
         }
       ]
@@ -24997,10 +25108,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 51.33,
-          "end_price": 49.89,
-          "percent_change": -2.81,
+          "end_price": 46.09,
+          "percent_change": -10.21,
           "trend": "rise"
         }
       ]
@@ -25255,10 +25366,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-20",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 213.96,
-          "end_price": 228.66,
-          "percent_change": 6.87,
+          "end_price": 206.24,
+          "percent_change": -3.61,
           "trend": "rise"
         }
       ]
@@ -25349,7 +25460,7 @@
     },
     {
       "symbol": "RAMCOIND.NS",
-      "occurrences": 5,
+      "occurrences": 6,
       "details": [
         {
           "year": 2014,
@@ -25394,6 +25505,15 @@
           "start_price": 293.9,
           "end_price": 253.9,
           "percent_change": -13.61,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 278.15,
+          "end_price": 307.2,
+          "percent_change": 10.44,
           "trend": "rise"
         }
       ]
@@ -25491,11 +25611,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-29",
-          "end_date": "2025-07-23",
-          "start_price": 1306.8,
-          "end_price": 1549.7,
-          "percent_change": 18.59,
+          "start_date": "2025-05-14",
+          "end_date": "2025-08-22",
+          "start_price": 1338.2,
+          "end_price": 1638.7,
+          "percent_change": 22.46,
           "trend": "rise"
         }
       ]
@@ -26112,18 +26232,18 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-23",
-          "end_date": "2025-07-23",
-          "start_price": 233.4,
-          "end_price": 271.3,
-          "percent_change": 16.24,
+          "start_date": "2025-01-30",
+          "end_date": "2025-08-22",
+          "start_price": 233.84,
+          "end_price": 258.2,
+          "percent_change": 10.42,
           "trend": "rise"
         }
       ]
     },
     {
       "symbol": "UBL.NS",
-      "occurrences": 6,
+      "occurrences": 5,
       "details": [
         {
           "year": 2015,
@@ -26168,15 +26288,6 @@
           "start_price": 2030.95,
           "end_price": 2035.4,
           "percent_change": 0.22,
-          "trend": "rise"
-        },
-        {
-          "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 2092.4,
-          "end_price": 2016.9,
-          "percent_change": -3.61,
           "trend": "rise"
         }
       ]
@@ -26241,11 +26352,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-19",
-          "end_date": "2025-07-23",
-          "start_price": 586.95,
-          "end_price": 558.9,
-          "percent_change": -4.78,
+          "start_date": "2025-02-27",
+          "end_date": "2025-08-22",
+          "start_price": 574.75,
+          "end_price": 561.55,
+          "percent_change": -2.3,
           "trend": "rise"
         }
       ]
@@ -26275,10 +26386,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-05",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2693.3,
-          "end_price": 3131.4,
-          "percent_change": 16.27,
+          "end_price": 2798.8,
+          "percent_change": 3.92,
           "trend": "rise"
         }
       ]
@@ -26604,11 +26715,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-28",
-          "end_date": "2025-07-23",
-          "start_price": 1828.2,
-          "end_price": 2024.3,
-          "percent_change": 10.73,
+          "start_date": "2025-04-15",
+          "end_date": "2025-08-22",
+          "start_price": 1864.9,
+          "end_price": 1964.6,
+          "percent_change": 5.35,
           "trend": "rise"
         }
       ]
@@ -26871,11 +26982,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-01-17",
-          "end_date": "2025-07-23",
-          "start_price": 146.51,
-          "end_price": 149.64,
-          "percent_change": 2.14,
+          "start_date": "2025-04-17",
+          "end_date": "2025-08-22",
+          "start_price": 152.05,
+          "end_price": 174.79,
+          "percent_change": 14.96,
           "trend": "rise"
         }
       ]
@@ -27138,11 +27249,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 88.01,
-          "end_price": 107,
-          "percent_change": 21.58,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 89.97,
+          "end_price": 132.73,
+          "percent_change": 47.53,
           "trend": "rise"
         }
       ]
@@ -27889,10 +28000,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 399.55,
-          "end_price": 434.5,
-          "percent_change": 8.75,
+          "end_price": 378.45,
+          "percent_change": -5.28,
           "trend": "rise"
         }
       ]
@@ -27941,7 +28052,7 @@
     },
     {
       "symbol": "RICOAUTO.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -27995,6 +28106,15 @@
           "start_price": 133.7,
           "end_price": 82.35,
           "percent_change": -38.41,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 99.23,
+          "end_price": 92.28,
+          "percent_change": -7,
           "trend": "rise"
         }
       ]
@@ -28065,11 +28185,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-12",
-          "end_date": "2025-07-23",
-          "start_price": 2206.3,
-          "end_price": 2432,
-          "percent_change": 10.23,
+          "start_date": "2025-05-14",
+          "end_date": "2025-08-22",
+          "start_price": 2335.2,
+          "end_price": 2427,
+          "percent_change": 3.93,
           "trend": "rise"
         }
       ]
@@ -28236,11 +28356,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-16",
-          "end_date": "2025-07-23",
-          "start_price": 1683.4,
-          "end_price": 2138.8,
-          "percent_change": 27.05,
+          "start_date": "2025-06-26",
+          "end_date": "2025-08-22",
+          "start_price": 1732,
+          "end_price": 1937.3,
+          "percent_change": 11.85,
           "trend": "rise"
         }
       ]
@@ -28321,10 +28441,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-23",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 836.9,
-          "end_price": 816.1,
-          "percent_change": -2.49,
+          "end_price": 792.5,
+          "percent_change": -5.31,
           "trend": "rise"
         }
       ]
@@ -28362,11 +28482,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-22",
-          "end_date": "2025-07-23",
-          "start_price": 582.8,
-          "end_price": 624.4,
-          "percent_change": 7.14,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 588.9,
+          "end_price": 670.25,
+          "percent_change": 13.81,
           "trend": "rise"
         }
       ]
@@ -28891,10 +29011,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-19",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 248.06,
-          "end_price": 311.15,
-          "percent_change": 25.43,
+          "end_price": 243.3,
+          "percent_change": -1.92,
           "trend": "rise"
         }
       ]
@@ -28960,10 +29080,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2194.1,
-          "end_price": 2331.2,
-          "percent_change": 6.25,
+          "end_price": 2422.9,
+          "percent_change": 10.43,
           "trend": "rise"
         }
       ]
@@ -29163,11 +29283,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-21",
-          "end_date": "2025-07-23",
-          "start_price": 963.4,
-          "end_price": 1443.1,
-          "percent_change": 49.79,
+          "start_date": "2025-05-22",
+          "end_date": "2025-08-22",
+          "start_price": 1016.65,
+          "end_price": 1215.7,
+          "percent_change": 19.58,
           "trend": "rise"
         }
       ]
@@ -29257,10 +29377,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 898.55,
-          "end_price": 1064.9,
-          "percent_change": 18.51,
+          "end_price": 1052.7,
+          "percent_change": 17.16,
           "trend": "rise"
         }
       ]
@@ -29349,11 +29469,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-07-03",
-          "end_date": "2025-07-23",
-          "start_price": 2470.4,
-          "end_price": 4039.2,
-          "percent_change": 63.5,
+          "start_date": "2025-07-04",
+          "end_date": "2025-08-22",
+          "start_price": 2722.8,
+          "end_price": 4538.5,
+          "percent_change": 66.69,
           "trend": "rise"
         }
       ]
@@ -29757,11 +29877,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-20",
-          "end_date": "2025-07-23",
-          "start_price": 1685.75,
-          "end_price": 1993.9,
-          "percent_change": 18.28,
+          "start_date": "2025-03-28",
+          "end_date": "2025-08-22",
+          "start_price": 1692.05,
+          "end_price": 1813.7,
+          "percent_change": 7.19,
           "trend": "rise"
         }
       ]
@@ -30144,11 +30264,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-21",
-          "end_date": "2025-07-23",
-          "start_price": 171.26,
-          "end_price": 213.51,
-          "percent_change": 24.67,
+          "start_date": "2025-04-23",
+          "end_date": "2025-08-22",
+          "start_price": 180.04,
+          "end_price": 222.7,
+          "percent_change": 23.69,
           "trend": "rise"
         }
       ]
@@ -30593,7 +30713,7 @@
     },
     {
       "symbol": "MMTC.NS",
-      "occurrences": 5,
+      "occurrences": 4,
       "details": [
         {
           "year": 2017,
@@ -30629,15 +30749,6 @@
           "start_price": 92.2,
           "end_price": 71.75,
           "percent_change": -22.18,
-          "trend": "rise"
-        },
-        {
-          "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 74.03,
-          "end_price": 69.17,
-          "percent_change": -6.56,
           "trend": "rise"
         }
       ]
@@ -30786,11 +30897,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-03",
-          "end_date": "2025-07-23",
-          "start_price": 4173,
-          "end_price": 5053.3,
-          "percent_change": 21.1,
+          "start_date": "2025-02-05",
+          "end_date": "2025-08-22",
+          "start_price": 4252.45,
+          "end_price": 5030.5,
+          "percent_change": 18.3,
           "trend": "rise"
         }
       ]
@@ -30949,10 +31060,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 3360,
-          "end_price": 3487.2,
-          "percent_change": 3.79,
+          "end_price": 3184.5,
+          "percent_change": -5.22,
           "trend": "rise"
         }
       ]
@@ -31059,11 +31170,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-24",
-          "end_date": "2025-07-23",
-          "start_price": 5262,
-          "end_price": 6614.5,
-          "percent_change": 25.7,
+          "start_date": "2025-05-28",
+          "end_date": "2025-08-22",
+          "start_price": 5453,
+          "end_price": 6841,
+          "percent_change": 25.45,
           "trend": "rise"
         }
       ]
@@ -31377,11 +31488,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-28",
-          "end_date": "2025-07-23",
-          "start_price": 222.31,
-          "end_price": 320,
-          "percent_change": 43.94,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 246.14,
+          "end_price": 354.5,
+          "percent_change": 44.02,
           "trend": "rise"
         }
       ]
@@ -31575,11 +31686,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 3299.45,
-          "end_price": 3478.8,
-          "percent_change": 5.44,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 3352.05,
+          "end_price": 3569.6,
+          "percent_change": 6.49,
           "trend": "rise"
         }
       ]
@@ -31641,11 +31752,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
-          "start_price": 6699,
-          "end_price": 8261.5,
-          "percent_change": 23.32,
+          "start_date": "2025-06-03",
+          "end_date": "2025-08-22",
+          "start_price": 6832.5,
+          "end_price": 7960,
+          "percent_change": 16.5,
           "trend": "rise"
         }
       ]
@@ -31954,10 +32065,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-31",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 359.4,
-          "end_price": 363.1,
-          "percent_change": 1.03,
+          "end_price": 344.45,
+          "percent_change": -4.16,
           "trend": "rise"
         }
       ]
@@ -32039,7 +32150,7 @@
     },
     {
       "symbol": "JAYNECOIND.NS",
-      "occurrences": 4,
+      "occurrences": 5,
       "details": [
         {
           "year": 2021,
@@ -32075,6 +32186,15 @@
           "start_price": 51.45,
           "end_price": 39.25,
           "percent_change": -23.71,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-16",
+          "end_date": "2025-08-22",
+          "start_price": 51.17,
+          "end_price": 60.8,
+          "percent_change": 18.82,
           "trend": "rise"
         }
       ]
@@ -32217,11 +32337,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-24",
-          "end_date": "2025-07-23",
-          "start_price": 1774.8,
-          "end_price": 2071.8,
-          "percent_change": 16.73,
+          "start_date": "2025-03-25",
+          "end_date": "2025-08-22",
+          "start_price": 1826.3,
+          "end_price": 1862.6,
+          "percent_change": 1.99,
           "trend": "rise"
         }
       ]
@@ -32319,11 +32439,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-21",
-          "end_date": "2025-07-23",
-          "start_price": 3649.15,
-          "end_price": 4215.8,
-          "percent_change": 15.53,
+          "start_date": "2025-05-08",
+          "end_date": "2025-08-22",
+          "start_price": 3692.7,
+          "end_price": 3947.6,
+          "percent_change": 6.9,
           "trend": "rise"
         }
       ]
@@ -32436,11 +32556,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-05",
-          "end_date": "2025-07-23",
-          "start_price": 631.1,
-          "end_price": 822.5,
-          "percent_change": 30.33,
+          "start_date": "2025-06-09",
+          "end_date": "2025-08-22",
+          "start_price": 667.35,
+          "end_price": 879.1,
+          "percent_change": 31.73,
           "trend": "rise"
         }
       ]
@@ -32842,10 +32962,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 615.4,
-          "end_price": 605.95,
-          "percent_change": -1.54,
+          "end_price": 542.75,
+          "percent_change": -11.81,
           "trend": "rise"
         }
       ]
@@ -32953,10 +33073,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 4135.8,
-          "end_price": 3750,
-          "percent_change": -9.33,
+          "end_price": 3755.2,
+          "percent_change": -9.2,
           "trend": "rise"
         }
       ]
@@ -32995,17 +33115,17 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 793.85,
-          "end_price": 637.85,
-          "percent_change": -19.65,
+          "end_price": 619.75,
+          "percent_change": -21.93,
           "trend": "rise"
         }
       ]
     },
     {
       "symbol": "VIMTALABS.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -33059,6 +33179,15 @@
           "start_price": 337.58,
           "end_price": 505.95,
           "percent_change": 49.88,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-28",
+          "end_date": "2025-08-22",
+          "start_price": 658.9,
+          "end_price": 657.75,
+          "percent_change": -0.17,
           "trend": "rise"
         }
       ]
@@ -33195,18 +33324,18 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 15428.5,
-          "end_price": 19870,
-          "percent_change": 28.79,
+          "start_date": "2025-05-12",
+          "end_date": "2025-08-22",
+          "start_price": 15864,
+          "end_price": 19875,
+          "percent_change": 25.28,
           "trend": "rise"
         }
       ]
     },
     {
       "symbol": "CUB.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -33260,6 +33389,15 @@
           "start_price": 206.5,
           "end_price": 234.85,
           "percent_change": 13.73,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-04-22",
+          "end_date": "2025-08-22",
+          "start_price": 183.54,
+          "end_price": 211.66,
+          "percent_change": 15.32,
           "trend": "rise"
         }
       ]
@@ -33855,11 +33993,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-02",
-          "end_date": "2025-07-23",
-          "start_price": 131.73,
-          "end_price": 129.28,
-          "percent_change": -1.86,
+          "start_date": "2025-06-18",
+          "end_date": "2025-08-22",
+          "start_price": 135.15,
+          "end_price": 120.69,
+          "percent_change": -10.7,
           "trend": "rise"
         }
       ]
@@ -34149,11 +34287,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-20",
-          "end_date": "2025-07-23",
-          "start_price": 256.4,
-          "end_price": 261.6,
-          "percent_change": 2.03,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 244.13,
+          "end_price": 197.78,
+          "percent_change": -18.99,
           "trend": "rise"
         }
       ]
@@ -34317,11 +34455,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-21",
-          "end_date": "2025-07-23",
-          "start_price": 2334,
-          "end_price": 2623.2,
-          "percent_change": 12.39,
+          "start_date": "2025-05-23",
+          "end_date": "2025-08-22",
+          "start_price": 2390.8,
+          "end_price": 2834,
+          "percent_change": 18.54,
           "trend": "rise"
         }
       ]
@@ -34410,11 +34548,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 919.4,
-          "end_price": 1183.7,
-          "percent_change": 28.75,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 947.3,
+          "end_price": 1178,
+          "percent_change": 24.35,
           "trend": "rise"
         }
       ]
@@ -34782,11 +34920,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-17",
-          "end_date": "2025-07-23",
-          "start_price": 474.45,
-          "end_price": 496.55,
-          "percent_change": 4.66,
+          "start_date": "2025-05-21",
+          "end_date": "2025-08-22",
+          "start_price": 495.25,
+          "end_price": 518.2,
+          "percent_change": 4.63,
           "trend": "rise"
         }
       ]
@@ -34815,11 +34953,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 223.52,
-          "end_price": 218.3,
-          "percent_change": -2.34,
+          "start_date": "2025-07-30",
+          "end_date": "2025-08-22",
+          "start_price": 287.94,
+          "end_price": 376.4,
+          "percent_change": 30.72,
           "trend": "rise"
         }
       ]
@@ -34912,10 +35050,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-28",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1368.8,
-          "end_price": 1424.6,
-          "percent_change": 4.08,
+          "end_price": 1409.2,
+          "percent_change": 2.95,
           "trend": "rise"
         }
       ]
@@ -34981,17 +35119,17 @@
         {
           "year": 2025,
           "start_date": "2025-03-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1358.15,
-          "end_price": 1488.6,
-          "percent_change": 9.6,
+          "end_price": 1436.4,
+          "percent_change": 5.76,
           "trend": "rise"
         }
       ]
     },
     {
       "symbol": "TARACHAND.NS",
-      "occurrences": 3,
+      "occurrences": 4,
       "details": [
         {
           "year": 2022,
@@ -35018,6 +35156,15 @@
           "start_price": 70.56,
           "end_price": 62.9,
           "percent_change": -10.86,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-03-21",
+          "end_date": "2025-08-22",
+          "start_price": 64.74,
+          "end_price": 72.34,
+          "percent_change": 11.74,
           "trend": "rise"
         }
       ]
@@ -35149,10 +35296,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 339.2,
-          "end_price": 262.75,
-          "percent_change": -22.54,
+          "end_price": 259.6,
+          "percent_change": -23.47,
           "trend": "rise"
         }
       ]
@@ -35199,11 +35346,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-21",
-          "end_date": "2025-07-23",
-          "start_price": 379.85,
-          "end_price": 493,
-          "percent_change": 29.79,
+          "start_date": "2025-05-27",
+          "end_date": "2025-08-22",
+          "start_price": 403,
+          "end_price": 601.95,
+          "percent_change": 49.37,
           "trend": "rise"
         }
       ]
@@ -35389,10 +35536,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-22",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 231.96,
-          "end_price": 328.75,
-          "percent_change": 41.73,
+          "end_price": 289.1,
+          "percent_change": 24.63,
           "trend": "rise"
         }
       ]
@@ -35455,10 +35602,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-17",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 866,
-          "end_price": 803.6,
-          "percent_change": -7.21,
+          "end_price": 742.15,
+          "percent_change": -14.3,
           "trend": "rise"
         }
       ]
@@ -36055,10 +36202,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-05",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 738.15,
-          "end_price": 918.9,
-          "percent_change": 24.49,
+          "end_price": 865.5,
+          "percent_change": 17.25,
           "trend": "rise"
         }
       ]
@@ -36174,11 +36321,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
-          "start_price": 627.95,
-          "end_price": 804.45,
-          "percent_change": 28.11,
+          "start_date": "2025-05-15",
+          "end_date": "2025-08-22",
+          "start_price": 674.6,
+          "end_price": 763.15,
+          "percent_change": 13.13,
           "trend": "rise"
         }
       ]
@@ -36336,11 +36483,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-07",
-          "end_date": "2025-07-23",
-          "start_price": 535,
-          "end_price": 598.45,
-          "percent_change": 11.86,
+          "start_date": "2025-05-12",
+          "end_date": "2025-08-22",
+          "start_price": 548.75,
+          "end_price": 602.5,
+          "percent_change": 9.79,
           "trend": "rise"
         }
       ]
@@ -36415,10 +36562,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-06",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 6623.7,
-          "end_price": 6582,
-          "percent_change": -0.63,
+          "end_price": 6311.5,
+          "percent_change": -4.71,
           "trend": "rise"
         }
       ]
@@ -36475,10 +36622,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 469.15,
-          "end_price": 446.85,
-          "percent_change": -4.75,
+          "end_price": 424.9,
+          "percent_change": -9.43,
           "trend": "rise"
         }
       ]
@@ -36694,10 +36841,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 649.35,
-          "end_price": 763.85,
-          "percent_change": 17.63,
+          "end_price": 736.8,
+          "percent_change": 13.47,
           "trend": "rise"
         }
       ]
@@ -37750,10 +37897,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-20",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 872.1,
-          "end_price": 918.65,
-          "percent_change": 5.34,
+          "end_price": 889.6,
+          "percent_change": 2.01,
           "trend": "rise"
         }
       ]
@@ -37948,10 +38095,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 5704.15,
-          "end_price": 5651.5,
-          "percent_change": -0.92,
+          "end_price": 4941,
+          "percent_change": -13.38,
           "trend": "rise"
         }
       ]
@@ -38037,11 +38184,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-03-24",
-          "end_date": "2025-07-23",
-          "start_price": 305.57,
-          "end_price": 304.55,
-          "percent_change": -0.33,
+          "start_date": "2025-03-21",
+          "end_date": "2025-08-22",
+          "start_price": 298.33,
+          "end_price": 270.7,
+          "percent_change": -9.26,
           "trend": "rise"
         }
       ]
@@ -38104,10 +38251,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-28",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2786.3,
-          "end_price": 2919.4,
-          "percent_change": 4.78,
+          "end_price": 2700.3,
+          "percent_change": -3.09,
           "trend": "rise"
         }
       ]
@@ -38331,11 +38478,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
-          "start_price": 1138.1,
-          "end_price": 1407.6,
-          "percent_change": 23.68,
+          "start_date": "2025-04-16",
+          "end_date": "2025-08-22",
+          "start_price": 1175.1,
+          "end_price": 1307.4,
+          "percent_change": 11.26,
           "trend": "rise"
         }
       ]
@@ -38646,11 +38793,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-21",
-          "end_date": "2025-07-23",
-          "start_price": 1269,
-          "end_price": 1119.8,
-          "percent_change": -11.76,
+          "start_date": "2025-03-20",
+          "end_date": "2025-08-22",
+          "start_price": 1249.2,
+          "end_price": 1165,
+          "percent_change": -6.74,
           "trend": "rise"
         }
       ]
@@ -38865,11 +39012,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-16",
-          "end_date": "2025-07-23",
-          "start_price": 1001.7,
-          "end_price": 1063.6,
-          "percent_change": 6.18,
+          "start_date": "2025-01-03",
+          "end_date": "2025-08-22",
+          "start_price": 926.65,
+          "end_price": 799.75,
+          "percent_change": -13.69,
           "trend": "rise"
         }
       ]
@@ -39148,10 +39295,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 416.35,
-          "end_price": 347.75,
-          "percent_change": -16.48,
+          "end_price": 358.25,
+          "percent_change": -13.95,
           "trend": "rise"
         }
       ]
@@ -39236,8 +39383,8 @@
           "year": 2022,
           "start_date": "2022-01-11",
           "end_date": "2022-12-30",
-          "start_price": 92.65,
-          "end_price": 58.6,
+          "start_price": 18.53,
+          "end_price": 11.72,
           "percent_change": -36.75,
           "trend": "rise"
         },
@@ -39245,8 +39392,8 @@
           "year": 2023,
           "start_date": "2023-07-14",
           "end_date": "2023-12-29",
-          "start_price": 86.05,
-          "end_price": 101.3,
+          "start_price": 17.21,
+          "end_price": 20.26,
           "percent_change": 17.72,
           "trend": "rise"
         },
@@ -39254,8 +39401,8 @@
           "year": 2024,
           "start_date": "2024-07-09",
           "end_date": "2024-12-30",
-          "start_price": 141.46,
-          "end_price": 146.82,
+          "start_price": 28.29,
+          "end_price": 29.36,
           "percent_change": 3.79,
           "trend": "rise"
         }
@@ -39433,10 +39580,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 545.25,
-          "end_price": 606.65,
-          "percent_change": 11.26,
+          "end_price": 584.85,
+          "percent_change": 7.26,
           "trend": "rise"
         }
       ]
@@ -39613,10 +39760,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 551.1,
-          "end_price": 494.65,
-          "percent_change": -10.24,
+          "end_price": 489.3,
+          "percent_change": -11.21,
           "trend": "rise"
         }
       ]
@@ -39820,10 +39967,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-08",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1188.85,
-          "end_price": 1239.9,
-          "percent_change": 4.29,
+          "end_price": 1027.1,
+          "percent_change": -13.61,
           "trend": "rise"
         }
       ]
@@ -40060,10 +40207,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 772.6,
-          "end_price": 856.9,
-          "percent_change": 10.91,
+          "end_price": 882.55,
+          "percent_change": 14.23,
           "trend": "rise"
         }
       ]
@@ -40092,11 +40239,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-28",
-          "end_date": "2025-07-23",
-          "start_price": 11764,
-          "end_price": 17140,
-          "percent_change": 45.7,
+          "start_date": "2025-06-13",
+          "end_date": "2025-08-22",
+          "start_price": 13351,
+          "end_price": 20214,
+          "percent_change": 51.4,
           "trend": "rise"
         }
       ]
@@ -40461,11 +40608,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-17",
-          "end_date": "2025-07-23",
-          "start_price": 7038,
-          "end_price": 9384,
-          "percent_change": 33.33,
+          "start_date": "2025-04-17",
+          "end_date": "2025-08-22",
+          "start_price": 7632.5,
+          "end_price": 10566,
+          "percent_change": 38.43,
           "trend": "rise"
         }
       ]
@@ -40769,7 +40916,7 @@
     },
     {
       "symbol": "SUMICHEM.NS",
-      "occurrences": 1,
+      "occurrences": 2,
       "details": [
         {
           "year": 2024,
@@ -40778,6 +40925,15 @@
           "start_price": 495.35,
           "end_price": 535.75,
           "percent_change": 8.16,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-03-28",
+          "end_date": "2025-08-22",
+          "start_price": 559.35,
+          "end_price": 598.05,
+          "percent_change": 6.92,
           "trend": "rise"
         }
       ]
@@ -40858,10 +41014,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-13",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1746.7,
-          "end_price": 1703.9,
-          "percent_change": -2.45,
+          "end_price": 1517.6,
+          "percent_change": -13.12,
           "trend": "rise"
         }
       ]
@@ -41184,11 +41340,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-22",
-          "end_date": "2025-07-23",
-          "start_price": 100.2,
-          "end_price": 114.39,
-          "percent_change": 14.16,
+          "start_date": "2025-04-23",
+          "end_date": "2025-08-22",
+          "start_price": 100.81,
+          "end_price": 103.59,
+          "percent_change": 2.76,
           "trend": "rise"
         }
       ]
@@ -41236,10 +41392,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-21",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 203.77,
-          "end_price": 240.6,
-          "percent_change": 18.07,
+          "end_price": 191.51,
+          "percent_change": -6.02,
           "trend": "rise"
         }
       ]
@@ -41587,10 +41743,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 3563.45,
-          "end_price": 3766.2,
-          "percent_change": 5.69,
+          "end_price": 3399.6,
+          "percent_change": -4.6,
           "trend": "rise"
         }
       ]
@@ -42201,11 +42357,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
-          "start_price": 4621.3,
-          "end_price": 4863,
-          "percent_change": 5.23,
+          "start_date": "2025-07-30",
+          "end_date": "2025-08-22",
+          "start_price": 5486.9,
+          "end_price": 6469,
+          "percent_change": 17.9,
           "trend": "rise"
         }
       ]
@@ -42244,10 +42400,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-19",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 4004.4,
-          "end_price": 3728.1,
-          "percent_change": -6.9,
+          "end_price": 3452.5,
+          "percent_change": -13.78,
           "trend": "rise"
         }
       ]
@@ -42337,10 +42493,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-29",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1296.55,
-          "end_price": 1595.8,
-          "percent_change": 23.08,
+          "end_price": 1529.1,
+          "percent_change": 17.94,
           "trend": "rise"
         }
       ]
@@ -42591,11 +42747,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-04-24",
-          "end_date": "2025-07-23",
-          "start_price": 1512,
-          "end_price": 1768.3,
-          "percent_change": 16.95,
+          "start_date": "2025-05-26",
+          "end_date": "2025-08-22",
+          "start_price": 1541.4,
+          "end_price": 1768.7,
+          "percent_change": 14.75,
           "trend": "rise"
         }
       ]
@@ -42694,10 +42850,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-05",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 786.1,
-          "end_price": 750.7,
-          "percent_change": -4.5,
+          "end_price": 642.75,
+          "percent_change": -18.24,
           "trend": "rise"
         }
       ]
@@ -42948,11 +43104,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
-          "start_price": 1033.8,
-          "end_price": 1276.8,
-          "percent_change": 23.51,
+          "start_date": "2025-06-26",
+          "end_date": "2025-08-22",
+          "start_price": 1119.8,
+          "end_price": 1445.3,
+          "percent_change": 29.07,
           "trend": "rise"
         }
       ]
@@ -43006,10 +43162,10 @@
         {
           "year": 2025,
           "start_date": "2025-07-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 22.65,
-          "end_price": 21.51,
-          "percent_change": -5.03,
+          "end_price": 18.87,
+          "percent_change": -16.69,
           "trend": "rise"
         }
       ]
@@ -43409,7 +43565,7 @@
     },
     {
       "symbol": "JMFINANCIL.NS",
-      "occurrences": 5,
+      "occurrences": 6,
       "details": [
         {
           "year": 2014,
@@ -43454,6 +43610,15 @@
           "start_price": 122.01,
           "end_price": 129.7,
           "percent_change": 6.3,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-06-05",
+          "end_date": "2025-08-22",
+          "start_price": 141.62,
+          "end_price": 193.02,
+          "percent_change": 36.29,
           "trend": "rise"
         }
       ]
@@ -43759,10 +43924,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 184.11,
-          "end_price": 285.22,
-          "percent_change": 54.92,
+          "end_price": 230.75,
+          "percent_change": 25.33,
           "trend": "rise"
         }
       ]
@@ -43932,11 +44097,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-20",
-          "end_date": "2025-07-23",
-          "start_price": 5488.8,
-          "end_price": 5932.5,
-          "percent_change": 8.08,
+          "start_date": "2025-05-28",
+          "end_date": "2025-08-22",
+          "start_price": 5729.5,
+          "end_price": 6581.5,
+          "percent_change": 14.87,
           "trend": "rise"
         }
       ]
@@ -44101,10 +44266,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 27.75,
-          "end_price": 29.5,
-          "percent_change": 6.31,
+          "end_price": 29.9,
+          "percent_change": 7.75,
           "trend": "rise"
         }
       ]
@@ -44345,7 +44510,7 @@
     },
     {
       "symbol": "HEG.NS",
-      "occurrences": 4,
+      "occurrences": 5,
       "details": [
         {
           "year": 2014,
@@ -44381,6 +44546,15 @@
           "start_price": 471.37,
           "end_price": 497.4,
           "percent_change": 5.52,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 530.3,
+          "end_price": 486.7,
+          "percent_change": -8.22,
           "trend": "rise"
         }
       ]
@@ -44562,11 +44736,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-28",
-          "end_date": "2025-07-23",
-          "start_price": 518.75,
-          "end_price": 630.65,
-          "percent_change": 21.57,
+          "start_date": "2025-06-12",
+          "end_date": "2025-08-22",
+          "start_price": 560.25,
+          "end_price": 671.85,
+          "percent_change": 19.92,
           "trend": "rise"
         }
       ]
@@ -44688,11 +44862,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-01-10",
-          "end_date": "2025-07-23",
-          "start_price": 2077.18,
-          "end_price": 2686.5,
-          "percent_change": 29.33,
+          "start_date": "2025-06-30",
+          "end_date": "2025-08-22",
+          "start_price": 2159.7,
+          "end_price": 2806.2,
+          "percent_change": 29.93,
           "trend": "rise"
         }
       ]
@@ -44791,10 +44965,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-16",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1589.85,
-          "end_price": 1683.3,
-          "percent_change": 5.88,
+          "end_price": 1597.5,
+          "percent_change": 0.48,
           "trend": "rise"
         }
       ]
@@ -44833,10 +45007,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 859.6,
-          "end_price": 689.95,
-          "percent_change": -19.74,
+          "end_price": 719.95,
+          "percent_change": -16.25,
           "trend": "rise"
         }
       ]
@@ -45162,11 +45336,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
-          "start_price": 305.45,
-          "end_price": 357.05,
-          "percent_change": 16.89,
+          "start_date": "2025-05-30",
+          "end_date": "2025-08-22",
+          "start_price": 320.06,
+          "end_price": 378.05,
+          "percent_change": 18.12,
           "trend": "rise"
         }
       ]
@@ -45400,10 +45574,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 797.6,
-          "end_price": 728.35,
-          "percent_change": -8.68,
+          "end_price": 737.6,
+          "percent_change": -7.52,
           "trend": "rise"
         }
       ]
@@ -45451,10 +45625,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 8873.5,
-          "end_price": 8935.5,
-          "percent_change": 0.7,
+          "end_price": 8433,
+          "percent_change": -4.96,
           "trend": "rise"
         }
       ]
@@ -45615,11 +45789,11 @@
       "details": [
         {
           "year": 2025,
-          "start_date": "2025-01-03",
-          "end_date": "2025-07-23",
-          "start_price": 1666.35,
-          "end_price": 1962.7,
-          "percent_change": 17.78,
+          "start_date": "2025-02-01",
+          "end_date": "2025-08-22",
+          "start_price": 1766.65,
+          "end_price": 2346.7,
+          "percent_change": 32.83,
           "trend": "rise"
         }
       ]
@@ -45787,10 +45961,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 346,
-          "end_price": 393.55,
-          "percent_change": 13.74,
+          "end_price": 329.75,
+          "percent_change": -4.7,
           "trend": "rise"
         }
       ]
@@ -46111,10 +46285,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-14",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 770.7,
-          "end_price": 854,
-          "percent_change": 10.81,
+          "end_price": 882.85,
+          "percent_change": 14.55,
           "trend": "rise"
         }
       ]
@@ -46567,10 +46741,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-24",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 16.02,
-          "end_price": 14.96,
-          "percent_change": -6.62,
+          "end_price": 14.38,
+          "percent_change": -10.24,
           "trend": "rise"
         }
       ]
@@ -46653,11 +46827,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-06",
-          "end_date": "2025-07-23",
-          "start_price": 681.35,
-          "end_price": 817.8,
-          "percent_change": 20.03,
+          "start_date": "2025-05-20",
+          "end_date": "2025-08-22",
+          "start_price": 711.4,
+          "end_price": 795.05,
+          "percent_change": 11.76,
           "trend": "rise"
         }
       ]
@@ -46831,10 +47005,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 52.59,
-          "end_price": 56.5,
-          "percent_change": 7.43,
+          "end_price": 54.8,
+          "percent_change": 4.2,
           "trend": "rise"
         }
       ]
@@ -46873,9 +47047,9 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2712.85,
-          "end_price": 3196.1,
+          "end_price": 3196,
           "percent_change": 17.81,
           "trend": "rise"
         }
@@ -47079,11 +47253,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-14",
-          "end_date": "2025-07-23",
-          "start_price": 541.95,
-          "end_price": 516.2,
-          "percent_change": -4.75,
+          "start_date": "2025-01-08",
+          "end_date": "2025-08-22",
+          "start_price": 532.9,
+          "end_price": 507.85,
+          "percent_change": -4.7,
           "trend": "rise"
         }
       ]
@@ -47485,10 +47659,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1809.7,
-          "end_price": 1935.1,
-          "percent_change": 6.93,
+          "end_price": 1801.2,
+          "percent_change": -0.47,
           "trend": "rise"
         }
       ]
@@ -47681,7 +47855,7 @@
     },
     {
       "symbol": "ZYDUSWELL.NS",
-      "occurrences": 7,
+      "occurrences": 8,
       "details": [
         {
           "year": 2014,
@@ -47744,6 +47918,15 @@
           "start_price": 2148.4,
           "end_price": 1901.25,
           "percent_change": -11.5,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 1976.05,
+          "end_price": 1998.3,
+          "percent_change": 1.13,
           "trend": "rise"
         }
       ]
@@ -47903,7 +48086,7 @@
     },
     {
       "symbol": "KIOCL.NS",
-      "occurrences": 2,
+      "occurrences": 3,
       "details": [
         {
           "year": 2023,
@@ -47921,6 +48104,15 @@
           "start_price": 474.5,
           "end_price": 343.35,
           "percent_change": -27.64,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-01",
+          "end_date": "2025-08-22",
+          "start_price": 409.75,
+          "end_price": 431.75,
+          "percent_change": 5.37,
           "trend": "rise"
         }
       ]
@@ -48017,7 +48209,7 @@
     },
     {
       "symbol": "INDNIPPON.NS",
-      "occurrences": 6,
+      "occurrences": 7,
       "details": [
         {
           "year": 2014,
@@ -48071,6 +48263,15 @@
           "start_price": 730.8,
           "end_price": 696.9,
           "percent_change": -4.64,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 720.25,
+          "end_price": 802.1,
+          "percent_change": 11.36,
           "trend": "rise"
         }
       ]
@@ -48403,10 +48604,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 724.2,
-          "end_price": 825.55,
-          "percent_change": 13.99,
+          "end_price": 754.9,
+          "percent_change": 4.24,
           "trend": "rise"
         }
       ]
@@ -48480,11 +48681,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-07-02",
-          "end_date": "2025-07-23",
-          "start_price": 1237.9,
-          "end_price": 1442.1,
-          "percent_change": 16.5,
+          "start_date": "2025-07-03",
+          "end_date": "2025-08-22",
+          "start_price": 1425.5,
+          "end_price": 1265.2,
+          "percent_change": -11.25,
           "trend": "rise"
         }
       ]
@@ -48886,10 +49087,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1276.85,
-          "end_price": 1289.5,
-          "percent_change": 0.99,
+          "end_price": 1295,
+          "percent_change": 1.42,
           "trend": "rise"
         }
       ]
@@ -48988,10 +49189,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-19",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 89.64,
-          "end_price": 97.38,
-          "percent_change": 8.63,
+          "end_price": 95,
+          "percent_change": 5.98,
           "trend": "rise"
         }
       ]
@@ -49107,11 +49308,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-06-27",
-          "end_date": "2025-07-23",
-          "start_price": 668.7,
-          "end_price": 1005.35,
-          "percent_change": 50.34,
+          "start_date": "2025-07-01",
+          "end_date": "2025-08-22",
+          "start_price": 842.75,
+          "end_price": 1192.9,
+          "percent_change": 41.55,
           "trend": "rise"
         }
       ]
@@ -49572,11 +49773,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-02",
-          "end_date": "2025-07-23",
-          "start_price": 617.45,
-          "end_price": 716.4,
-          "percent_change": 16.03,
+          "start_date": "2025-01-03",
+          "end_date": "2025-08-22",
+          "start_price": 623.35,
+          "end_price": 646.95,
+          "percent_change": 3.79,
           "trend": "rise"
         }
       ]
@@ -49615,10 +49816,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-07",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 58.75,
-          "end_price": 49.05,
-          "percent_change": -16.51,
+          "end_price": 45.51,
+          "percent_change": -22.54,
           "trend": "rise"
         }
       ]
@@ -49768,10 +49969,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 256.68,
-          "end_price": 242.2,
-          "percent_change": -5.64,
+          "end_price": 237.35,
+          "percent_change": -7.53,
           "trend": "rise"
         }
       ]
@@ -50263,10 +50464,10 @@
         {
           "year": 2025,
           "start_date": "2025-04-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 1798.8,
-          "end_price": 1943.8,
-          "percent_change": 8.06,
+          "end_price": 1933.3,
+          "percent_change": 7.48,
           "trend": "rise"
         }
       ]
@@ -50599,10 +50800,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-13",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 335.75,
-          "end_price": 400.2,
-          "percent_change": 19.2,
+          "end_price": 374.85,
+          "percent_change": 11.65,
           "trend": "rise"
         }
       ]
@@ -50779,10 +50980,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-21",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 2079,
-          "end_price": 2170.4,
-          "percent_change": 4.4,
+          "end_price": 1986.6,
+          "percent_change": -4.44,
           "trend": "rise"
         }
       ]
@@ -51027,11 +51228,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
-          "start_price": 11447,
-          "end_price": 12372,
-          "percent_change": 8.08,
+          "start_date": "2025-01-02",
+          "end_date": "2025-08-22",
+          "start_price": 11797.7,
+          "end_price": 12589,
+          "percent_change": 6.71,
           "trend": "rise"
         }
       ]
@@ -51129,11 +51330,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-01-31",
-          "end_date": "2025-07-23",
-          "start_price": 12310.65,
-          "end_price": 12627,
-          "percent_change": 2.57,
+          "start_date": "2025-02-01",
+          "end_date": "2025-08-22",
+          "start_price": 12916.5,
+          "end_price": 14349,
+          "percent_change": 11.09,
           "trend": "rise"
         }
       ]
@@ -51208,10 +51409,10 @@
         {
           "year": 2025,
           "start_date": "2025-02-27",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 870.54,
-          "end_price": 968.3,
-          "percent_change": 11.23,
+          "end_price": 894.5,
+          "percent_change": 2.75,
           "trend": "rise"
         }
       ]
@@ -51310,10 +51511,10 @@
         {
           "year": 2025,
           "start_date": "2025-03-04",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 632.9,
-          "end_price": 654.05,
-          "percent_change": 3.34,
+          "end_price": 615.85,
+          "percent_change": -2.69,
           "trend": "rise"
         }
       ]
@@ -51489,11 +51690,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-02-20",
-          "end_date": "2025-07-23",
-          "start_price": 638.8,
-          "end_price": 695.4,
-          "percent_change": 8.86,
+          "start_date": "2025-02-21",
+          "end_date": "2025-08-22",
+          "start_price": 653.55,
+          "end_price": 704.2,
+          "percent_change": 7.75,
           "trend": "rise"
         }
       ]
@@ -51669,11 +51870,11 @@
         },
         {
           "year": 2025,
-          "start_date": "2025-03-05",
-          "end_date": "2025-07-23",
-          "start_price": 146.1,
-          "end_price": 162.77,
-          "percent_change": 11.41,
+          "start_date": "2025-03-06",
+          "end_date": "2025-08-22",
+          "start_price": 150.44,
+          "end_price": 158.55,
+          "percent_change": 5.39,
           "trend": "rise"
         }
       ]
@@ -52318,10 +52519,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-27",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 138.34,
-          "end_price": 157.02,
-          "percent_change": 13.5,
+          "end_price": 157.48,
+          "percent_change": 13.84,
           "trend": "rise"
         }
       ]
@@ -52529,7 +52730,7 @@
     },
     {
       "symbol": "OMAXAUTO.NS",
-      "occurrences": 4,
+      "occurrences": 5,
       "details": [
         {
           "year": 2015,
@@ -52565,6 +52766,15 @@
           "start_price": 112.65,
           "end_price": 113.61,
           "percent_change": 0.85,
+          "trend": "rise"
+        },
+        {
+          "year": 2025,
+          "start_date": "2025-07-28",
+          "end_date": "2025-08-22",
+          "start_price": 130.45,
+          "end_price": 156.02,
+          "percent_change": 19.6,
           "trend": "rise"
         }
       ]
@@ -52741,10 +52951,10 @@
         {
           "year": 2025,
           "start_date": "2025-01-01",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 52.79,
-          "end_price": 55.17,
-          "percent_change": 4.51,
+          "end_price": 51.75,
+          "percent_change": -1.97,
           "trend": "rise"
         }
       ]
@@ -53050,10 +53260,10 @@
         {
           "year": 2025,
           "start_date": "2025-05-15",
-          "end_date": "2025-07-23",
+          "end_date": "2025-08-22",
           "start_price": 421.15,
-          "end_price": 435.65,
-          "percent_change": 3.44,
+          "end_price": 403.95,
+          "percent_change": -4.08,
           "trend": "rise"
         }
       ]

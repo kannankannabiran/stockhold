@@ -8,17 +8,10 @@
       "createdAt": "2025-08-02T16:55:10.989Z",
       "active": true,
       "urlAccess": [
-        "/longterm",
-        "/stocklist",
-        "/backtest",
-        "/chart",
-        "/options",
-        "/trendingoi",
-        "/openhighnifty",
-        "/herozero",
-        "/individual",
         "/purchase-order",
-        "/order"
+        "/order",
+        "/chart",
+        "/individual"
       ]
     }
   ]

@@ -76,11 +76,11 @@ export default function ContactPage() {
             </h2>
 
             <div className="flex space-x-6 text-3xl mb-4">
-              <a href="#" className="hover:text-red-600"><FaYoutube /></a>
-              <a href="#" className="hover:text-pink-500"><FaInstagram /></a>
-              <a href="#" className="hover:text-green-500"><FaWhatsapp /></a>
-              <a href="#" className="hover:text-blue-400"><FaTelegram /></a>
-              <a href="#" className="hover:text-blue-500"><FaTwitter /></a>
+              <a href="https://www.youtube.com/@stockholdin" target="_blank" className="hover:text-red-600"><FaYoutube /></a>
+              <a href="https://www.instagram.com/stockhold.in/" target="_blank" className="hover:text-pink-500"><FaInstagram /></a>
+              {/* <a href="#" className="hover:text-green-500"><FaWhatsapp /></a> */}
+              <a href="https://web.telegram.org/k/#@stockholdin" target="_blank" className="hover:text-blue-400"><FaTelegram /></a>
+              {/* <a href="#" className="hover:text-blue-500"><FaTwitter /></a> */}
             </div>
 
             <p className="flex items-center gap-2 text-green-400 text-lg font-semibold mt-2">

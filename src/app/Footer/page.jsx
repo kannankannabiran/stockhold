@@ -42,11 +42,11 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-3">Social Media</h3>
           <div className="flex space-x-4 text-white text-xl">
-            <Link href="#"><FaYoutube /></Link>
-            <Link href="#"><FaInstagram /></Link>
-            <Link href="#"><FaWhatsapp /></Link>
-            <Link href="#"><FaTelegram /></Link>
-            <Link href="#"><FaTwitter /></Link>
+            <Link href="https://www.youtube.com/@stockholdin" target="_blank"><FaYoutube className="w-[26px] h-[26px]"/></Link>
+            <Link href="https://www.instagram.com/stockhold.in/" target="_blank"><FaInstagram className="w-[26px] h-[26px]"/></Link>
+            {/* <Link href="#"><FaWhatsapp /></Link> */}
+            <Link href="https://web.telegram.org/k/#@stockholdin" target="_blank"><FaTelegram className="w-[26px] h-[26px]"/></Link>
+            {/* <Link href="#"><FaTwitter /></Link> */}
           </div>
         </div>
       </div>

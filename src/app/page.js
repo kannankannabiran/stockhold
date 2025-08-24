@@ -20,8 +20,6 @@ export default function Chart() {
   //offer banner
   return (
     <>
-<TopOfferBanner />
-
 <div className="container mx-auto py-8 px-4">
   <div className="flex flex-col md:flex-row items-center justify-between gap-8">
     {/* Left Column */}
@@ -63,6 +61,7 @@ export default function Chart() {
     </div>
   </div>
 </div>
+<TopOfferBanner />
 <div style={{ background: '#F9FAFC' }}>
   <div className="container mx-auto py-8 px-4">
     <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8">

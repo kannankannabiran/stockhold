@@ -10031,9 +10031,25 @@
       "low": 6088,
       "close": 6151.5,
       "volume": 681521
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 6255,
+      "high": 6314.5,
+      "low": 6204,
+      "close": 6248.5,
+      "volume": 439686
+    },
+    {
+      "date": "2025-08-26T10:00:03.000Z",
+      "open": 6260,
+      "high": 6260,
+      "low": 6120,
+      "close": 6195,
+      "volume": 546698
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "DIVISLAB.NS",
     "current_year": 2025,

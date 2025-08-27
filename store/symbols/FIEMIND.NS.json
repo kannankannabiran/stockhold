@@ -10031,9 +10031,25 @@
       "low": 2026.0999755859375,
       "close": 2056.699951171875,
       "volume": 45815
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 2012,
+      "high": 2035,
+      "low": 1956,
+      "close": 2000,
+      "volume": 111671
+    },
+    {
+      "date": "2025-08-26T10:00:04.000Z",
+      "open": 1990,
+      "high": 2075,
+      "low": 1972.0999755859375,
+      "close": 2064,
+      "volume": 222824
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "FIEMIND.NS",
     "current_year": 2025,

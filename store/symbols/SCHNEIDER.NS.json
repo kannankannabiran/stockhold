@@ -10031,9 +10031,25 @@
       "low": 851,
       "close": 860.5,
       "volume": 64907
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 860.5,
+      "high": 869.9000244140625,
+      "low": 850.0999755859375,
+      "close": 858,
+      "volume": 47826
+    },
+    {
+      "date": "2025-08-26T09:59:54.000Z",
+      "open": 856,
+      "high": 866.7999877929688,
+      "low": 854,
+      "close": 860.2999877929688,
+      "volume": 70711
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "SCHNEIDER.NS",
     "current_year": 2025,

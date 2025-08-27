@@ -10031,9 +10031,25 @@
       "low": 2520,
       "close": 2600,
       "volume": 62304
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 2600,
+      "high": 2724,
+      "low": 2594.199951171875,
+      "close": 2702.5,
+      "volume": 46405
+    },
+    {
+      "date": "2025-08-26T09:59:58.000Z",
+      "open": 2702,
+      "high": 2719,
+      "low": 2660,
+      "close": 2719,
+      "volume": 22677
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "STYRENIX.NS",
     "current_year": 2025,

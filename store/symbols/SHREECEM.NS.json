@@ -10031,9 +10031,25 @@
       "low": 29910,
       "close": 30005,
       "volume": 23078
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 30150,
+      "high": 30380,
+      "low": 29940,
+      "close": 30015,
+      "volume": 36110
+    },
+    {
+      "date": "2025-08-26T09:59:49.000Z",
+      "open": 30000,
+      "high": 30500,
+      "low": 29680,
+      "close": 30050,
+      "volume": 27961
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "SHREECEM.NS",
     "current_year": 2025,

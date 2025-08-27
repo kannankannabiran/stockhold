@@ -10031,9 +10031,25 @@
       "low": 272,
       "close": 274.04998779296875,
       "volume": 3178
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 274,
+      "high": 275,
+      "low": 274,
+      "close": 274,
+      "volume": 1286
+    },
+    {
+      "date": "2025-08-26T03:45:00.000Z",
+      "open": 276,
+      "high": 276,
+      "low": 275,
+      "close": 276,
+      "volume": 2302
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "TIMESGTY.NS",
     "current_year": 2025,

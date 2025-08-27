@@ -10031,9 +10031,25 @@
       "low": 2827.5,
       "close": 2834,
       "volume": 90034
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 2848.699951171875,
+      "high": 2899,
+      "low": 2810,
+      "close": 2820.699951171875,
+      "volume": 107443
+    },
+    {
+      "date": "2025-08-26T10:00:04.000Z",
+      "open": 2811,
+      "high": 2877,
+      "low": 2762.5,
+      "close": 2787,
+      "volume": 129993
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ENDURANCE.NS",
     "current_year": 2025,

@@ -10031,9 +10031,25 @@
       "low": 5794.5,
       "close": 5828,
       "volume": 593405
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 5840,
+      "high": 5927.5,
+      "low": 5826.5,
+      "close": 5892,
+      "volume": 478987
+    },
+    {
+      "date": "2025-08-26T10:00:01.000Z",
+      "open": 5882.5,
+      "high": 5922,
+      "low": 5736,
+      "close": 5757.5,
+      "volume": 457844
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "HDFCAMC.NS",
     "current_year": 2025,

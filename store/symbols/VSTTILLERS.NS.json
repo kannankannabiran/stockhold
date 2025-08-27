@@ -10031,9 +10031,25 @@
       "low": 5275,
       "close": 5315.5,
       "volume": 26660
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 5366,
+      "high": 5468.60009765625,
+      "low": 5275,
+      "close": 5357.2998046875,
+      "volume": 33399
+    },
+    {
+      "date": "2025-08-26T10:00:01.000Z",
+      "open": 5367,
+      "high": 5519.7001953125,
+      "low": 5301,
+      "close": 5372,
+      "volume": 41199
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "VSTTILLERS.NS",
     "current_year": 2025,

@@ -10031,9 +10031,25 @@
       "low": 14574,
       "close": 14845,
       "volume": 140745
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 14932,
+      "high": 14940,
+      "low": 14640,
+      "close": 14654,
+      "volume": 58873
+    },
+    {
+      "date": "2025-08-26T09:59:55.000Z",
+      "open": 14650,
+      "high": 14650,
+      "low": 14105,
+      "close": 14176,
+      "volume": 192507
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "SOLARINDS.NS",
     "current_year": 2025,

@@ -10031,9 +10031,25 @@
       "low": 354,
       "close": 358.75,
       "volume": 643220
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 358.6000061035156,
+      "high": 363.5,
+      "low": 350.5,
+      "close": 361.04998779296875,
+      "volume": 1305432
+    },
+    {
+      "date": "2025-08-26T10:00:01.000Z",
+      "open": 358,
+      "high": 359.1499938964844,
+      "low": 348.5,
+      "close": 354,
+      "volume": 870369
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "GENUSPOWER.NS",
     "current_year": 2025,

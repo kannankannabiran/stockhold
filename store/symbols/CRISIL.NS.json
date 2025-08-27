@@ -10031,9 +10031,25 @@
       "low": 5300,
       "close": 5313,
       "volume": 13272
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 5363.5,
+      "high": 5380,
+      "low": 5156.5,
+      "close": 5199.5,
+      "volume": 75691
+    },
+    {
+      "date": "2025-08-26T10:00:00.000Z",
+      "open": 5199.5,
+      "high": 5221.5,
+      "low": 5062,
+      "close": 5094,
+      "volume": 40870
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "CRISIL.NS",
     "current_year": 2025,

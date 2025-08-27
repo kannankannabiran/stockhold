@@ -10031,9 +10031,25 @@
       "low": 1260.699951171875,
       "close": 1265.199951171875,
       "volume": 58896
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 1265,
+      "high": 1272,
+      "low": 1240,
+      "close": 1241.5,
+      "volume": 43610
+    },
+    {
+      "date": "2025-08-26T10:00:04.000Z",
+      "open": 1241.5,
+      "high": 1259,
+      "low": 1225,
+      "close": 1240,
+      "volume": 59188
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "DCMSHRIRAM.NS",
     "current_year": 2025,

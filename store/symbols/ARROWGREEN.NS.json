@@ -10031,9 +10031,25 @@
       "low": 561,
       "close": 578.5499877929688,
       "volume": 48605
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 580,
+      "high": 608.25,
+      "low": 580,
+      "close": 605.0999755859375,
+      "volume": 43479
+    },
+    {
+      "date": "2025-08-26T10:00:02.000Z",
+      "open": 608.0999755859375,
+      "high": 628.25,
+      "low": 600,
+      "close": 615,
+      "volume": 43244
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ARROWGREEN.NS",
     "current_year": 2025,

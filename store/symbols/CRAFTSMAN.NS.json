@@ -8727,9 +8727,25 @@
       "low": 6800,
       "close": 6823,
       "volume": 11131
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 6825,
+      "high": 6900,
+      "low": 6803.5,
+      "close": 6839,
+      "volume": 10168
+    },
+    {
+      "date": "2025-08-26T09:59:58.000Z",
+      "open": 6839,
+      "high": 7254.5,
+      "low": 6755,
+      "close": 7110,
+      "volume": 193036
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "CRAFTSMAN.NS",
     "current_year": 2025,

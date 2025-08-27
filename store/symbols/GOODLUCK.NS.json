@@ -10031,9 +10031,25 @@
       "low": 1100.300048828125,
       "close": 1124.5,
       "volume": 223458
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 1125,
+      "high": 1135,
+      "low": 1109,
+      "close": 1129.800048828125,
+      "volume": 88968
+    },
+    {
+      "date": "2025-08-26T10:00:00.000Z",
+      "open": 1129,
+      "high": 1149,
+      "low": 1096.199951171875,
+      "close": 1100,
+      "volume": 129545
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "GOODLUCK.NS",
     "current_year": 2025,

@@ -10031,8 +10031,24 @@
       "low": 6484.5,
       "close": 6533,
       "volume": 2608
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 6600,
+      "high": 6621.5,
+      "low": 6446,
+      "close": 6457.5,
+      "volume": 4040
+    },
+    {
+      "date": "2025-08-26T10:00:02.000Z",
+      "open": 6400,
+      "high": 6601.5,
+      "low": 6320,
+      "close": 6480,
+      "volume": 8909
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": null
 }

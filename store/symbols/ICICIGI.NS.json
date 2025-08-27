@@ -10031,9 +10031,25 @@
       "low": 1908,
       "close": 1910.699951171875,
       "volume": 383215
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 1917.800048828125,
+      "high": 1942,
+      "low": 1903,
+      "close": 1919,
+      "volume": 364098
+    },
+    {
+      "date": "2025-08-26T09:59:59.000Z",
+      "open": 1919,
+      "high": 1919,
+      "low": 1859.699951171875,
+      "close": 1872,
+      "volume": 635695
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ICICIGI.NS",
     "current_year": 2025,

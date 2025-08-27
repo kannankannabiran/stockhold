@@ -10031,9 +10031,25 @@
       "low": 14230,
       "close": 14349,
       "volume": 458877
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 14401,
+      "high": 14478,
+      "low": 14280,
+      "close": 14452,
+      "volume": 357110
+    },
+    {
+      "date": "2025-08-26T10:00:00.000Z",
+      "open": 14452,
+      "high": 14825,
+      "low": 14391,
+      "close": 14720,
+      "volume": 962928
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "MARUTI.NS",
     "current_year": 2025,

@@ -10031,9 +10031,25 @@
       "low": 12041,
       "close": 12094,
       "volume": 3669
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 12195,
+      "high": 12219,
+      "low": 11931,
+      "close": 12012,
+      "volume": 4074
+    },
+    {
+      "date": "2025-08-26T09:59:16.000Z",
+      "open": 12100,
+      "high": 12147,
+      "low": 11609,
+      "close": 11852,
+      "volume": 16170
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "TVSHLTD.NS",
     "current_year": 2025,

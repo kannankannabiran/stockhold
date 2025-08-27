@@ -10031,9 +10031,25 @@
       "low": 6325.5,
       "close": 6497.5,
       "volume": 73692
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 6545,
+      "high": 6549,
+      "low": 6450.5,
+      "close": 6506.5,
+      "volume": 14267
+    },
+    {
+      "date": "2025-08-26T10:00:00.000Z",
+      "open": 6507,
+      "high": 6520,
+      "low": 6245,
+      "close": 6260,
+      "volume": 70097
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ATUL.NS",
     "current_year": 2025,

@@ -10031,9 +10031,25 @@
       "low": 985,
       "close": 1008.75,
       "volume": 387020
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 1049,
+      "high": 1073.3499755859375,
+      "low": 1028.699951171875,
+      "close": 1038.449951171875,
+      "volume": 1165980
+    },
+    {
+      "date": "2025-08-26T10:00:03.000Z",
+      "open": 1038,
+      "high": 1038,
+      "low": 994.25,
+      "close": 1005,
+      "volume": 369759
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ASTRAMICRO.NS",
     "current_year": 2025,

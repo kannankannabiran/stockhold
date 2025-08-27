@@ -10031,9 +10031,25 @@
       "low": 3172.39990234375,
       "close": 3196,
       "volume": 39856
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 3193,
+      "high": 3243,
+      "low": 3175.10009765625,
+      "close": 3219.699951171875,
+      "volume": 53407
+    },
+    {
+      "date": "2025-08-26T09:59:58.000Z",
+      "open": 3217,
+      "high": 3217,
+      "low": 3112.5,
+      "close": 3112.5,
+      "volume": 52742
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "POWERMECH.NS",
     "current_year": 2025,

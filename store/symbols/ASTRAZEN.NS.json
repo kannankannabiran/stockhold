@@ -10031,9 +10031,25 @@
       "low": 8307,
       "close": 8433,
       "volume": 11150
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 8433,
+      "high": 8482.5,
+      "low": 8225,
+      "close": 8268,
+      "volume": 10149
+    },
+    {
+      "date": "2025-08-26T09:59:57.000Z",
+      "open": 8225,
+      "high": 8329.5,
+      "low": 7955,
+      "close": 8050,
+      "volume": 62753
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ASTRAZEN.NS",
     "current_year": 2025,

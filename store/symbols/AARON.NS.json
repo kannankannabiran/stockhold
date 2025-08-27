@@ -10023,9 +10023,25 @@
       "low": 425,
       "close": 430,
       "volume": 23282
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 230,
+      "high": 258,
+      "low": 230,
+      "close": 238.85000610351562,
+      "volume": 241630
+    },
+    {
+      "date": "2025-08-26T09:59:58.000Z",
+      "open": 250,
+      "high": 250,
+      "low": 214.1999969482422,
+      "close": 215,
+      "volume": 122264
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "AARON.NS",
     "current_year": 2025,

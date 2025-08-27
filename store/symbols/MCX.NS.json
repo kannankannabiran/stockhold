@@ -10031,9 +10031,25 @@
       "low": 7923,
       "close": 7960,
       "volume": 470162
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 8000,
+      "high": 8079.5,
+      "low": 7953.5,
+      "close": 8003,
+      "volume": 305299
+    },
+    {
+      "date": "2025-08-26T10:00:00.000Z",
+      "open": 8000,
+      "high": 8000,
+      "low": 7672.5,
+      "close": 7694,
+      "volume": 492749
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "MCX.NS",
     "current_year": 2025,

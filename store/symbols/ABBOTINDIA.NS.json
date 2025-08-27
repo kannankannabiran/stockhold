@@ -10031,9 +10031,25 @@
       "low": 31750,
       "close": 31875,
       "volume": 6991
+    },
+    {
+      "date": "2025-08-25T03:45:00.000Z",
+      "open": 32145,
+      "high": 32145,
+      "low": 31470,
+      "close": 31520,
+      "volume": 6091
+    },
+    {
+      "date": "2025-08-26T09:59:51.000Z",
+      "open": 31615,
+      "high": 32050,
+      "low": 31175,
+      "close": 31690,
+      "volume": 10802
     }
   ],
-  "lastScanDate": "2025-08-22",
+  "lastScanDate": "2025-08-26",
   "latestResult": {
     "symbol": "ABBOTINDIA.NS",
     "current_year": 2025,

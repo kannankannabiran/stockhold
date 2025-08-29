@@ -114,7 +114,7 @@ export default function Chart() {
     <>
       {/* Hero / Top Section */}
       <div
-        style={{ backgroundImage: 'url("/onetoonebg.svg")', backgroundSize: 'cover', backgroundPosition: 'center bottom' }}
+        style={{background:'#0e3429;'}}
         className="pb-28"
       >
         <div className="container mx-auto py-8 px-4">

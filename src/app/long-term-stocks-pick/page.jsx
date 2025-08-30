@@ -113,10 +113,7 @@ export default function Chart() {
   return (
     <>
       {/* Hero / Top Section */}
-      <div
-        style={{background:'#0e3429;'}}
-        className="pb-28"
-      >
+      <div className="pb-28" style={{background : '#0e3429'}} >
         <div className="container mx-auto py-8 px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             {/* Right Column */}

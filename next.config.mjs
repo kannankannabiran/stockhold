@@ -1,4 +1,4 @@
-  GNU nano 7.2                                                                                     next.config.mjs                                                                                               const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== 'production';
 
 const nextConfig = {
   assetPrefix: dev ? '' : 'https://stockhold.in', // use HTTPS in production

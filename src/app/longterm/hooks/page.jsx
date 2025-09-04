@@ -51,15 +51,11 @@ export function useVwapScan() {
     const controller = new AbortController();
     controllerRef.current = controller;
 
-    const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min timeout
-
     try {
       setResults({ rise: [], decline: [] });
       localStorage.removeItem("longterm");
 
       const res = await fetch("/api/long-data", { signal: controller.signal });
-      clearTimeout(timeoutId);
-      
       if (!res.ok) throw new Error("Network error during scan");
       const data = await res.json();
 
@@ -67,11 +63,11 @@ export function useVwapScan() {
       localStorage.setItem("longterm", JSON.stringify(data));
       console.log("Scan completed and saved to localStorage:", data);
     } catch (error) {
-      clearTimeout(timeoutId);
       if (error.name === "AbortError") {
-        console.log("Scan cancelled or timed out.");
+        console.log("Scan cancelled by user.");
       } else {
         console.error("Scan failed", error);
+        alert("Scan failed. Check console for details.");
       }
     } finally {
       setLoading(false);

@@ -41,7 +41,10 @@ export async function GET() {
         interval: "1d",
       });
 
-      if (!rawData || rawData.length === 0) continue;
+      if (!rawData || rawData.length === 0) {
+        console.log(`No data for ${symbol} - possibly delisted`);
+        continue;
+      }
 
       const cleanData = rawData.map((row) => ({
         date: row.date,
@@ -100,7 +103,11 @@ export async function GET() {
         resultDecline.push({ ...resultObj, trend: "decline" });
       }
     } catch (err) {
-      console.error(`Error fetching ${symbol}:`, err);
+      if (err.message?.includes('No data found') || err.message?.includes('delisted')) {
+        console.log(`${symbol} appears to be delisted, skipping`);
+      } else {
+        console.error(`Error fetching ${symbol}:`, err.message);
+      }
     }
   }
 

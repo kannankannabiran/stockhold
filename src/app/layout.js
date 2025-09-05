@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar/page";
 import { startCron } from "./api/trending-oi/cron";
-import { VwapScanProvider } from "./longterm/hooks/page";
+//import { VwapScanProvider } from "./longterm/hooks/page";
 
 
 if (typeof window === "undefined") {
@@ -30,10 +30,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <VwapScanProvider>
           <Navbar />
           {children}
-        </VwapScanProvider>
       </body>
     </html>
   );

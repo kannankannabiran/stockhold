@@ -17,7 +17,7 @@ export function useVwapScanContext() {
   return useContext(VwapScanContext);
 }
 
-function useVwapScan() {
+export function useVwapScan() {
   const [results, setResults] = useState({ rise: [], decline: [] });
   const [loading, setLoading] = useState(false);
   const [scanning, setScanning] = useState(false);

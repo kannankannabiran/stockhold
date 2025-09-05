@@ -4,13 +4,12 @@ import React, { useState, useMemo } from "react";
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { useVwapScanContext } from "../hooks/page"; // adjust if path differs
+import { useVwapScan } from "../hooks/page"; // adjust if path differs
 
 export default function SwingScanner() {
-  const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
+  const { results, loading, scanning, handleScan, cancelScan } = useVwapScan();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   const today = useMemo(() => new Date(), []);
   const oneMonthAgo = useMemo(() => {
@@ -20,13 +19,10 @@ export default function SwingScanner() {
   }, []);
 
   React.useEffect(() => {
-    setMounted(true);
     const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
     const symbols = new Set(savedList.map((item) => item.symbol));
     setAddedSymbols(symbols);
   }, []);
-
-  if (!mounted) return null;
 
   const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
 

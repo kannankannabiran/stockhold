@@ -93,11 +93,11 @@ export async function GET() {
       };
 
       if (prevVWAPs.every((v) => v < currentVWAP) && lastClose > currentVWAP) {
-        resultDecline.push({ ...resultObj, trend: "rise" });
+        resultRise.push({ ...resultObj, trend: "rise" });
       }
 
       if (prevVWAPs.every((v) => v > currentVWAP) && lastClose > currentVWAP) {
-        resultRise.push({ ...resultObj, trend: "decline" });
+        resultDecline.push({ ...resultObj, trend: "decline" });
       }
     } catch (err) {
       console.error(`Error fetching ${symbol}:`, err);

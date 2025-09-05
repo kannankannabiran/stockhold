@@ -9,7 +9,7 @@ export function useVwapScan() {
   const controllerRef = useRef(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("longterm");
+    const saved = localStorage.getItem("vwapResults");
     if (saved) {
       try {
         setResults(JSON.parse(saved));
@@ -37,7 +37,7 @@ export function useVwapScan() {
           if (data?.rise?.length) {
             console.log("Loaded saved scan data from server:", data);
             setResults(data);
-            localStorage.setItem("longterm", JSON.stringify(data));
+            localStorage.setItem("vwapResults", JSON.stringify(data));
           }
         })
         .catch((e) => console.warn("Failed loading long-term scan data:", e));
@@ -53,14 +53,14 @@ export function useVwapScan() {
 
     try {
       setResults({ rise: [], decline: [] });
-      localStorage.removeItem("longterm");
+      localStorage.removeItem("vwapResults");
 
       const res = await fetch("/api/long-data", { signal: controller.signal });
       if (!res.ok) throw new Error("Network error during scan");
       const data = await res.json();
 
       setResults(data);
-      localStorage.setItem("longterm", JSON.stringify(data));
+      localStorage.setItem("vwapResults", JSON.stringify(data));
       console.log("Scan completed and saved to localStorage:", data);
     } catch (error) {
       if (error.name === "AbortError") {

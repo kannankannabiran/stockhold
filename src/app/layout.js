@@ -3,6 +3,9 @@ import "./globals.css";
 import Navbar from "./Navbar/page";
 import { startCron } from "./api/trending-oi/cron";
 //import { VwapScanProvider } from "./longterm/hooks/page";
+import { ScanProvider } from "./context/SwingContext";
+
+
 
 
 if (typeof window === "undefined") {
@@ -30,8 +33,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+          <ScanProvider>
           <Navbar />
           {children}
+        </ScanProvider>
       </body>
     </html>
   );

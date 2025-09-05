@@ -1,7 +1,7 @@
 const dev = process.env.NODE_ENV !== 'production';
 
 const nextConfig = {
-  assetPrefix: dev ? '' : 'https://stockhold.in', // use HTTPS in production
+  assetPrefix: dev ? 'http://localhost:3000' : 'https://stockhold.in', // use HTTPS in production
   experimental: {
     serverComponentsExternalPackages: ['yahoo-finance2']
   },

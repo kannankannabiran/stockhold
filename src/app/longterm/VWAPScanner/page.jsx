@@ -1,41 +1,57 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { ScanContext } from "../../context/SwingContext";
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { useVwapScan } from "../hooks/page"; // adjust if path differs
 
 export default function SwingScanner() {
-  const { results, loading, scanning, handleScan, cancelScan } = useVwapScan();
+  const { results, loading, scanning, handleScan, cancelScan } = useContext(ScanContext);
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 
-  const today = useMemo(() => new Date(), []);
-  const oneMonthAgo = useMemo(() => {
-    const d = new Date();
-    d.setMonth(d.getMonth() - 1);
-    return d;
-  }, []);
+  const today = new Date();
+  const oneMonthAgo = new Date(today);
+  oneMonthAgo.setMonth(today.getMonth() - 1);
 
-  React.useEffect(() => {
+  const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
+
+  const filteredResults = allResults
+    .filter((item) => {
+      const date = new Date(item.condition_date);
+      return includeOld || date >= oneMonthAgo;
+    })
+    .sort((a, b) => new Date(b.condition_date) - new Date(a.condition_date));
+
+  useEffect(() => {
     const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
     const symbols = new Set(savedList.map((item) => item.symbol));
     setAddedSymbols(symbols);
   }, []);
 
-  const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
-  
-  const filteredResults = useMemo(
-    () =>
-      allResults
-        .filter((item) => {
-          const date = new Date(item.condition_date);
-          return includeOld || date >= oneMonthAgo;
-        })
-        .sort((a, b) => new Date(b.condition_date) - new Date(a.condition_date)),
-    [allResults, includeOld, oneMonthAgo]
-  );
+  useEffect(() => {
+    if (results?.rise?.length) {
+      fetch("/api/save-scan-data-long-term", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(results),
+      });
+    }
+  }, [results]);
+
+  useEffect(() => {
+    if (!results?.rise?.length) {
+      fetch("/api/load-scan-data-long-term")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.rise?.length) {
+            console.log("Loaded saved scan data from server:", data);
+            // Optional: update context or local state here
+          }
+        });
+    }
+  }, []);
 
   const groupByMonth = (data) => {
     const groups = {};
@@ -80,7 +96,6 @@ export default function SwingScanner() {
   };
 
   const exportToExcel = () => {
-    if (filteredResults.length === 0) return;
     const data = filteredResults.map((s, i) => ({
       SNo: i + 1,
       Symbol: s.symbol.replace(".NS", ""),
@@ -96,7 +111,6 @@ export default function SwingScanner() {
   };
 
   const exportToCSV = () => {
-    if (filteredResults.length === 0) return;
     const data = filteredResults.map((s, i) => ({
       SNo: i + 1,
       Symbol: s.symbol.replace(".NS", ""),
@@ -111,23 +125,18 @@ export default function SwingScanner() {
 
   return (
     <div className="p-6">
-      {groupedResults.length}
       {(loading || scanning) && (
-        <div className="top-1/4 right-1/2 flex items-center gap-2 bg-white border rounded shadow p-2 z-50 absolute">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-          <span className="text-sm">{loading || scanning ? "Scanning..." : ""}</span>
-          <button
-            onClick={cancelScan}
-            className="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded"
-          >
-            Cancel
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
+          <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer" onClick={cancelScan}>
+            Cancel Scan
           </button>
         </div>
       )}
 
       <h1 className="text-2xl font-bold flex items-center gap-2 justify-center text-blue-700 mb-6">
         <FaChartLine className="mr-2" />
-        Long Term Stocks
+        Swing VWAP Scanner
       </h1>
 
       <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -156,11 +165,15 @@ export default function SwingScanner() {
         </button>
 
         <label className="flex items-center space-x-2 text-sm text-gray-700">
-          <input type="checkbox" checked={includeOld} onChange={() => setIncludeOld((prev) => !prev)} />
+          <input
+            type="checkbox"
+            checked={includeOld}
+            onChange={() => setIncludeOld((prev) => !prev)}
+          />
           <span>Include Previous Data</span>
         </label>
       </div>
-      {groupedResults.length}
+
       {Object.entries(groupedResults).length > 0 ? (
         Object.entries(groupedResults).map(([month, stocks]) => (
           <div key={month} className="mb-10">
@@ -184,16 +197,16 @@ export default function SwingScanner() {
                     const alreadyAdded = addedSymbols.has(cleanSymbol);
                     const isRise = stock.trend === "rise";
                     return (
-                      <tr key={`${month}-${index}`} className={isRise ? "bg-red-50" : "bg-green-50"}>
+                      <tr key={`${month}-${index}`} className={isRise ? "bg-green-50" : "bg-red-50"}>
                         <td className="px-4 py-2">{index + 1}</td>
                         <td className="px-4 py-2 font-medium">{cleanSymbol}</td>
                         <td className="px-4 py-2">₹{stock.current_year_vwap}</td>
                         <td className="px-4 py-2">{stock.condition_date}</td>
                         <td className="px-4 py-2 font-semibold">
                           {isRise ? (
-                            <span className="text-red-700">↓ Declining</span>
-                          ) : (
                             <span className="text-green-700">↑ Rising</span>
+                          ) : (
+                            <span className="text-red-700">↓ Declining</span>
                           )}
                         </td>
                         <td className="px-4 py-2">

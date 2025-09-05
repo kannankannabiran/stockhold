@@ -10,6 +10,7 @@ export default function SwingScanner() {
   const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const today = useMemo(() => new Date(), []);
   const oneMonthAgo = useMemo(() => {
@@ -19,10 +20,13 @@ export default function SwingScanner() {
   }, []);
 
   React.useEffect(() => {
+    setMounted(true);
     const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
     const symbols = new Set(savedList.map((item) => item.symbol));
     setAddedSymbols(symbols);
   }, []);
+
+  if (!mounted) return null;
 
   const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
 

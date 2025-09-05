@@ -136,7 +136,7 @@ export default function SwingScanner() {
 
       <h1 className="text-2xl font-bold flex items-center gap-2 justify-center text-blue-700 mb-6">
         <FaChartLine className="mr-2" />
-        Swing VWAP Scanner
+        Long Term Scanner
       </h1>
 
       <div className="flex flex-wrap justify-center gap-4 mb-6">

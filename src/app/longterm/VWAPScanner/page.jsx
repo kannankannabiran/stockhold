@@ -7,7 +7,7 @@ import { saveAs } from "file-saver";
 import { useVwapScan } from "../hooks/page"; // adjust if path differs
 
 export default function SwingScanner() {
-  const { results, loading, scanning, handleScan, cancelScan } = useVwapScan();
+  const { loading, scanning, handleScan, cancelScan } = useVwapScan();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 
@@ -23,6 +23,11 @@ export default function SwingScanner() {
     const symbols = new Set(savedList.map((item) => item.symbol));
     setAddedSymbols(symbols);
   }, []);
+
+  const results = JSON.parse(
+    localStorage.getItem("vwapResults") ||
+      '{"rise":[],"decline":[]}'
+  );
 
   const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
 

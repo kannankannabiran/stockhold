@@ -1,8 +1,23 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 
-export function useVwapScan() {
+const VwapScanContext = createContext();
+
+export function VwapScanProvider({ children }) {
+  const vwapScanData = useVwapScan();
+  return (
+    <VwapScanContext.Provider value={vwapScanData}>
+      {children}
+    </VwapScanContext.Provider>
+  );
+}
+
+export function useVwapScanContext() {
+  return useContext(VwapScanContext);
+}
+
+function useVwapScan() {
   const [results, setResults] = useState({ rise: [], decline: [] });
   const [loading, setLoading] = useState(false);
   const [scanning, setScanning] = useState(false);

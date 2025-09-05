@@ -7,7 +7,7 @@ import { saveAs } from "file-saver";
 import { useVwapScan } from "../hooks/page"; // adjust if path differs
 
 export default function SwingScanner() {
-  const { loading, scanning, handleScan, cancelScan } = useVwapScan();
+  const { results, loading, scanning, handleScan, cancelScan } = useVwapScan();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 
@@ -24,13 +24,8 @@ export default function SwingScanner() {
     setAddedSymbols(symbols);
   }, []);
 
-  const results = JSON.parse(
-    localStorage.getItem("vwapResults") ||
-      '{"rise":[],"decline":[]}'
-  );
-
   const allResults = Array.isArray(results?.rise) ? [...results.rise] : [];
-
+  
   const filteredResults = useMemo(
     () =>
       allResults
@@ -116,6 +111,7 @@ export default function SwingScanner() {
 
   return (
     <div className="p-6">
+      {groupedResults.length}
       {(loading || scanning) && (
         <div className="top-1/4 right-1/2 flex items-center gap-2 bg-white border rounded shadow p-2 z-50 absolute">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
@@ -164,7 +160,7 @@ export default function SwingScanner() {
           <span>Include Previous Data</span>
         </label>
       </div>
-
+      {groupedResults.length}
       {Object.entries(groupedResults).length > 0 ? (
         Object.entries(groupedResults).map(([month, stocks]) => (
           <div key={month} className="mb-10">

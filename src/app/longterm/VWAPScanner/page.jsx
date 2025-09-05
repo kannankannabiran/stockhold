@@ -4,10 +4,10 @@ import React, { useState, useMemo } from "react";
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { useVwapScan } from "../hooks/page"; // adjust if path differs
+import { useVwapScanContext } from "../hooks/page"; // adjust if path differs
 
 export default function SwingScanner() {
-  const { results, loading, scanning, handleScan, cancelScan } = useVwapScan();
+  const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 

@@ -126,12 +126,26 @@ export default function SwingScanner() {
   return (
     <div className="p-6">
       {(loading || scanning) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-          <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer" onClick={cancelScan}>
-            Cancel Scan
-          </button>
-        </div>
+        <div className="fixed inset-0 bg-black/60 flex flex-col items-center justify-center z-50">
+  {/* Card container */}
+  <div className="bg-gray-900 p-6 rounded-2xl shadow-lg flex flex-col items-center space-y-4 w-72">
+    {/* Spinner */}
+    <div className="relative">
+      <div className="h-14 w-14 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin"></div>
+    </div>
+
+    {/* Loading text */}
+    <p className="text-gray-200 font-medium">Scanning in progress...</p>
+
+    {/* Cancel button */}
+    <button
+      onClick={cancelScan}
+      className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-200"
+    >
+      Cancel Scan
+    </button>
+  </div>
+</div>
       )}
 
       <h1 className="text-2xl font-bold flex items-center gap-2 justify-center text-blue-700 mb-6">

@@ -1,5 +1,2912 @@
 [
   {
+    "id": 1757152156351,
+    "date": "6/9/2025",
+    "time": "03:19:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757152096572,
+    "date": "6/9/2025",
+    "time": "03:18:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151916072,
+    "date": "6/9/2025",
+    "time": "03:15:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151735969,
+    "date": "6/9/2025",
+    "time": "03:12:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151676164,
+    "date": "6/9/2025",
+    "time": "03:11:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151616205,
+    "date": "6/9/2025",
+    "time": "03:10:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151557406,
+    "date": "6/9/2025",
+    "time": "03:09:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151495963,
+    "date": "6/9/2025",
+    "time": "03:08:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151436304,
+    "date": "6/9/2025",
+    "time": "03:07:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151376155,
+    "date": "6/9/2025",
+    "time": "03:06:15 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151195700,
+    "date": "6/9/2025",
+    "time": "03:03:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757151135722,
+    "date": "6/9/2025",
+    "time": "03:02:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757150895659,
+    "date": "6/9/2025",
+    "time": "02:58:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757150775902,
+    "date": "6/9/2025",
+    "time": "02:56:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757150715576,
+    "date": "6/9/2025",
+    "time": "02:55:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757150235639,
+    "date": "6/9/2025",
+    "time": "02:47:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149995340,
+    "date": "6/9/2025",
+    "time": "02:43:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149755384,
+    "date": "6/9/2025",
+    "time": "02:39:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149516620,
+    "date": "6/9/2025",
+    "time": "02:35:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149455182,
+    "date": "6/9/2025",
+    "time": "02:34:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149335367,
+    "date": "6/9/2025",
+    "time": "02:32:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149275197,
+    "date": "6/9/2025",
+    "time": "02:31:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149215171,
+    "date": "6/9/2025",
+    "time": "02:30:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149155210,
+    "date": "6/9/2025",
+    "time": "02:29:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757149095310,
+    "date": "6/9/2025",
+    "time": "02:28:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757148975152,
+    "date": "6/9/2025",
+    "time": "02:26:14 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757148374891,
+    "date": "6/9/2025",
+    "time": "02:16:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757148194488,
+    "date": "6/9/2025",
+    "time": "02:13:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757148134424,
+    "date": "6/9/2025",
+    "time": "02:12:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757148074394,
+    "date": "6/9/2025",
+    "time": "02:11:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147955891,
+    "date": "6/9/2025",
+    "time": "02:09:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147774271,
+    "date": "6/9/2025",
+    "time": "02:06:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147734766,
+    "date": "6/9/2025",
+    "time": "02:05:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147654601,
+    "date": "6/9/2025",
+    "time": "02:04:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147614457,
+    "date": "6/9/2025",
+    "time": "02:03:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147554386,
+    "date": "6/9/2025",
+    "time": "02:02:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147494485,
+    "date": "6/9/2025",
+    "time": "02:01:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147414302,
+    "date": "6/9/2025",
+    "time": "02:00:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147374211,
+    "date": "6/9/2025",
+    "time": "01:59:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147294148,
+    "date": "6/9/2025",
+    "time": "01:58:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147251119,
+    "date": "6/9/2025",
+    "time": "01:57:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147194151,
+    "date": "6/9/2025",
+    "time": "01:56:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147136571,
+    "date": "6/9/2025",
+    "time": "01:55:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147076825,
+    "date": "6/9/2025",
+    "time": "01:54:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757147015597,
+    "date": "6/9/2025",
+    "time": "01:53:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146934153,
+    "date": "6/9/2025",
+    "time": "01:52:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146895039,
+    "date": "6/9/2025",
+    "time": "01:51:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146814676,
+    "date": "6/9/2025",
+    "time": "01:50:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146774260,
+    "date": "6/9/2025",
+    "time": "01:49:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146714270,
+    "date": "6/9/2025",
+    "time": "01:48:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146654297,
+    "date": "6/9/2025",
+    "time": "01:47:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146574361,
+    "date": "6/9/2025",
+    "time": "01:46:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146534308,
+    "date": "6/9/2025",
+    "time": "01:45:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146454121,
+    "date": "6/9/2025",
+    "time": "01:44:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146413993,
+    "date": "6/9/2025",
+    "time": "01:43:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146333990,
+    "date": "6/9/2025",
+    "time": "01:42:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146293837,
+    "date": "6/9/2025",
+    "time": "01:41:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146214261,
+    "date": "6/9/2025",
+    "time": "01:40:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146173766,
+    "date": "6/9/2025",
+    "time": "01:39:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146094030,
+    "date": "6/9/2025",
+    "time": "01:38:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757146054508,
+    "date": "6/9/2025",
+    "time": "01:37:13 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145973928,
+    "date": "6/9/2025",
+    "time": "01:36:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145933993,
+    "date": "6/9/2025",
+    "time": "01:35:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145853721,
+    "date": "6/9/2025",
+    "time": "01:34:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145815831,
+    "date": "6/9/2025",
+    "time": "01:33:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145733969,
+    "date": "6/9/2025",
+    "time": "01:32:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145693912,
+    "date": "6/9/2025",
+    "time": "01:31:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145634784,
+    "date": "6/9/2025",
+    "time": "01:30:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145573862,
+    "date": "6/9/2025",
+    "time": "01:29:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145493647,
+    "date": "6/9/2025",
+    "time": "01:28:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145453892,
+    "date": "6/9/2025",
+    "time": "01:27:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145374021,
+    "date": "6/9/2025",
+    "time": "01:26:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145333958,
+    "date": "6/9/2025",
+    "time": "01:25:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145253573,
+    "date": "6/9/2025",
+    "time": "01:24:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145213756,
+    "date": "6/9/2025",
+    "time": "01:23:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145153616,
+    "date": "6/9/2025",
+    "time": "01:22:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145094908,
+    "date": "6/9/2025",
+    "time": "01:21:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757145013732,
+    "date": "6/9/2025",
+    "time": "01:20:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144973558,
+    "date": "6/9/2025",
+    "time": "01:19:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144893635,
+    "date": "6/9/2025",
+    "time": "01:18:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144853474,
+    "date": "6/9/2025",
+    "time": "01:17:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144773533,
+    "date": "6/9/2025",
+    "time": "01:16:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144733764,
+    "date": "6/9/2025",
+    "time": "01:15:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144673611,
+    "date": "6/9/2025",
+    "time": "01:14:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144614162,
+    "date": "6/9/2025",
+    "time": "01:13:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144555948,
+    "date": "6/9/2025",
+    "time": "01:12:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144493524,
+    "date": "6/9/2025",
+    "time": "01:11:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144413620,
+    "date": "6/9/2025",
+    "time": "01:10:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144373593,
+    "date": "6/9/2025",
+    "time": "01:09:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144315700,
+    "date": "6/9/2025",
+    "time": "01:08:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144253501,
+    "date": "6/9/2025",
+    "time": "01:07:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144173196,
+    "date": "6/9/2025",
+    "time": "01:06:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144134000,
+    "date": "6/9/2025",
+    "time": "01:05:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144053355,
+    "date": "6/9/2025",
+    "time": "01:04:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757144013454,
+    "date": "6/9/2025",
+    "time": "01:03:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143953222,
+    "date": "6/9/2025",
+    "time": "01:02:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143894841,
+    "date": "6/9/2025",
+    "time": "01:01:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143813658,
+    "date": "6/9/2025",
+    "time": "01:00:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143773151,
+    "date": "6/9/2025",
+    "time": "12:59:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143713430,
+    "date": "6/9/2025",
+    "time": "12:58:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143633266,
+    "date": "6/9/2025",
+    "time": "12:57:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143573052,
+    "date": "6/9/2025",
+    "time": "12:56:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143534180,
+    "date": "6/9/2025",
+    "time": "12:55:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143453130,
+    "date": "6/9/2025",
+    "time": "12:54:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143414096,
+    "date": "6/9/2025",
+    "time": "12:53:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143332922,
+    "date": "6/9/2025",
+    "time": "12:52:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143293164,
+    "date": "6/9/2025",
+    "time": "12:51:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143213135,
+    "date": "6/9/2025",
+    "time": "12:50:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143173349,
+    "date": "6/9/2025",
+    "time": "12:49:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143092873,
+    "date": "6/9/2025",
+    "time": "12:48:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757143053218,
+    "date": "6/9/2025",
+    "time": "12:47:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142973245,
+    "date": "6/9/2025",
+    "time": "12:46:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142934025,
+    "date": "6/9/2025",
+    "time": "12:45:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142852859,
+    "date": "6/9/2025",
+    "time": "12:44:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142813755,
+    "date": "6/9/2025",
+    "time": "12:43:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142733004,
+    "date": "6/9/2025",
+    "time": "12:42:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142672754,
+    "date": "6/9/2025",
+    "time": "12:41:12 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142613068,
+    "date": "6/9/2025",
+    "time": "12:40:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142572888,
+    "date": "6/9/2025",
+    "time": "12:39:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142492873,
+    "date": "6/9/2025",
+    "time": "12:38:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142453283,
+    "date": "6/9/2025",
+    "time": "12:37:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142372646,
+    "date": "6/9/2025",
+    "time": "12:36:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142332663,
+    "date": "6/9/2025",
+    "time": "12:35:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142252586,
+    "date": "6/9/2025",
+    "time": "12:34:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142212640,
+    "date": "6/9/2025",
+    "time": "12:33:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142132999,
+    "date": "6/9/2025",
+    "time": "12:32:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142093801,
+    "date": "6/9/2025",
+    "time": "12:31:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757142012657,
+    "date": "6/9/2025",
+    "time": "12:30:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141973017,
+    "date": "6/9/2025",
+    "time": "12:29:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141892574,
+    "date": "6/9/2025",
+    "time": "12:28:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141852936,
+    "date": "6/9/2025",
+    "time": "12:27:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141781105,
+    "date": "6/9/2025",
+    "time": "12:24:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141772407,
+    "date": "6/9/2025",
+    "time": "12:26:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141732680,
+    "date": "6/9/2025",
+    "time": "12:25:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141612768,
+    "date": "6/9/2025",
+    "time": "12:23:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141532404,
+    "date": "6/9/2025",
+    "time": "12:22:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141492521,
+    "date": "6/9/2025",
+    "time": "12:21:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141432464,
+    "date": "6/9/2025",
+    "time": "12:20:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141372823,
+    "date": "6/9/2025",
+    "time": "12:19:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141292293,
+    "date": "6/9/2025",
+    "time": "12:18:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141252361,
+    "date": "6/9/2025",
+    "time": "12:17:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141192314,
+    "date": "6/9/2025",
+    "time": "12:16:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141132451,
+    "date": "6/9/2025",
+    "time": "12:15:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141052429,
+    "date": "6/9/2025",
+    "time": "12:14:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757141012329,
+    "date": "6/9/2025",
+    "time": "12:13:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140932391,
+    "date": "6/9/2025",
+    "time": "12:12:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140892250,
+    "date": "6/9/2025",
+    "time": "12:11:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140812571,
+    "date": "6/9/2025",
+    "time": "12:10:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140774116,
+    "date": "6/9/2025",
+    "time": "12:09:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140713560,
+    "date": "6/9/2025",
+    "time": "12:08:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140652263,
+    "date": "6/9/2025",
+    "time": "12:07:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140592842,
+    "date": "6/9/2025",
+    "time": "12:06:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140532603,
+    "date": "6/9/2025",
+    "time": "12:05:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140472289,
+    "date": "6/9/2025",
+    "time": "12:04:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140412880,
+    "date": "6/9/2025",
+    "time": "12:03:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140352494,
+    "date": "6/9/2025",
+    "time": "12:02:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140292539,
+    "date": "6/9/2025",
+    "time": "12:01:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140232574,
+    "date": "6/9/2025",
+    "time": "12:00:11 pm",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140172338,
+    "date": "6/9/2025",
+    "time": "11:59:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140112324,
+    "date": "6/9/2025",
+    "time": "11:58:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757140052449,
+    "date": "6/9/2025",
+    "time": "11:57:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139992053,
+    "date": "6/9/2025",
+    "time": "11:56:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139933682,
+    "date": "6/9/2025",
+    "time": "11:55:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139872115,
+    "date": "6/9/2025",
+    "time": "11:54:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139812280,
+    "date": "6/9/2025",
+    "time": "11:53:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139751980,
+    "date": "6/9/2025",
+    "time": "11:52:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139692471,
+    "date": "6/9/2025",
+    "time": "11:51:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139616916,
+    "date": "6/9/2025",
+    "time": "11:50:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139572968,
+    "date": "6/9/2025",
+    "time": "11:49:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139511922,
+    "date": "6/9/2025",
+    "time": "11:48:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139452169,
+    "date": "6/9/2025",
+    "time": "11:47:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139391910,
+    "date": "6/9/2025",
+    "time": "11:46:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139332068,
+    "date": "6/9/2025",
+    "time": "11:45:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139272390,
+    "date": "6/9/2025",
+    "time": "11:44:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139214021,
+    "date": "6/9/2025",
+    "time": "11:43:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139152675,
+    "date": "6/9/2025",
+    "time": "11:42:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139092172,
+    "date": "6/9/2025",
+    "time": "11:41:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757139032767,
+    "date": "6/9/2025",
+    "time": "11:40:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138971921,
+    "date": "6/9/2025",
+    "time": "11:39:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138912264,
+    "date": "6/9/2025",
+    "time": "11:38:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138852007,
+    "date": "6/9/2025",
+    "time": "11:37:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138792371,
+    "date": "6/9/2025",
+    "time": "11:36:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138733572,
+    "date": "6/9/2025",
+    "time": "11:35:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138672177,
+    "date": "6/9/2025",
+    "time": "11:34:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138611966,
+    "date": "6/9/2025",
+    "time": "11:33:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138552209,
+    "date": "6/9/2025",
+    "time": "11:32:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138492096,
+    "date": "6/9/2025",
+    "time": "11:31:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138433511,
+    "date": "6/9/2025",
+    "time": "11:30:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138371815,
+    "date": "6/9/2025",
+    "time": "11:29:11 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138312671,
+    "date": "6/9/2025",
+    "time": "11:28:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138251984,
+    "date": "6/9/2025",
+    "time": "11:27:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138192083,
+    "date": "6/9/2025",
+    "time": "11:26:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138132340,
+    "date": "6/9/2025",
+    "time": "11:25:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138071774,
+    "date": "6/9/2025",
+    "time": "11:24:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757138011972,
+    "date": "6/9/2025",
+    "time": "11:23:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137952893,
+    "date": "6/9/2025",
+    "time": "11:22:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137891751,
+    "date": "6/9/2025",
+    "time": "11:21:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137832965,
+    "date": "6/9/2025",
+    "time": "11:20:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137773413,
+    "date": "6/9/2025",
+    "time": "11:19:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137711734,
+    "date": "6/9/2025",
+    "time": "11:18:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137653313,
+    "date": "6/9/2025",
+    "time": "11:17:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137591663,
+    "date": "6/9/2025",
+    "time": "11:16:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137533462,
+    "date": "6/9/2025",
+    "time": "11:15:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137474301,
+    "date": "6/9/2025",
+    "time": "11:14:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137414946,
+    "date": "6/9/2025",
+    "time": "11:13:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137353770,
+    "date": "6/9/2025",
+    "time": "11:12:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137293948,
+    "date": "6/9/2025",
+    "time": "11:11:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137231975,
+    "date": "6/9/2025",
+    "time": "11:10:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137173443,
+    "date": "6/9/2025",
+    "time": "11:09:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137111556,
+    "date": "6/9/2025",
+    "time": "11:08:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757137051755,
+    "date": "6/9/2025",
+    "time": "11:07:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136991990,
+    "date": "6/9/2025",
+    "time": "11:06:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136931977,
+    "date": "6/9/2025",
+    "time": "11:05:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136873097,
+    "date": "6/9/2025",
+    "time": "11:04:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136811987,
+    "date": "6/9/2025",
+    "time": "11:03:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136751940,
+    "date": "6/9/2025",
+    "time": "11:02:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136691833,
+    "date": "6/9/2025",
+    "time": "11:01:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136631498,
+    "date": "6/9/2025",
+    "time": "11:00:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136571479,
+    "date": "6/9/2025",
+    "time": "10:59:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136512207,
+    "date": "6/9/2025",
+    "time": "10:58:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136452256,
+    "date": "6/9/2025",
+    "time": "10:57:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136391464,
+    "date": "6/9/2025",
+    "time": "10:56:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136331743,
+    "date": "6/9/2025",
+    "time": "10:55:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136271414,
+    "date": "6/9/2025",
+    "time": "10:54:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136211627,
+    "date": "6/9/2025",
+    "time": "10:53:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136151729,
+    "date": "6/9/2025",
+    "time": "10:52:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136092330,
+    "date": "6/9/2025",
+    "time": "10:51:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757136011383,
+    "date": "6/9/2025",
+    "time": "10:50:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135972438,
+    "date": "6/9/2025",
+    "time": "10:49:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135913273,
+    "date": "6/9/2025",
+    "time": "10:48:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135853525,
+    "date": "6/9/2025",
+    "time": "10:47:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135791573,
+    "date": "6/9/2025",
+    "time": "10:46:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135735200,
+    "date": "6/9/2025",
+    "time": "10:45:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135672504,
+    "date": "6/9/2025",
+    "time": "10:44:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135611607,
+    "date": "6/9/2025",
+    "time": "10:43:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135551407,
+    "date": "6/9/2025",
+    "time": "10:42:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135494485,
+    "date": "6/9/2025",
+    "time": "10:41:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135431863,
+    "date": "6/9/2025",
+    "time": "10:40:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135372901,
+    "date": "6/9/2025",
+    "time": "10:39:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135311476,
+    "date": "6/9/2025",
+    "time": "10:38:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135251180,
+    "date": "6/9/2025",
+    "time": "10:37:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135192920,
+    "date": "6/9/2025",
+    "time": "10:36:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135131394,
+    "date": "6/9/2025",
+    "time": "10:35:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135071404,
+    "date": "6/9/2025",
+    "time": "10:34:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757135011181,
+    "date": "6/9/2025",
+    "time": "10:33:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134951522,
+    "date": "6/9/2025",
+    "time": "10:32:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134891128,
+    "date": "6/9/2025",
+    "time": "10:31:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134831331,
+    "date": "6/9/2025",
+    "time": "10:30:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134771364,
+    "date": "6/9/2025",
+    "time": "10:29:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134711174,
+    "date": "6/9/2025",
+    "time": "10:28:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134651608,
+    "date": "6/9/2025",
+    "time": "10:27:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134592665,
+    "date": "6/9/2025",
+    "time": "10:26:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134531398,
+    "date": "6/9/2025",
+    "time": "10:25:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134472157,
+    "date": "6/9/2025",
+    "time": "10:24:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134411039,
+    "date": "6/9/2025",
+    "time": "10:23:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134352099,
+    "date": "6/9/2025",
+    "time": "10:22:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134291167,
+    "date": "6/9/2025",
+    "time": "10:21:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134231020,
+    "date": "6/9/2025",
+    "time": "10:20:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134171274,
+    "date": "6/9/2025",
+    "time": "10:19:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134111275,
+    "date": "6/9/2025",
+    "time": "10:18:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757134046142,
+    "date": "6/9/2025",
+    "time": "10:17:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133990880,
+    "date": "6/9/2025",
+    "time": "10:16:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133932522,
+    "date": "6/9/2025",
+    "time": "10:15:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133871058,
+    "date": "6/9/2025",
+    "time": "10:14:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133812500,
+    "date": "6/9/2025",
+    "time": "10:13:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133750886,
+    "date": "6/9/2025",
+    "time": "10:12:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133691697,
+    "date": "6/9/2025",
+    "time": "10:11:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133631088,
+    "date": "6/9/2025",
+    "time": "10:10:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133571808,
+    "date": "6/9/2025",
+    "time": "10:09:10 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133514683,
+    "date": "6/9/2025",
+    "time": "10:08:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133446278,
+    "date": "6/9/2025",
+    "time": "10:07:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133390991,
+    "date": "6/9/2025",
+    "time": "10:06:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133331066,
+    "date": "6/9/2025",
+    "time": "10:05:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133270973,
+    "date": "6/9/2025",
+    "time": "10:04:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133210976,
+    "date": "6/9/2025",
+    "time": "10:03:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133130621,
+    "date": "6/9/2025",
+    "time": "10:02:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133123288,
+    "date": "6/9/2025",
+    "time": "10:01:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133064114,
+    "date": "6/9/2025",
+    "time": "10:00:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757133003249,
+    "date": "6/9/2025",
+    "time": "09:59:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132944772,
+    "date": "6/9/2025",
+    "time": "09:58:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132883227,
+    "date": "6/9/2025",
+    "time": "09:57:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132824199,
+    "date": "6/9/2025",
+    "time": "09:56:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132763505,
+    "date": "6/9/2025",
+    "time": "09:55:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132707150,
+    "date": "6/9/2025",
+    "time": "09:54:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132643548,
+    "date": "6/9/2025",
+    "time": "09:53:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132583212,
+    "date": "6/9/2025",
+    "time": "09:52:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132524474,
+    "date": "6/9/2025",
+    "time": "09:51:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132463353,
+    "date": "6/9/2025",
+    "time": "09:50:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132404468,
+    "date": "6/9/2025",
+    "time": "09:49:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132343777,
+    "date": "6/9/2025",
+    "time": "09:48:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132283528,
+    "date": "6/9/2025",
+    "time": "09:47:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132223285,
+    "date": "6/9/2025",
+    "time": "09:46:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132163256,
+    "date": "6/9/2025",
+    "time": "09:45:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132103445,
+    "date": "6/9/2025",
+    "time": "09:44:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757132043248,
+    "date": "6/9/2025",
+    "time": "09:43:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131984919,
+    "date": "6/9/2025",
+    "time": "09:42:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131923245,
+    "date": "6/9/2025",
+    "time": "09:41:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131863821,
+    "date": "6/9/2025",
+    "time": "09:40:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131803688,
+    "date": "6/9/2025",
+    "time": "09:39:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131744334,
+    "date": "6/9/2025",
+    "time": "09:38:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131684257,
+    "date": "6/9/2025",
+    "time": "09:37:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131603196,
+    "date": "6/9/2025",
+    "time": "09:36:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131563247,
+    "date": "6/9/2025",
+    "time": "09:35:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131503530,
+    "date": "6/9/2025",
+    "time": "09:34:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131444503,
+    "date": "6/9/2025",
+    "time": "09:33:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131383650,
+    "date": "6/9/2025",
+    "time": "09:32:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131324869,
+    "date": "6/9/2025",
+    "time": "09:31:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131263540,
+    "date": "6/9/2025",
+    "time": "09:30:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131203134,
+    "date": "6/9/2025",
+    "time": "09:29:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131143144,
+    "date": "6/9/2025",
+    "time": "09:28:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131084155,
+    "date": "6/9/2025",
+    "time": "09:27:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757131018084,
+    "date": "6/9/2025",
+    "time": "09:26:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130964539,
+    "date": "6/9/2025",
+    "time": "09:25:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130903403,
+    "date": "6/9/2025",
+    "time": "09:24:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130843175,
+    "date": "6/9/2025",
+    "time": "09:23:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130783134,
+    "date": "6/9/2025",
+    "time": "09:22:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130723396,
+    "date": "6/9/2025",
+    "time": "09:21:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130663360,
+    "date": "6/9/2025",
+    "time": "09:20:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130603497,
+    "date": "6/9/2025",
+    "time": "09:19:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130543194,
+    "date": "6/9/2025",
+    "time": "09:18:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130534610,
+    "date": "6/9/2025",
+    "time": "09:17:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130423253,
+    "date": "6/9/2025",
+    "time": "09:16:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
+    "id": 1757130369307,
+    "date": "6/9/2025",
+    "time": "09:15:09 am",
+    "callChange": 78974,
+    "putChange": 118814,
+    "diffOi": 39840,
+    "sentiment": "Bullish"
+  },
+  {
     "id": 1756288791307,
     "date": "27/8/2025",
     "time": "03:29:48 pm",

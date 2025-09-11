@@ -1,57 +1,307 @@
 {
   "members": [
     {
-      "id": "16FYe613dYF_PtAjLQ5T9",
-      "name": "Kannabiran",
-      "mobile": "7200630057",
-      "password": "$2b$10$mcxyWGpaykzmH9CCaWbareIstUB3aCNtVpdTirBh3tVqt6CH1Y7O2",
-      "createdAt": "2025-08-02T16:55:10.989Z",
-      "active": true,
-      "urlAccess": [
-        "/purchase-order",
-        "/order",
-        "/chart",
-        "/trendingoi",
-        "/openhighnifty",
-        "/herozero",
-        "/individual",
-        "/options",
-        "/longterm",
-        "/stocklist",
-        "/backtest"
-      ]
+      "id": "pQ3Mwd7qFPOaLnODQJDu1",
+      "name": "M Chandru  HTT",
+      "mobile": "9943997408",
+      "password": "$2b$10$BXWUkhXniIC9cmL/ih3xe.LtgT8mJ5GBFM3tg83hJKLmT1hfvWav.",
+      "createdAt": "2025-09-11T04:53:12.173Z",
+      "active": false,
+      "urlAccess": []
     },
     {
-      "id": "Kn1HQZB5bbfvEyL9Jb6oh",
-      "name": "Chandra Mohan",
+      "id": "-xp7dpWjfsSq0mchaPyG8",
+      "name": "subramaniyan htt",
+      "mobile": "9659941721",
+      "password": "$2b$10$ZZ/.U8nIvw8rIBvjfdqFa.1lUipqRia7djXjVpiNxNslxq.158rTi",
+      "createdAt": "2025-09-11T04:53:13.339Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "jFCEvZELAIo64I65XsU0h",
+      "name": "VIMALRAJPC HTT",
+      "mobile": "9629220520",
+      "password": "$2b$10$hl0EmCq4VdXh5FMc5c3An.jylHtcFZ6YDioM8qSHtVvNhto.UD7p2",
+      "createdAt": "2025-09-11T04:53:19.270Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "XcXihaRgYCRj2kysSj7fy",
+      "name": "Govindaraju  HTT",
+      "mobile": "99786876839",
+      "password": "$2b$10$DdQLlSw246mCtEBl5iHPceez3JwJEASL8svgijV8rQNFyvOe0zKwW",
+      "createdAt": "2025-09-11T04:54:05.456Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "Ubfwz541IscY8OEK8Fw7s",
+      "name": "Vasudevan HTT",
+      "mobile": "9566812160",
+      "password": "$2b$10$q7c8DC/NgnSTnUkaa8PL7O5I26yo.zpw2iZu4QZ7SbEmAqtm2TUza",
+      "createdAt": "2025-09-11T04:54:25.517Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "if19LR9ZqpVxcNtrDk95k",
+      "name": "AmmuUma HTT",
+      "mobile": "9840492296",
+      "password": "$2b$10$lqM5gDe3rPCNW7FhpBOCtulIGqg5M/LtI4Nvt1KIg6pTcR/hdvcim",
+      "createdAt": "2025-09-11T04:54:32.682Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "xfRLWFVu5a32mGl1i6JBS",
+      "name": "Kothandaraman htt",
+      "mobile": "8939328585",
+      "password": "$2b$10$THRKIafFUIQFwNCl52Y/XeTsiJa5Nc57ERGTriRuEQFuxkl2xVD9G",
+      "createdAt": "2025-09-11T04:54:37.134Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "0QNbJIQwWfR9xn8qAPP49",
+      "name": "Mathan HTT",
+      "mobile": "9345334098",
+      "password": "$2b$10$8sX88cBXr0G3SPB1AVdaFOZVH5vIHSLUNBAJSQKMjkJveIVZ1Zdwi",
+      "createdAt": "2025-09-11T04:55:07.563Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "qXRDuUJxehi6G770tdpTi",
+      "name": "VIJAY NATH HTT",
+      "mobile": "8848290434",
+      "password": "$2b$10$F/HlItK.jhDlPvJZ71xvhOqZU7.rHjbpZKnxhQnArLwYsuNtqjOeK",
+      "createdAt": "2025-09-11T04:56:05.434Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "C0YrUX1sLCdm3Qej18USx",
+      "name": "Balaveer",
+      "mobile": "9080435800",
+      "password": "$2b$10$MWNnYnfb5.9Wvg8YatF8aOP3wX06LamGBnZq5oMNZfefieV94fpt2",
+      "createdAt": "2025-09-11T04:56:05.604Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "xQITrchimve5ZJgeVfNAv",
+      "name": "NATARAJ HTT",
+      "mobile": "9543896508",
+      "password": "$2b$10$qT3NBqJnny1cmJd/5SxayOGxOCdsvHnOGtk0aNcblAnC0gn2xtjWq",
+      "createdAt": "2025-09-11T04:56:33.701Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "H3eGM59TMP2l_OtKjiPKe",
+      "name": "kumareshhtt",
+      "mobile": "6380789691",
+      "password": "$2b$10$VR5oMICHfYTkTqssNFRxd..KIOT3xB0HzmboGWh9I6J/.k7lbRbbO",
+      "createdAt": "2025-09-11T04:57:36.290Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "GIIwrU7uImt0u6HWPoO2L",
+      "name": "sudhahtt",
+      "mobile": "9003055632",
+      "password": "$2b$10$FFmU3e8KX9bNKhtyQ27yZOV80qoUicMxFUPG7TxNg/sZvazbKAgt2",
+      "createdAt": "2025-09-11T04:57:42.224Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "pbi3HVtkgjEHFbFEsHSXV",
+      "name": "PRABHURAJ HTT",
+      "mobile": "8667424380",
+      "password": "$2b$10$dsl5n52ykm39zXd35Ks12.8MLvMLiemxbNJD9thouJLQluKCuA1Eq",
+      "createdAt": "2025-09-11T05:00:38.544Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "DdsZT4zT4h8roim3MnCPd",
+      "name": "SRINIVASAN.K",
+      "mobile": "9095694740",
+      "password": "$2b$10$Kp/PJ7EvCKW4CBCvlB8LmuY.ZPRWiTm0s7EgeLQpD64CFxpNbZE1e",
+      "createdAt": "2025-09-11T05:02:05.089Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "wd6C8iiufGvWaWbgw0_P0",
+      "name": "Palanikumar HTT",
+      "mobile": "9880885150",
+      "password": "$2b$10$wJAb7fXxHy1xW1rM4kjuueHPIimSWD7JEXkmnhHrXgeO32ALCNpau",
+      "createdAt": "2025-09-11T05:03:32.561Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "h00JIS1DM_N8E1Hbu3TV9",
+      "name": "SRIDHAR HTT",
+      "mobile": "8610475229",
+      "password": "$2b$10$BONyqdBUxTFhe.zxEv3fc.fNKCNm2rSCSxS9UaPoRzS2SK7cp4rhO",
+      "createdAt": "2025-09-11T05:06:21.586Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "L2atViNBJWRah38DJyG-j",
+      "name": "Guhan_HTT",
+      "mobile": "7708122941",
+      "password": "$2b$10$g.c3bFz4SAWUs47GTBgJ1.M0Cyw00cB7ygj8EA4RKD6jdgAQPn5YW",
+      "createdAt": "2025-09-11T05:09:33.302Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "KOtYCu_g341QV0dRRJbuS",
+      "name": "N.Sabapathy HTT",
+      "mobile": "9842242721",
+      "password": "$2b$10$66hN47ndqhv150XigJ5wN.F4PUBoYYGyAkWA.ujvDQhaIvvd88kOG",
+      "createdAt": "2025-09-11T05:12:32.853Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "2_dv_LtyILdNynwzDc0bT",
+      "name": "srinivasan HTT",
+      "mobile": "8072423605",
+      "password": "$2b$10$M.aVfMdGaQR05ySD69LZZO8054.XrMjLnRa5Q2KNGoM1/3e2Swss.",
+      "createdAt": "2025-09-11T05:13:21.548Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "WualUN3LNdKqQlSP-XZWp",
+      "name": "Prabu S - HTT",
+      "mobile": "9620393867",
+      "password": "$2b$10$46H84C8E0BVgN9.Xe/cRN.ur.ZcELV/ngg31uJbxCnkTfSVGhHMGW",
+      "createdAt": "2025-09-11T05:26:39.533Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "eN-OHqckSQUrv7NZmlw-n",
+      "name": "Govind_HTT",
+      "mobile": "8754074698",
+      "password": "$2b$10$r0TlUhVi0oiHWRKKoi.2pO.3t5Ij.9XNOdPmrAXrdPlsPJ0bLgjOO",
+      "createdAt": "2025-09-11T05:27:37.668Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "46YqEOLmzqe5elB7uSTPd",
+      "name": "Jayaraman   htt",
+      "mobile": "8610387894",
+      "password": "$2b$10$wG0N7gFXNmQdvpNkHgt5FucdJ81tIiEEw1v16OdS54pys5E8l32Wy",
+      "createdAt": "2025-09-11T05:27:58.826Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "M7eKWlFMJl7ZW1G0W8DwJ",
+      "name": "Anusha_HTT",
+      "mobile": "8861468575",
+      "password": "$2b$10$l24.RSsxU06nypb.gpJXXO6M0a7.A.mqnuxoowgDgSPAtLTWJcahe",
+      "createdAt": "2025-09-11T05:47:29.243Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "3NxCzSjFxjCtVGTDW800A",
+      "name": "Ramanathan",
+      "mobile": "rangaramanathan@gmail.com",
+      "password": "$2b$10$9Pq4anXJ4jiIAgtJcBHtP.QIHp50Vzp9nhSG1xGZQCAJBRjtUIQ3m",
+      "createdAt": "2025-09-11T05:47:29.608Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "w7dNXFaKlJgPBa8RLe7T4",
+      "name": "Ramanathan HTT",
+      "mobile": "9894200255",
+      "password": "$2b$10$gy8kJ0KcIlPT51EhmPpQx.Qi42IhYNeggKSOHtdFBoCzEzygUgRkW",
+      "createdAt": "2025-09-11T05:49:11.648Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "uuL6A8JCXzD41J-m2HESZ",
+      "name": "Abdul Kadar Jailani HTT",
+      "mobile": "9524727322",
+      "password": "$2b$10$p7YRNF5lb2WB0FWNkjgkeuv9jPHn1Xh0Ev0y8f0IAkT5u.ZPlPSwS",
+      "createdAt": "2025-09-11T06:01:52.118Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "yZ7ncKiErGazOj02v31Ay",
+      "name": "Siva HTT",
+      "mobile": "7904899547",
+      "password": "$2b$10$f45kJSVEX9oZXvlSliQ5y.okXka/y6X/V7yqEqBr1k7dkAOn6JDtu",
+      "createdAt": "2025-09-11T06:25:54.138Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "qlcRy5VmrtflFWro_-7Oi",
+      "name": "Chandramohan",
       "mobile": "9042907304",
-      "password": "$2b$10$BQWPfFw1PaoQCzIEqKPg4uBTHekHGd2Y648ebdRnrCMUOiOnXQpwC",
-      "createdAt": "2025-08-27T08:37:55.934Z",
+      "password": "$2b$10$Pr5vckAt/EK09bmbAHSCnOzTR4HcjdaM.MZ3ZUFyzrXy5mH70m/7a",
+      "createdAt": "2025-09-11T06:37:19.192Z",
       "active": true,
       "urlAccess": [
         "/chart",
         "/longterm",
         "/stocklist",
         "/backtest",
-        "/herozero",
-        "/openhighnifty",
-        "/trendingoi",
         "/options",
+        "/trendingoi",
+        "/openhighnifty",
+        "/herozero",
         "/individual",
         "/purchase-order",
         "/order"
       ]
     },
     {
-      "id": "UreTlJJ6YK1H1_meUdNj2",
-      "name": "C. Delhi",
-      "mobile": "9150841069",
-      "password": "$2b$10$etBjVhJhn9qRdCXlskHUmORW19glOSELlCltlVX/XolQOCbrQLqya",
-      "createdAt": "2025-08-27T09:25:30.593Z",
+      "id": "au1C0kcYRzVPLd3RaT8AI",
+      "name": "Lokeshwari",
+      "mobile": "8939393982",
+      "password": "$2b$10$cXVAKvTdJGW2O8m6bkjRw..N942l5EUO0Rxu.nF/g8Ft/IkWG2g3K",
+      "createdAt": "2025-09-11T06:40:26.520Z",
       "active": true,
       "urlAccess": [
-        "/order"
+        "/order",
+        "/longterm",
+        "/stocklist",
+        "/backtest",
+        "/chart",
+        "/options",
+        "/trendingoi",
+        "/openhighnifty",
+        "/herozero",
+        "/individual",
+        "/purchase-order"
       ]
+    },
+    {
+      "id": "fS17c6QPAwCxTFrMYoUT6",
+      "name": "KRISHNAMURTHI HTT",
+      "mobile": "9842762828",
+      "password": "$2b$10$Z9XqNsRzaRHiK6wbkKSxuuCvDZ/5PmhD9gmeIvYlqK96fm7OiQTTm",
+      "createdAt": "2025-09-11T06:55:09.799Z",
+      "active": false,
+      "urlAccess": []
     }
   ]
 }

@@ -115,7 +115,7 @@ export default function StockList() {
   if (!hasAccess) return null;
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
+    <div className="max-w-screen-xl mx-auto p-6 bg-white">
       <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">📋 Stock List</h2>
 
       <div className="flex justify-center mb-4">
@@ -160,10 +160,10 @@ export default function StockList() {
 
                 return (
                   <tr key={index} className="bg-green-50 hover:bg-gray-100 border-b border-gray-200">
-                    <td className="px-5 py-3">{stock.date}</td>
-                    <td className="px-5 py-3 font-medium">{stock.symbol}</td>
-                    <td className="px-5 py-3">₹{validLtp ? ltp.toFixed(2) : "..."}</td>
-                    <td className="px-5 py-3">₹{stock.addPrice}</td>
+                    <td className="px-5 py-3 text-gray-700">{stock.date}</td>
+                    <td className="px-5 py-3 font-medium text-gray-700">{stock.symbol}</td>
+                    <td className="px-5 py-3 text-gray-700">₹{validLtp ? ltp.toFixed(2) : "..."}</td>
+                    <td className="px-5 py-3 text-gray-700">₹{stock.addPrice}</td>
                     <td className={`px-5 py-3 font-semibold ${percentColor}`}>{percent}%</td>
                     <td className="px-5 py-3">
                       <button

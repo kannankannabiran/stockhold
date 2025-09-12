@@ -124,7 +124,7 @@ export default function SwingScanner() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white">
       {(loading || scanning) && (
         <div className="fixed inset-0 bg-black/60 flex flex-col items-center justify-center z-50">
   {/* Card container */}

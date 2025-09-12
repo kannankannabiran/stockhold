@@ -1643,6 +1643,9 @@ const rawList =[
   { value: "SHEMAROO.NS", label: "SHEMAROO" },
   { value: "SOFTTECH.NS", label: "SOFTTECH" },
   { value: "SPLIL.NS", label: "SPLIL" },
+  { value: "IZMO.NS", label: "IZMO" },
+  { value: "SHREERAMA.NS", label: "SHREERAMA" },
+  { value: "BLUECOAST.NS", label: "BLUECOAST" },
 ];
 
 const stocklist = Array.from(new Map(rawList.map(s => [s.value, s])).values());

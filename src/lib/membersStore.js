@@ -1,10 +1,10 @@
 // lib/membersStore.js
-import fs from 'fs/promises';
-import path from 'path';
-import bcrypt from 'bcryptjs';
-import { nanoid } from 'nanoid';
+import fs from "fs/promises";
+import path from "path";
+import bcrypt from "bcryptjs";
+import { nanoid } from "nanoid";
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'members.json');
+const DATA_FILE = path.join(process.cwd(), "data", "members.json");
 
 async function ensureDataFile() {
   const dir = path.dirname(DATA_FILE);
@@ -19,24 +19,28 @@ async function ensureDataFile() {
 
 async function readData() {
   try {
-    console.log('DATA_FILE path:', DATA_FILE);
     await ensureDataFile();
-    console.log('File exists, attempting to read...');
-    const raw = await fs.readFile(DATA_FILE, 'utf-8');
-    console.log('Raw file content:', raw.substring(0, 100) + '...');
-    const parsed = JSON.parse(raw);
-    console.log('Parsed data:', parsed);
-    return parsed;
+    const raw = await fs.readFile(DATA_FILE, "utf-8");
+    return JSON.parse(raw);
   } catch (error) {
-    console.error('Error reading members data:', error);
-    console.error('Error stack:', error.stack);
+    console.error("Error reading members data:", error);
     return { members: [] };
   }
 }
 
+// ---- Safe Write with Lock + Atomic Replace ----
+let writing = Promise.resolve();
+
 async function writeData(obj) {
-  await fs.writeFile(DATA_FILE, JSON.stringify(obj, null, 2));
+  writing = writing.then(async () => {
+    const tmpFile = DATA_FILE + ".tmp";
+    await fs.writeFile(tmpFile, JSON.stringify(obj, null, 2));
+    await fs.rename(tmpFile, DATA_FILE); // atomic replace
+  });
+  return writing;
 }
+
+// ---- Public API ----
 
 export async function getMemberByMobile(mobile) {
   const data = await readData();
@@ -54,10 +58,11 @@ export async function getAllMembers() {
 }
 
 export async function signup({ name, mobile, password }) {
-  if (!name || !mobile || !password) throw new Error('Missing fields');
+  if (!name || !mobile || !password) throw new Error("Missing fields");
   const data = await readData();
   const exists = data.members.find((m) => m.mobile === mobile);
-  if (exists) throw new Error('Mobile already registered');
+  if (exists) throw new Error("Mobile already registered");
+
   const hashed = await bcrypt.hash(password, 10);
   const member = {
     id: nanoid(),
@@ -68,20 +73,24 @@ export async function signup({ name, mobile, password }) {
     active: false,
     urlAccess: [],
   };
+
   data.members.push(member);
   await writeData(data);
+
   const { password: _, ...sanitized } = member;
   return sanitized;
 }
 
 export async function login({ mobile, password }) {
-  if (!mobile || !password) throw new Error('Missing fields');
+  if (!mobile || !password) throw new Error("Missing fields");
   const data = await readData();
   const member = data.members.find((m) => m.mobile === mobile);
-  if (!member) throw new Error('Invalid credentials');
-  if (!member.active) throw new Error('Account not activated');
+  if (!member) throw new Error("Invalid credentials");
+  if (!member.active) throw new Error("Account not activated");
+
   const ok = await bcrypt.compare(password, member.password);
-  if (!ok) throw new Error('Invalid credentials');
+  if (!ok) throw new Error("Invalid credentials");
+
   const { password: _, ...sanitized } = member;
   return sanitized;
 }
@@ -89,8 +98,9 @@ export async function login({ mobile, password }) {
 export async function setActive(mobile, isActive) {
   const data = await readData();
   const member = data.members.find((m) => m.mobile === mobile);
-  if (!member) throw new Error('Member not found');
+  if (!member) throw new Error("Member not found");
   member.active = !!isActive;
+
   await writeData(data);
   const { password: _, ...sanitized } = member;
   return sanitized;
@@ -99,13 +109,17 @@ export async function setActive(mobile, isActive) {
 export async function setUrlAccess(mobile, url, allow) {
   const data = await readData();
   const member = data.members.find((m) => m.mobile === mobile);
-  if (!member) throw new Error('Member not found');
+  if (!member) throw new Error("Member not found");
+
   const normalized = url.trim();
   if (allow) {
-    if (!member.urlAccess.includes(normalized)) member.urlAccess.push(normalized);
+    if (!member.urlAccess.includes(normalized)) {
+      member.urlAccess.push(normalized);
+    }
   } else {
     member.urlAccess = member.urlAccess.filter((u) => u !== normalized);
   }
+
   await writeData(data);
   const { password: _, ...sanitized } = member;
   return sanitized;

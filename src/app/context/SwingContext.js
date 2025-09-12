@@ -22,33 +22,19 @@ export function ScanProvider({ children }) {
   }, []);
 
   // ✅ Scan and store results in localStorage
-  const handleScan = async () => {
-    setScanning(true);
-    setLoading(true);
-
-    try {
-      // 💥 Clear previous data
-      setResults({ rise: [], decline: [] });
-      localStorage.removeItem("vwapResults");
-
-      // 🛜 Fetch from backend
-      const res = await fetch("/api/long-data");
-      const data = await res.json();
-
-      // ✅ Save results to state
+const handleScan = async () => {
+  try {
+    const res = await fetch("/api/load-scan-data");
+    const data = await res.json();
+    if (data?.rise?.length || data?.decline?.length) {
       setResults(data);
-
-      // 💾 Save to localStorage
-      localStorage.setItem("vwapResults", JSON.stringify(data));
-
-      console.log("Scan completed and saved to localStorage:", data);
-    } catch (error) {
-      console.error("Scan failed", error);
+    } else {
+      alert("No saved scan data available.");
     }
-
-    setLoading(false);
-    setScanning(false);
-  };
+  } catch (err) {
+    alert("Error loading scan data");
+  }
+};
 
   // ✅ Cancel Scan
   const cancelScan = () => {

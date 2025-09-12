@@ -1,3 +1,4 @@
+// app/api/vwap-scan/route.js
 import { NextResponse } from "next/server";
 import yahooFinance from "yahoo-finance2";
 import stocklist from "@/app/symbol/data";
@@ -109,7 +110,12 @@ export async function GET() {
     }
   }
 
-  const finalResults = { rise: resultRise, decline: resultDecline };
+  // add scan timestamp (only saved in JSON, not shown in frontend)
+  const finalResults = {
+    last_scan: new Date().toISOString(),
+    rise: resultRise,
+    decline: resultDecline,
+  };
 
   await fs.writeFile(filePath, JSON.stringify(finalResults, null, 2));
   return NextResponse.json(finalResults);

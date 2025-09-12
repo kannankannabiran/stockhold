@@ -10,8 +10,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -24,8 +23,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -38,8 +36,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -52,8 +49,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -66,8 +62,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -80,8 +75,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -94,8 +88,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -108,8 +101,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -122,8 +114,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -136,8 +127,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/order",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -150,7 +140,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -164,7 +153,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -178,7 +166,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -192,7 +179,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -206,7 +192,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -220,7 +205,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -234,7 +218,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -248,7 +231,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -262,7 +244,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -276,7 +257,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -290,7 +270,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -304,7 +283,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -318,7 +296,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -332,7 +309,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -346,7 +322,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -360,7 +335,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -374,7 +348,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -388,7 +361,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -402,7 +374,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -414,10 +385,9 @@
       "createdAt": "2025-09-12T04:44:26.136Z",
       "active": true,
       "urlAccess": [
-        "/longterm",
         "/stocklist",
-        "/backtest",
-        "/order"
+        "/order",
+        "/longterm"
       ]
     },
     {
@@ -430,7 +400,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -444,7 +413,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -458,7 +426,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -472,7 +439,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -486,7 +452,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -500,7 +465,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -514,7 +478,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -528,7 +491,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -542,7 +504,6 @@
       "urlAccess": [
         "/stocklist",
         "/longterm",
-        "/backtest",
         "/order"
       ]
     },
@@ -556,7 +517,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -570,7 +530,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -584,7 +543,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -598,7 +556,7 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest"
+        "/order"
       ]
     },
     {
@@ -611,7 +569,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -625,7 +582,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -639,7 +595,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -653,7 +608,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -667,7 +621,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -681,7 +634,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -695,7 +647,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -709,7 +660,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -723,7 +673,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -737,7 +686,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -751,7 +699,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -765,7 +712,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -779,7 +725,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -793,7 +738,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -807,7 +751,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -821,7 +764,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -835,7 +777,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -849,7 +790,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -863,7 +803,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -877,7 +816,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -891,7 +829,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -905,7 +842,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -919,7 +855,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -932,7 +867,6 @@
       "active": true,
       "urlAccess": [
         "/longterm",
-        "/backtest",
         "/stocklist",
         "/order"
       ]
@@ -947,7 +881,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -961,7 +894,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -975,7 +907,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -989,7 +920,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1003,7 +933,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1017,7 +946,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1031,8 +959,7 @@
       "urlAccess": [
         "/order",
         "/longterm",
-        "/stocklist",
-        "/backtest"
+        "/stocklist"
       ]
     },
     {
@@ -1045,8 +972,7 @@
       "urlAccess": [
         "/order",
         "/longterm",
-        "/stocklist",
-        "/backtest"
+        "/stocklist"
       ]
     },
     {
@@ -1059,7 +985,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1073,8 +998,7 @@
       "urlAccess": [
         "/order",
         "/longterm",
-        "/stocklist",
-        "/backtest"
+        "/stocklist"
       ]
     },
     {
@@ -1087,7 +1011,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1101,7 +1024,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1115,7 +1037,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1129,7 +1050,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1143,7 +1063,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1157,7 +1076,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1171,7 +1089,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1185,7 +1102,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1199,7 +1115,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1213,7 +1128,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1227,7 +1141,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1241,7 +1154,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1255,7 +1167,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1270,14 +1181,14 @@
         "/chart",
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/options",
         "/trendingoi",
         "/openhighnifty",
         "/herozero",
         "/individual",
         "/purchase-order",
-        "/order"
+        "/order",
+        "/backtest"
       ]
     },
     {
@@ -1290,7 +1201,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1304,7 +1214,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1318,7 +1227,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1332,7 +1240,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1346,7 +1253,6 @@
       "urlAccess": [
         "/longterm",
         "/stocklist",
-        "/backtest",
         "/order"
       ]
     },
@@ -1356,6 +1262,310 @@
       "mobile": "9841733185",
       "password": "$2b$10$ZW66WaDfOvdI7HABSlEVU.Kod.wHxZPQPWN6dWTdUHznvp7rwtJoC",
       "createdAt": "2025-09-12T07:22:00.341Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "5E8C5i8H8dqLMxgBh2eE4",
+      "name": "SureshR HTT",
+      "mobile": "9952493380",
+      "password": "$2b$10$YYL3kC3b02IeeBRVtuthU.IdJ8D5qt60ykfQpgd6J41ilVQVg8dsa",
+      "createdAt": "2025-09-12T08:11:40.794Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "DOcOQ7kVpQH2OUY_MWqsL",
+      "name": "Maran",
+      "mobile": "8667832917",
+      "password": "$2b$10$Qtd83hFe/Q5qHDYi24bvAeiwrG8ZtwVT7T3vIiDLfaDRcVsWqiKRu",
+      "createdAt": "2025-09-12T08:12:27.613Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "RyDjiFJqgxHRdX0XDfXYZ",
+      "name": "MATHIVANAN",
+      "mobile": "9444200552",
+      "password": "$2b$10$HfE.EzhkxWLkDjWRQ/VbC.Qa1JJYc7bbxS.p4ZOWibR8u1aZhLEKi",
+      "createdAt": "2025-09-12T08:46:24.402Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "aBvaTfAofeLecbnoddZcN",
+      "name": "SaravananRamesh HTT",
+      "mobile": "9994909192",
+      "password": "$2b$10$4am8tK6ja0prP2Veuwr4gOmiSnKf8CjDCy2fw7N.MBFnEwdYqZHRi",
+      "createdAt": "2025-09-12T08:47:41.867Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "qs9-DRr5ODNeiSzX6BIBC",
+      "name": "Raghul",
+      "mobile": "9445684478",
+      "password": "$2b$10$tWFVEAapC9RI9QTdnvL9XOaeR09JcymsxLcl3xTswRg1iNW9C2OLa",
+      "createdAt": "2025-09-12T08:58:50.304Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "OnPS62yy5sGptEQFIJTpN",
+      "name": "SRIDHAR  HTT",
+      "mobile": "8610475229",
+      "password": "$2b$10$qbNmLyPuQ6EdvZrzoC.IAe/8iYqWqYfYHlVB40vOJvuLKy.ETl6Im",
+      "createdAt": "2025-09-12T09:07:02.883Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "As6--K55vlhOk8_kCzKes",
+      "name": "Siddulingam101",
+      "mobile": "6381883540",
+      "password": "$2b$10$qBNhRr1.OUGZv3Gr.fV.vOWPFeqMh309JZkLLcXEpdHQL554cdq2.",
+      "createdAt": "2025-09-12T09:35:42.763Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "XlQeoS5tJLa2Lr7ij4MkX",
+      "name": "kandhasamy HTT",
+      "mobile": "7502226620",
+      "password": "$2b$10$AWltONQHCtZkUahhKdAcTe3ENFVaAFC6OTYiqsoGQ5RDJG24tQTMa",
+      "createdAt": "2025-09-12T09:35:43.053Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "GMwdSRbqaqg69MCgiBI9O",
+      "name": "kumareshhtt",
+      "mobile": "6380789691",
+      "password": "$2b$10$NpzGShsNeN0phs0wzn6eLe1VI0dFPXNpbkPdZrSCrGO.wvTFeibQa",
+      "createdAt": "2025-09-12T09:36:37.402Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "hGpi1YB1pfZwW-EFA47p0",
+      "name": "Nandhakumar M_HTT",
+      "mobile": "9994339326",
+      "password": "$2b$10$O7HeRLMBMCrg52EJ7OGFRemYejh6Ie89/VtfnzV/UuY5Vu7si6eoy",
+      "createdAt": "2025-09-12T09:37:14.208Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "1CAwMcqwEseITw0F2CpgO",
+      "name": "Rajesh",
+      "mobile": "9042089004",
+      "password": "$2b$10$LiX.cN35/6PmAsW05rs0huux19FLCjykAGhlWtKkrbUFrZZ/btBOC",
+      "createdAt": "2025-09-12T09:37:43.076Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "_vDu2X1r70_w1nvPnZ6nN",
+      "name": "NATARAJ HTT ",
+      "mobile": "9543896508",
+      "password": "$2b$10$5bOZG1.33qDZgSRsmcIZlOHLhTyIaYtZLxUrMgaOUMIfU5vKOxLF6",
+      "createdAt": "2025-09-12T09:40:42.873Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "zQz_ZrVZ65K7OPR1sB9w9",
+      "name": "Vimalraj pc HTT",
+      "mobile": "9629220520",
+      "password": "$2b$10$Yprv1gFONVGmhz91UFXx7eyGPNTnj.Ha7AATEM1tDbYYZo6gsQOVa",
+      "createdAt": "2025-09-12T10:21:22.604Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "Lxz7xUSffiflTssLZipye",
+      "name": "Sankara narayanan",
+      "mobile": "9962086333",
+      "password": "$2b$10$XsMqmrqK1nsY1MtTl/s1CejH9rjjPfynxCRSprxhutnDQgmvmmVUS",
+      "createdAt": "2025-09-12T10:21:45.779Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "FIImVQMGj_fCSa52BWk1P",
+      "name": "BALA HTT",
+      "mobile": "6369599009",
+      "password": "$2b$10$V0QvW9f5UhNQOo8fmcf9z.ktXFqxHEFphcA4xC1oVKTVp80U9XG5K",
+      "createdAt": "2025-09-12T11:00:20.340Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "IT64PhJ4hXbH9IV3SiebH",
+      "name": "Rupachandran",
+      "mobile": "9677111836",
+      "password": "$2b$10$dQT3rUggIXa55pr0OSlmyeoiw4e3lYIfN0eCE1wUhBhi.Jufda4fi",
+      "createdAt": "2025-09-12T11:17:43.796Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "CUU72xZ2zqmG0oH-6zJ3v",
+      "name": "AKSHAR HTT",
+      "mobile": "9384545640",
+      "password": "$2b$10$SVNmFCXOW1HMdlggMw/Qxuhh7fi3gwvWF9O2HfdRoD7LJFsaZzioe",
+      "createdAt": "2025-09-12T11:37:41.782Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/stocklist",
+        "/longterm"
+      ]
+    },
+    {
+      "id": "2bsJyvYD0waabeJJM6qlK",
+      "name": "Kaeshiker jay HTT",
+      "mobile": "00353872288372",
+      "password": "$2b$10$teGjN5ZAZZJLTNkZ/PeC3OPvT6M7O5KU5nrkkhnQI1aBQxNdGfbKe",
+      "createdAt": "2025-09-12T11:40:14.604Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "V7dy2ZS4fvwEszC-01LQm",
+      "name": "Rajasekar HTT",
+      "mobile": "9597419744",
+      "password": "$2b$10$BerzCR68IgliaosJdn3sIuRSVLTBnM1FZvxMLVwkvDuZpfX1y1LzK",
+      "createdAt": "2025-09-12T11:54:07.795Z",
+      "active": true,
+      "urlAccess": [
+        "/longterm",
+        "/stocklist",
+        "/order"
+      ]
+    },
+    {
+      "id": "mKtbZO6P0aP14RR9nenMt",
+      "name": "Karunagaran ",
+      "mobile": "8610250901",
+      "password": "$2b$10$KofjG4oQ20ocyWNCQ.uWSOusWqUQL1rAV79iSr3MyP7gYoU2cwdfi",
+      "createdAt": "2025-09-12T13:31:47.001Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "0BzanGbWdc1vXsD-SLY_-",
+      "name": "Kannabiran p",
+      "mobile": "7200630057",
+      "password": "$2b$10$AI1MH.puywB3m6Es2NHtDusfMXg0nd3.b/vF2pmrjUUT4OSqvmEVi",
+      "createdAt": "2025-09-12T13:31:47.379Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "2X8rr8dinD-QFbypnVHln",
+      "name": "Lokeshwar K",
+      "mobile": "8939393982",
+      "password": "$2b$10$IgjlaHJ2H0U1fMqpev7juuQxCWsBNntQnh.XqHEgCib6B2F6L9TBK",
+      "createdAt": "2025-09-12T13:31:47.760Z",
+      "active": true,
+      "urlAccess": [
+        "/order",
+        "/longterm",
+        "/stocklist"
+      ]
+    },
+    {
+      "id": "cX6h5OgtJ0UlQEV_zM0oD",
+      "name": "sk",
+      "mobile": "1234567890",
+      "password": "$2b$10$B0nNST6bjIQ.k93CNbCvkuZnu4K4JTF05sH6.w.BkBUYfGQZTCV3O",
+      "createdAt": "2025-09-12T15:43:46.557Z",
+      "active": false,
+      "urlAccess": []
+    },
+    {
+      "id": "UMvhTy1QG1Mg5R4NfMayE",
+      "name": "SANTHOSH HTT",
+      "mobile": "8072918601",
+      "password": "$2b$10$jidy.rRm1TLCgCDVx38TPeqMFXt6dTxeBHDRO9tBtMmbNeJyf0KDW",
+      "createdAt": "2025-09-12T15:57:37.280Z",
       "active": true,
       "urlAccess": [
         "/longterm",

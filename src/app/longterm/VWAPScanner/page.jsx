@@ -107,7 +107,7 @@ export default function SwingScanner() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "VWAP Scan");
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-    saveAs(new Blob([excelBuffer], { type: "application/octet-stream" }), "VWAP_Scanner.xlsx");
+    saveAs(new Blob([excelBuffer], { type: "application/octet-stream" }), "Long_stocks.xlsx");
   };
 
   const exportToCSV = () => {
@@ -120,7 +120,7 @@ export default function SwingScanner() {
     }));
     const csv = [Object.keys(data[0]).join(","), ...data.map((row) => Object.values(row).join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, "VWAP_Scanner.csv");
+    saveAs(blob, "Long_stocks.csv");
   };
 
   return (

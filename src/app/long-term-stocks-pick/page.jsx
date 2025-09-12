@@ -130,7 +130,7 @@ export default function Chart() {
                 <span className="text-green-500">How to Select</span> Long Term Stocks
               </h2>
               <p className="text-white mb-6">
-                Hey there! So glad you stopped by to Meet Our Company. Don't miss out on this opportunity to learn about what we do and the amazing team that makes it all happen! Our company is all about creating innovative solutions and providing top-notch services to our clients. From start to finish, we're dedicated to delivering results that exceed expectations.
+                Learn the proven methods of identifying stocks that create wealth over time. This course is designed for beginners and intermediate investors aiming to build a strong long-term portfolio.
               </p>
               {/* Button Row */}
               <div className="flex flex-col sm:flex-row gap-4">
@@ -154,7 +154,7 @@ export default function Chart() {
       <div className="bg-gradient-to-br from-green-50 via-white to-green-100 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-green-700 mb-2">
-            Long Term Stocks Pick
+            What You Will Learn
           </h2>
           <p className="text-lg text-center text-gray-600 mb-10">
             Unlock the secrets to successful long-term investing with our expert-picked topics and innovative strategies.
@@ -182,7 +182,7 @@ export default function Chart() {
       {/* Long Term Stocks Selected Course Content Section */}
       <div className="max-w-5xl mx-auto px-6 py-16">
         <h2 className="text-3xl font-bold text-center mb-10 text-green-700">
-          Long Term Stocks Selected Course Content
+          What You Will Learn
         </h2>
         <div className="space-y-12">
           {curriculum.map((section, i) => (

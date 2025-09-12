@@ -16,7 +16,7 @@ export function AdminPanel() {
   const [refresh, setRefresh] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showInactiveOnly, setShowInactiveOnly] = React.useState(false);
-  const [expanded, setExpanded] = React.useState({}); // track expanded rows
+  const [expanded, setExpanded] = React.useState({});
 
   React.useEffect(() => {
     fetch('/api/members')
@@ -82,8 +82,8 @@ export function AdminPanel() {
         </label>
       </div>
 
-      {/* Members Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
+      {/* Desktop Table */}
+      <div className="hidden sm:block overflow-x-auto bg-white rounded-lg shadow">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
@@ -116,7 +116,7 @@ export function AdminPanel() {
                     <td className="px-4 py-2">
                       {m.urlAccess?.length ? m.urlAccess.join(', ') : '(none)'}
                     </td>
-                    <td className="px-4 py-2 text-right space-x-2 flex">
+                    <td className="px-4 py-2 text-right space-x-2 flex justify-end">
                       <button
                         onClick={() => toggleActive(m.mobile, !m.active)}
                         className={`px-3 py-1 rounded-lg text-white ${
@@ -136,123 +136,15 @@ export function AdminPanel() {
                         }
                         className="px-3 py-1 rounded-lg border text-gray-700 hover:bg-gray-100"
                       >
-                        {isExpanded ? (
-                          <FiChevronUp className="inline" />
-                        ) : (
-                          <FiChevronDown className="inline" />
-                        )}
+                        {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
                       </button>
                     </td>
                   </tr>
 
-                  {/* Expandable row */}
                   {isExpanded && (
                     <tr className="bg-gray-50 border-b">
                       <td colSpan={6} className="px-4 py-4">
-                        {/* URL Access Section */}
-                        <h3 className="font-semibold text-base mb-2">URL Access</h3>
-                        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
-                          {URL_LIST.map((url) => {
-                            const hasAccess = m.urlAccess?.includes(url);
-                            return (
-                              <div
-                                key={url}
-                                className={`flex flex-col items-center justify-center p-4 rounded-xl border ${
-                                  hasAccess
-                                    ? 'bg-green-50 border-green-300'
-                                    : 'bg-gray-50 border-gray-200'
-                                }`}
-                              >
-                                <span className="text-sm font-medium text-center truncate w-full">
-                                  {url}
-                                </span>
-                                <div className="flex gap-2 mt-3">
-                                  <button
-                                    onClick={() => setUrl(m.mobile, url, true)}
-                                    disabled={hasAccess}
-                                    className={`px-3 py-1 text-sm rounded-lg text-white ${
-                                      hasAccess
-                                        ? 'bg-gray-300 cursor-not-allowed'
-                                        : 'bg-blue-500 hover:bg-blue-600'
-                                    }`}
-                                  >
-                                    Grant
-                                  </button>
-                                  <button
-                                    onClick={() => setUrl(m.mobile, url, false)}
-                                    disabled={!hasAccess}
-                                    className={`px-3 py-1 text-sm rounded-lg text-white ${
-                                      !hasAccess
-                                        ? 'bg-gray-300 cursor-not-allowed'
-                                        : 'bg-red-500 hover:bg-red-600'
-                                    }`}
-                                  >
-                                    Revoke
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        {/* URL Requests Section */}
-                        {m.urlRequests?.length > 0 && (
-                          <>
-                            <h3 className="font-semibold text-base mb-2">URL Requests</h3>
-                            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4">
-                              {m.urlRequests.map((req) => {
-                                const hasAccess =
-                                  m.urlRequestsGranted?.includes(req.id);
-                                return (
-                                  <div
-                                    key={req.id}
-                                    className={`p-4 rounded-xl border ${
-                                      hasAccess
-                                        ? 'bg-green-50 border-green-300'
-                                        : 'bg-gray-50 border-gray-200'
-                                    }`}
-                                  >
-                                    <div className="font-medium">{req.title}</div>
-                                    <div className="text-xs text-gray-500 mb-1">
-                                      ₹{req.price}
-                                    </div>
-                                    <div className="text-xs text-blue-600 break-all">
-                                      {req.downloadUrl}
-                                    </div>
-                                    <div className="flex gap-2 mt-3">
-                                      <button
-                                        onClick={() =>
-                                          setReqUrl(m.mobile, req.id, true)
-                                        }
-                                        disabled={hasAccess}
-                                        className={`px-3 py-1 text-sm rounded-lg text-white ${
-                                          hasAccess
-                                            ? 'bg-gray-300 cursor-not-allowed'
-                                            : 'bg-blue-500 hover:bg-blue-600'
-                                        }`}
-                                      >
-                                        Grant
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          setReqUrl(m.mobile, req.id, false)
-                                        }
-                                        disabled={!hasAccess}
-                                        className={`px-3 py-1 text-sm rounded-lg text-white ${
-                                          !hasAccess
-                                            ? 'bg-gray-300 cursor-not-allowed'
-                                            : 'bg-red-500 hover:bg-red-600'
-                                        }`}
-                                      >
-                                        Revoke
-                                      </button>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </>
-                        )}
+                        {renderExpanded(m)}
                       </td>
                     </tr>
                   )}
@@ -262,6 +154,169 @@ export function AdminPanel() {
           </tbody>
         </table>
       </div>
+
+      {/* Mobile Cards */}
+      <div className="sm:hidden space-y-4">
+        {filteredMembers.map((m, index) => {
+          const isExpanded = expanded[m.mobile];
+          return (
+            <div
+              key={m.mobile}
+              className="bg-white rounded-lg shadow p-4 space-y-3"
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="font-semibold">{m.name}</div>
+                  <div className="text-xs text-gray-500">{m.mobile}</div>
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-white text-xs ${
+                    m.active ? 'bg-green-500' : 'bg-gray-400'
+                  }`}
+                >
+                  {m.active ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+
+              <div className="text-sm text-gray-600">
+                URLs: {m.urlAccess?.length ? m.urlAccess.join(', ') : '(none)'}
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => toggleActive(m.mobile, !m.active)}
+                  className={`flex-1 px-3 py-1 rounded-lg text-white ${
+                    m.active
+                      ? 'bg-red-500 hover:bg-red-600'
+                      : 'bg-green-500 hover:bg-green-600'
+                  }`}
+                >
+                  {m.active ? 'Deactivate' : 'Activate'}
+                </button>
+                <button
+                  onClick={() =>
+                    setExpanded((prev) => ({
+                      ...prev,
+                      [m.mobile]: !isExpanded,
+                    }))
+                  }
+                  className="px-3 py-1 rounded-lg border text-gray-700 hover:bg-gray-100"
+                >
+                  {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
+                </button>
+              </div>
+
+              {isExpanded && (
+                <div className="pt-3 border-t">{renderExpanded(m)}</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
+
+  function renderExpanded(m) {
+    return (
+      <>
+        {/* URL Access */}
+        <h3 className="font-semibold text-base mb-2">URL Access</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          {URL_LIST.map((url) => {
+            const hasAccess = m.urlAccess?.includes(url);
+            return (
+              <div
+                key={url}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl border ${
+                  hasAccess
+                    ? 'bg-green-50 border-green-300'
+                    : 'bg-gray-50 border-gray-200'
+                }`}
+              >
+                <span className="text-sm font-medium text-center truncate w-full">
+                  {url}
+                </span>
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() => setUrl(m.mobile, url, true)}
+                    disabled={hasAccess}
+                    className={`px-3 py-1 text-sm rounded-lg text-white ${
+                      hasAccess
+                        ? 'bg-gray-300 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-600'
+                    }`}
+                  >
+                    Grant
+                  </button>
+                  <button
+                    onClick={() => setUrl(m.mobile, url, false)}
+                    disabled={!hasAccess}
+                    className={`px-3 py-1 text-sm rounded-lg text-white ${
+                      !hasAccess
+                        ? 'bg-gray-300 cursor-not-allowed'
+                        : 'bg-red-500 hover:bg-red-600'
+                    }`}
+                  >
+                    Revoke
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* URL Requests */}
+        {m.urlRequests?.length > 0 && (
+          <>
+            <h3 className="font-semibold text-base mb-2">URL Requests</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {m.urlRequests.map((req) => {
+                const hasAccess = m.urlRequestsGranted?.includes(req.id);
+                return (
+                  <div
+                    key={req.id}
+                    className={`p-4 rounded-xl border ${
+                      hasAccess
+                        ? 'bg-green-50 border-green-300'
+                        : 'bg-gray-50 border-gray-200'
+                    }`}
+                  >
+                    <div className="font-medium">{req.title}</div>
+                    <div className="text-xs text-gray-500 mb-1">₹{req.price}</div>
+                    <div className="text-xs text-blue-600 break-all">
+                      {req.downloadUrl}
+                    </div>
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => setReqUrl(m.mobile, req.id, true)}
+                        disabled={hasAccess}
+                        className={`px-3 py-1 text-sm rounded-lg text-white ${
+                          hasAccess
+                            ? 'bg-gray-300 cursor-not-allowed'
+                            : 'bg-blue-500 hover:bg-blue-600'
+                        }`}
+                      >
+                        Grant
+                      </button>
+                      <button
+                        onClick={() => setReqUrl(m.mobile, req.id, false)}
+                        disabled={!hasAccess}
+                        className={`px-3 py-1 text-sm rounded-lg text-white ${
+                          !hasAccess
+                            ? 'bg-gray-300 cursor-not-allowed'
+                            : 'bg-red-500 hover:bg-red-600'
+                        }`}
+                      >
+                        Revoke
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </>
+    );
+  }
 }

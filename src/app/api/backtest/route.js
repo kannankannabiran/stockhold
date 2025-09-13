@@ -105,7 +105,7 @@ export async function GET() {
       fs.mkdirSync(dirPath, { recursive: true });
     }
 
-    fs.writeFileSync(filePath, JSON.stringify({ results }, null, 2), "utf8");
+    fs.writeFileSync(filePath, JSON.stringify({ results, lastRun: new Date().toISOString() }, null, 2), "utf8");
     console.log("✅ Saved backtest.json to", filePath);
   } catch (err) {
     console.error("❌ Failed to save JSON:", err.message);

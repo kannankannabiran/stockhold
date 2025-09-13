@@ -26,9 +26,9 @@ cron.schedule("0 13 * * *", async () => {
 });
 
 // ⏰ Backtest Schedule
-// 9:25 AM IST → 03:55 UTC
-cron.schedule("55 3 * * *", async () => {
-  console.log("⏰ Running daily backtest at 9:25 AM IST");
+// 9:30 AM IST → 04:00 UTC
+cron.schedule("0 4 * * *", async () => {
+  console.log("⏰ Running daily backtest at 9:30 AM IST");
   try {
     await fetch("http://localhost:3000/api/backtest");
     console.log("✅ Backtest completed and JSON saved");

@@ -1,4 +1,3 @@
-// app/api/auth/route.js
 import { NextResponse } from 'next/server';
 import {
   signup,
@@ -6,6 +5,7 @@ import {
   setActive,
   setUrlAccess,
   getMemberByMobile,
+  deleteMember,   // ⬅️ new
 } from '../../../lib/membersStore';
 import { signToken, verifyToken } from '../../../lib/auth';
 
@@ -30,7 +30,6 @@ export async function POST(request) {
         success: true,
         member: { id: member.id, mobile: member.mobile, name: member.name },
       });
-      // set httpOnly cookie
       res.headers.set(
         'Set-Cookie',
         `auth=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Strict`
@@ -48,6 +47,12 @@ export async function POST(request) {
       const { mobile, url: targetUrl, allow } = body;
       const member = await setUrlAccess(mobile, targetUrl, allow);
       return NextResponse.json({ success: true, member });
+    }
+
+    if (action === 'delete') {
+      const { mobile } = body;
+      await deleteMember(mobile);
+      return NextResponse.json({ success: true });
     }
 
     if (action === 'me') {

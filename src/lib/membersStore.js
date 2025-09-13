@@ -1,4 +1,3 @@
-// lib/membersStore.js
 import fs from "fs/promises";
 import path from "path";
 import bcrypt from "bcryptjs";
@@ -132,4 +131,16 @@ export async function checkUrlAllowed(memberId, url) {
   if (!member.active) return false;
   if (member.urlAccess.length === 0) return true;
   return member.urlAccess.includes(url);
+}
+
+// ---- Delete Member ----
+export async function deleteMember(mobile) {
+  const data = await readData();
+  const index = data.members.findIndex((m) => m.mobile === mobile);
+  if (index === -1) throw new Error("Member not found");
+
+  data.members.splice(index, 1);
+  await writeData(data);
+
+  return { success: true };
 }

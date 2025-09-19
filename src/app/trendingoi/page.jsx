@@ -10,8 +10,8 @@ import down from "../../../public/down.svg";
 const indexOptions = ["NIFTY", "BANKNIFTY"];
 
 export default function TrendingOiPage() {
-  const { hasAccess, loading: accessLoading } = useAccessControl('/trendingoi');
-  
+  const { hasAccess, loading: accessLoading } = useAccessControl("/trendingoi");
+
   const [symbol, setSymbol] = useState("NIFTY");
   const [history, setHistory] = useState([]);
 
@@ -69,68 +69,90 @@ export default function TrendingOiPage() {
       <div className="overflow-x-auto bg-white border rounded shadow">
         <table className="min-w-full text-sm text-center">
           <thead className="bg-blue-100 text-gray-700 text-xs uppercase">
-          <tr>
-            <th className="px-3 py-2">Date</th><th className="px-3 py-2">Time</th>
-            <th className="px-3 py-2">Call ΔOI</th><th className="px-3 py-2">Put ΔOI</th>
-            <th className="px-3 py-2">ΔOI Diff</th><th className="px-3 py-2">Direction</th>
-            <th className="px-3 py-2">Sentiment</th>
-          </tr>
-        </thead>
-        <tbody>
-  {history.map((row, index) => {
-    const prev = history[index - 1];
-    let direction = "-";
+            <tr>
+              <th className="px-3 py-2">Date</th>
+              <th className="px-3 py-2">Time</th>
+              <th className="px-3 py-2">Call ΔOI</th>
+              <th className="px-3 py-2">Put ΔOI</th>
+              <th className="px-3 py-2">ΔOI Diff</th>
+              <th className="px-3 py-2">Direction</th>
+              <th className="px-3 py-2">Sentiment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history.map((row, index) => {
+              const prev = history[index - 1];
+              let direction = "-";
 
-    if (prev) {
-      if (row.diffOi < prev.diffOi) direction = "up";
-      else if (row.diffOi > prev.diffOi) direction = "down";
-    }
+              if (prev) {
+                if (row.diffOi < prev.diffOi) direction = "up";
+                else if (row.diffOi > prev.diffOi) direction = "down";
+              }
 
-    return (
-      <tr key={row.id || `${row.time}-${index}`} className="border-t hover:bg-gray-50">
-        <td className="px-3 py-2 text-gray-700">{row.date}</td>
-        <td className="px-3 py-2 text-gray-700">{row.time}</td>
-        <td className="px-3 py-2">{row.callChange.toLocaleString()}</td>
-        <td className="px-3 py-2">{row.putChange.toLocaleString()}</td>
-        <td
-          className={`px-3 py-2 font-semibold ${
-            row.diffOi > 0
-              ? "text-green-600"
-              : row.diffOi < 0
-              ? "text-red-600"
-              : "text-gray-700"
-          }`}
-        >
-          {row.diffOi.toLocaleString()}
-        </td>
-        <td className="px-3 py-2">
-          {direction === "up" ? (
-            <Image src={up} alt="Up" width={40} height={40} className="mx-auto" />
-          ) : direction === "down" ? (
-            <Image src={down} alt="Down" width={40} height={40} className="mx-auto" />
-          ) : (
-            "-"
-          )}
-        </td>
-        <td className="px-3 py-2">
-          <span
-            className={`px-3 py-1 font-bold text-sm rounded-full 
-              ${
-                row.sentiment === "Bullish"
-                  ? "bg-green-600 text-white"
-                  : row.sentiment === "Bearish"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-100 text-gray-700"
-              }`}
-          >
-            {row.sentiment}
-          </span>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
+              // Always round values before displaying
+              const callChange = Math.round(row.callChange);
+              const putChange = Math.round(row.putChange);
+              const diffOi = Math.round(row.diffOi);
 
+              return (
+                <tr
+                  key={row.id || `${row.time}-${index}`}
+                  className="border-t hover:bg-gray-50"
+                >
+                  <td className="px-3 py-2 text-gray-700">{row.date}</td>
+                  <td className="px-3 py-2 text-gray-700">{row.time}</td>
+                  <td className="px-3 py-2">{callChange.toLocaleString()}</td>
+                  <td className="px-3 py-2">{putChange.toLocaleString()}</td>
+                  <td
+                    className={`px-3 py-2 font-semibold ${
+                      diffOi > 0
+                        ? "text-green-600"
+                        : diffOi < 0
+                        ? "text-red-600"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {diffOi.toLocaleString()}
+                  </td>
+                  <td className="px-3 py-2">
+                    {direction === "up" ? (
+                      <Image
+                        src={up}
+                        alt="Up"
+                        width={40}
+                        height={40}
+                        className="mx-auto"
+                      />
+                    ) : direction === "down" ? (
+                      <Image
+                        src={down}
+                        alt="Down"
+                        width={40}
+                        height={40}
+                        className="mx-auto"
+                      />
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td className="px-3 py-2">
+                    <span
+                      className={`px-3 py-1 font-bold text-sm rounded-full 
+                        ${
+                          row.sentiment === "Bullish"
+                            ? "bg-green-600 text-white"
+                            : row.sentiment === "Bearish"
+                            ? "bg-red-600 text-white"
+                            : "bg-gray-100 text-gray-700"
+                        }`}
+                    >
+                      {row.sentiment}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>

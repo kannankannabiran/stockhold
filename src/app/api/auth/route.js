@@ -25,10 +25,10 @@ export async function POST(request) {
       const { mobile, password } = body;
       await loginMember({ mobile, password }); // throws on failure
       const member = await getMemberByMobile(mobile);
-      const token = signToken({ id: member.id, mobile: member.mobile, name: member.name });
+      const token = signToken({ id: member.id, mobile: member.mobile, name: member.name, role: 'member', verified: false });
       const res = NextResponse.json({
         success: true,
-        member: { id: member.id, mobile: member.mobile, name: member.name },
+        member: { id: member.id, mobile: member.mobile, name: member.name, role: 'member', verified: false },
       });
       res.headers.set(
         'Set-Cookie',

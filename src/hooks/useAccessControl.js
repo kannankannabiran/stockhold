@@ -15,7 +15,7 @@ export const useAccessControl = (requiredPath) => {
           return;
         }
 
-        const response = await fetch('/api/members');
+        const response = await fetch('/api/members?userId=' + userId);
         const { members } = await response.json();
         const user = members.find(member => member.id === userId);
         

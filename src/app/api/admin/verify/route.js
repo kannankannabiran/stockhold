@@ -1,7 +1,8 @@
 // app/api/admin/verify/route.js
 import { NextResponse } from 'next/server';
+import { signToken } from '../../../../lib/auth';
 
-export async function POST(request) {
+async function adminVerifyHandler(request) {
   const body = await request.json();
   const { password } = body;
   const expected = process.env.ADMIN_PASSWORD || '';
@@ -9,6 +10,16 @@ export async function POST(request) {
   if (password !== expected) {
     return NextResponse.json({ success: false, error: 'Invalid admin password' }, { status: 401 });
   }
-  // simple token you can store in sessionStorage for client (not JWT)
-  return NextResponse.json({ success: true });
+  
+  const token = signToken({ role: 'admin', verified: true });
+  
+  const res = NextResponse.json({ success: true, token });
+  res.headers.set(
+    'Set-Cookie',
+    `auth=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Strict`
+  );
+  
+  return res;
 }
+
+export const POST = adminVerifyHandler;

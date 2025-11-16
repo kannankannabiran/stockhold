@@ -17,7 +17,7 @@ export default function PurchaseOrderPage() {
     const userId = localStorage.getItem('userId');
     if (!userId) return;
 
-    const response = await fetch('/api/members');
+    const response = await fetch(`/api/members?userId=${userId}`);
     const { members } = await response.json();
     const currentUser = members.find(member => member.id === userId);
     

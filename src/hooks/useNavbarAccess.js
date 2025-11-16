@@ -18,7 +18,7 @@ export const useNavbarAccess = () => {
       const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
       if (!userId) return false;
       
-      const response = await fetch('/api/members');
+      const response = await fetch('/api/members?userId=' + userId);
       const { members } = await response.json();
       const currentUser = members.find(member => member.id === userId);
       

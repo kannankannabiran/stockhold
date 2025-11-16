@@ -14,7 +14,7 @@ export default function PaymentCard({ image, title, price, description, signupLi
     }
 
     // Get user data from members API
-    const membersRes = await fetch("/api/members");
+    const membersRes = await fetch("/api/members?userId=" + userId);
     const { members } = await membersRes.json();
     const currentUser = members.find((member) => member.id === userId);
 

@@ -8,7 +8,7 @@ export const usePurchaseCheck = async (productId, userId) => {
   try {
     if (!userId) return { hasPurchase: false, shouldRedirect: true, redirectUrl: '/signup' };
 
-    const response = await fetch('/api/members');
+    const response = await fetch('/api/members?userId=' + userId);
     const { members } = await response.json();
     const currentUser = members.find(member => member.id === userId);
 

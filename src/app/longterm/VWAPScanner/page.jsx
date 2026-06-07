@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useContext, useState, useEffect } from "react";
-import { ScanContext } from "../../context/SwingContext";
+import React, { useState, useEffect } from "react";
+import { useVwapScanContext } from "../hooks/page";
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 export default function SwingScanner() {
-  const { results, loading, scanning, handleScan, cancelScan } = useContext(ScanContext);
+  const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 
@@ -28,29 +28,6 @@ export default function SwingScanner() {
     const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
     const symbols = new Set(savedList.map((item) => item.symbol));
     setAddedSymbols(symbols);
-  }, []);
-
-  useEffect(() => {
-    if (results?.rise?.length) {
-      fetch("/api/save-scan-data-long-term", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(results),
-      });
-    }
-  }, [results]);
-
-  useEffect(() => {
-    if (!results?.rise?.length) {
-      fetch("/api/load-scan-data-long-term")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.rise?.length) {
-            console.log("Loaded saved scan data from server:", data);
-            // Optional: update context or local state here
-          }
-        });
-    }
   }, []);
 
   const groupByMonth = (data) => {
@@ -125,27 +102,19 @@ export default function SwingScanner() {
 
   return (
     <div className="p-6 bg-white">
-      {(loading || scanning) && (
+      {loading && !results?.isScanning && (
         <div className="fixed inset-0 bg-black/60 flex flex-col items-center justify-center z-50">
-  {/* Card container */}
-  <div className="bg-gray-900 p-6 rounded-2xl shadow-lg flex flex-col items-center space-y-4 w-72">
-    {/* Spinner */}
-    <div className="relative">
-      <div className="h-14 w-14 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin"></div>
-    </div>
+          {/* Card container */}
+          <div className="bg-gray-900 p-6 rounded-2xl shadow-lg flex flex-col items-center space-y-4 w-72">
+            {/* Spinner */}
+            <div className="relative">
+              <div className="h-14 w-14 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin"></div>
+            </div>
 
-    {/* Loading text */}
-    <p className="text-gray-200 font-medium">Scanning in progress...</p>
-
-    {/* Cancel button */}
-    <button
-      onClick={cancelScan}
-      className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-200"
-    >
-      Cancel Scan
-    </button>
-  </div>
-</div>
+            {/* Loading text */}
+            <p className="text-gray-200 font-medium">Loading scanner data...</p>
+          </div>
+        </div>
       )}
 
       <h1 className="text-2xl font-bold flex items-center gap-2 justify-center text-blue-700 mb-6">
@@ -153,13 +122,59 @@ export default function SwingScanner() {
         Long Term Scanner
       </h1>
 
+      {scanning && (
+        <div className="max-w-4xl mx-auto mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center space-x-3 flex-1">
+              <div className="h-5 w-5 rounded-full border-2 border-blue-600 border-t-transparent animate-spin flex-shrink-0"></div>
+              <div className="flex-1">
+                <p className="text-blue-900 font-semibold text-sm">Background scan in progress...</p>
+                <p className="text-blue-700 text-xs mt-0.5">Showing last completed scan results. You can browse the data normally.</p>
+              </div>
+            </div>
+            <button
+              onClick={cancelScan}
+              className="w-full sm:w-auto px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-lg transition-colors duration-150 flex-shrink-0"
+            >
+              Stop Polling
+            </button>
+          </div>
+
+          {/* Progress bar */}
+          {results?.scanProgress?.total > 0 && (
+            <div className="mt-3">
+              <div className="flex justify-between text-xs text-blue-700 mb-1 font-medium">
+                <span>
+                  {results.scanProgress.current} / {results.scanProgress.total} stocks scanned
+                </span>
+                <span>
+                  {Math.round((results.scanProgress.current / results.scanProgress.total) * 100)}%
+                </span>
+              </div>
+              <div className="w-full bg-blue-100 rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    width: `${Math.round((results.scanProgress.current / results.scanProgress.total) * 100)}%`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="flex flex-wrap justify-center gap-4 mb-6">
         <button
           onClick={handleScan}
-          disabled={loading || scanning}
-          className="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 cursor-pointer"
+          disabled={loading}
+          className={`px-6 py-2 rounded font-semibold cursor-pointer transition-colors ${
+            scanning
+              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              : "bg-green-600 hover:bg-green-700 text-white"
+          }`}
         >
-          {loading || scanning ? "Scanning..." : "Scan"}
+          {loading ? "Loading..." : scanning ? "Refresh Data" : "Scan"}
         </button>
 
         <button
@@ -254,7 +269,14 @@ export default function SwingScanner() {
           </div>
         ))
       ) : (
-        !loading && <p className="text-center text-gray-500 mt-6">No VWAP trend found.</p>
+        !loading && !scanning && <p className="text-center text-gray-500 mt-6">No VWAP trend found.</p>
+      )}
+
+      {scanning && filteredResults.length === 0 && (
+        <div className="text-center py-12">
+          <div className="inline-block h-8 w-8 rounded-full border-4 border-blue-200 border-t-blue-600 animate-spin mb-4"></div>
+          <p className="text-blue-600 font-medium animate-pulse">Scanning for stocks... Results will appear here once found.</p>
+        </div>
       )}
     </div>
   );

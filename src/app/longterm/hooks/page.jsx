@@ -13,88 +13,117 @@ export function VwapScanProvider({ children }) {
   );
 }
 
+// Safe fallback if used outside provider (e.g., during prerender)
 export function useVwapScanContext() {
-  return useContext(VwapScanContext);
+  const context = useContext(VwapScanContext);
+  if (!context) {
+    return {
+      results: { rise: [], decline: [] },
+      loading: false,
+      scanning: false,
+      handleScan: () => {},
+      cancelScan: () => {},
+    };
+  }
+  return context;
 }
 
 export function useVwapScan() {
   const [results, setResults] = useState({ rise: [], decline: [] });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
-  const controllerRef = useRef(null);
+  const pollIntervalRef = useRef(null);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("vwapResults");
-    if (saved) {
-      try {
-        setResults(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to parse saved results:", e);
+  // Fetch current status + data from server
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await fetch("/api/long-data");
+      if (!res.ok) return;
+      const data = await res.json();
+      setResults(data);
+      setScanning(!!data.isScanning);
+
+      // Stop polling if scan is done
+      if (!data.isScanning && pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+        pollIntervalRef.current = null;
+        console.log("✅ Scan completed — polling stopped.");
       }
+    } catch (err) {
+      console.warn("Failed to fetch scan status:", err);
     }
   }, []);
 
-  useEffect(() => {
-    if (Array.isArray(results?.rise) && results.rise.length) {
-      fetch("/api/save-scan-data-long-term", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(results),
-      }).catch((e) => console.warn("Failed saving long-term scan data:", e));
-    }
-  }, [results]);
+  // Start polling every 5 seconds
+  const startPolling = useCallback(() => {
+    if (pollIntervalRef.current) return; // already polling
+    pollIntervalRef.current = setInterval(fetchStatus, 5000);
+  }, [fetchStatus]);
 
+  // On mount: load current data, then poll if scan is in progress
   useEffect(() => {
-    if (!Array.isArray(results?.rise) || results.rise.length === 0) {
-      fetch("/api/load-scan-data-long-term")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.rise?.length) {
-            console.log("Loaded saved scan data from server:", data);
-            setResults(data);
-            localStorage.setItem("vwapResults", JSON.stringify(data));
+    const init = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/long-data");
+        if (res.ok) {
+          const data = await res.json();
+          setResults(data);
+          if (data.isScanning) {
+            setScanning(true);
+            startPolling();
           }
-        })
-        .catch((e) => console.warn("Failed loading long-term scan data:", e));
-    }
-  }, [results]);
-
-  const handleScan = useCallback(async () => {
-    setScanning(true);
-    setLoading(true);
-    controllerRef.current?.abort();
-    const controller = new AbortController();
-    controllerRef.current = controller;
-
-    try {
-      setResults({ rise: [], decline: [] });
-      localStorage.removeItem("vwapResults");
-
-      const res = await fetch("/api/long-data", { signal: controller.signal });
-      if (!res.ok) throw new Error("Network error during scan");
-      const data = await res.json();
-
-      setResults(data);
-      localStorage.setItem("vwapResults", JSON.stringify(data));
-      console.log("Scan completed and saved to localStorage:", data);
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Scan cancelled by user.");
-      } else {
-        console.error("Scan failed", error);
-        alert("Scan failed. Check console for details.");
+        }
+      } catch (err) {
+        console.warn("Init fetch failed:", err);
+      } finally {
+        setLoading(false);
       }
+    };
+    init();
+
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+      }
+    };
+  }, [startPolling]);
+
+  // Scan button: only triggers POST — which only starts a scan if none is running
+  const handleScan = useCallback(async () => {
+    if (scanning) {
+      // If already scanning, just refresh displayed data
+      fetchStatus();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/long-data", { method: "POST" });
+      if (!res.ok) throw new Error("Network error");
+      const data = await res.json();
+      setResults(data);
+      if (data.isScanning) {
+        setScanning(true);
+        startPolling();
+      }
+    } catch (error) {
+      console.error("Scan trigger failed:", error);
+      alert("Scan failed. Check console for details.");
     } finally {
       setLoading(false);
-      setScanning(false);
     }
-  }, []);
+  }, [scanning, fetchStatus, startPolling]);
 
-  const cancelScan = () => {
-    controllerRef.current?.abort();
+  // Stop client-side polling (doesn't cancel the server-side scan)
+  const cancelScan = useCallback(() => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+      pollIntervalRef.current = null;
+    }
     setScanning(false);
     setLoading(false);
-  };
+  }, []);
 
   return {
     results,

@@ -1,5 +1,5 @@
 // app/api/backtest/route.js
-import yahooFinance from "yahoo-finance2";
+import yahooFinance from "@/lib/yahooFinance";
 import stocklist from "@/app/symbol/data";
 import fs from "fs";
 import path from "path";
@@ -14,38 +14,50 @@ export async function GET() {
       const startYear = currentYear - 15;
       const yearlyData = {};
 
-      for (let y = startYear; y <= currentYear; y++) {
-        try {
-          const from = `${y}-01-01`;
-          const to = `${y}-12-31`;
+      // Fetch all 15 years in ONE request instead of 16 separate requests
+      try {
+        const rows = await yahooFinance.historical(symbol, {
+          period1: new Date(`${startYear}-01-01`),
+          period2: new Date(),
+          interval: "1d",
+        });
 
-          const rows = await yahooFinance.historical(symbol, {
-            period1: new Date(from),
-            period2: new Date(to),
-            interval: "1d",
+        if (rows && rows.length > 0) {
+          const clean = rows.filter((row) => row.close && row.volume);
+          
+          // Group data by year in-memory
+          const dataByYear = {};
+          clean.forEach((row) => {
+            const y = new Date(row.date).getFullYear();
+            if (y >= startYear && y <= currentYear) {
+              if (!dataByYear[y]) dataByYear[y] = [];
+              dataByYear[y].push(row);
+            }
           });
 
-          if (!rows || rows.length === 0) continue;
+          // Calculate VWAP for each year in-memory
+          for (const y in dataByYear) {
+            const yearRows = dataByYear[y];
+            if (yearRows.length === 0) continue;
 
-          const clean = rows.filter((row) => row.close && row.volume);
-          const tpv = clean.reduce(
-            (sum, r) => sum + ((r.high + r.low + r.close) / 3) * r.volume,
-            0
-          );
-          const vol = clean.reduce((sum, r) => sum + r.volume, 0);
+            const tpv = yearRows.reduce(
+              (sum, r) => sum + ((r.high + r.low + r.close) / 3) * r.volume,
+              0
+            );
+            const vol = yearRows.reduce((sum, r) => sum + r.volume, 0);
 
-          if (vol === 0) continue;
+            if (vol === 0) continue;
 
-          const vwap = tpv / vol;
-          yearlyData[y] = {
-            vwap,
-            lastClose: clean[clean.length - 1].close,
-            data: clean,
-          };
-        } catch (err) {
-          console.warn(`Skipping ${symbol} year ${y}:`, err.message);
-          continue;
+            yearlyData[y] = {
+              vwap: tpv / vol,
+              lastClose: yearRows[yearRows.length - 1].close,
+              data: yearRows,
+            };
+          }
         }
+      } catch (err) {
+        console.warn(`Skipping ${symbol}:`, err.message);
+        continue;
       }
 
       if (Object.keys(yearlyData).length < 5) continue;

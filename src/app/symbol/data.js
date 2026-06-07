@@ -71,7 +71,7 @@ const rawList =[
   { value: "UYFINCORP.NS", label: "UYFINCORP" },
   { value: "VINEETLAB.NS", label: "VINEETLAB" },
   { value: "VIVIDHA.NS", label: "VIVIDHA" },
-  { value: "WORTH.NS", label: "WORTH" },
+  { value: "WORTHPERI.NS", label: "WORTHPERI" },
   { value: "CONCORDBIO.NS", label: "CONCORDBIO" },
   { value: "TMB.NS", label: "TMB" },
   { value: "RTNPOWER.NS", label: "RTNPOWER" },

@@ -1,6 +1,9 @@
 const symbols = ["NIFTY", "BANKNIFTY"];
 
 function isWithinMarketHours() {
+  if (process.env.CHECK_MARKET_HOURS === "false") {
+    return true;
+  }
   const now = new Date();
   const istNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
   const hour = istNow.getHours();

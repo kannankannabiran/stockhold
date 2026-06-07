@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import yahooFinance from "yahoo-finance2";
+import yahooFinance from "@/lib/yahooFinance";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -14,6 +14,7 @@ export async function GET(request) {
   try {
     const result = await yahooFinance.historical(symbol, {
       period1: getPastDate(period),
+      period2: new Date(),
       interval: interval,
     });
 

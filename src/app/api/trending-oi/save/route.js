@@ -19,6 +19,7 @@ export async function GET(req) {
   const minute = istNow.getMinutes();
 
   const isMarketTime =
+    process.env.CHECK_MARKET_HOURS === "false" ||
     (hour === 9 && minute >= 15) ||
     (hour > 9 && hour < 15) ||
     (hour === 15 && minute <= 30);

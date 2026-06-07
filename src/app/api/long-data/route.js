@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import yahooFinance from "yahoo-finance2";
+import yahooFinance from "@/lib/yahooFinance";
 import stocklist from "@/app/symbol/data";
 
 // symbols from your stocklist
@@ -53,6 +53,7 @@ export async function GET() {
       try {
         const rawData = await yahooFinance.historical(symbol, {
           period1: new Date(new Date().setFullYear(new Date().getFullYear() - 5)),
+          period2: new Date(),
           interval: "1d",
         });
 

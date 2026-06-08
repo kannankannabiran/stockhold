@@ -9,7 +9,8 @@ async function getMembersHandler(request) {
   try {
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
-    const token = cookies().get('auth')?.value;
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth')?.value;
     const verifyAccess = verifyToken(token);
     //console.log('verifyAccess in members route:', verifyAccess);
     const members = await getAllMembers();

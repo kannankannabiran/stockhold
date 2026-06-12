@@ -10,6 +10,40 @@ export default function SwingScanner() {
   const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
   const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
+  const [timeUntilReset, setTimeUntilReset] = useState("");
+
+  // Countdown to next 09:15 AM reset using server-provided nextScanTime
+  useEffect(() => {
+    if (!results?.nextScanTime) return;
+
+    const updateCountdown = () => {
+      const now = new Date();
+      const next = new Date(results.nextScanTime);
+      const diff = next - now;
+      if (diff <= 0) {
+        setTimeUntilReset("00h 00m 00s");
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeUntilReset(
+        `${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`
+      );
+    };
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, [results?.nextScanTime]);
+
+  // Format nextScanTime as "09:15 AM"
+  const nextScanTimeLabel = results?.nextScanTime
+    ? new Date(results.nextScanTime).toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : results?.scanResetTime || "09:15 AM";
 
   const today = new Date();
   const oneMonthAgo = new Date(today);
@@ -164,18 +198,30 @@ export default function SwingScanner() {
         </div>
       )}
 
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-4">
         <button
           onClick={handleScan}
-          disabled={loading}
+          disabled={loading || results?.dailyLimitReached}
           className={`px-6 py-2 rounded font-semibold cursor-pointer transition-colors ${
-            scanning
+            results?.dailyLimitReached
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : scanning
               ? "bg-blue-500 hover:bg-blue-600 text-white"
               : "bg-green-600 hover:bg-green-700 text-white"
           }`}
         >
           {loading ? "Loading..." : scanning ? "Refresh Data" : "Scan"}
         </button>
+
+        {/* Daily run counter badge */}
+        {results?.dayRunLimit > 0 && (
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 border border-gray-200 rounded-full text-xs font-medium text-gray-600">
+            <span className={`h-2 w-2 rounded-full ${
+              results.dailyLimitReached ? "bg-red-400" : "bg-green-400"
+            }`} />
+            {results.scanCount} / {results.dayRunLimit} scans today
+          </div>
+        )}
 
         <button
           onClick={exportToExcel}
@@ -202,6 +248,26 @@ export default function SwingScanner() {
           <span>Include Previous Data</span>
         </label>
       </div>
+
+      {/* Daily limit reached notice */}
+      {results?.dailyLimitReached && (
+        <div className="max-w-xl mx-auto mb-6 p-4 bg-amber-50 border border-amber-300 rounded-xl text-sm">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">⏳</span>
+            <div>
+              <p className="font-semibold text-amber-800">
+                Daily scan limit reached ({results.scanCount}/{results.dayRunLimit} run{results.dayRunLimit > 1 ? "s" : ""} today)
+              </p>
+              <p className="text-amber-700 text-xs mt-0.5">
+                Next scan available at{" "}
+                <span className="font-semibold">{nextScanTimeLabel}</span>
+                {" "}&mdash; resets in{" "}
+                <span className="font-mono font-bold">{timeUntilReset}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {Object.entries(groupedResults).length > 0 ? (
         Object.entries(groupedResults).map(([month, stocks]) => (

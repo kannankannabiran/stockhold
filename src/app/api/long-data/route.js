@@ -47,11 +47,80 @@ function calculateYearlyVWAP(data) {
 let isScanning = false;
 let scanProgress = { current: 0, total: 0 };
 
+// --- Daily run limit tracking ---
+let scanCount = 0;         // how many scans ran in current scan-day
+let lastScanDayKey = null; // key changes at SCAN_RESET_TIME each day
+
+/**
+ * Returns a "scan day" key that rolls over at SCAN_RESET_TIME (default 09:15).
+ * Before 09:15 AM today → same key as yesterday (still "yesterday's scan day").
+ * At/after 09:15 AM today → today's key.
+ */
+function getScanDayKey() {
+  const now = new Date();
+  const [resetH, resetM] = (process.env.SCAN_RESET_TIME || "09:15").split(":").map(Number);
+  const resetBoundary = new Date(now);
+  resetBoundary.setHours(resetH, resetM, 0, 0);
+
+  if (now < resetBoundary) {
+    // Before today's reset time — still in "yesterday's" scan day
+    const prev = new Date(now);
+    prev.setDate(prev.getDate() - 1);
+    return prev.toISOString().split("T")[0];
+  }
+  return now.toISOString().split("T")[0];
+}
+
+/**
+ * Returns the ISO timestamp of the next SCAN_RESET_TIME.
+ * If current time is already past today's reset → next is tomorrow at reset time.
+ */
+function getNextScanTime() {
+  const now = new Date();
+  const [resetH, resetM] = (process.env.SCAN_RESET_TIME || "09:15").split(":").map(Number);
+  const next = new Date(now);
+  next.setHours(resetH, resetM, 0, 0);
+  if (now >= next) next.setDate(next.getDate() + 1);
+  return next.toISOString();
+}
+
+function checkAndResetDailyCount() {
+  const key = getScanDayKey();
+  if (lastScanDayKey !== key) {
+    scanCount = 0;
+    lastScanDayKey = key;
+  }
+}
+
+function getDayRunLimit() {
+  return parseInt(process.env.DAY_RUN || "1", 10);
+}
+
+function getDailyStatus() {
+  checkAndResetDailyCount();
+  const dayRunLimit = getDayRunLimit();
+  const dailyLimitReached = scanCount >= dayRunLimit;
+  return {
+    scanCount,
+    dayRunLimit,
+    dailyLimitReached,
+    nextScanTime: dailyLimitReached ? getNextScanTime() : null,
+    scanResetTime: process.env.SCAN_RESET_TIME || "09:15",
+  };
+}
+
 async function runScanInBackground() {
   if (isScanning) {
     console.log("⏳ Long-term scan is already running, skipping new trigger.");
     return;
   }
+  checkAndResetDailyCount();
+  const dayRunLimit = getDayRunLimit();
+  if (scanCount >= dayRunLimit) {
+    console.log(`🚫 Daily scan limit reached (${scanCount}/${dayRunLimit}). Skipping.`);
+    return;
+  }
+  scanCount++;
   isScanning = true;
   scanProgress = { current: 0, total: symbols.length };
   console.log(`🚀 Long-term scan started! Total symbols: ${symbols.length}`);
@@ -173,18 +242,35 @@ async function runScanInBackground() {
 
 // --- GET: return current scan status + existing results (does NOT trigger a scan) ---
 export async function GET() {
+  const dailyStatus = getDailyStatus();
   try {
     const filePath = path.join(process.cwd(), "data", "longterm.json");
     const data = await fs.readFile(filePath, "utf-8");
     const parsed = JSON.parse(data);
-    return NextResponse.json({ isScanning, scanProgress, ...parsed });
+    return NextResponse.json({ isScanning, scanProgress, ...dailyStatus, ...parsed });
   } catch {
-    return NextResponse.json({ isScanning, scanProgress, rise: [], decline: [] });
+    return NextResponse.json({ isScanning, scanProgress, ...dailyStatus, rise: [], decline: [] });
   }
 }
 
-// --- POST: trigger a background scan (only if one isn't already running) ---
+// --- POST: trigger a background scan (only if one isn't already running and daily limit not hit) ---
 export async function POST() {
+  checkAndResetDailyCount();
+  const dayRunLimit = getDayRunLimit();
+  const dailyStatus = getDailyStatus();
+
+  if (dailyStatus.dailyLimitReached) {
+    // Limit reached — return current data with limit info, do NOT start scan
+    try {
+      const filePath = path.join(process.cwd(), "data", "longterm.json");
+      const data = await fs.readFile(filePath, "utf-8");
+      const parsed = JSON.parse(data);
+      return NextResponse.json({ isScanning: false, scanProgress, ...dailyStatus, ...parsed });
+    } catch {
+      return NextResponse.json({ isScanning: false, scanProgress, ...dailyStatus, rise: [], decline: [] });
+    }
+  }
+
   // Fire the background scan — non-blocking
   runScanInBackground();
 
@@ -193,8 +279,8 @@ export async function POST() {
     const filePath = path.join(process.cwd(), "data", "longterm.json");
     const data = await fs.readFile(filePath, "utf-8");
     const parsed = JSON.parse(data);
-    return NextResponse.json({ isScanning: true, scanProgress, ...parsed });
+    return NextResponse.json({ isScanning: true, scanProgress, ...dailyStatus, ...parsed });
   } catch {
-    return NextResponse.json({ isScanning: true, scanProgress, rise: [], decline: [] });
+    return NextResponse.json({ isScanning: true, scanProgress, ...dailyStatus, rise: [], decline: [] });
   }
 }

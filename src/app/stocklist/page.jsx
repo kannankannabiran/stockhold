@@ -11,14 +11,11 @@ export default function StockList() {
   const [loadingLtp, setLoadingLtp] = useState(false);
 
   function generateUUID() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
-        const r = (Math.random() * 16) | 0;
-        const v = c === "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 
   useEffect(() => {
@@ -49,44 +46,52 @@ export default function StockList() {
     }
   }, []);
 
+  const normalizeStocks = (list) =>
+    Array.isArray(list)
+      ? list.map((stock) => ({
+          ...stock,
+          enabled: stock.enabled !== false,
+        }))
+      : [];
+
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("stockList") || "[]");
-    setStocks(saved);
+    const normalized = normalizeStocks(saved);
 
-    syncStockListToServer(saved);
+    setStocks(normalized);
+    localStorage.setItem("stockList", JSON.stringify(normalized));
+    syncStockListToServer(normalized);
 
-    const cachedLtps = JSON.parse(
-      localStorage.getItem("ltpCache") || "{}"
-    );
+    const cachedLtps = JSON.parse(localStorage.getItem("ltpCache") || "{}");
     setLtps(cachedLtps);
   }, [syncStockListToServer]);
 
   useEffect(() => {
     if (stocks.length === 0) {
-      fetch(
-        `/api/load-scan-data-stock-list?browserId=${getBrowserId()}`
-      )
+      fetch(`/api/load-scan-data-stock-list?browserId=${getBrowserId()}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.stockList?.length) {
-            localStorage.setItem(
-              "stockList",
-              JSON.stringify(data.stockList)
-            );
-            setStocks(data.stockList);
+            const normalized = normalizeStocks(data.stockList);
+            localStorage.setItem("stockList", JSON.stringify(normalized));
+            setStocks(normalized);
+            syncStockListToServer(normalized);
           }
         })
         .catch(console.error);
     }
-  }, [stocks]);
+  }, [stocks, syncStockListToServer]);
 
   const fetchLTPs = useCallback(async () => {
     if (stocks.length === 0) return;
 
+    const enabledStocks = stocks.filter((stock) => stock.enabled !== false);
+    if (enabledStocks.length === 0) return;
+
     setLoadingLtp(true);
 
     try {
-      const symbols = stocks.map((stock) => stock.symbol);
+      const symbols = enabledStocks.map((stock) => stock.symbol);
 
       const res = await fetch("/api/get-ltps", {
         method: "POST",
@@ -98,12 +103,11 @@ export default function StockList() {
 
       const updatedLtps = await res.json();
 
-      setLtps(updatedLtps);
-
-      localStorage.setItem(
-        "ltpCache",
-        JSON.stringify(updatedLtps)
-      );
+      setLtps((prev) => {
+        const merged = { ...prev, ...updatedLtps };
+        localStorage.setItem("ltpCache", JSON.stringify(merged));
+        return merged;
+      });
     } catch (error) {
       console.error("Error fetching LTPs:", error);
     }
@@ -115,7 +119,7 @@ export default function StockList() {
     if (stocks.length > 0) {
       fetchLTPs();
     }
-  }, [stocks.length, fetchLTPs]);
+  }, [stocks, fetchLTPs]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -131,35 +135,73 @@ export default function StockList() {
     updated[index] = {
       ...updated[index],
       investment: Number(value) || 0,
+      enabled: updated[index].enabled !== false,
     };
 
     setStocks(updated);
-
-    localStorage.setItem(
-      "stockList",
-      JSON.stringify(updated)
-    );
-
+    localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
   const deleteStock = (index) => {
     const updated = [...stocks];
-
     updated.splice(index, 1);
 
     setStocks(updated);
-
-    localStorage.setItem(
-      "stockList",
-      JSON.stringify(updated)
-    );
-
+    localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
-  if (loading) return <div>Loading...</div>;
+  const toggleEnabled = (index, checked) => {
+    const updated = [...stocks];
 
+    updated[index] = {
+      ...updated[index],
+      enabled: checked,
+    };
+
+    setStocks(updated);
+    localStorage.setItem("stockList", JSON.stringify(updated));
+    syncStockListToServer(updated);
+  };
+
+  const portfolioSummary = stocks.reduce(
+    (acc, stock) => {
+      if (stock.enabled === false) return acc;
+
+      const ltp = ltps[stock.symbol];
+      const validLtp = typeof ltp === "number" && !isNaN(ltp);
+
+      const addPrice = Number(stock.addPrice) || 0;
+      const investment = Number(stock.investment) || 0;
+
+      const qty = addPrice > 0 ? investment / addPrice : 0;
+      const currentValue = validLtp ? qty * ltp : 0;
+      const profitLoss = currentValue - investment;
+
+      acc.totalInvestment += investment;
+      acc.totalCurrentValue += currentValue;
+      acc.totalProfitLoss += profitLoss;
+
+      return acc;
+    },
+    {
+      totalInvestment: 0,
+      totalCurrentValue: 0,
+      totalProfitLoss: 0,
+    }
+  );
+
+  const totalReturnPercent =
+    portfolioSummary.totalInvestment > 0
+      ? (
+          (portfolioSummary.totalProfitLoss /
+            portfolioSummary.totalInvestment) *
+          100
+        ).toFixed(2)
+      : "0.00";
+
+  if (loading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
   return (
@@ -176,6 +218,59 @@ export default function StockList() {
           🔄 Refresh Prices
         </button>
       </div>
+
+      {stocks.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-blue-50 border rounded-lg p-4">
+            <div className="text-sm text-gray-500">Total Investment</div>
+            <div className="text-2xl font-bold text-blue-600">
+              ₹
+              {portfolioSummary.totalInvestment.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
+          </div>
+
+          <div className="bg-green-50 border rounded-lg p-4">
+            <div className="text-sm text-gray-500">Current Value</div>
+            <div className="text-2xl font-bold text-green-600">
+              ₹
+              {portfolioSummary.totalCurrentValue.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 border rounded-lg p-4">
+            <div className="text-sm text-gray-500">Total Profit/Loss</div>
+            <div
+              className={`text-2xl font-bold ${
+                portfolioSummary.totalProfitLoss >= 0
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              ₹
+              {portfolioSummary.totalProfitLoss.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
+          </div>
+
+          <div className="bg-purple-50 border rounded-lg p-4">
+            <div className="text-sm text-gray-500">Return %</div>
+            <div
+              className={`text-2xl font-bold ${
+                Number(totalReturnPercent) >= 0
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {totalReturnPercent}%
+            </div>
+          </div>
+        </div>
+      )}
 
       {loadingLtp && (
         <p className="text-center text-sm text-gray-500 mb-4">
@@ -194,6 +289,7 @@ export default function StockList() {
               <tr>
                 <th className="px-5 py-3">Date</th>
                 <th className="px-5 py-3">Symbol</th>
+                <th className="px-5 py-3">Enabled</th>
                 <th className="px-5 py-3">LTP (₹)</th>
                 <th className="px-5 py-3">Add Price (₹)</th>
                 <th className="px-5 py-3">Change %</th>
@@ -207,65 +303,56 @@ export default function StockList() {
             <tbody className="bg-white divide-y divide-gray-100">
               {stocks.map((stock, index) => {
                 const ltp = ltps[stock.symbol];
-                const validLtp =
-                  typeof ltp === "number" && !isNaN(ltp);
+                const validLtp = typeof ltp === "number" && !isNaN(ltp);
 
-                const addPrice =
-                  Number(stock.addPrice) || 0;
-
-                const investment =
-                  Number(stock.investment) || 0;
+                const addPrice = Number(stock.addPrice) || 0;
+                const investment = Number(stock.investment) || 0;
 
                 const percent =
                   validLtp && addPrice > 0
-                    ? (
-                        ((ltp - addPrice) / addPrice) *
-                        100
-                      ).toFixed(2)
+                    ? (((ltp - addPrice) / addPrice) * 100).toFixed(2)
                     : "0.00";
 
-                const qty =
-                  addPrice > 0
-                    ? investment / addPrice
-                    : 0;
-
-                const currentValue =
-                  validLtp
-                    ? qty * ltp
-                    : 0;
-
-                const profitLoss =
-                  currentValue - investment;
+                const qty = addPrice > 0 ? investment / addPrice : 0;
+                const currentValue = validLtp ? qty * ltp : 0;
+                const profitLoss = currentValue - investment;
 
                 return (
                   <tr
                     key={index}
-                    className="bg-green-50 hover:bg-gray-100 border-b border-gray-200"
+                    className={`border-b border-gray-200 ${
+                      stock.enabled === false ? "bg-gray-100" : "bg-green-50"
+                    } hover:bg-gray-100`}
                   >
-                    <td className="px-5 py-3">
-                      {stock.date}
-                    </td>
+                    <td className="px-5 py-3">{stock.date}</td>
 
-                    <td className="px-5 py-3 font-medium">
-                      {stock.symbol}
-                    </td>
+                    <td className="px-5 py-3 font-medium">{stock.symbol}</td>
 
                     <td className="px-5 py-3">
-                      ₹
-                      {validLtp
-                        ? ltp.toFixed(2)
-                        : "..."}
+                      <label className="inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={stock.enabled !== false}
+                          onChange={(e) =>
+                            toggleEnabled(index, e.target.checked)
+                          }
+                          className="h-5 w-5 accent-blue-600 cursor-pointer"
+                        />
+                        <span className="ml-2 text-xs font-semibold">
+                          {stock.enabled === false ? "Disabled" : "Enabled"}
+                        </span>
+                      </label>
                     </td>
 
                     <td className="px-5 py-3">
-                      ₹{addPrice}
+                      ₹{validLtp ? ltp.toFixed(2) : "..."}
                     </td>
+
+                    <td className="px-5 py-3">₹{addPrice}</td>
 
                     <td
                       className={`px-5 py-3 font-semibold ${
-                        Number(percent) >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                        Number(percent) >= 0 ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       {percent}%
@@ -276,12 +363,7 @@ export default function StockList() {
                         type="number"
                         min="0"
                         value={stock.investment || ""}
-                        onChange={(e) =>
-                          updateInvestment(
-                            index,
-                            e.target.value
-                          )
-                        }
+                        onChange={(e) => updateInvestment(index, e.target.value)}
                         placeholder="Amount"
                         className="border rounded px-2 py-1 w-28 text-center"
                       />
@@ -289,35 +371,25 @@ export default function StockList() {
 
                     <td className="px-5 py-3 font-semibold">
                       ₹
-                      {currentValue.toLocaleString(
-                        "en-IN",
-                        {
-                          minimumFractionDigits: 2,
-                        }
-                      )}
+                      {currentValue.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                      })}
                     </td>
 
                     <td
                       className={`px-5 py-3 font-semibold ${
-                        profitLoss >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                        profitLoss >= 0 ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       ₹
-                      {profitLoss.toLocaleString(
-                        "en-IN",
-                        {
-                          minimumFractionDigits: 2,
-                        }
-                      )}
+                      {profitLoss.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                      })}
                     </td>
 
                     <td className="px-5 py-3">
                       <button
-                        onClick={() =>
-                          deleteStock(index)
-                        }
+                        onClick={() => deleteStock(index)}
                         className="text-red-500 hover:text-red-700 cursor-pointer"
                       >
                         🗑️

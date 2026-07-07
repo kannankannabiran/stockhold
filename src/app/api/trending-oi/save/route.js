@@ -31,7 +31,7 @@ export async function GET(req) {
   }
 
   try {
-    const apiUrl = `http://localhost:3000/api/option-chain?symbol=${symbol}`;
+    const apiUrl = `http://localhost:3000/api/optionchain?symbol=${symbol}`;
     const response = await fetch(apiUrl);
     const data = await response.json();
 

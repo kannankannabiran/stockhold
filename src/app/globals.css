@@ -28,3 +28,54 @@ body {
     box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   }
 
+::selection {
+  background: #f5c51855;
+}
+
+/* the "spine" — a bound-ledger divider running down the strike column */
+.spine {
+  position: relative;
+}
+.spine::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+}
+.atm-row {
+  position: relative;
+}
+.atm-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  pointer-events: none;
+}
+
+.live-dot {
+  box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(21, 128, 61, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(21, 128, 61, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot {
+    animation: none;
+  }
+}

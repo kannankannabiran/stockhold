@@ -81,12 +81,16 @@ export default function TrendingOiPage() {
           </thead>
           <tbody>
             {history.map((row, index) => {
-              const prev = history[index - 1];
+              // history is newest-first (save route unshifts each new row),
+              // so the chronologically EARLIER row is at index + 1, not index - 1.
+              const prev = history[index + 1];
               let direction = "-";
 
               if (prev) {
-                if (row.diffOi < prev.diffOi) direction = "up";
-                else if (row.diffOi > prev.diffOi) direction = "down";
+                // diff went up vs the previous minute -> up/positive arrow
+                // diff went down vs the previous minute -> down/negative arrow
+                if (row.diffOi > prev.diffOi) direction = "up";
+                else if (row.diffOi < prev.diffOi) direction = "down";
               }
 
               // Always round values before displaying

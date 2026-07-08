@@ -1,16 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar/page";
-import { startCron } from "./api/trending-oi/cron";
 //import { VwapScanProvider } from "./longterm/hooks/page";
 import { ScanProvider } from "./context/SwingContext";
 
 
-
-
-if (typeof window === "undefined") {
-  startCron(); // ✅ only run on server
-}
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

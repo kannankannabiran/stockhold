@@ -1,27 +1,46 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { newClient, getNiftyOptionInstruments } from "../../../lib/kite";
+import { newClient } from "../../../lib/kite";
 
 const STRIKES_EACH_SIDE = 7;
 const INSTRUMENTS_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours — instrument list barely changes intraday
 const HIST_BATCH_SIZE = 3; // Kite historical API is rate-limited harder than quotes (~3 req/sec)
 const HIST_BATCH_DELAY_MS = 350;
 
-// Module-level cache survives across requests as long as the server process is warm.
-let instrumentsCache = { data: null, fetchedAt: 0 };
+// Index config — add more here later (FINNIFTY, MIDCPNIFTY, etc.) the same way.
+// `exchange` is where the OPTIONS trade (NFO for NSE indices, BFO for SENSEX/BANKEX).
+// `name` must match Kite's instrument `name` field exactly (no substring matching needed).
+const INDEX_CONFIG = {
+  NIFTY: { label: "NIFTY", exchange: "NFO", name: "NIFTY", spotSymbol: "NSE:NIFTY 50" },
+  BANKNIFTY: { label: "BANK NIFTY", exchange: "NFO", name: "BANKNIFTY", spotSymbol: "NSE:NIFTY BANK" },
+  SENSEX: { label: "SENSEX", exchange: "BFO", name: "SENSEX", spotSymbol: "BSE:SENSEX" },
+};
+
+// Cache raw instrument dumps per exchange (NFO covers both NIFTY + BANKNIFTY options,
+// so one fetch/cache serves both indices; BFO is fetched separately for SENSEX).
+let instrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {data, fetchedAt} }
 
 // Previous trading day's closing OI, per tradingsymbol. Doesn't change intraday,
 // so cache it for the whole trading day and only fetch what's missing.
 let prevOiCache = { dateKey: null, data: {} };
 
-async function getCachedNiftyOptionInstruments(kc) {
+async function getCachedExchangeInstruments(kc, exchange) {
   const now = Date.now();
-  if (instrumentsCache.data && now - instrumentsCache.fetchedAt < INSTRUMENTS_TTL_MS) {
-    return instrumentsCache.data;
+  const cached = instrumentsCache[exchange];
+  if (cached && now - cached.fetchedAt < INSTRUMENTS_TTL_MS) {
+    return cached.data;
   }
-  const data = await getNiftyOptionInstruments(kc);
-  instrumentsCache = { data, fetchedAt: now };
+  const data = await kc.getInstruments(exchange);
+  instrumentsCache[exchange] = { data, fetchedAt: now };
   return data;
+}
+
+async function getIndexOptionInstruments(kc, indexKey) {
+  const cfg = INDEX_CONFIG[indexKey];
+  const all = await getCachedExchangeInstruments(kc, cfg.exchange);
+  return all.filter(
+    (i) => i.name === cfg.name && (i.instrument_type === "CE" || i.instrument_type === "PE")
+  );
 }
 
 function toDateStr(d) {
@@ -43,9 +62,8 @@ function batch(arr, size) {
 }
 
 // Fetches previous trading day's closing OI for the given instruments via Kite's
-// historical data API (oi=1). This is the correct baseline for "OI change" —
-// oi_day_high - oi_day_low (the old logic) is always >= 0, which is why every
-// value showed positive regardless of actual direction.
+// historical data API (oi=1). oi_day_high - oi_day_low is always >= 0 by definition,
+// which is why that approach always showed positive — this is the correct baseline.
 async function getPrevDayOiMap(kc, opts) {
   const dateKey = todayKey();
   if (prevOiCache.dateKey === dateKey) {
@@ -76,8 +94,6 @@ async function getPrevDayOiMap(kc, opts) {
             1 // oi=1 -> candles include `oi` field
           );
           if (candles && candles.length) {
-            // Drop today's candle if the API already included it (mid-session) —
-            // we want the *previous* day's close, not today's running OI.
             const relevant = candles.filter((c) => toDateStr(c.date) !== dateKey);
             const last = relevant.length
               ? relevant[relevant.length - 1]
@@ -108,19 +124,28 @@ export async function GET(request) {
 
   const { searchParams } = new URL(request.url);
   const requestedExpiry = searchParams.get("expiry");
+  const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
+
+  if (!INDEX_CONFIG[indexKey]) {
+    return NextResponse.json(
+      { error: "bad_request", message: `Unknown index "${indexKey}". Valid: ${Object.keys(INDEX_CONFIG).join(", ")}` },
+      { status: 400 }
+    );
+  }
+  const cfg = INDEX_CONFIG[indexKey];
 
   const kc = newClient(accessToken);
 
   try {
-    const niftyOptions = await getCachedNiftyOptionInstruments(kc);
+    const indexOptions = await getIndexOptionInstruments(kc, indexKey);
 
-    const expiries = Array.from(new Set(niftyOptions.map((i) => toDateStr(i.expiry)))).sort(
+    const expiries = Array.from(new Set(indexOptions.map((i) => toDateStr(i.expiry)))).sort(
       (a, b) => new Date(a) - new Date(b)
     );
 
     const expiry = requestedExpiry || expiries[0];
 
-    const chainOpts = niftyOptions.filter((i) => toDateStr(i.expiry) === expiry);
+    const chainOpts = indexOptions.filter((i) => toDateStr(i.expiry) === expiry);
     const uniqueStrikesAll = Array.from(new Set(chainOpts.map((i) => i.strike))).sort(
       (a, b) => a - b
     );
@@ -133,16 +158,16 @@ export async function GET(request) {
 
     const wideSymbolToOpt = {};
     for (const opt of wideOpts) {
-      wideSymbolToOpt[`NFO:${opt.tradingsymbol}`] = opt;
+      wideSymbolToOpt[`${cfg.exchange}:${opt.tradingsymbol}`] = opt;
     }
 
     // ONE combined quote call: spot + wide option window
-    const allSymbols = ["NSE:NIFTY 50", ...Object.keys(wideSymbolToOpt)];
+    const allSymbols = [cfg.spotSymbol, ...Object.keys(wideSymbolToOpt)];
     const quoteBatches = batch(allSymbols, 400);
     const quoteResults = await Promise.all(quoteBatches.map((b) => kc.getQuote(b)));
     const quotes = Object.assign({}, ...quoteResults);
 
-    const spot = quotes["NSE:NIFTY 50"]?.last_price;
+    const spot = quotes[cfg.spotSymbol]?.last_price;
 
     let atmIndex = 0;
     let atmDist = Infinity;
@@ -157,8 +182,7 @@ export async function GET(request) {
     const endIdx = Math.min(uniqueStrikesAll.length, atmIndex + STRIKES_EACH_SIDE + 1);
     const nearStrikes = new Set(uniqueStrikesAll.slice(startIdx, endIdx));
 
-    // Only fetch previous-day OI for the strikes we're actually displaying —
-    // keeps historical API calls bounded to ~2*(STRIKES_EACH_SIDE*2+1) instruments.
+    // Only fetch previous-day OI for the strikes we're actually displaying.
     const nearOpts = wideOpts.filter((o) => nearStrikes.has(o.strike));
     const prevOiMap = await getPrevDayOiMap(kc, nearOpts);
 
@@ -189,6 +213,8 @@ export async function GET(request) {
     const rows = Object.values(rowsMap).sort((a, b) => a.strike - b.strike);
 
     return NextResponse.json({
+      index: indexKey,
+      label: cfg.label,
       spot,
       expiry,
       expiries,
@@ -209,3 +235,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const INDEX_KEYS = Object.keys(INDEX_CONFIG);

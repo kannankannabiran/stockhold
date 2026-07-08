@@ -2,6 +2,12 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 
+const INDEX_TABS = [
+  { key: "NIFTY", label: "NIFTY" },
+  { key: "BANKNIFTY", label: "BANK NIFTY" },
+  { key: "SENSEX", label: "SENSEX" },
+];
+
 function fmt(n, decimals = 2) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
   return Number(n).toLocaleString("en-IN", {
@@ -61,6 +67,7 @@ function StatCard({ label, value, subtext, accent = "slate" }) {
 }
 
 export default function Page() {
+  const [indexKey, setIndexKey] = useState("NIFTY");
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState(null);
   const [selectedExpiry, setSelectedExpiry] = useState(null);
@@ -69,13 +76,11 @@ export default function Page() {
   const [lastFetched, setLastFetched] = useState(null);
   const intervalRef = useRef(null);
 
-  const load = useCallback(async (expiry) => {
+  const load = useCallback(async (idx, expiry) => {
     try {
-      const url = expiry
-        ? `/api/optionchain?expiry=${encodeURIComponent(expiry)}`
-        : "/api/optionchain";
-
-      const res = await fetch(url, { cache: "no-store" });
+      const params = new URLSearchParams({ index: idx });
+      if (expiry) params.set("expiry", expiry);
+      const res = await fetch(`/api/optionchain?${params.toString()}`, { cache: "no-store" });
 
       if (res.status === 401) {
         setStatus("disconnected");
@@ -101,21 +106,34 @@ export default function Page() {
     }
   }, []);
 
+  // Switching index: reset expiry selection and reload fresh (don't reuse old expiry
+  // across indices — NIFTY/BANKNIFTY/SENSEX expiry calendars don't line up).
+  const handleIndexChange = useCallback(
+    (key) => {
+      setIndexKey(key);
+      setStatus("loading");
+      setSelectedExpiry(null);
+      load(key);
+    },
+    [load]
+  );
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const err = params.get("error");
     if (err) setErrorMsg(err);
-    load();
-  }, [load]);
+    load(indexKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!autoRefresh) return;
 
-    intervalRef.current = setInterval(() => load(selectedExpiry), 5000);
+    intervalRef.current = setInterval(() => load(indexKey, selectedExpiry), 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [autoRefresh, selectedExpiry, load]);
+  }, [autoRefresh, indexKey, selectedExpiry, load]);
 
   const atmStrike =
     data && data.rows.length
@@ -141,10 +159,10 @@ export default function Page() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-slate-500">
-                NSE · NFO Derivatives
+                {data?.label ? `${data.label === "NIFTY" ? "NSE" : data.label === "BANK NIFTY" ? "NSE" : "BSE"} · Derivatives` : "NSE/BSE · Derivatives"}
               </p>
               <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
-                NIFTY Option Chain
+                {data?.label || "NIFTY"} Option Chain
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                 Clean live option chain view with ITM highlighting, ATM emphasis, and fast refresh controls.
@@ -171,6 +189,23 @@ export default function Page() {
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {INDEX_TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => handleIndexChange(tab.key)}
+                className={`rounded-xl px-4 py-2 font-mono text-sm font-semibold transition cursor-pointer ${
+                  indexKey === tab.key
+                    ? "bg-amber-400 text-slate-950 shadow-sm"
+                    : "border border-slate-300 bg-white text-slate-600 hover:border-amber-400 hover:text-slate-900"
+                }`}
+                aria-pressed={indexKey === tab.key}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </header>
 
@@ -260,7 +295,7 @@ export default function Page() {
                     value={selectedExpiry || ""}
                     onChange={(e) => {
                       setSelectedExpiry(e.target.value);
-                      load(e.target.value);
+                      load(indexKey, e.target.value);
                     }}
                     aria-label="Select expiry"
                   >
@@ -273,7 +308,7 @@ export default function Page() {
                 </label>
 
                 <button
-                  onClick={() => load(selectedExpiry)}
+                  onClick={() => load(indexKey, selectedExpiry)}
                   className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200 cursor-pointer"
                   aria-label="Refresh option chain"
                 >

@@ -111,7 +111,7 @@ export default function Page() {
   useEffect(() => {
     if (!autoRefresh) return;
 
-    intervalRef.current = setInterval(() => load(selectedExpiry), 1000);
+    intervalRef.current = setInterval(() => load(selectedExpiry), 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -256,7 +256,7 @@ export default function Page() {
                     Expiry
                   </span>
                   <select
-                    className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+                    className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200 cursor-pointer"
                     value={selectedExpiry || ""}
                     onChange={(e) => {
                       setSelectedExpiry(e.target.value);
@@ -274,7 +274,7 @@ export default function Page() {
 
                 <button
                   onClick={() => load(selectedExpiry)}
-                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200 cursor-pointer"
                   aria-label="Refresh option chain"
                 >
                   Refresh
@@ -288,7 +288,7 @@ export default function Page() {
                     className="h-4 w-4 accent-amber-500"
                     aria-label="Auto-refresh"
                   />
-                  Auto-refresh (1s)
+                  Auto-refresh (5s)
                 </label>
               </div>
             </div>

@@ -43,6 +43,28 @@ export default function TrendingOiPage() {
     }
   };
 
+  // diffOi as a % of total (call+put) OI change activity.
+  // >= 40%  -> Bullish (green)
+  // <= -40% -> Bearish (red)
+  // else    -> Neutral (gray)
+  const getOiDiffPercent = (row) => {
+    const callChange = Math.round(row.callChange);
+    const putChange = Math.round(row.putChange);
+    const diffOi = Math.round(row.diffOi);
+    const total = Math.abs(callChange) + Math.abs(putChange);
+    if (!total) return 0;
+    return (diffOi / total) * 100;
+  };
+
+  const getOiDiffStyle = (pct) => {
+    if (pct >= 40) {
+      return { label: "Bullish", className: "bg-green-600 text-white" };
+    } else if (pct <= -40) {
+      return { label: "Bearish", className: "bg-red-600 text-white" };
+    }
+    return { label: "Neutral", className: "bg-gray-200 text-gray-700" };
+  };
+
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
@@ -82,6 +104,7 @@ export default function TrendingOiPage() {
               <th className="px-3 py-2">Call ΔOI</th>
               <th className="px-3 py-2">Put ΔOI</th>
               <th className="px-3 py-2">ΔOI Diff</th>
+              <th className="px-3 py-2">ΔOI Diff %</th>
               <th className="px-3 py-2">Direction</th>
               <th className="px-3 py-2">Sentiment</th>
             </tr>
@@ -102,6 +125,10 @@ export default function TrendingOiPage() {
               const putChange = Math.round(row.putChange);
               const diffOi = Math.round(row.diffOi);
 
+              const oiDiffPct = getOiDiffPercent(row);
+              const { label: oiDiffLabel, className: oiDiffClass } =
+                getOiDiffStyle(oiDiffPct);
+
               return (
                 <tr
                   key={row.id || `${row.time}-${index}`}
@@ -121,6 +148,13 @@ export default function TrendingOiPage() {
                     }`}
                   >
                     {diffOi.toLocaleString()}
+                  </td>
+                  <td className="px-3 py-2">
+                    <span
+                      className={`px-3 py-1 font-bold text-sm rounded-full ${oiDiffClass}`}
+                    >
+                      {oiDiffPct.toFixed(1)}%
+                    </span>
                   </td>
                   <td className="px-3 py-2">
                     {direction === "up" ? (

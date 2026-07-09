@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaSitemap } from "react-icons/fa";
 
-const indexOptions = ["NIFTY", "BANKNIFTY", "RELIANCE", "ITC", "HDFCBANK", "MANAPPURAM", "KALYANKJIL"];
+const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
 
 export default function OptionChain() {
   const [symbol, setSymbol] = useState("NIFTY");
@@ -21,46 +21,58 @@ export default function OptionChain() {
   const [sellSignalStrike, setSellSignalStrike] = useState(null);
 
   const getBuySignalStrike = (filtered) => {
-    const minOI = Math.min(...filtered.map(r => r.openInterest));
-    const minChangeOI = Math.min(...filtered.map(r => r.changeinOpenInterest));
-    return filtered.find(
-      r => r.openInterest === minOI && r.changeinOpenInterest === minChangeOI
-    )?.strikePrice || null;
+    const minOI = Math.min(...filtered.map((r) => r.CE_oi));
+    const minChangeOI = Math.min(...filtered.map((r) => r.CE_oiChange));
+    return (
+      filtered.find((r) => r.CE_oi === minOI && r.CE_oiChange === minChangeOI)
+        ?.strike || null
+    );
   };
 
   const getSellSignalStrike = (filtered) => {
-    const minOI = Math.min(...filtered.map(r => r.openInterest_PE));
-    const minChangeOI = Math.min(...filtered.map(r => r.changeinOpenInterest_PE));
-    return filtered.find(
-      r => r.openInterest_PE === minOI && r.changeinOpenInterest_PE === minChangeOI
-    )?.strikePrice || null;
+    const minOI = Math.min(...filtered.map((r) => r.PE_oi));
+    const minChangeOI = Math.min(...filtered.map((r) => r.PE_oiChange));
+    return (
+      filtered.find((r) => r.PE_oi === minOI && r.PE_oiChange === minChangeOI)
+        ?.strike || null
+    );
   };
 
   const fetchData = async (sym) => {
     try {
-      const res = await fetch(`/api/option-chain?symbol=${sym}`);
+      setError(null);
+      const res = await fetch(`/api/optionchain?index=${sym}`);
       const data = await res.json();
-      if (!Array.isArray(data)) return setError("API error");
 
-      const atmStrike = data[Math.floor(data.length / 2)]?.strikePrice || null;
+      if (!data || !Array.isArray(data.rows)) {
+        setError("API error");
+        return;
+      }
+
+      const rowsData = data.rows;
+      const atmStrike = rowsData[Math.floor(rowsData.length / 2)]?.strike || null;
       setAtm(atmStrike);
 
-      const atmIndex = data.findIndex(r => r.strikePrice === atmStrike);
-      const filtered = data.slice(Math.max(0, atmIndex - 1), atmIndex + 2);
+      const atmIndex = rowsData.findIndex((r) => r.strike === atmStrike);
+      const filtered = rowsData.slice(Math.max(0, atmIndex - 1), atmIndex + 2);
       setRows(filtered);
 
-      const sortedCE = [...filtered].sort((a, b) => b.openInterest - a.openInterest).slice(0, 3);
-      const sortedPE = [...filtered].sort((a, b) => b.openInterest_PE - a.openInterest_PE).slice(0, 3);
-      const sortedCEDiff = [...filtered].sort((a, b) => b.changeinOpenInterest - a.changeinOpenInterest).slice(0, 3);
-      const sortedPEDiff = [...filtered].sort((a, b) => b.changeinOpenInterest_PE - a.changeinOpenInterest_PE).slice(0, 3);
+      const sortedCE = [...filtered].sort((a, b) => b.CE_oi - a.CE_oi).slice(0, 3);
+      const sortedPE = [...filtered].sort((a, b) => b.PE_oi - a.PE_oi).slice(0, 3);
+      const sortedCEDiff = [...filtered]
+        .sort((a, b) => b.CE_oiChange - a.CE_oiChange)
+        .slice(0, 3);
+      const sortedPEDiff = [...filtered]
+        .sort((a, b) => b.PE_oiChange - a.PE_oiChange)
+        .slice(0, 3);
 
-      setTopCEOi(sortedCE.map(r => r.openInterest));
-      setTopPEOi(sortedPE.map(r => r.openInterest_PE));
-      setTopCEDiff(sortedCEDiff.map(r => r.changeinOpenInterest));
-      setTopPEDiff(sortedPEDiff.map(r => r.changeinOpenInterest_PE));
+      setTopCEOi(sortedCE.map((r) => r.CE_oi));
+      setTopPEOi(sortedPE.map((r) => r.PE_oi));
+      setTopCEDiff(sortedCEDiff.map((r) => r.CE_oiChange));
+      setTopPEDiff(sortedPEDiff.map((r) => r.PE_oiChange));
 
-      setMinCEDiff(Math.min(...filtered.map(r => r.changeinOpenInterest)));
-      setMinPEDiff(Math.min(...filtered.map(r => r.changeinOpenInterest_PE)));
+      setMinCEDiff(Math.min(...filtered.map((r) => r.CE_oiChange)));
+      setMinPEDiff(Math.min(...filtered.map((r) => r.PE_oiChange)));
 
       setBuySignalStrike(getBuySignalStrike(filtered));
       setSellSignalStrike(getSellSignalStrike(filtered));
@@ -71,9 +83,13 @@ export default function OptionChain() {
 
   useEffect(() => {
     fetchData(symbol);
+
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => fetchData(symbol), 10000);
-    return () => clearInterval(intervalRef.current);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [symbol]);
 
   const highlightOI = (value, side) => {
@@ -137,31 +153,39 @@ export default function OptionChain() {
           <tbody>
             {rows.map((r, i) => (
               <tr key={i} className="border-t border-gray-200 hover:bg-gray-50">
-                <td className="py-3 px-3">{r.totalTradedVolume}</td>
-                <td className={`py-3 px-3 ${highlightOI(r.openInterest, "CE")}`}>{r.openInterest}</td>
-                <td className={`py-3 px-3 ${highlightDiff(r.changeinOpenInterest, "CE")}`}>{r.changeinOpenInterest}</td>
-                <td className="py-3 px-3">{r.lastPrice}</td>
+                <td className="py-3 px-3">{r.CE_vol}</td>
+                <td className={`py-3 px-3 ${highlightOI(r.CE_oi, "CE")}`}>
+                  {r.CE_oi}
+                </td>
+                <td className={`py-3 px-3 ${highlightDiff(r.CE_oiChange, "CE")}`}>
+                  {r.CE_oiChange}
+                </td>
+                <td className="py-3 px-3">{r.CE_ltp}</td>
                 <td
-                  className={`py-3 px-3 font-medium 
-                    ${r.strikePrice === atm ? "bg-yellow-200" : ""} 
-                    ${r.strikePrice === buySignalStrike ? "font-bold" : ""}
-                    ${r.strikePrice === sellSignalStrike ? "font-bold" : ""}
+                  className={`py-3 px-3 font-medium
+                    ${r.strike === atm ? "bg-yellow-200" : ""}
+                    ${r.strike === buySignalStrike ? "font-bold" : ""}
+                    ${r.strike === sellSignalStrike ? "font-bold" : ""}
                   `}
                 >
                   <>
-                    {r.strikePrice}
-                    {r.strikePrice === buySignalStrike && (
+                    {r.strike}
+                    {r.strike === buySignalStrike && (
                       <span className="ml-1 text-green-700">✅</span>
                     )}
-                    {r.strikePrice === sellSignalStrike && (
+                    {r.strike === sellSignalStrike && (
                       <span className="ml-1 text-red-700">❌</span>
                     )}
                   </>
                 </td>
-                <td className="py-3 px-3">{r.lastPrice_PE}</td>
-                <td className={`py-3 px-3 ${highlightDiff(r.changeinOpenInterest_PE, "PE")}`}>{r.changeinOpenInterest_PE}</td>
-                <td className={`py-3 px-3 ${highlightOI(r.openInterest_PE, "PE")}`}>{r.openInterest_PE}</td>
-                <td className="py-3 px-3">{r.totalTradedVolume_PE}</td>
+                <td className="py-3 px-3">{r.PE_ltp}</td>
+                <td className={`py-3 px-3 ${highlightDiff(r.PE_oiChange, "PE")}`}>
+                  {r.PE_oiChange}
+                </td>
+                <td className={`py-3 px-3 ${highlightOI(r.PE_oi, "PE")}`}>
+                  {r.PE_oi}
+                </td>
+                <td className="py-3 px-3">{r.PE_vol}</td>
               </tr>
             ))}
           </tbody>

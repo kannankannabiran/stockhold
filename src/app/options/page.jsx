@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const INDEX_TABS = [
   { key: "NIFTY", label: "NIFTY" },
@@ -67,6 +68,7 @@ function StatCard({ label, value, subtext, accent = "slate" }) {
 }
 
 export default function Page() {
+  const router = useRouter();
   const [indexKey, setIndexKey] = useState("NIFTY");
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState(null);
@@ -119,12 +121,17 @@ export default function Page() {
   );
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const err = params.get("error");
-    if (err) setErrorMsg(err);
     load(indexKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Not connected -> send the user to the dedicated connect page instead of
+  // showing a connect card inline here.
+  useEffect(() => {
+    if (status === "disconnected") {
+      router.push("/connect");
+    }
+  }, [status, router]);
 
   useEffect(() => {
     if (!autoRefresh) return;
@@ -266,19 +273,8 @@ export default function Page() {
         )}
 
         {status === "disconnected" && (
-          <div className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm">
-            <div className="max-w-2xl">
-              <p className="text-sm leading-6 text-slate-600">
-                Connect your Zerodha account to pull live option chain data. You’ll be redirected
-                to Zerodha’s login page, and your credentials never touch this app.
-              </p>
-            </div>
-            <a
-              href="/api/login"
-              className="mt-5 inline-flex items-center rounded-xl bg-amber-400 px-5 py-2.5 font-semibold text-slate-950 transition hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-amber-400/60"
-            >
-              Connect to Zerodha
-            </a>
+          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm">
+            <p className="font-mono text-sm text-slate-500">Redirecting to connect page…</p>
           </div>
         )}
 

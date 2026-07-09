@@ -1,38 +1,43 @@
 import { NextResponse } from "next/server";
-import { newClient, getApiSecret } from "../../../lib/kite";
+import { cookies } from "next/headers";
+import { KiteConnect } from "kiteconnect";
+import { saveAccessToken } from "../../../lib/kiteTokenStore";
 
 export async function GET(request) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const requestToken = searchParams.get("request_token");
-  const status = searchParams.get("status");
 
-  if (!requestToken || status !== "success") {
-    return NextResponse.redirect(
-      `${origin}/?error=${encodeURIComponent("Login was not completed. Please try again.")}`
-    );
+  if (!requestToken) {
+    return NextResponse.json({ error: "missing_request_token" }, { status: 400 });
   }
 
-  try {
-    const kc = newClient();
-    const session = await kc.generateSession(requestToken, getApiSecret());
-    const res = NextResponse.redirect(`${origin}/?connected=1`);
+  const kc = new KiteConnect({ api_key: process.env.KITE_API_KEY });
 
-    // Kite access tokens are valid until ~6am the next day.
-    res.cookies.set("kite_access_token", session.access_token, {
+  try {
+    const session = await kc.generateSession(
+      requestToken,
+      process.env.KITE_API_SECRET
+    );
+
+    // Set cookie for the logged-in browser session
+    const cookieStore = await cookies();
+    cookieStore.set("kite_access_token", session.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 20, // 20 hours
+      maxAge: 60 * 60 * 24, // 1 day - Kite tokens expire daily anyway
     });
 
-    return res;
+    // Save to file so the background poller (no cookies available) can use it
+    saveAccessToken(session.access_token);
+
+    return NextResponse.redirect(new URL("/", request.url));
   } catch (err) {
-    console.error("[callback] generateSession failed:", err.message);
-    return NextResponse.redirect(
-      `${origin}/?error=${encodeURIComponent(
-        "Login failed: " + (err.message || "unknown error")
-      )}`
+    console.error("[kite/callback] session generation failed:", err.message);
+    return NextResponse.json(
+      { error: "session_failed", message: err.message },
+      { status: 500 }
     );
   }
 }

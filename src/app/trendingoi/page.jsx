@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { FaBolt } from "react-icons/fa";
+import { FaBolt, FaTrash } from "react-icons/fa";
 import { useAccessControl } from "../../hooks/useAccessControl";
 import up from "../../../public/up.svg";
 import down from "../../../public/down.svg";
 
-const indexOptions = ["NIFTY", "BANKNIFTY"];
+const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
+const REFRESH_MS = 5000;
 
 export default function TrendingOiPage() {
   const { hasAccess, loading: accessLoading } = useAccessControl("/trendingoi");
@@ -19,19 +20,7 @@ export default function TrendingOiPage() {
     try {
       const res = await fetch(`/api/trending-oi/history?symbol=${symbol}`);
       const data = await res.json();
-
-      // Keep only rows with unique diffOi values
-      const uniqueDiffOiSet = new Set();
-      const filtered = [];
-
-      for (const row of data || []) {
-        if (!uniqueDiffOiSet.has(row.diffOi)) {
-          uniqueDiffOiSet.add(row.diffOi);
-          filtered.push(row);
-        }
-      }
-
-      setHistory(filtered);
+      setHistory(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch trending OI history", err);
     }
@@ -39,9 +28,20 @@ export default function TrendingOiPage() {
 
   useEffect(() => {
     fetchHistory();
-    const interval = setInterval(fetchHistory, 60000);
+    const interval = setInterval(fetchHistory, REFRESH_MS);
     return () => clearInterval(interval);
   }, [symbol]);
+
+  const handleClear = async () => {
+    try {
+      await fetch(`/api/trending-oi/history?symbol=${symbol}`, {
+        method: "DELETE",
+      });
+      setHistory([]);
+    } catch (err) {
+      console.error("Failed to clear trending OI history", err);
+    }
+  };
 
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
@@ -52,7 +52,7 @@ export default function TrendingOiPage() {
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
 
-      <div className="flex justify-center gap-4 mb-4">
+      <div className="flex justify-center items-center gap-4 mb-4">
         <select
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
@@ -64,6 +64,13 @@ export default function TrendingOiPage() {
             </option>
           ))}
         </select>
+
+        <button
+          onClick={handleClear}
+          className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700"
+        >
+          <FaTrash /> Clear
+        </button>
       </div>
 
       <div className="overflow-x-auto bg-white border rounded shadow">
@@ -81,19 +88,16 @@ export default function TrendingOiPage() {
           </thead>
           <tbody>
             {history.map((row, index) => {
-              // history is newest-first (save route unshifts each new row),
-              // so the chronologically EARLIER row is at index + 1, not index - 1.
+              // history is newest-first, so the chronologically EARLIER
+              // row is at index + 1, not index - 1.
               const prev = history[index + 1];
               let direction = "-";
 
               if (prev) {
-                // diff went up vs the previous minute -> up/positive arrow
-                // diff went down vs the previous minute -> down/negative arrow
                 if (row.diffOi > prev.diffOi) direction = "up";
                 else if (row.diffOi < prev.diffOi) direction = "down";
               }
 
-              // Always round values before displaying
               const callChange = Math.round(row.callChange);
               const putChange = Math.round(row.putChange);
               const diffOi = Math.round(row.diffOi);

@@ -31,6 +31,22 @@ db.exec(`
     date TEXT NOT NULL,
     updated_at INTEGER NOT NULL
   );
+
+  CREATE TABLE IF NOT EXISTS oi_trend_history (
+    id TEXT PRIMARY KEY,
+    symbol TEXT NOT NULL,
+    strike REAL NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    ce_oi INTEGER,
+    pe_oi INTEGER,
+    ce_oi_change INTEGER,
+    pe_oi_change INTEGER,
+    timestamp INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_oi_trend_symbol_strike_ts
+    ON oi_trend_history (symbol, strike, timestamp DESC);
 `);
 
 // Migration: if the table already existed from before (without spot),

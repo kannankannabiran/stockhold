@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { FaSitemap } from "react-icons/fa";
+import { FaSitemap, FaTrash } from "react-icons/fa";
 import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -65,40 +65,82 @@ function sentimentClasses(sentiment) {
   }
 }
 
-const MAX_TREND_POINTS = 30;
-
-// localStorage-backed OI trend history — resets daily since OI resets each trading session.
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function trendStorageKey(sym, strike) {
-  return `oiTrend:${sym}:${strike}`;
-}
-
-function loadTrendHistory(sym, strike) {
-  if (typeof window === "undefined" || !strike) return [];
+// DB-backed OI trend history helpers (replaces the old localStorage version).
+// History still resets daily since OI resets each trading session — that's
+// handled server-side by the API filtering on date.
+async function loadTrendHistory(sym, strike) {
+  if (!strike) return [];
   try {
-    const raw = window.localStorage.getItem(trendStorageKey(sym, strike));
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (parsed.dateKey !== todayKey()) return []; // stale data from a previous trading day
-    return Array.isArray(parsed.points) ? parsed.points : [];
+    const res = await fetch(
+      `/api/oi-trend?symbol=${sym}&strike=${strike}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (e) {
-    console.error("[oiTrend] failed to read localStorage", e);
+    console.error("[oiTrend] failed to load history", e);
     return [];
   }
 }
 
-function saveTrendHistory(sym, strike, points) {
-  if (typeof window === "undefined" || !strike) return;
+async function saveTrendPoint(sym, strike, point) {
+  if (!strike) return;
   try {
-    window.localStorage.setItem(
-      trendStorageKey(sym, strike),
-      JSON.stringify({ dateKey: todayKey(), points })
-    );
+    await fetch(`/api/oi-trend`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        symbol: sym,
+        strike,
+        ceOi: point.ceOi,
+        peOi: point.peOi,
+        ceOiChange: point.ceOiChange,
+        peOiChange: point.peOiChange,
+        time: point.time,
+      }),
+    });
   } catch (e) {
-    console.error("[oiTrend] failed to write localStorage", e);
+    console.error("[oiTrend] failed to save point", e);
+  }
+}
+
+// Persists a snapshot for every strike in the current chain in one request —
+// called on every poll regardless of which strike (if any) is selected, so
+// history accumulates for the whole chain, not just the one being viewed.
+async function saveAllTrendPoints(sym, allRows, time) {
+  if (!allRows || !allRows.length) return;
+  try {
+    await fetch(`/api/oi-trend`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        symbol: sym,
+        points: allRows.map((r) => ({
+          strike: r.strike,
+          ceOi: r.CE_oi ?? null,
+          peOi: r.PE_oi ?? null,
+          ceOiChange: r.CE_oiChange ?? null,
+          peOiChange: r.PE_oiChange ?? null,
+          time,
+        })),
+      }),
+    });
+  } catch (e) {
+    console.error("[oiTrend] failed to save all points", e);
+  }
+}
+
+
+// Pass strike = null to clear every strike's history for this symbol.
+async function clearTrendHistory(sym, strike) {
+  try {
+    const qs = strike
+      ? `symbol=${sym}&strike=${strike}`
+      : `symbol=${sym}`;
+    await fetch(`/api/oi-trend?${qs}`, { method: "DELETE" });
+  } catch (e) {
+    console.error("[oiTrend] failed to clear history", e);
   }
 }
 
@@ -111,9 +153,10 @@ export default function OptionChain() {
   const [updatedAt, setUpdatedAt] = useState(null);
   const [selectedStrike, setSelectedStrike] = useState(null);
   const [error, setError] = useState(null);
+  const [clearing, setClearing] = useState(false);
 
-  // Real OI history for the selected strike, built up from each poll and persisted to
-  // localStorage (per symbol+strike, reset daily) so it survives page reloads.
+  // Real OI history for the selected strike, built up from each poll and persisted
+  // to the DB (per symbol+strike, reset daily) so it survives page reloads.
   const [trendHistory, setTrendHistory] = useState([]); // [{ time, ceOi, peOi, ceOiChange, peOiChange }]
   const timeoutRef = useRef(null);
   const inFlightRef = useRef(false);
@@ -143,6 +186,15 @@ export default function OptionChain() {
       setExpiry(data.expiry ?? null);
       setExpiries(data.expiries || []);
       setUpdatedAt(data.updatedAt ?? null);
+
+      // Persist a snapshot for every strike in this chain, regardless of
+      // which one (if any) is currently selected in the UI.
+      if ((data.rows || []).length) {
+        const snapTime = data.updatedAt
+          ? new Date(data.updatedAt).toLocaleTimeString()
+          : new Date().toLocaleTimeString();
+        saveAllTrendPoints(sym, data.rows, snapTime);
+      }
 
       if (data.spot != null && (data.rows || []).length) {
         let closest = data.rows[0];
@@ -185,31 +237,54 @@ export default function OptionChain() {
   const selectedRow = rows.find((r) => r.strike === Number(selectedStrike));
 
   // When the user picks a different strike (or symbol changes), load whatever history
-  // is already saved for that strike from localStorage instead of starting empty.
+  // is already saved for that strike from the DB instead of starting empty.
   useEffect(() => {
-    setTrendHistory(loadTrendHistory(symbol, selectedStrike));
+    let cancelled = false;
+    if (!selectedStrike) {
+      setTrendHistory([]);
+      return;
+    }
+    loadTrendHistory(symbol, selectedStrike).then((points) => {
+      if (!cancelled) setTrendHistory(points);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [symbol, selectedStrike]);
 
-  // Append a real snapshot point every time fresh data arrives for the selected strike,
-  // and persist it to localStorage so it survives reloads.
+  // Append a real snapshot point to the on-screen chart every time fresh data
+  // arrives for the selected strike. Persistence to the DB is already handled
+  // by saveAllTrendPoints (called once per poll for every strike in fetchData),
+  // so this effect only needs to update local state for immediate chart feedback.
   useEffect(() => {
     if (!selectedRow || (selectedRow.CE_oi == null && selectedRow.PE_oi == null)) return;
-    setTrendHistory((prev) => {
-      const next = [
-        ...prev,
-        {
-          time: updatedAt ? new Date(updatedAt).toLocaleTimeString() : new Date().toLocaleTimeString(),
-          ceOi: selectedRow.CE_oi ?? null,
-          peOi: selectedRow.PE_oi ?? null,
-          ceOiChange: selectedRow.CE_oiChange ?? null,
-          peOiChange: selectedRow.PE_oiChange ?? null,
-        },
-      ].slice(-MAX_TREND_POINTS);
-      saveTrendHistory(symbol, selectedStrike, next);
-      return next;
-    });
+
+    const point = {
+      time: updatedAt ? new Date(updatedAt).toLocaleTimeString() : new Date().toLocaleTimeString(),
+      ceOi: selectedRow.CE_oi ?? null,
+      peOi: selectedRow.PE_oi ?? null,
+      ceOiChange: selectedRow.CE_oiChange ?? null,
+      peOiChange: selectedRow.PE_oiChange ?? null,
+    };
+
+    setTrendHistory((prev) => [...prev, point].slice(-30));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRow?.CE_oi, selectedRow?.PE_oi, selectedRow?.CE_oiChange, selectedRow?.PE_oiChange, updatedAt]);
+
+  const handleClearTrend = async () => {
+    if (!selectedStrike) return;
+    setClearing(true);
+    await clearTrendHistory(symbol, selectedStrike); // clears just this strike
+    setTrendHistory([]);
+    setClearing(false);
+  };
+
+  const handleClearAllTrend = async () => {
+    setClearing(true);
+    await clearTrendHistory(symbol, null); // no strike param → clears every strike for this symbol
+    setTrendHistory([]);
+    setClearing(false);
+  };
 
   const barChartData = {
     labels: ["Call OI", "Put OI"],
@@ -350,6 +425,22 @@ export default function OptionChain() {
             </option>
           ))}
         </select>
+
+        <button
+          onClick={handleClearTrend}
+          disabled={!selectedStrike || clearing}
+          className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <FaTrash /> {clearing ? "Clearing..." : "Clear Strike"}
+        </button>
+
+        <button
+          onClick={handleClearAllTrend}
+          disabled={clearing}
+          className="flex items-center gap-2 px-4 py-2 rounded bg-gray-600 text-white font-semibold shadow-sm hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <FaTrash /> {clearing ? "Clearing..." : "Clear All"}
+        </button>
       </div>
 
       {/* Charts */}

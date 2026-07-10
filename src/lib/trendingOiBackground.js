@@ -1,7 +1,7 @@
 import { newClient } from "./kite";
 import { getStoredAccessToken } from "./kiteTokenStore";
 import { getOptionChainData, INDEX_KEYS } from "./optionChainCore";
-import db from "./db"; // NEW
+import db from "./db";
 
 const POLL_INTERVAL_MS = 60 * 1000;
 const MAX_HISTORY = 500;
@@ -10,16 +10,23 @@ const g = globalThis;
 if (!g.__trendingOiStore) g.__trendingOiStore = {};
 if (!g.__trendingOiPollerStarted) g.__trendingOiPollerStarted = false;
 
-// NEW: prepared statements (cheap to prepare once, reused every poll)
+// NEW: make sure the spot column exists (safe to run repeatedly)
+try {
+  db.prepare(`ALTER TABLE trending_oi_history ADD COLUMN spot REAL`).run();
+} catch (e) {
+  // ignore "duplicate column" error once it's already been added
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
+
 const insertRow = db.prepare(`
   INSERT OR IGNORE INTO trending_oi_history
-    (id, symbol, date, time, call_change, put_change, diff_oi, sentiment, timestamp)
-  VALUES (@id, @symbol, @date, @time, @call_change, @put_change, @diff_oi, @sentiment, @timestamp)
+    (id, symbol, date, time, call_change, put_change, diff_oi, sentiment, spot, timestamp)
+  VALUES (@id, @symbol, @date, @time, @call_change, @put_change, @diff_oi, @sentiment, @spot, @timestamp)
 `);
 
 const loadRecentHistory = db.prepare(`
   SELECT id, date, time, call_change AS callChange, put_change AS putChange,
-         diff_oi AS diffOi, sentiment
+         diff_oi AS diffOi, sentiment, spot
   FROM trending_oi_history
   WHERE symbol = ?
   ORDER BY timestamp DESC
@@ -32,11 +39,10 @@ function computeSentiment(diffOi) {
   return "Neutral";
 }
 
-// NEW: hydrate globalThis from SQLite so history survives restarts
 function hydrateStoreFromDb() {
   for (const symbol of INDEX_KEYS) {
     const rows = loadRecentHistory.all(symbol, MAX_HISTORY);
-    g.__trendingOiStore[symbol] = rows; // already DESC = newest first, matches unshift order
+    g.__trendingOiStore[symbol] = rows;
   }
   console.log("[trendingOi] hydrated history from SQLite for", INDEX_KEYS.join(", "));
 }
@@ -52,7 +58,7 @@ async function pollOnce() {
 
   for (const symbol of INDEX_KEYS) {
     try {
-      const { rows } = await getOptionChainData(kc, symbol, null);
+      const { rows, spot } = await getOptionChainData(kc, symbol, null); // NEW: pull spot too
 
       let callChange = 0;
       let putChange = 0;
@@ -71,6 +77,7 @@ async function pollOnce() {
         putChange,
         diffOi,
         sentiment: computeSentiment(diffOi),
+        spot: spot ?? null, // NEW
       };
 
       const history = g.__trendingOiStore[symbol] || [];
@@ -79,7 +86,6 @@ async function pollOnce() {
         if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
         g.__trendingOiStore[symbol] = history;
 
-        // NEW: persist to SQLite alongside the in-memory update
         insertRow.run({
           id: row.id,
           symbol,
@@ -89,6 +95,7 @@ async function pollOnce() {
           put_change: row.putChange,
           diff_oi: row.diffOi,
           sentiment: row.sentiment,
+          spot: row.spot, // NEW
           timestamp: now.getTime(),
         });
       }
@@ -102,7 +109,7 @@ export function startTrendingOiPoller() {
   if (g.__trendingOiPollerStarted) return;
   g.__trendingOiPollerStarted = true;
 
-  hydrateStoreFromDb(); // NEW: recover history on startup
+  hydrateStoreFromDb();
   pollOnce();
   setInterval(pollOnce, POLL_INTERVAL_MS);
   console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "));
@@ -114,6 +121,5 @@ export function getTrendingOiHistory(symbol) {
 
 export function clearTrendingOiHistory(symbol) {
   g.__trendingOiStore[symbol] = [];
-  // NEW: also clear persisted history so it doesn't come back on next restart
   db.prepare(`DELETE FROM trending_oi_history WHERE symbol = ?`).run(symbol);
 }

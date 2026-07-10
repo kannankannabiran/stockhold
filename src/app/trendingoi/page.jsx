@@ -43,10 +43,6 @@ export default function TrendingOiPage() {
     }
   };
 
-  // diffOi as a % of total (call+put) OI change activity.
-  // >= 40%  -> Bullish (green)
-  // <= -40% -> Bearish (red)
-  // else    -> Neutral (gray)
   const getOiDiffPercent = (row) => {
     const callChange = Math.round(row.callChange);
     const putChange = Math.round(row.putChange);
@@ -68,11 +64,47 @@ export default function TrendingOiPage() {
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
+  // NEW: latest row (history is newest-first) drives the current spot readout
+  const currentSpot = history[0]?.spot ?? null;
+  const prevSpotRow = history[1]?.spot ?? null;
+  const spotDirection =
+    currentSpot != null && prevSpotRow != null
+      ? currentSpot > prevSpotRow
+        ? "up"
+        : currentSpot < prevSpotRow
+        ? "down"
+        : "-"
+      : "-";
+
   return (
     <div className="p-6 max-w-screen-xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 flex items-center justify-center gap-3">
+      <h2 className="text-3xl font-bold text-center mb-2 text-gray-800 flex items-center justify-center gap-3">
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
+
+      {/* NEW: current spot price readout */}
+      <div className="flex justify-center items-center gap-2 mb-4">
+        <span className="text-gray-500 text-sm">Spot:</span>
+        <span
+          className={`text-xl font-bold ${
+            spotDirection === "up"
+              ? "text-green-600"
+              : spotDirection === "down"
+              ? "text-red-600"
+              : "text-gray-800"
+          }`}
+        >
+          {currentSpot != null
+            ? currentSpot.toLocaleString(undefined, { maximumFractionDigits: 2 })
+            : "—"}
+        </span>
+        {spotDirection === "up" && (
+          <Image src={up} alt="Up" width={18} height={18} />
+        )}
+        {spotDirection === "down" && (
+          <Image src={down} alt="Down" width={18} height={18} />
+        )}
+      </div>
 
       <div className="flex justify-center items-center gap-4 mb-4">
         <select
@@ -101,6 +133,7 @@ export default function TrendingOiPage() {
             <tr>
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2">Time</th>
+              <th className="px-3 py-2">Spot</th>
               <th className="px-3 py-2">Call ΔOI</th>
               <th className="px-3 py-2">Put ΔOI</th>
               <th className="px-3 py-2">ΔOI Diff</th>
@@ -111,8 +144,6 @@ export default function TrendingOiPage() {
           </thead>
           <tbody>
             {history.map((row, index) => {
-              // history is newest-first, so the chronologically EARLIER
-              // row is at index + 1, not index - 1.
               const prev = history[index + 1];
               let direction = "-";
 
@@ -126,8 +157,7 @@ export default function TrendingOiPage() {
               const diffOi = Math.round(row.diffOi);
 
               const oiDiffPct = getOiDiffPercent(row);
-              const { label: oiDiffLabel, className: oiDiffClass } =
-                getOiDiffStyle(oiDiffPct);
+              const { className: oiDiffClass } = getOiDiffStyle(oiDiffPct);
 
               return (
                 <tr
@@ -136,6 +166,13 @@ export default function TrendingOiPage() {
                 >
                   <td className="px-3 py-2 text-gray-700">{row.date}</td>
                   <td className="px-3 py-2 text-gray-700">{row.time}</td>
+                  <td className="px-3 py-2 text-gray-700">
+                    {row.spot != null
+                      ? Number(row.spot).toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })
+                      : "-"}
+                  </td>
                   <td className="px-3 py-2">{callChange.toLocaleString()}</td>
                   <td className="px-3 py-2">{putChange.toLocaleString()}</td>
                   <td
@@ -158,21 +195,9 @@ export default function TrendingOiPage() {
                   </td>
                   <td className="px-3 py-2">
                     {direction === "up" ? (
-                      <Image
-                        src={up}
-                        alt="Up"
-                        width={40}
-                        height={40}
-                        className="mx-auto"
-                      />
+                      <Image src={up} alt="Up" width={40} height={40} className="mx-auto" />
                     ) : direction === "down" ? (
-                      <Image
-                        src={down}
-                        alt="Down"
-                        width={40}
-                        height={40}
-                        className="mx-auto"
-                      />
+                      <Image src={down} alt="Down" width={40} height={40} className="mx-auto" />
                     ) : (
                       "-"
                     )}

@@ -1,32 +1,38 @@
-import fs from "fs";
-import path from "path";
-
-const TOKEN_FILE = path.join(process.cwd(), "data", "kite-token.json");
+import db from "./db";
 
 function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
-// Call this from your existing login/callback route right after
+const upsertToken = db.prepare(`
+  INSERT INTO kite_tokens (id, access_token, date, updated_at)
+  VALUES (1, @access_token, @date, @updated_at)
+  ON CONFLICT(id) DO UPDATE SET
+    access_token = excluded.access_token,
+    date = excluded.date,
+    updated_at = excluded.updated_at
+`);
+
+const readToken = db.prepare(`
+  SELECT access_token AS accessToken, date
+  FROM kite_tokens
+  WHERE id = 1
+`);
+
+// Call this from your login/callback route right after
 // kc.generateSession() gives you the access_token, e.g.:
 //   saveAccessToken(session.access_token);
 export function saveAccessToken(accessToken) {
-  const dir = path.dirname(TOKEN_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(
-    TOKEN_FILE,
-    JSON.stringify({ accessToken, date: todayKey() }),
-    "utf-8"
-  );
+  upsertToken.run({
+    access_token: accessToken,
+    date: todayKey(),
+    updated_at: Date.now(),
+  });
 }
 
 export function getStoredAccessToken() {
-  try {
-    const raw = fs.readFileSync(TOKEN_FILE, "utf-8");
-    const { accessToken, date } = JSON.parse(raw);
-    if (date !== todayKey()) return null; // Kite tokens expire daily
-    return accessToken;
-  } catch {
-    return null;
-  }
+  const row = readToken.get();
+  if (!row) return null;
+  if (row.date !== todayKey()) return null; // Kite tokens expire daily
+  return row.accessToken;
 }

@@ -110,6 +110,8 @@ export async function setUrlAccess(mobile, url, allow) {
   const member = data.members.find((m) => m.mobile === mobile);
   if (!member) throw new Error("Member not found");
 
+  if (!Array.isArray(member.urlAccess)) member.urlAccess = [];
+
   const normalized = url.trim();
   if (allow) {
     if (!member.urlAccess.includes(normalized)) {
@@ -129,7 +131,7 @@ export async function checkUrlAllowed(memberId, url) {
   const member = data.members.find((m) => m.id === memberId);
   if (!member) return false;
   if (!member.active) return false;
-  if (member.urlAccess.length === 0) return true;
+  if (!Array.isArray(member.urlAccess) || member.urlAccess.length === 0) return true;
   return member.urlAccess.includes(url);
 }
 

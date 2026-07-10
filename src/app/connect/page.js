@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ConnectPage() {
+function ConnectPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [checking, setChecking] = useState(true);
@@ -77,5 +77,23 @@ export default function ConnectPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ConnectPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-10 text-slate-900 sm:px-6">
+          <div className="mx-auto max-w-xl">
+            <div className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm">
+              <p className="font-mono text-sm text-slate-500">Loading…</p>
+            </div>
+          </div>
+        </main>
+      }
+    >
+      <ConnectPageInner />
+    </Suspense>
   );
 }

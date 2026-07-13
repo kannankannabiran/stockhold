@@ -64,7 +64,7 @@ export default function TrendingOiPage() {
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
-  // NEW: latest row (history is newest-first) drives the current spot readout
+  // latest row (history is newest-first) drives the current spot readout
   const currentSpot = history[0]?.spot ?? null;
   const prevSpotRow = history[1]?.spot ?? null;
   const spotDirection =
@@ -82,7 +82,7 @@ export default function TrendingOiPage() {
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
 
-      {/* NEW: current spot price readout */}
+      {/* current spot price readout */}
       <div className="flex justify-center items-center gap-2 mb-4">
         <span className="text-gray-500 text-sm">Spot:</span>
         <span
@@ -99,10 +99,10 @@ export default function TrendingOiPage() {
             : "—"}
         </span>
         {spotDirection === "up" && (
-          <Image src={up} alt="Up" width={32} height={32} />
+          <Image src={up} alt="Up" width={40} height={40} />
         )}
         {spotDirection === "down" && (
-          <Image src={down} alt="Down" width={32} height={32} />
+          <Image src={down} alt="Down" width={40} height={40} />
         )}
       </div>
 
@@ -134,6 +134,8 @@ export default function TrendingOiPage() {
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2">Time</th>
               <th className="px-3 py-2">Spot</th>
+              <th className="px-3 py-2">Call OI</th>
+              <th className="px-3 py-2">Put OI</th>
               <th className="px-3 py-2">Call ΔOI</th>
               <th className="px-3 py-2">Put ΔOI</th>
               <th className="px-3 py-2">ΔOI Diff</th>
@@ -156,6 +158,10 @@ export default function TrendingOiPage() {
               const putChange = Math.round(row.putChange);
               const diffOi = Math.round(row.diffOi);
 
+              // NEW: raw Call OI / Put OI (summed across the 15 ATM-centered strikes)
+              const callOi = row.callOi != null ? Math.round(row.callOi) : null;
+              const putOi = row.putOi != null ? Math.round(row.putOi) : null;
+
               const oiDiffPct = getOiDiffPercent(row);
               const { className: oiDiffClass } = getOiDiffStyle(oiDiffPct);
 
@@ -172,6 +178,12 @@ export default function TrendingOiPage() {
                           maximumFractionDigits: 2,
                         })
                       : "-"}
+                  </td>
+                  <td className="px-3 py-2">
+                    {callOi != null ? callOi.toLocaleString() : "-"}
+                  </td>
+                  <td className="px-3 py-2">
+                    {putOi != null ? putOi.toLocaleString() : "-"}
                   </td>
                   <td className="px-3 py-2">{callChange.toLocaleString()}</td>
                   <td className="px-3 py-2">{putChange.toLocaleString()}</td>

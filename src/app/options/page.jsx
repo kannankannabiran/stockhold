@@ -147,20 +147,15 @@ export default function Page() {
 
   const callTotalOI = data?.rows?.reduce((sum, r) => sum + (Number(r.CE_oi) || 0), 0) || 0;
   const putTotalOI = data?.rows?.reduce((sum, r) => sum + (Number(r.PE_oi) || 0), 0) || 0;
-  const totalVol = data?.rows?.reduce(
-    (sum, r) => sum + (Number(r.CE_vol) || 0) + (Number(r.PE_vol) || 0),
-    0
-  ) || 0;
+  const totalVol =
+    data?.rows?.reduce((sum, r) => sum + (Number(r.CE_vol) || 0) + (Number(r.PE_vol) || 0), 0) || 0;
 
   const callOiChange = data?.rows?.reduce((sum, r) => sum + (Number(r.CE_oiChange) || 0), 0) || 0;
   const putOiChange = data?.rows?.reduce((sum, r) => sum + (Number(r.PE_oiChange) || 0), 0) || 0;
 
-  // Diff OI = Put OI Δ − Call OI Δ, i.e. how much more (or less) OI puts have added
-  // today vs calls. Unlike (OI − OIΔ), which algebraically collapses to yesterday's
-  // closing OI and never moves, this uses only today's change so it updates live.
-  // Positive => puts building OI faster than calls (bullish-lean writer bias).
-  // Negative => calls building OI faster than puts (bearish-lean writer bias).
   const diffOI = putOiChange - callOiChange;
+
+  const overallDiffOI = (putTotalOI - putOiChange) - (callTotalOI - callOiChange);
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-5 text-slate-900 sm:px-6 lg:px-8">
@@ -169,7 +164,9 @@ export default function Page() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-slate-500">
-                {data?.label ? `${data.label === "NIFTY" ? "NSE" : data.label === "BANK NIFTY" ? "NSE" : "BSE"} · Derivatives` : "NSE/BSE · Derivatives"}
+                {data?.label
+                  ? `${data.label === "NIFTY" ? "NSE" : data.label === "BANK NIFTY" ? "NSE" : "BSE"} · Derivatives`
+                  : "NSE/BSE · Derivatives"}
               </p>
               <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
                 {data?.label || "NIFTY"} Option Chain
@@ -182,17 +179,11 @@ export default function Page() {
             {status === "connected" && data && (
               <div className="flex flex-wrap items-end gap-3">
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500">
-                    Spot
-                  </p>
-                  <p className="mt-1 font-display text-3xl font-bold text-slate-900">
-                    {fmt(data.spot)}
-                  </p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Spot</p>
+                  <p className="mt-1 font-display text-3xl font-bold text-slate-900">{fmt(data.spot)}</p>
                 </div>
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-700">
-                    Live Status
-                  </p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-700">Live Status</p>
                   <p className="mt-1 font-mono text-xs text-emerald-700">
                     {lastFetched ? `updated ${lastFetched.toLocaleTimeString("en-IN")}` : ""}
                   </p>
@@ -221,12 +212,12 @@ export default function Page() {
 
         {status === "connected" && data && (
           <div className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
-            <StatCard
+            {/* <StatCard
               label="Expiry"
               value={selectedExpiry || "—"}
               subtext="Selected contract expiry"
               accent="amber"
-            />
+            /> */}
             <StatCard
               label="Spot"
               value={fmt(data.spot)}
@@ -269,6 +260,12 @@ export default function Page() {
               subtext="Put OI Δ − Call OI Δ"
               accent={diffOI >= 0 ? "rose" : "emerald"}
             />
+            <StatCard
+              label="Overall Diff OI"
+              value={`${overallDiffOI > 0 ? "+" : ""}${fmtInt(overallDiffOI)}`}
+              subtext="(Put OI - Put OI Δ) - (Call OI - Call OI Δ)"
+              accent={overallDiffOI >= 0 ? "rose" : "emerald"}
+            />
           </div>
         )}
 
@@ -298,9 +295,7 @@ export default function Page() {
             <div className="mb-5 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
               <div className="flex flex-wrap items-center gap-3">
                 <label className="flex items-center gap-2">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
-                    Expiry
-                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">Expiry</span>
                   <select
                     className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200 cursor-pointer"
                     value={selectedExpiry || ""}

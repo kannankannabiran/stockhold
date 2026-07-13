@@ -212,18 +212,18 @@ export default function Page() {
 
         {status === "connected" && data && (
           <div className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
-            {/* <StatCard
+            <StatCard
               label="Expiry"
               value={selectedExpiry || "—"}
               subtext="Selected contract expiry"
               accent="amber"
-            /> */}
-            <StatCard
+            />
+            {/* <StatCard
               label="Spot"
               value={fmt(data.spot)}
               subtext="Current underlying price"
               accent="emerald"
-            />
+            /> */}
             <StatCard
               label="Call OI"
               value={fmtInt(callTotalOI)}

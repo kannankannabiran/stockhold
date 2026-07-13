@@ -108,8 +108,6 @@ export default function Page() {
     }
   }, []);
 
-  // Switching index: reset expiry selection and reload fresh (don't reuse old expiry
-  // across indices — NIFTY/BANKNIFTY/SENSEX expiry calendars don't line up).
   const handleIndexChange = useCallback(
     (key) => {
       setIndexKey(key);
@@ -125,8 +123,6 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Not connected -> send the user to the dedicated connect page instead of
-  // showing a connect card inline here.
   useEffect(() => {
     if (status === "disconnected") {
       router.push("/connect");
@@ -158,6 +154,13 @@ export default function Page() {
 
   const callOiChange = data?.rows?.reduce((sum, r) => sum + (Number(r.CE_oiChange) || 0), 0) || 0;
   const putOiChange = data?.rows?.reduce((sum, r) => sum + (Number(r.PE_oiChange) || 0), 0) || 0;
+
+  // Diff OI = Put OI Δ − Call OI Δ, i.e. how much more (or less) OI puts have added
+  // today vs calls. Unlike (OI − OIΔ), which algebraically collapses to yesterday's
+  // closing OI and never moves, this uses only today's change so it updates live.
+  // Positive => puts building OI faster than calls (bullish-lean writer bias).
+  // Negative => calls building OI faster than puts (bearish-lean writer bias).
+  const diffOI = putOiChange - callOiChange;
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-5 text-slate-900 sm:px-6 lg:px-8">
@@ -217,7 +220,7 @@ export default function Page() {
         </header>
 
         {status === "connected" && data && (
-          <div className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
+          <div className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
             <StatCard
               label="Expiry"
               value={selectedExpiry || "—"}
@@ -231,15 +234,15 @@ export default function Page() {
               accent="emerald"
             />
             <StatCard
-              label="Total OI"
-              value={fmtInt(callTotalOI + putTotalOI)}
-              subtext="Calls + Puts open interest"
-              accent="slate"
+              label="Call OI"
+              value={fmtInt(callTotalOI)}
+              subtext="Call side total OI"
+              accent="emerald"
             />
             <StatCard
-              label="Total Vol"
-              value={fmtInt(totalVol)}
-              subtext="Combined traded volume"
+              label="Put OI"
+              value={fmtInt(putTotalOI)}
+              subtext="Put side total OI"
               accent="rose"
             />
             <StatCard
@@ -253,6 +256,18 @@ export default function Page() {
               value={fmtInt(putOiChange)}
               subtext="Sum of put OI change"
               accent="rose"
+            />
+            <StatCard
+              label="Total Vol"
+              value={fmtInt(totalVol)}
+              subtext="Combined traded volume"
+              accent="slate"
+            />
+            <StatCard
+              label="Diff OI"
+              value={`${diffOI > 0 ? "+" : ""}${fmtInt(diffOI)}`}
+              subtext="Put OI Δ − Call OI Δ"
+              accent={diffOI >= 0 ? "rose" : "emerald"}
             />
           </div>
         )}

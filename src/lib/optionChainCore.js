@@ -108,12 +108,31 @@ export async function getOptionChainData(kc, indexKey, requestedExpiry) {
 
   const cfg = INDEX_CONFIG[indexKey];
   const indexOptions = await getIndexOptionInstruments(kc, indexKey);
+  console.log(
+    `[optionChainCore] ${indexKey}: matched ${indexOptions.length} instruments for name="${cfg.name}" exchange="${cfg.exchange}"`
+  );
 
   const expiries = Array.from(new Set(indexOptions.map((i) => toDateStr(i.expiry)))).sort(
     (a, b) => new Date(a) - new Date(b)
   );
 
-  const expiry = requestedExpiry || expiries[0];
+  // NEW: avoid picking an expiry that lands on TODAY (0 DTE). NIFTY/SENSEX
+  // currently run weekly expiries, so the nearest expiry can be today —
+  // same-day-expiry OI behaves very differently (thin, gets unwound
+  // through the day) from a normal mid-cycle contract. BANKNIFTY is
+  // monthly-only right now so this rarely bites it, which is why it can
+  // look "correct" while NIFTY/SENSEX don't.
+  let expiry = requestedExpiry;
+  if (!expiry) {
+    const todayStr = todayKey();
+    expiry = expiries.find((e) => e !== todayStr) || expiries[0];
+  }
+  console.log(
+    `[optionChainCore] ${indexKey}: available expiries=${expiries.slice(0, 4).join(", ")}${
+      expiries.length > 4 ? "..." : ""
+    } -> chosen=${expiry}`
+  );
+
   const chainOpts = indexOptions.filter((i) => toDateStr(i.expiry) === expiry);
   const uniqueStrikesAll = Array.from(new Set(chainOpts.map((i) => i.strike))).sort((a, b) => a - b);
 
@@ -143,6 +162,7 @@ export async function getOptionChainData(kc, indexKey, requestedExpiry) {
 
   const allSymbols = [cfg.spotSymbol, ...Object.keys(wideSymbolToOpt)];
   const quoteBatches = batch(allSymbols, 400);
+  const quoteFetchedAt = Date.now(); // NEW: when WE issued the request
   const quoteResults = await Promise.all(quoteBatches.map((b) => kc.getQuote(b)));
   const quotes = Object.assign({}, ...quoteResults);
 
@@ -165,6 +185,11 @@ export async function getOptionChainData(kc, indexKey, requestedExpiry) {
   const prevOiMap = await getPrevDayOiMap(kc, nearOpts);
 
   const rowsMap = {};
+  // NEW: track the exchange-reported quote timestamps for the near strikes
+  // so callers can tell how fresh (or stale) Kite's own data actually is
+  let oldestQuoteTs = null;
+  let newestQuoteTs = null;
+
   for (const [tsym, opt] of Object.entries(wideSymbolToOpt)) {
     if (!nearStrikes.has(opt.strike)) continue;
 
@@ -175,6 +200,19 @@ export async function getOptionChainData(kc, indexKey, requestedExpiry) {
     rowsMap[strike] = rowsMap[strike] || { strike };
     rowsMap[strike][`${side}_ltp`] = q.last_price ?? null;
     rowsMap[strike][`${side}_oi`] = q.oi ?? null;
+
+    // NEW: Kite returns this as the exchange-side timestamp for the quote.
+    // Field name varies by SDK version — check both.
+    const quoteTs = q.timestamp || q.last_trade_time || null;
+    rowsMap[strike][`${side}_oi_ts`] = quoteTs;
+
+    if (quoteTs) {
+      const t = new Date(quoteTs).getTime();
+      if (!Number.isNaN(t)) {
+        if (oldestQuoteTs === null || t < oldestQuoteTs) oldestQuoteTs = t;
+        if (newestQuoteTs === null || t > newestQuoteTs) newestQuoteTs = t;
+      }
+    }
 
     const prevOi = prevOiMap[opt.tradingsymbol];
     rowsMap[strike][`${side}_oiChange`] =
@@ -201,5 +239,9 @@ export async function getOptionChainData(kc, indexKey, requestedExpiry) {
     expiries,
     rows,
     updatedAt: new Date().toISOString(),
+    // NEW: diagnostics so the caller can log exchange-side data freshness
+    quoteFetchedAt,
+    oldestQuoteTs,
+    newestQuoteTs,
   };
 }

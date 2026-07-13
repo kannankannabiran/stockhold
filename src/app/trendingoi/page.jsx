@@ -99,10 +99,10 @@ export default function TrendingOiPage() {
             : "—"}
         </span>
         {spotDirection === "up" && (
-          <Image src={up} alt="Up" width={40} height={40} />
+          <Image src={up} alt="Up" width={32} height={32} />
         )}
         {spotDirection === "down" && (
-          <Image src={down} alt="Down" width={40} height={40} />
+          <Image src={down} alt="Down" width={32} height={32} />
         )}
       </div>
 

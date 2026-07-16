@@ -10,6 +10,98 @@ import down from "../../../public/down.svg";
 const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
 const REFRESH_MS = 5000;
 
+function fmtInt(n) {
+  if (n === null || n === undefined || Number.isNaN(n)) return "—";
+  return Number(n).toLocaleString("en-IN");
+}
+
+// Same color convention as the Option Chain page:
+// Call OI Δ / Put OI Δ — positive = green, negative = red.
+function ChangeCell({ value }) {
+  if (value === null || value === undefined) return <span className="text-gray-400">—</span>;
+  return (
+    <span className="text-gray-800">
+      {value > 0 ? "+" : ""}
+      {fmtInt(value)}
+    </span>
+  );
+}
+
+function DiffCell({ value }) {
+  if (value === null || value === undefined) return <span className="text-gray-400">—</span>;
+  const positive = value > 0;
+  const negative = value < 0;
+  return (
+    <span className={`font-semibold ${positive ? "text-green-600" : negative ? "text-red-600" : "text-gray-700"}`}>
+      {positive ? "+" : ""}
+      {fmtInt(value)}
+    </span>
+  );
+}
+
+// Put chg OI - Call chg OI, normalized to a % of total chg OI.
+// > 40% bullish (green), < -40% bearish (red), otherwise neutral (gray).
+function computeDiffPercent(callOiChange, putOiChange) {
+  if (callOiChange === null || callOiChange === undefined) return null;
+  if (putOiChange === null || putOiChange === undefined) return null;
+  const denom = Math.abs(callOiChange) + Math.abs(putOiChange);
+  if (denom === 0) return 0;
+  return ((putOiChange - callOiChange) / denom) * 100;
+}
+
+// Percentage + strength dots, no text label. 40%-100% magnitude maps to 1-5 dots.
+function DiffPercentCell({ callOiChange, putOiChange }) {
+  const pct = computeDiffPercent(callOiChange, putOiChange);
+  if (pct === null) return <span className="text-gray-400">—</span>;
+
+  const absPct = Math.abs(pct);
+  const hasNegativeLeg = callOiChange < 0 || putOiChange < 0;
+
+  let colorClass = "text-gray-600";
+  let dotColorClass = "bg-gray-300";
+  if (!hasNegativeLeg) {
+    if (pct > 40) {
+      colorClass = "text-green-600";
+      dotColorClass = "bg-green-600";
+    } else if (pct < -40) {
+      colorClass = "text-red-600";
+      dotColorClass = "bg-red-600";
+    }
+  }
+
+  const filledDots =
+    !hasNegativeLeg && absPct >= 40
+      ? Math.min(5, Math.max(1, Math.ceil((absPct - 40) / 12)))
+      : 0;
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className={`font-semibold ${colorClass}`}>
+        {pct > 0 ? "+" : ""}
+        {pct.toFixed(1)}%
+      </span>
+      {filledDots > 0 && (
+        <div className="flex gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full ${
+                i < filledDots ? dotColorClass : "bg-gray-200"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Sentiment derived directly from diffOi so it always matches the sign shown in the Diff OI column.
+function getSentiment(diffOi) {
+  if (diffOi === null || diffOi === undefined || diffOi === 0) return "Neutral";
+  return diffOi > 0 ? "Bullish" : "Bearish";
+}
+
 export default function TrendingOiPage() {
   const { hasAccess, loading: accessLoading } = useAccessControl("/trendingoi");
 
@@ -43,24 +135,6 @@ export default function TrendingOiPage() {
     }
   };
 
-  const getOiDiffPercent = (row) => {
-    const callChange = Math.round(row.callChange);
-    const putChange = Math.round(row.putChange);
-    const diffOi = Math.round(row.diffOi);
-    const total = Math.abs(callChange) + Math.abs(putChange);
-    if (!total) return 0;
-    return (diffOi / total) * 100;
-  };
-
-  const getOiDiffStyle = (pct) => {
-    if (pct >= 40) {
-      return { label: "Bullish", className: "bg-green-600 text-white" };
-    } else if (pct <= -40) {
-      return { label: "Bearish", className: "bg-red-600 text-white" };
-    }
-    return { label: "Neutral", className: "bg-gray-200 text-gray-700" };
-  };
-
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
@@ -81,6 +155,9 @@ export default function TrendingOiPage() {
       <h2 className="text-3xl font-bold text-center mb-2 text-gray-800 flex items-center justify-center gap-3">
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
+      <p className="text-center text-xs text-gray-500 mb-4">
+        Snapshot stored every 1 minute — same Call OI Δ / Put OI Δ / Diff OI as the Option Chain page.
+      </p>
 
       {/* current spot price readout */}
       <div className="flex justify-center items-center gap-2 mb-4">
@@ -99,10 +176,10 @@ export default function TrendingOiPage() {
             : "—"}
         </span>
         {spotDirection === "up" && (
-          <Image src={up} alt="Up" width={32} height={32} />
+          <Image src={up} alt="Up" width={52} height={52} />
         )}
         {spotDirection === "down" && (
-          <Image src={down} alt="Down" width={32} height={32} />
+          <Image src={down} alt="Down" width={52} height={52} />
         )}
       </div>
 
@@ -134,12 +211,10 @@ export default function TrendingOiPage() {
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2">Time</th>
               <th className="px-3 py-2">Spot</th>
-              <th className="px-3 py-2">Call OI</th>
-              <th className="px-3 py-2">Put OI</th>
-              <th className="px-3 py-2">Call ΔOI</th>
-              <th className="px-3 py-2">Put ΔOI</th>
-              <th className="px-3 py-2">ΔOI Diff</th>
-              <th className="px-3 py-2">ΔOI Diff %</th>
+              <th className="px-3 py-2">Call OI Δ</th>
+              <th className="px-3 py-2">Put OI Δ</th>
+              <th className="px-3 py-2">Diff OI</th>
+              <th className="px-3 py-2">Diff %</th>
               <th className="px-3 py-2">Direction</th>
               <th className="px-3 py-2">Sentiment</th>
             </tr>
@@ -150,20 +225,11 @@ export default function TrendingOiPage() {
               let direction = "-";
 
               if (prev) {
-                if (row.diffOi > prev.diffOi) direction = "up";
-                else if (row.diffOi < prev.diffOi) direction = "down";
+                if (row.overallDiffOi > prev.overallDiffOi) direction = "up";
+                else if (row.overallDiffOi < prev.overallDiffOi) direction = "down";
               }
 
-              const callChange = Math.round(row.callChange);
-              const putChange = Math.round(row.putChange);
-              const diffOi = Math.round(row.diffOi);
-
-              // NEW: raw Call OI / Put OI (summed across the 15 ATM-centered strikes)
-              const callOi = row.callOi != null ? Math.round(row.callOi) : null;
-              const putOi = row.putOi != null ? Math.round(row.putOi) : null;
-
-              const oiDiffPct = getOiDiffPercent(row);
-              const { className: oiDiffClass } = getOiDiffStyle(oiDiffPct);
+              const sentiment = getSentiment(row.diffOi);
 
               return (
                 <tr
@@ -180,30 +246,16 @@ export default function TrendingOiPage() {
                       : "-"}
                   </td>
                   <td className="px-3 py-2">
-                    {callOi != null ? callOi.toLocaleString() : "-"}
+                    <ChangeCell value={row.callOiChange} />
                   </td>
                   <td className="px-3 py-2">
-                    {putOi != null ? putOi.toLocaleString() : "-"}
-                  </td>
-                  <td className="px-3 py-2">{callChange.toLocaleString()}</td>
-                  <td className="px-3 py-2">{putChange.toLocaleString()}</td>
-                  <td
-                    className={`px-3 py-2 font-semibold ${
-                      diffOi > 0
-                        ? "text-green-600"
-                        : diffOi < 0
-                        ? "text-red-600"
-                        : "text-gray-700"
-                    }`}
-                  >
-                    {diffOi.toLocaleString()}
+                    <ChangeCell value={row.putOiChange} />
                   </td>
                   <td className="px-3 py-2">
-                    <span
-                      className={`px-3 py-1 font-bold text-sm rounded-full ${oiDiffClass}`}
-                    >
-                      {oiDiffPct.toFixed(1)}%
-                    </span>
+                    <DiffCell value={row.diffOi} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <DiffPercentCell callOiChange={row.callOiChange} putOiChange={row.putOiChange} />
                   </td>
                   <td className="px-3 py-2">
                     {direction === "up" ? (
@@ -218,14 +270,14 @@ export default function TrendingOiPage() {
                     <span
                       className={`px-3 py-1 font-bold text-sm rounded-full 
                         ${
-                          row.sentiment === "Bullish"
+                          sentiment === "Bullish"
                             ? "bg-green-600 text-white"
-                            : row.sentiment === "Bearish"
+                            : sentiment === "Bearish"
                             ? "bg-red-600 text-white"
                             : "bg-gray-100 text-gray-700"
                         }`}
                     >
-                      {row.sentiment}
+                      {sentiment}
                     </span>
                   </td>
                 </tr>

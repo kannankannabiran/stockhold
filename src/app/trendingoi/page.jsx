@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { FaBolt, FaTrash } from "react-icons/fa";
+import { FaBolt, FaTrash, FaPalette } from "react-icons/fa";
 import { useAccessControl } from "../../hooks/useAccessControl";
 import up from "../../../public/up.svg";
 import down from "../../../public/down.svg";
@@ -26,6 +26,9 @@ export default function TrendingOiPage() {
 
   const [symbol, setSymbol] = useState("NIFTY");
   const [history, setHistory] = useState([]);
+  // Toggles green/red coloring on Call+/Call-/Call Chg/Put+/Put-/Put Chg columns.
+  // When off, those cells render in plain gray instead.
+  const [colorsEnabled, setColorsEnabled] = useState(false);
 
   const fetchHistory = async () => {
     try {
@@ -133,8 +136,16 @@ export default function TrendingOiPage() {
         : "-"
       : "-";
 
+  // Helper: pick green/red/gray based on sign, or plain gray when colors are toggled off.
+  const signClass = (val, { zeroClass = "text-gray-700" } = {}) => {
+    if (!colorsEnabled) return "text-gray-700";
+    if (val > 0) return "text-green-600";
+    if (val < 0) return "text-red-600";
+    return zeroClass;
+  };
+
   return (
-    <div className="p-6 max-w-screen-xl mx-auto">
+    <div className="p-6 max-w-screen-xxl mx-auto">
       <h2 className="text-3xl font-bold text-center mb-2 text-gray-800 flex items-center justify-center gap-3">
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
@@ -180,6 +191,18 @@ export default function TrendingOiPage() {
         </select>
 
         <button
+          onClick={() => setColorsEnabled((v) => !v)}
+          className={`flex items-center gap-2 px-4 py-2 rounded font-semibold shadow-sm border ${
+            colorsEnabled
+              ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+          }`}
+          title="Toggle Call/Put column colors"
+        >
+          <FaPalette /> {colorsEnabled ? "Colors: On" : "Colors: Off"}
+        </button>
+
+        <button
           onClick={handleClear}
           className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700"
         >
@@ -188,7 +211,7 @@ export default function TrendingOiPage() {
       </div>
 
       <div className="overflow-x-auto bg-white border rounded shadow">
-        <table className="min-w-full text-sm text-center">
+        <table className="w-full min-w-full text-sm text-center">
           <thead className="bg-blue-100 text-gray-700 text-xs uppercase">
             <tr>
               <th className="px-3 py-2">Date</th>
@@ -223,55 +246,47 @@ export default function TrendingOiPage() {
                 </td>
                 <td className="px-3 py-2">
                   {row.callPlus > 0 ? (
-                    <span className="font-semibold text-green-600">{fmtInt(row.callPlus)}</span>
+                    <span className={` ${colorsEnabled ? "text-green-600" : "text-gray-700"}`}>
+                      {fmtInt(row.callPlus)}
+                    </span>
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
                 <td className="px-3 py-2">
                   {row.callMinus < 0 ? (
-                    <span className="font-semibold text-red-600">{fmtInt(Math.abs(row.callMinus))}</span>
+                    <span className={`${colorsEnabled ? "text-red-600" : "text-gray-700"}`}>
+                      {fmtInt(Math.abs(row.callMinus))}
+                    </span>
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
                 <td className="px-3 py-2">
-                  <span
-                    className={`font-semibold ${
-                      row.callChg > 0
-                        ? "text-green-600"
-                        : row.callChg < 0
-                        ? "text-red-600"
-                        : "text-gray-700"
-                    }`}
-                  >
+                  <span className={`${signClass(row.callChg)}`}>
                     {fmtInt(Math.abs(row.callChg))}
                   </span>
                 </td>
                 <td className="px-3 py-2">
                   {row.putPlus > 0 ? (
-                    <span className="font-semibold text-green-600">{fmtInt(row.putPlus)}</span>
+                    <span className={`${colorsEnabled ? "text-green-600" : "text-gray-700"}`}>
+                      {fmtInt(row.putPlus)}
+                    </span>
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
                 <td className="px-3 py-2">
                   {row.putMinus < 0 ? (
-                    <span className="font-semibold text-red-600">{fmtInt(Math.abs(row.putMinus))}</span>
+                    <span className={`${colorsEnabled ? "text-red-600" : "text-gray-700"}`}>
+                      {fmtInt(Math.abs(row.putMinus))}
+                    </span>
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
                 <td className="px-3 py-2">
-                  <span
-                    className={`font-semibold ${
-                      row.putChg > 0
-                        ? "text-green-600"
-                        : row.putChg < 0
-                        ? "text-red-600"
-                        : "text-gray-700"
-                    }`}
-                  >
+                  <span className={`${signClass(row.putChg)}`}>
                     {fmtInt(Math.abs(row.putChg))}
                   </span>
                 </td>

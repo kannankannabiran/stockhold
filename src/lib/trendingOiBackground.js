@@ -10,24 +10,16 @@ const g = globalThis;
 if (!g.__trendingOiStore) g.__trendingOiStore = {};
 if (!g.__trendingOiPollerStarted) g.__trendingOiPollerStarted = false;
 
-// make sure the spot / call_oi / put_oi columns exist (safe to run repeatedly)
-for (const col of ["spot REAL", "call_oi REAL", "put_oi REAL"]) {
-  try {
-    db.prepare(`ALTER TABLE trending_oi_history ADD COLUMN ${col}`).run();
-  } catch (e) {
-    // ignore "duplicate column" error once it's already been added
-    if (!/duplicate column/i.test(e.message)) throw e;
-  }
-}
-
 const insertRow = db.prepare(`
   INSERT OR IGNORE INTO trending_oi_history
     (id, symbol, date, time, call_change, put_change, diff_oi, sentiment, spot, call_oi, put_oi, timestamp)
   VALUES (@id, @symbol, @date, @time, @call_change, @put_change, @diff_oi, @sentiment, @spot, @call_oi, @put_oi, @timestamp)
 `);
 
+// call_change/put_change columns store callOiChange/putOiChange below (aliased
+// to match the field names page.jsx reads: row.callOiChange / row.putOiChange)
 const loadRecentHistory = db.prepare(`
-  SELECT id, date, time, call_change AS callChange, put_change AS putChange,
+  SELECT id, date, time, call_change AS callOiChange, put_change AS putOiChange,
          diff_oi AS diffOi, sentiment, spot, call_oi AS callOi, put_oi AS putOi
   FROM trending_oi_history
   WHERE symbol = ?
@@ -49,41 +41,36 @@ function hydrateStoreFromDb() {
   console.log("[trendingOi] hydrated history from SQLite for", INDEX_KEYS.join(", "));
 }
 
-// NEW: a = call OI - call changing OI, b = put OI - put changing OI,
-// summed across the 15 ATM-centered strikes already returned by
-// getOptionChainData() (STRIKES_EACH_SIDE = 7 in optionChainCore.js).
-function computeCallPutDiff(rows) {
-  let callOiSum = 0;
-  let callOiChangeSum = 0;
-  let putOiSum = 0;
-  let putOiChangeSum = 0;
+// callOiChange / putOiChange here are SUMS of Kite's own per-strike
+// CE_oiChange / PE_oiChange (today's OI minus the previous trading day's
+// close OI, from optionChainCore's getPrevDayOiMap). That baseline is
+// fixed for the whole day, so this number naturally behaves as a running
+// total: it climbs when OI is being added since yesterday's close, falls
+// when it's unwound, and holds steady when nothing changes — no extra
+// row-to-row bookkeeping needed on our side, and it resets on its own the
+// next trading day when the baseline refetches.
+function computeOiAndChange(rows) {
+  let callOi = 0;
+  let callOiChange = 0;
+  let putOi = 0;
+  let putOiChange = 0;
 
   for (const r of rows) {
-    if (typeof r.CE_oi === "number") callOiSum += r.CE_oi;
-    if (typeof r.CE_oiChange === "number") callOiChangeSum += r.CE_oiChange;
-    if (typeof r.PE_oi === "number") putOiSum += r.PE_oi;
-    if (typeof r.PE_oiChange === "number") putOiChangeSum += r.PE_oiChange;
+    if (typeof r.CE_oi === "number") callOi += r.CE_oi;
+    if (typeof r.CE_oiChange === "number") callOiChange += r.CE_oiChange;
+    if (typeof r.PE_oi === "number") putOi += r.PE_oi;
+    if (typeof r.PE_oiChange === "number") putOiChange += r.PE_oiChange;
   }
 
-  const a = callOiSum - callOiChangeSum; // call side result
-  const b = putOiSum - putOiChangeSum; // put side result
-  const diffOi = b - a; // final diff = b - a
-
-  return { a, b, diffOi, callOi: callOiSum, putOi: putOiSum };
+  return { callOi, callOiChange, putOi, putOiChange };
 }
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-// small gap between symbols so NIFTY/SENSEX (which usually have more
-// liquid strikes than BANKNIFTY) don't stack their historical-data
-// calls back-to-back and trip Kite's rate limiter
 const SYMBOL_GAP_MS = 500;
 
-// tracks, per symbol, how many polls in a row produced the exact same
-// callOi/putOi sums — lets us tell "OI hasn't been republished by the
-// exchange yet" (normal, usually 1-3 polls) apart from "this is stuck"
 if (!g.__trendingOiStaleTracker) g.__trendingOiStaleTracker = {};
 
 function trackStaleness(symbol, callOi, putOi) {
@@ -131,7 +118,7 @@ async function pollOnce() {
 
     for (const symbol of INDEX_KEYS) {
       try {
-        const { rows, spot, quoteFetchedAt, oldestQuoteTs, newestQuoteTs } =
+        const { rows, spot, quoteFetchedAt, newestQuoteTs } =
           await getOptionChainData(kc, symbol, null);
 
         if (!rows || rows.length === 0) {
@@ -141,15 +128,10 @@ async function pollOnce() {
           continue;
         }
 
-        const { a, b, diffOi, callOi, putOi } = computeCallPutDiff(rows);
+        const { callOi, callOiChange, putOi, putOiChange } = computeOiAndChange(rows);
+        const diffOi = putOiChange - callOiChange;
 
-        // count how many strikes actually had usable oi/oiChange numbers,
-        // so a partial/rate-limited fetch is visible in the logs instead
-        // of silently producing a stale-looking diffOi
-        let ceOiCount = 0,
-          ceChgCount = 0,
-          peOiCount = 0,
-          peChgCount = 0;
+        let ceOiCount = 0, ceChgCount = 0, peOiCount = 0, peChgCount = 0;
         for (const r of rows) {
           if (typeof r.CE_oi === "number") ceOiCount++;
           if (typeof r.CE_oiChange === "number") ceChgCount++;
@@ -161,18 +143,17 @@ async function pollOnce() {
           `[trendingOi] ${symbol}: strikes=${rows.length} spot=${spot} ` +
             `CE_oi=${ceOiCount}/${rows.length} CE_chg=${ceChgCount}/${rows.length} ` +
             `PE_oi=${peOiCount}/${rows.length} PE_chg=${peChgCount}/${rows.length} ` +
-            `a=${a} b=${b} diffOi=${diffOi}`
+            `callOi=${callOi} putOi=${putOi} callOiChange=${callOiChange} putOiChange=${putOiChange} diffOi=${diffOi}`
         );
 
         trackStaleness(symbol, callOi, putOi);
 
-        // NEW: how old is the exchange-side quote data, per Kite's own timestamp?
         if (newestQuoteTs != null) {
           const lagMs = quoteFetchedAt - newestQuoteTs;
           console.log(
             `[trendingOi] ${symbol}: Kite's newest quote timestamp is ${Math.round(lagMs / 1000)}s ` +
-              `behind our fetch time — if this number is small (a few seconds) and Call/Put OI is still ` +
-              `frozen for many polls, Kite genuinely hasn't republished OI yet (exchange-side lag, not our code)`
+              `behind our fetch time — if this number is small and Call/Put OI is still frozen for many ` +
+              `polls, Kite genuinely hasn't republished OI yet (exchange-side lag, not our code)`
           );
         } else {
           console.log(`[trendingOi] ${symbol}: no quote timestamp returned by Kite for this poll`);
@@ -183,13 +164,13 @@ async function pollOnce() {
           id: `${symbol}-${now.getTime()}`,
           date: now.toISOString().slice(0, 10),
           time: now.toTimeString().slice(0, 8),
-          callChange: a, // call OI - call changing OI
-          putChange: b, // put OI - put changing OI
-          diffOi, // b - a
+          callOiChange,
+          putOiChange,
+          diffOi,
           sentiment: computeSentiment(diffOi),
           spot: spot ?? null,
-          callOi, // raw summed Call OI
-          putOi, // raw summed Put OI
+          callOi,
+          putOi,
         };
 
         const history = g.__trendingOiStore[symbol] || [];
@@ -202,8 +183,8 @@ async function pollOnce() {
           symbol,
           date: row.date,
           time: row.time,
-          call_change: row.callChange,
-          put_change: row.putChange,
+          call_change: row.callOiChange,
+          put_change: row.putOiChange,
           diff_oi: row.diffOi,
           sentiment: row.sentiment,
           spot: row.spot,
@@ -231,10 +212,6 @@ async function pollOnce() {
   }
 }
 
-// self-scheduling loop: always wait POLL_INTERVAL_MS after the PREVIOUS
-// poll *finishes* before starting the next one. This avoids both
-// overlapping runs (setInterval firing while a slow poll is still going)
-// and silent stalls (a stuck poll blocking every future tick forever).
 async function scheduleNextPoll() {
   await pollOnce();
   pollTimer = setTimeout(scheduleNextPoll, POLL_INTERVAL_MS);

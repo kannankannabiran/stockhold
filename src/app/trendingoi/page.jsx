@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { FaBolt, FaTrash } from "react-icons/fa";
 import { useAccessControl } from "../../hooks/useAccessControl";
@@ -13,87 +13,6 @@ const REFRESH_MS = 5000;
 function fmtInt(n) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
   return Number(n).toLocaleString("en-IN");
-}
-
-// Same color convention as the Option Chain page:
-// Call OI Δ / Put OI Δ — positive = green, negative = red.
-function ChangeCell({ value }) {
-  if (value === null || value === undefined) return <span className="text-gray-400">—</span>;
-  return (
-    <span className="text-gray-800">
-      {value > 0 ? "+" : ""}
-      {fmtInt(value)}
-    </span>
-  );
-}
-
-function DiffCell({ value }) {
-  if (value === null || value === undefined) return <span className="text-gray-400">—</span>;
-  const positive = value > 0;
-  const negative = value < 0;
-  return (
-    <span className={`font-semibold ${positive ? "text-green-600" : negative ? "text-red-600" : "text-gray-700"}`}>
-      {positive ? "+" : ""}
-      {fmtInt(value)}
-    </span>
-  );
-}
-
-// Put chg OI - Call chg OI, normalized to a % of total chg OI.
-// > 40% bullish (green), < -40% bearish (red), otherwise neutral (gray).
-function computeDiffPercent(callOiChange, putOiChange) {
-  if (callOiChange === null || callOiChange === undefined) return null;
-  if (putOiChange === null || putOiChange === undefined) return null;
-  const denom = Math.abs(callOiChange) + Math.abs(putOiChange);
-  if (denom === 0) return 0;
-  return ((putOiChange - callOiChange) / denom) * 100;
-}
-
-// Percentage + strength dots, no text label. 40%-100% magnitude maps to 1-5 dots.
-function DiffPercentCell({ callOiChange, putOiChange }) {
-  const pct = computeDiffPercent(callOiChange, putOiChange);
-  if (pct === null) return <span className="text-gray-400">—</span>;
-
-  const absPct = Math.abs(pct);
-  const hasNegativeLeg = callOiChange < 0 || putOiChange < 0;
-
-  let colorClass = "text-gray-600";
-  let dotColorClass = "bg-gray-300";
-  if (!hasNegativeLeg) {
-    if (pct > 40) {
-      colorClass = "text-green-600";
-      dotColorClass = "bg-green-600";
-    } else if (pct < -40) {
-      colorClass = "text-red-600";
-      dotColorClass = "bg-red-600";
-    }
-  }
-
-  const filledDots =
-    !hasNegativeLeg && absPct >= 40
-      ? Math.min(5, Math.max(1, Math.ceil((absPct - 40) / 12)))
-      : 0;
-
-  return (
-    <div className="flex flex-col items-center gap-1">
-      <span className={`font-semibold ${colorClass}`}>
-        {pct > 0 ? "+" : ""}
-        {pct.toFixed(1)}%
-      </span>
-      {filledDots > 0 && (
-        <div className="flex gap-0.5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full ${
-                i < filledDots ? dotColorClass : "bg-gray-200"
-              }`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
 }
 
 // Sentiment derived directly from diffOi so it always matches the sign shown in the Diff OI column.
@@ -134,6 +53,70 @@ export default function TrendingOiPage() {
       console.error("Failed to clear trending OI history", err);
     }
   };
+
+  // Cumulative summary snapshot as of each stored minute — Call+/Call-/Call
+  // Chg, Put+/Put-/Put Chg, Diff OI (|putChg| - |callChg|), Diff %,
+  // Direction, and Sentiment, recomputed at every row so you get a
+  // minute-by-minute log of how the running totals evolved. Built entirely
+  // from the history rows already persisted every minute — no separate DB
+  // table needed. history is newest-first, so walk oldest -> newest to
+  // accumulate, then reverse back to newest-first for display.
+  const summaryRows = useMemo(() => {
+    const chronological = [...history].reverse();
+    let callPlus = 0;
+    let callMinus = 0;
+    let putPlus = 0;
+    let putMinus = 0;
+    let prevDiffOi = null;
+    const out = [];
+
+    for (const row of chronological) {
+      const c = row.callOiChange;
+      const p = row.putOiChange;
+      if (c !== null && c !== undefined) {
+        if (c > 0) callPlus += c;
+        else if (c < 0) callMinus += c; // stays negative
+      }
+      if (p !== null && p !== undefined) {
+        if (p > 0) putPlus += p;
+        else if (p < 0) putMinus += p; // stays negative
+      }
+
+      const callChg = callPlus + callMinus;
+      const putChg = putPlus + putMinus;
+      const diffOi = Math.abs(putChg) - Math.abs(callChg);
+      const denom = Math.abs(callChg) + Math.abs(putChg);
+      const diffPct = denom === 0 ? 0 : (diffOi / denom) * 100;
+
+      let direction = "-";
+      if (prevDiffOi !== null) {
+        if (diffOi > prevDiffOi) direction = "up";
+        else if (diffOi < prevDiffOi) direction = "down";
+      }
+      const sentiment = getSentiment(diffOi);
+
+      out.push({
+        id: row.id,
+        date: row.date,
+        time: row.time,
+        spot: row.spot,
+        callPlus,
+        callMinus,
+        callChg,
+        putPlus,
+        putMinus,
+        putChg,
+        diffOi,
+        diffPct,
+        direction,
+        sentiment,
+      });
+
+      prevDiffOi = diffOi;
+    }
+
+    return out.reverse(); // newest-first
+  }, [history]);
 
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
@@ -211,8 +194,12 @@ export default function TrendingOiPage() {
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2">Time</th>
               <th className="px-3 py-2">Spot</th>
-              <th className="px-3 py-2">Call OI Δ</th>
-              <th className="px-3 py-2">Put OI Δ</th>
+              <th className="px-3 py-2">Call +</th>
+              <th className="px-3 py-2">Call −</th>
+              <th className="px-3 py-2">Call Chg</th>
+              <th className="px-3 py-2">Put +</th>
+              <th className="px-3 py-2">Put −</th>
+              <th className="px-3 py-2">Put Chg</th>
               <th className="px-3 py-2">Diff OI</th>
               <th className="px-3 py-2">Diff %</th>
               <th className="px-3 py-2">Direction</th>
@@ -220,69 +207,125 @@ export default function TrendingOiPage() {
             </tr>
           </thead>
           <tbody>
-            {history.map((row, index) => {
-              const prev = history[index + 1];
-              let direction = "-";
-
-              if (prev) {
-                if (row.overallDiffOi > prev.overallDiffOi) direction = "up";
-                else if (row.overallDiffOi < prev.overallDiffOi) direction = "down";
-              }
-
-              const sentiment = getSentiment(row.diffOi);
-
-              return (
-                <tr
-                  key={row.id || `${row.time}-${index}`}
-                  className="border-t hover:bg-gray-50"
-                >
-                  <td className="px-3 py-2 text-gray-700">{row.date}</td>
-                  <td className="px-3 py-2 text-gray-700">{row.time}</td>
-                  <td className="px-3 py-2 text-gray-700">
-                    {row.spot != null
-                      ? Number(row.spot).toLocaleString(undefined, {
-                          maximumFractionDigits: 2,
-                        })
-                      : "-"}
-                  </td>
-                  <td className="px-3 py-2">
-                    <ChangeCell value={row.callOiChange} />
-                  </td>
-                  <td className="px-3 py-2">
-                    <ChangeCell value={row.putOiChange} />
-                  </td>
-                  <td className="px-3 py-2">
-                    <DiffCell value={row.diffOi} />
-                  </td>
-                  <td className="px-3 py-2">
-                    <DiffPercentCell callOiChange={row.callOiChange} putOiChange={row.putOiChange} />
-                  </td>
-                  <td className="px-3 py-2">
-                    {direction === "up" ? (
-                      <Image src={up} alt="Up" width={40} height={40} className="mx-auto" />
-                    ) : direction === "down" ? (
-                      <Image src={down} alt="Down" width={40} height={40} className="mx-auto" />
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                  <td className="px-3 py-2">
-                    <span
-                      className={`px-3 py-1 font-bold text-sm rounded-full 
-                        ${
-                          sentiment === "Bullish"
-                            ? "bg-green-600 text-white"
-                            : sentiment === "Bearish"
-                            ? "bg-red-600 text-white"
-                            : "bg-gray-100 text-gray-700"
-                        }`}
-                    >
-                      {sentiment}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
+            {summaryRows.map((row, index) => (
+              <tr
+                key={row.id || `${row.date}-${row.time}-${index}`}
+                className="border-t hover:bg-gray-50"
+              >
+                <td className="px-3 py-2 text-gray-700">{row.date}</td>
+                <td className="px-3 py-2 text-gray-700">{row.time}</td>
+                <td className="px-3 py-2 text-gray-700">
+                  {row.spot != null
+                    ? Number(row.spot).toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })
+                    : "-"}
+                </td>
+                <td className="px-3 py-2">
+                  {row.callPlus > 0 ? (
+                    <span className="font-semibold text-green-600">{fmtInt(row.callPlus)}</span>
+                  ) : (
+                    <span className="text-gray-400">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  {row.callMinus < 0 ? (
+                    <span className="font-semibold text-red-600">{fmtInt(Math.abs(row.callMinus))}</span>
+                  ) : (
+                    <span className="text-gray-400">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`font-semibold ${
+                      row.callChg > 0
+                        ? "text-green-600"
+                        : row.callChg < 0
+                        ? "text-red-600"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {fmtInt(Math.abs(row.callChg))}
+                  </span>
+                </td>
+                <td className="px-3 py-2">
+                  {row.putPlus > 0 ? (
+                    <span className="font-semibold text-green-600">{fmtInt(row.putPlus)}</span>
+                  ) : (
+                    <span className="text-gray-400">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  {row.putMinus < 0 ? (
+                    <span className="font-semibold text-red-600">{fmtInt(Math.abs(row.putMinus))}</span>
+                  ) : (
+                    <span className="text-gray-400">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`font-semibold ${
+                      row.putChg > 0
+                        ? "text-green-600"
+                        : row.putChg < 0
+                        ? "text-red-600"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {fmtInt(Math.abs(row.putChg))}
+                  </span>
+                </td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`font-semibold ${
+                      row.diffOi > 0
+                        ? "text-green-600"
+                        : row.diffOi < 0
+                        ? "text-red-600"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {fmtInt(Math.abs(row.diffOi))}
+                  </span>
+                </td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`font-semibold ${
+                      row.diffPct > 40
+                        ? "text-green-600"
+                        : row.diffPct < -40
+                        ? "text-red-600"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {Math.abs(row.diffPct).toFixed(1)}%
+                  </span>
+                </td>
+                <td className="px-3 py-2">
+                  {row.direction === "up" ? (
+                    <Image src={up} alt="Up" width={40} height={40} className="mx-auto" />
+                  ) : row.direction === "down" ? (
+                    <Image src={down} alt="Down" width={40} height={40} className="mx-auto" />
+                  ) : (
+                    "-"
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`px-3 py-1 font-bold text-sm rounded-full 
+                      ${
+                        row.sentiment === "Bullish"
+                          ? "bg-green-600 text-white"
+                          : row.sentiment === "Bearish"
+                          ? "bg-red-600 text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                  >
+                    {row.sentiment}
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

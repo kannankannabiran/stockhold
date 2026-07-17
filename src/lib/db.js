@@ -19,6 +19,8 @@ db.exec(`
     diff_oi INTEGER NOT NULL,
     sentiment TEXT NOT NULL,
     spot REAL,
+    call_oi INTEGER,
+    put_oi INTEGER,
     timestamp INTEGER NOT NULL
   );
 
@@ -47,14 +49,36 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_oi_trend_symbol_strike_ts
     ON oi_trend_history (symbol, strike, timestamp DESC);
+
+  CREATE TABLE IF NOT EXISTS trending_oi_summary (
+    id TEXT PRIMARY KEY,
+    symbol TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    call_plus_total INTEGER NOT NULL,
+    call_minus_total INTEGER NOT NULL,
+    call_net INTEGER NOT NULL,
+    put_plus_total INTEGER NOT NULL,
+    put_minus_total INTEGER NOT NULL,
+    put_net INTEGER NOT NULL,
+    diff_oi INTEGER NOT NULL,
+    diff_pct REAL,
+    timestamp INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_trending_oi_summary_symbol_ts
+    ON trending_oi_summary (symbol, timestamp DESC);
 `);
 
-// Migration: if the table already existed from before (without spot),
-// add the column now. Safe to run every startup.
-try {
-  db.prepare(`ALTER TABLE trending_oi_history ADD COLUMN spot REAL`).run();
-} catch (e) {
-  if (!/duplicate column/i.test(e.message)) throw e;
+// Migrations: if trending_oi_history was created before spot/call_oi/put_oi
+// existed, add them now. Safe to run every startup — duplicate-column
+// errors are swallowed, anything else is rethrown.
+for (const col of ['spot REAL', 'call_oi INTEGER', 'put_oi INTEGER']) {
+  try {
+    db.prepare(`ALTER TABLE trending_oi_history ADD COLUMN ${col}`).run();
+  } catch (e) {
+    if (!/duplicate column/i.test(e.message)) throw e;
+  }
 }
 
 export default db;

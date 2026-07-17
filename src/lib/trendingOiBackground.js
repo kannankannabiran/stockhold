@@ -33,6 +33,28 @@ function computeSentiment(diffOi) {
   return "Neutral";
 }
 
+// Market hours gate: 9:15 AM - 3:30 PM IST, Mon-Fri. Computed against IST
+// regardless of the server's own timezone, so this is safe on any host.
+function isMarketHours() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
+  const day = ist.getDay(); // 0 = Sun, 6 = Sat
+  if (day === 0 || day === 6) return false;
+
+  const minutes = ist.getHours() * 60 + ist.getMinutes();
+  const marketOpen = 9 * 60 + 15; // 9:15
+  const marketClose = 15 * 60 + 30; // 15:30
+
+  return minutes >= marketOpen && minutes <= marketClose;
+}
+
+// Tracks whether we already logged the current "market closed" stretch, so
+// off-hours ticks don't spam the log every 60s.
+if (typeof g.__trendingOiMarketClosedLogged === "undefined") {
+  g.__trendingOiMarketClosedLogged = false;
+}
+
 function hydrateStoreFromDb() {
   for (const symbol of INDEX_KEYS) {
     const rows = loadRecentHistory.all(symbol, MAX_HISTORY);
@@ -100,6 +122,17 @@ let pollInFlight = false;
 let pollTimer = null;
 
 async function pollOnce() {
+  if (!isMarketHours()) {
+    if (!g.__trendingOiMarketClosedLogged) {
+      console.log("[trendingOi] outside market hours (9:15–3:30 IST, Mon–Fri) — polling paused");
+      g.__trendingOiMarketClosedLogged = true;
+    }
+    return;
+  }
+  // Market is open this tick — reset the closed-log flag so the next
+  // closed stretch logs once again instead of staying silent forever.
+  g.__trendingOiMarketClosedLogged = false;
+
   if (pollInFlight) {
     console.warn("[trendingOi] previous poll still running, skipping this tick to avoid duplicate rows");
     return;
@@ -223,7 +256,7 @@ export function startTrendingOiPoller() {
 
   hydrateStoreFromDb();
   scheduleNextPoll();
-  console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "));
+  console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:30 IST, Mon–Fri)");
 }
 
 export function getTrendingOiHistory(symbol) {

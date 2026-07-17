@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
 
 const INDEX_TABS = [
   { key: "NIFTY", label: "NIFTY" },
   { key: "BANKNIFTY", label: "BANK NIFTY" },
   { key: "SENSEX", label: "SENSEX" },
 ];
+
+const RETRY_MS = 5000;
 
 function fmt(n, decimals = 2) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
@@ -68,7 +69,6 @@ function StatCard({ label, value, subtext, accent = "slate" }) {
 }
 
 export default function Page() {
-  const router = useRouter();
   const [indexKey, setIndexKey] = useState("NIFTY");
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState(null);
@@ -77,6 +77,7 @@ export default function Page() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [lastFetched, setLastFetched] = useState(null);
   const intervalRef = useRef(null);
+  const waitingRetryRef = useRef(null);
 
   const load = useCallback(async (idx, expiry) => {
     try {
@@ -85,7 +86,7 @@ export default function Page() {
       const res = await fetch(`/api/optionchain?${params.toString()}`, { cache: "no-store" });
 
       if (res.status === 401) {
-        setStatus("disconnected");
+        setStatus("waiting");
         return;
       }
 
@@ -123,20 +124,25 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // While waiting for the Zerodha connection to come up, keep quietly
+  // retrying instead of redirecting away from this page.
   useEffect(() => {
-    if (status === "disconnected") {
-      router.push("/connect");
-    }
-  }, [status, router]);
+    if (status !== "waiting") return;
+
+    waitingRetryRef.current = setInterval(() => load(indexKey, selectedExpiry), RETRY_MS);
+    return () => {
+      if (waitingRetryRef.current) clearInterval(waitingRetryRef.current);
+    };
+  }, [status, indexKey, selectedExpiry, load]);
 
   useEffect(() => {
-    if (!autoRefresh) return;
+    if (!autoRefresh || status !== "connected") return;
 
     intervalRef.current = setInterval(() => load(indexKey, selectedExpiry), 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [autoRefresh, indexKey, selectedExpiry, load]);
+  }, [autoRefresh, status, indexKey, selectedExpiry, load]);
 
   const atmStrike =
     data && data.rows.length
@@ -218,12 +224,6 @@ export default function Page() {
               subtext="Selected contract expiry"
               accent="amber"
             />
-            {/* <StatCard
-              label="Spot"
-              value={fmt(data.spot)}
-              subtext="Current underlying price"
-              accent="emerald"
-            /> */}
             <StatCard
               label="Call OI"
               value={fmtInt(callTotalOI)}
@@ -284,9 +284,17 @@ export default function Page() {
           </div>
         )}
 
-        {status === "disconnected" && (
-          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm">
-            <p className="font-mono text-sm text-slate-500">Redirecting to connect page…</p>
+        {status === "waiting" && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-8 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-500" />
+              </span>
+              <p className="font-mono text-sm text-amber-800">
+                Zerodha connection not active yet — data will connect soon. Retrying automatically…
+              </p>
+            </div>
           </div>
         )}
 

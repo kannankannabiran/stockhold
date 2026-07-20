@@ -2,26 +2,27 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { FaBolt, FaTrash, FaPalette } from "react-icons/fa";
+import { FaBolt, FaTrash, FaPalette, FaCalendarTimes } from "react-icons/fa";
 import { useAccessControl } from "../../hooks/useAccessControl";
 import up from "../../../public/up.svg";
 import down from "../../../public/down.svg";
 
 const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
 const REFRESH_MS = 5000;
-
-// Divide raw OI change values by these before accumulating.
 const DIVISORS = { NIFTY: 65, BANKNIFTY: 30, SENSEX: 20 };
 
 function fmtInt(n) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
-  return Number(n).toLocaleString("en-IN");
+  return Math.round(Number(n)).toLocaleString("en-IN");
 }
 
-// Sentiment derived directly from diffOi so it always matches the sign shown in the Diff OI column.
 function getSentiment(diffOi) {
   if (diffOi === null || diffOi === undefined || diffOi === 0) return "Neutral";
   return diffOi > 0 ? "Bullish" : "Bearish";
+}
+
+function getTodayIST() {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 }
 
 export default function TrendingOiPage() {
@@ -29,13 +30,15 @@ export default function TrendingOiPage() {
 
   const [symbol, setSymbol] = useState("NIFTY");
   const [history, setHistory] = useState([]);
-  // Toggles green/red coloring on Call+/Call-/Call Chg/Put+/Put-/Put Chg columns.
-  // When off, those cells render in plain gray instead.
   const [colorsEnabled, setColorsEnabled] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(getTodayIST());
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch(`/api/trending-oi/history?symbol=${symbol}`);
+      const params = new URLSearchParams({ symbol });
+      if (selectedDate) params.set("date", selectedDate);
+
+      const res = await fetch(`/api/trending-oi/history?${params.toString()}`);
       const data = await res.json();
       setHistory(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -47,31 +50,59 @@ export default function TrendingOiPage() {
     fetchHistory();
     const interval = setInterval(fetchHistory, REFRESH_MS);
     return () => clearInterval(interval);
-  }, [symbol]);
+  }, [symbol, selectedDate]);
 
-  const handleClear = async () => {
+  const availableDates = useMemo(() => {
+    const seen = new Set();
+    const out = [];
+    for (const row of history) {
+      if (row.date && !seen.has(row.date)) {
+        seen.add(row.date);
+        out.push(row.date);
+      }
+    }
+    return out;
+  }, [history]);
+
+  const filteredHistory = useMemo(() => {
+    if (!selectedDate) return [];
+    return history.filter((r) => r.date === selectedDate);
+  }, [history, selectedDate]);
+
+  useEffect(() => {
+    if (!selectedDate && availableDates.length > 0) {
+      setSelectedDate(availableDates[0]);
+    }
+  }, [availableDates, selectedDate]);
+
+  const handleClearDay = async () => {
+    if (!selectedDate) return;
+    try {
+      await fetch(
+        `/api/trending-oi/history?symbol=${symbol}&date=${encodeURIComponent(selectedDate)}`,
+        { method: "DELETE" }
+      );
+      setHistory((prev) => prev.filter((r) => r.date !== selectedDate));
+    } catch (err) {
+      console.error("Failed to clear trending OI history for date", err);
+    }
+  };
+
+  const handleClearAll = async () => {
     try {
       await fetch(`/api/trending-oi/history?symbol=${symbol}`, {
         method: "DELETE",
       });
       setHistory([]);
+      setSelectedDate("");
     } catch (err) {
       console.error("Failed to clear trending OI history", err);
     }
   };
 
-  // Cumulative summary snapshot as of each stored minute — Call+/Call-/Call
-  // Chg, Put+/Put-/Put Chg, Diff OI (|putChg| - |callChg|), Diff %,
-  // Direction, and Sentiment, recomputed at every row so you get a
-  // minute-by-minute log of how the running totals evolved. Built entirely
-  // from the history rows already persisted every minute — no separate DB
-  // table needed. history is newest-first, so walk oldest -> newest to
-  // accumulate, then reverse back to newest-first for display.
-  // Raw callOiChange/putOiChange are divided by the per-symbol DIVISORS
-  // value before accumulating.
   const summaryRows = useMemo(() => {
     const divisor = DIVISORS[symbol] || 1;
-    const chronological = [...history].reverse();
+    const chronological = [...filteredHistory].reverse();
     let callPlus = 0;
     let callMinus = 0;
     let putPlus = 0;
@@ -88,13 +119,15 @@ export default function TrendingOiPage() {
         row.putOiChange !== null && row.putOiChange !== undefined
           ? row.putOiChange / divisor
           : row.putOiChange;
+
       if (c !== null && c !== undefined) {
         if (c > 0) callPlus += c;
-        else if (c < 0) callMinus += c; // stays negative
+        else if (c < 0) callMinus += c;
       }
+
       if (p !== null && p !== undefined) {
         if (p > 0) putPlus += p;
-        else if (p < 0) putMinus += p; // stays negative
+        else if (p < 0) putMinus += p;
       }
 
       const callChg = callPlus + callMinus;
@@ -108,6 +141,7 @@ export default function TrendingOiPage() {
         if (diffOi > prevDiffOi) direction = "up";
         else if (diffOi < prevDiffOi) direction = "down";
       }
+
       const sentiment = getSentiment(diffOi);
 
       out.push({
@@ -130,15 +164,14 @@ export default function TrendingOiPage() {
       prevDiffOi = diffOi;
     }
 
-    return out.reverse(); // newest-first
-  }, [history, symbol]);
+    return out.reverse();
+  }, [filteredHistory, symbol]);
 
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;
 
-  // latest row (history is newest-first) drives the current spot readout
-  const currentSpot = history[0]?.spot ?? null;
-  const prevSpotRow = history[1]?.spot ?? null;
+  const currentSpot = filteredHistory[0]?.spot ?? null;
+  const prevSpotRow = filteredHistory[1]?.spot ?? null;
   const spotDirection =
     currentSpot != null && prevSpotRow != null
       ? currentSpot > prevSpotRow
@@ -148,7 +181,6 @@ export default function TrendingOiPage() {
         : "-"
       : "-";
 
-  // Helper: pick green/red/gray based on sign, or plain gray when colors are toggled off.
   const signClass = (val, { zeroClass = "text-gray-700" } = {}) => {
     if (!colorsEnabled) return "text-gray-700";
     if (val > 0) return "text-green-600";
@@ -156,16 +188,23 @@ export default function TrendingOiPage() {
     return zeroClass;
   };
 
+  const renderValue = (val, colorClass = "text-gray-700") => {
+    if (val === null || val === undefined || Number.isNaN(val)) {
+      return <span className="text-gray-400">—</span>;
+    }
+    return <span className={colorClass}>{fmtInt(val)}</span>;
+  };
+
   return (
     <div className="p-6 max-w-screen-xxl mx-auto">
       <h2 className="text-3xl font-bold text-center mb-2 text-gray-800 flex items-center justify-center gap-3">
         <FaBolt className="text-yellow-500" /> Trending OI - {symbol}
       </h2>
+
       <p className="text-center text-xs text-gray-500 mb-4">
-        Snapshot stored every 1 minute — same Call OI Δ / Put OI Δ / Diff OI as the Option Chain page.
+        Snapshot stored every 1 minute — select a calendar date to view that day only.
       </p>
 
-      {/* current spot price readout */}
       <div className="flex justify-center items-center gap-2 mb-4">
         <span className="text-gray-500 text-sm">Spot:</span>
         <span
@@ -181,15 +220,11 @@ export default function TrendingOiPage() {
             ? currentSpot.toLocaleString(undefined, { maximumFractionDigits: 2 })
             : "—"}
         </span>
-        {spotDirection === "up" && (
-          <Image src={up} alt="Up" width={52} height={52} />
-        )}
-        {spotDirection === "down" && (
-          <Image src={down} alt="Down" width={52} height={52} />
-        )}
+        {spotDirection === "up" && <Image src={up} alt="Up" width={52} height={52} />}
+        {spotDirection === "down" && <Image src={down} alt="Down" width={52} height={52} />}
       </div>
 
-      <div className="flex justify-center items-center gap-4 mb-4">
+      <div className="flex justify-center items-center gap-4 mb-4 flex-wrap">
         <select
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
@@ -201,6 +236,13 @@ export default function TrendingOiPage() {
             </option>
           ))}
         </select>
+
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="border px-4 py-2 rounded shadow-sm focus:ring-2 focus:ring-blue-500"
+        />
 
         <button
           onClick={() => setColorsEnabled((v) => !v)}
@@ -215,11 +257,27 @@ export default function TrendingOiPage() {
         </button>
 
         <button
-          onClick={handleClear}
-          className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700"
+          onClick={handleClearDay}
+          disabled={!selectedDate}
+          className="flex items-center gap-2 px-4 py-2 rounded bg-orange-600 text-white font-semibold shadow-sm hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Clear only the selected date's data"
         >
-          <FaTrash /> Clear
+          <FaCalendarTimes /> Clear Day
         </button>
+
+        <button
+          onClick={handleClearAll}
+          className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700"
+          title="Clear all stored data for this symbol"
+        >
+          <FaTrash /> Clear All
+        </button>
+      </div>
+
+      <div className="mb-3 text-center text-sm text-gray-500">
+        {availableDates.length > 0
+          ? `Available dates: ${availableDates.join(", ")}`
+          : "No data available"}
       </div>
 
       <div className="overflow-x-auto bg-white border rounded shadow">
@@ -256,17 +314,19 @@ export default function TrendingOiPage() {
                       })
                     : "-"}
                 </td>
+
                 <td className="px-3 py-2">
-                  {row.callPlus > 0 ? (
-                    <span className={` ${colorsEnabled ? "text-green-600" : "text-gray-700"}`}>
+                  {row.callPlus !== null && row.callPlus !== undefined ? (
+                    <span className={`${colorsEnabled ? "text-green-600" : "text-gray-700"}`}>
                       {fmtInt(row.callPlus)}
                     </span>
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
+
                 <td className="px-3 py-2">
-                  {row.callMinus < 0 ? (
+                  {row.callMinus !== null && row.callMinus !== undefined ? (
                     <span className={`${colorsEnabled ? "text-red-600" : "text-gray-700"}`}>
                       {fmtInt(Math.abs(row.callMinus))}
                     </span>
@@ -274,13 +334,13 @@ export default function TrendingOiPage() {
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
+
                 <td className="px-3 py-2">
-                  <span className={`${signClass(row.callChg)}`}>
-                    {fmtInt(Math.abs(row.callChg))}
-                  </span>
+                  {renderValue(Math.abs(row.callChg), signClass(row.callChg))}
                 </td>
+
                 <td className="px-3 py-2">
-                  {row.putPlus > 0 ? (
+                  {row.putPlus !== null && row.putPlus !== undefined ? (
                     <span className={`${colorsEnabled ? "text-green-600" : "text-gray-700"}`}>
                       {fmtInt(row.putPlus)}
                     </span>
@@ -288,8 +348,9 @@ export default function TrendingOiPage() {
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
+
                 <td className="px-3 py-2">
-                  {row.putMinus < 0 ? (
+                  {row.putMinus !== null && row.putMinus !== undefined ? (
                     <span className={`${colorsEnabled ? "text-red-600" : "text-gray-700"}`}>
                       {fmtInt(Math.abs(row.putMinus))}
                     </span>
@@ -297,11 +358,11 @@ export default function TrendingOiPage() {
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
+
                 <td className="px-3 py-2">
-                  <span className={`${signClass(row.putChg)}`}>
-                    {fmtInt(Math.abs(row.putChg))}
-                  </span>
+                  {renderValue(Math.abs(row.putChg), signClass(row.putChg))}
                 </td>
+
                 <td className="px-3 py-2">
                   <span
                     className={`font-semibold ${
@@ -315,6 +376,7 @@ export default function TrendingOiPage() {
                     {fmtInt(Math.abs(row.diffOi))}
                   </span>
                 </td>
+
                 <td className="px-3 py-2">
                   <span
                     className={`font-semibold ${
@@ -328,6 +390,7 @@ export default function TrendingOiPage() {
                     {Math.abs(row.diffPct).toFixed(1)}%
                   </span>
                 </td>
+
                 <td className="px-3 py-2">
                   {row.direction === "up" ? (
                     <Image src={up} alt="Up" width={40} height={40} className="mx-auto" />
@@ -337,16 +400,16 @@ export default function TrendingOiPage() {
                     "-"
                   )}
                 </td>
+
                 <td className="px-3 py-2">
                   <span
-                    className={`px-3 py-1 font-bold text-sm rounded-full 
-                      ${
-                        row.sentiment === "Bullish"
-                          ? "bg-green-600 text-white"
-                          : row.sentiment === "Bearish"
-                          ? "bg-red-600 text-white"
-                          : "bg-gray-100 text-gray-700"
-                      }`}
+                    className={`px-3 py-1 font-bold text-sm rounded-full ${
+                      row.sentiment === "Bullish"
+                        ? "bg-green-600 text-white"
+                        : row.sentiment === "Bearish"
+                        ? "bg-red-600 text-white"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
                   >
                     {row.sentiment}
                   </span>

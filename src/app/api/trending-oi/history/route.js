@@ -1,16 +1,14 @@
-// app/api/trending-oi/history/route.js
-
 import { NextResponse } from "next/server";
 import {
   getTrendingOiHistory,
   clearTrendingOiHistory,
-} from "../../../../lib/trendingOiBackground"; // matches instrumentation.js
-
+} from "../../../../lib/trendingOiBackground";
 import { INDEX_KEYS } from "../../../../lib/optionChainCore";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get("symbol");
+  const date = searchParams.get("date");
 
   if (!symbol || !INDEX_KEYS.includes(symbol)) {
     return NextResponse.json(
@@ -19,16 +17,14 @@ export async function GET(request) {
     );
   }
 
-  const history = getTrendingOiHistory(symbol);
-
-  // Return rows as-is — no field remapping, so spot (and anything else
-  // stored on the row) reaches the frontend untouched.
+  const history = getTrendingOiHistory(symbol, date);
   return NextResponse.json(history);
 }
 
 export async function DELETE(request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get("symbol");
+  const date = searchParams.get("date");
 
   if (!symbol || !INDEX_KEYS.includes(symbol)) {
     return NextResponse.json(
@@ -37,7 +33,6 @@ export async function DELETE(request) {
     );
   }
 
-  clearTrendingOiHistory(symbol);
-
+  clearTrendingOiHistory(symbol, date);
   return NextResponse.json({ ok: true });
 }

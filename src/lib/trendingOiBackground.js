@@ -9,6 +9,10 @@ const MAX_HISTORY = 500;
 const g = globalThis;
 if (!g.__trendingOiStore) g.__trendingOiStore = {};
 if (!g.__trendingOiPollerStarted) g.__trendingOiPollerStarted = false;
+if (typeof g.__trendingOiMarketClosedLogged === "undefined") {
+  g.__trendingOiMarketClosedLogged = false;
+}
+if (!g.__trendingOiStaleTracker) g.__trendingOiStaleTracker = {};
 
 const insertRow = db.prepare(`
   INSERT OR IGNORE INTO trending_oi_history
@@ -16,8 +20,6 @@ const insertRow = db.prepare(`
   VALUES (@id, @symbol, @date, @time, @call_change, @put_change, @diff_oi, @sentiment, @spot, @call_oi, @put_oi, @timestamp)
 `);
 
-// call_change/put_change columns store callOiChange/putOiChange below (aliased
-// to match the field names page.jsx reads: row.callOiChange / row.putOiChange)
 const loadRecentHistory = db.prepare(`
   SELECT id, date, time, call_change AS callOiChange, put_change AS putOiChange,
          diff_oi AS diffOi, sentiment, spot, call_oi AS callOi, put_oi AS putOi
@@ -27,50 +29,41 @@ const loadRecentHistory = db.prepare(`
   LIMIT ?
 `);
 
+const loadHistoryForDate = db.prepare(`
+  SELECT id, date, time, call_change AS callOiChange, put_change AS putOiChange,
+         diff_oi AS diffOi, sentiment, spot, call_oi AS callOi, put_oi AS putOi
+  FROM trending_oi_history
+  WHERE symbol = ? AND date = ?
+  ORDER BY timestamp DESC
+`);
+
+const deleteBySymbol = db.prepare(`DELETE FROM trending_oi_history WHERE symbol = ?`);
+const deleteBySymbolAndDate = db.prepare(`DELETE FROM trending_oi_history WHERE symbol = ? AND date = ?`);
+
 function computeSentiment(diffOi) {
   if (diffOi > 0) return "Bullish";
   if (diffOi < 0) return "Bearish";
   return "Neutral";
 }
 
-// Market hours gate: 9:15 AM - 3:30 PM IST, Mon-Fri. Computed against IST
-// regardless of the server's own timezone, so this is safe on any host.
 function isMarketHours() {
   const now = new Date();
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-
-  const day = ist.getDay(); // 0 = Sun, 6 = Sat
+  const day = ist.getDay();
   if (day === 0 || day === 6) return false;
-
   const minutes = ist.getHours() * 60 + ist.getMinutes();
-  const marketOpen = 9 * 60 + 15; // 9:15
-  const marketClose = 15 * 60 + 30; // 15:30
-
+  const marketOpen = 9 * 60 + 15;
+  const marketClose = 15 * 60 + 30;
   return minutes >= marketOpen && minutes <= marketClose;
-}
-
-// Tracks whether we already logged the current "market closed" stretch, so
-// off-hours ticks don't spam the log every 60s.
-if (typeof g.__trendingOiMarketClosedLogged === "undefined") {
-  g.__trendingOiMarketClosedLogged = false;
 }
 
 function hydrateStoreFromDb() {
   for (const symbol of INDEX_KEYS) {
-    const rows = loadRecentHistory.all(symbol, MAX_HISTORY);
-    g.__trendingOiStore[symbol] = rows;
+    g.__trendingOiStore[symbol] = loadRecentHistory.all(symbol, MAX_HISTORY);
   }
   console.log("[trendingOi] hydrated history from SQLite for", INDEX_KEYS.join(", "));
 }
 
-// callOiChange / putOiChange here are SUMS of Kite's own per-strike
-// CE_oiChange / PE_oiChange (today's OI minus the previous trading day's
-// close OI, from optionChainCore's getPrevDayOiMap). That baseline is
-// fixed for the whole day, so this number naturally behaves as a running
-// total: it climbs when OI is being added since yesterday's close, falls
-// when it's unwound, and holds steady when nothing changes — no extra
-// row-to-row bookkeeping needed on our side, and it resets on its own the
-// next trading day when the baseline refetches.
 function computeOiAndChange(rows) {
   let callOi = 0;
   let callOiChange = 0;
@@ -93,8 +86,6 @@ function sleep(ms) {
 
 const SYMBOL_GAP_MS = 500;
 
-if (!g.__trendingOiStaleTracker) g.__trendingOiStaleTracker = {};
-
 function trackStaleness(symbol, callOi, putOi) {
   const tracker = g.__trendingOiStaleTracker;
   const prev = tracker[symbol];
@@ -109,11 +100,12 @@ function trackStaleness(symbol, callOi, putOi) {
   if (streak === 1) {
     console.log(`[trendingOi] ${symbol}: Call OI/Put OI changed from previous poll`);
   } else if (streak <= 3) {
-    console.log(`[trendingOi] ${symbol}: Call OI/Put OI unchanged for ${streak} poll(s) in a row (normal — exchange OI publish lag)`);
+    console.log(
+      `[trendingOi] ${symbol}: Call OI/Put OI unchanged for ${streak} poll(s) in a row (normal — exchange OI publish lag)`
+    );
   } else {
     console.warn(
-      `[trendingOi] ${symbol}: Call OI/Put OI unchanged for ${streak} polls in a row — ` +
-        `if this keeps climbing, the quote fetch itself may be stuck/cached rather than the exchange being slow`
+      `[trendingOi] ${symbol}: Call OI/Put OI unchanged for ${streak} polls in a row — if this keeps climbing, the quote fetch itself may be stuck/cached rather than the exchange being slow`
     );
   }
 }
@@ -129,14 +121,14 @@ async function pollOnce() {
     }
     return;
   }
-  // Market is open this tick — reset the closed-log flag so the next
-  // closed stretch logs once again instead of staying silent forever.
+
   g.__trendingOiMarketClosedLogged = false;
 
   if (pollInFlight) {
     console.warn("[trendingOi] previous poll still running, skipping this tick to avoid duplicate rows");
     return;
   }
+
   pollInFlight = true;
   const startedAt = Date.now();
 
@@ -151,45 +143,19 @@ async function pollOnce() {
 
     for (const symbol of INDEX_KEYS) {
       try {
-        const { rows, spot, quoteFetchedAt, newestQuoteTs } =
-          await getOptionChainData(kc, symbol, null);
+        const { rows, spot, quoteFetchedAt, newestQuoteTs } = await getOptionChainData(kc, symbol, null);
 
         if (!rows || rows.length === 0) {
-          console.warn(
-            `[trendingOi] ${symbol}: getOptionChainData returned 0 rows (spot=${spot}) — skipping this poll`
-          );
+          console.warn(`[trendingOi] ${symbol}: getOptionChainData returned 0 rows (spot=${spot}) — skipping this poll`);
           continue;
         }
 
         const { callOi, callOiChange, putOi, putOiChange } = computeOiAndChange(rows);
         const diffOi = putOiChange - callOiChange;
 
-        let ceOiCount = 0, ceChgCount = 0, peOiCount = 0, peChgCount = 0;
-        for (const r of rows) {
-          if (typeof r.CE_oi === "number") ceOiCount++;
-          if (typeof r.CE_oiChange === "number") ceChgCount++;
-          if (typeof r.PE_oi === "number") peOiCount++;
-          if (typeof r.PE_oiChange === "number") peChgCount++;
-        }
-
-        console.log(
-          `[trendingOi] ${symbol}: strikes=${rows.length} spot=${spot} ` +
-            `CE_oi=${ceOiCount}/${rows.length} CE_chg=${ceChgCount}/${rows.length} ` +
-            `PE_oi=${peOiCount}/${rows.length} PE_chg=${peChgCount}/${rows.length} ` +
-            `callOi=${callOi} putOi=${putOi} callOiChange=${callOiChange} putOiChange=${putOiChange} diffOi=${diffOi}`
-        );
-
-        trackStaleness(symbol, callOi, putOi);
-
         if (newestQuoteTs != null) {
           const lagMs = quoteFetchedAt - newestQuoteTs;
-          console.log(
-            `[trendingOi] ${symbol}: Kite's newest quote timestamp is ${Math.round(lagMs / 1000)}s ` +
-              `behind our fetch time — if this number is small and Call/Put OI is still frozen for many ` +
-              `polls, Kite genuinely hasn't republished OI yet (exchange-side lag, not our code)`
-          );
-        } else {
-          console.log(`[trendingOi] ${symbol}: no quote timestamp returned by Kite for this poll`);
+          console.log(`[trendingOi] ${symbol}: newest quote lag ${Math.round(lagMs / 1000)}s`);
         }
 
         const now = new Date();
@@ -235,12 +201,6 @@ async function pollOnce() {
   } finally {
     const durationMs = Date.now() - startedAt;
     console.log(`[trendingOi] poll cycle finished in ${durationMs}ms`);
-    if (durationMs > POLL_INTERVAL_MS) {
-      console.warn(
-        `[trendingOi] poll cycle took longer than the ${POLL_INTERVAL_MS}ms interval — ` +
-          `data will lag behind real 1-min cadence until this is faster (check Kite rate limits / network)`
-      );
-    }
     pollInFlight = false;
   }
 }
@@ -253,17 +213,22 @@ async function scheduleNextPoll() {
 export function startTrendingOiPoller() {
   if (g.__trendingOiPollerStarted) return;
   g.__trendingOiPollerStarted = true;
-
   hydrateStoreFromDb();
   scheduleNextPoll();
   console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:30 IST, Mon–Fri)");
 }
 
-export function getTrendingOiHistory(symbol) {
+export function getTrendingOiHistory(symbol, date) {
+  if (date) return loadHistoryForDate.all(symbol, date);
   return g.__trendingOiStore[symbol] || [];
 }
 
-export function clearTrendingOiHistory(symbol) {
+export function clearTrendingOiHistory(symbol, date) {
+  if (date) {
+    deleteBySymbolAndDate.run(symbol, date);
+    g.__trendingOiStore[symbol] = (g.__trendingOiStore[symbol] || []).filter((r) => r.date !== date);
+    return;
+  }
   g.__trendingOiStore[symbol] = [];
-  db.prepare(`DELETE FROM trending_oi_history WHERE symbol = ?`).run(symbol);
+  deleteBySymbol.run(symbol);
 }

@@ -311,21 +311,21 @@ export default function TrendingOiPage() {
           <FaPalette /> {colorsEnabled ? "Colors: On" : "Colors: Off"}
         </button>
 
-        <button
+        {/* <button
           onClick={handleClearDay}
           className="flex items-center gap-2 px-4 py-2 rounded bg-orange-600 text-white font-semibold shadow-sm hover:bg-orange-700"
           title="Clear only the selected date's data"
         >
           <FaCalendarTimes /> Clear Day
-        </button>
+        </button> */}
 
-        <button
+        {/* <button
           onClick={handleClearAll}
           className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700"
           title="Clear all stored data for this symbol"
         >
           <FaTrash /> Clear All
-        </button>
+        </button> */}
       </div>
 
       <div className="overflow-x-auto bg-white border rounded shadow">

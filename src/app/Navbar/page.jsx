@@ -293,11 +293,11 @@ export default function Navbar() {
                   >
                     Trending OI
                   </div>
-                  <div
+                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleNavigate("/openhighnifty")}
+                    onClick={() => handleNavigate("/open-high")}
                   >
-                    Nifty OHLC
+                    Open High
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -450,8 +450,8 @@ export default function Navbar() {
                 <div onClick={() => handleNavigate("/trendingoi")}>
                   Trending OI
                 </div>
-                <div onClick={() => handleNavigate("/openhighnifty")}>
-                  Nifty OHLC
+                <div onClick={() => handleNavigate("/open-high")}>
+                  Open High
                 </div>
                 <div onClick={() => handleNavigate("/herozero")}>
                   Hero Zero

@@ -10,6 +10,9 @@ import down from "../../../public/down.svg";
 const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
 const REFRESH_MS = 5000;
 
+// Divide raw OI change values by these before accumulating.
+const DIVISORS = { NIFTY: 65, BANKNIFTY: 30, SENSEX: 20 };
+
 function fmtInt(n) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
   return Number(n).toLocaleString("en-IN");
@@ -64,7 +67,10 @@ export default function TrendingOiPage() {
   // from the history rows already persisted every minute — no separate DB
   // table needed. history is newest-first, so walk oldest -> newest to
   // accumulate, then reverse back to newest-first for display.
+  // Raw callOiChange/putOiChange are divided by the per-symbol DIVISORS
+  // value before accumulating.
   const summaryRows = useMemo(() => {
+    const divisor = DIVISORS[symbol] || 1;
     const chronological = [...history].reverse();
     let callPlus = 0;
     let callMinus = 0;
@@ -74,8 +80,14 @@ export default function TrendingOiPage() {
     const out = [];
 
     for (const row of chronological) {
-      const c = row.callOiChange;
-      const p = row.putOiChange;
+      const c =
+        row.callOiChange !== null && row.callOiChange !== undefined
+          ? row.callOiChange / divisor
+          : row.callOiChange;
+      const p =
+        row.putOiChange !== null && row.putOiChange !== undefined
+          ? row.putOiChange / divisor
+          : row.putOiChange;
       if (c !== null && c !== undefined) {
         if (c > 0) callPlus += c;
         else if (c < 0) callMinus += c; // stays negative
@@ -119,7 +131,7 @@ export default function TrendingOiPage() {
     }
 
     return out.reverse(); // newest-first
-  }, [history]);
+  }, [history, symbol]);
 
   if (accessLoading) return <div>Loading...</div>;
   if (!hasAccess) return null;

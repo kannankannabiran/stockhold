@@ -1,43 +1,68 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { FaSitemap, FaTrash } from "react-icons/fa";
-import { Bar, Line } from "react-chartjs-2";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { FaSitemap } from "react-icons/fa";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
   LineElement,
   PointElement,
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
   LineElement,
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
-// Matches INDEX_CONFIG keys in /api/option-chain/route.js
 const indexOptions = ["NIFTY", "BANKNIFTY", "SENSEX"];
-
-const POLL_MS = 10000;
-
-// ΔOI Diff % thresholds — rising Put OI (support) = bullish, rising Call OI (resistance) = bearish.
-// Adjust these (or swap the whole function) to match your other pages' thresholds if they differ.
+const intervalOptions = [1, 3, 5, 15, 30, 60];
+const POLL_MS = 60000;
 const BULLISH_THRESHOLD = 20;
 const BEARISH_THRESHOLD = -20;
 
+function isMarketOpenNow() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+
+  const hour = Number(parts.find((p) => p.type === "hour")?.value || 0);
+  const minute = Number(parts.find((p) => p.type === "minute")?.value || 0);
+
+  const current = hour * 60 + minute;
+  const start = 9 * 60 + 15;
+  const end = 15 * 60 + 30;
+
+  return current >= start && current <= end;
+}
+
+function getISTTimeString(date = new Date()) {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(date);
+}
+
 function diffPct(ceChange, peChange) {
-  if (ceChange == null && peChange == null) return null; // no ΔOI data at all (e.g. historical fetch failed)
+  if (ceChange == null && peChange == null) return null;
   const ce = ceChange ?? 0;
   const pe = peChange ?? 0;
   const denom = Math.abs(ce) + Math.abs(pe);
@@ -55,26 +80,22 @@ function sentimentFromDiff(pct) {
 function sentimentClasses(sentiment) {
   switch (sentiment) {
     case "Bullish":
-      return "bg-green-100 text-green-700";
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
     case "Bearish":
-      return "bg-red-100 text-red-700";
+      return "bg-rose-50 text-rose-700 border-rose-200";
     case "N/A":
-      return "bg-yellow-50 text-yellow-700";
+      return "bg-amber-50 text-amber-700 border-amber-200";
     default:
-      return "bg-gray-100 text-gray-600";
+      return "bg-slate-100 text-slate-600 border-slate-200";
   }
 }
 
-// DB-backed OI trend history helpers (replaces the old localStorage version).
-// History still resets daily since OI resets each trading session — that's
-// handled server-side by the API filtering on date.
 async function loadTrendHistory(sym, strike) {
   if (!strike) return [];
   try {
-    const res = await fetch(
-      `/api/oi-trend?symbol=${sym}&strike=${strike}`,
-      { cache: "no-store" }
-    );
+    const res = await fetch(`/api/oi-trend?symbol=${sym}&strike=${strike}`, {
+      cache: "no-store",
+    });
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? data : [];
@@ -84,31 +105,23 @@ async function loadTrendHistory(sym, strike) {
   }
 }
 
-async function saveTrendPoint(sym, strike, point) {
-  if (!strike) return;
+async function loadSelectedStrikeHistory(sym, strike) {
+  if (!strike) return [];
   try {
-    await fetch(`/api/oi-trend`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        symbol: sym,
-        strike,
-        ceOi: point.ceOi,
-        peOi: point.peOi,
-        ceOiChange: point.ceOiChange,
-        peOiChange: point.peOiChange,
-        time: point.time,
-      }),
-    });
+    const res = await fetch(
+      `/api/oi-trend?symbol=${sym}&strike=${strike}&mode=all`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (e) {
-    console.error("[oiTrend] failed to save point", e);
+    console.error("[oiTrend] failed to load selected strike history", e);
+    return [];
   }
 }
 
-// Persists a snapshot for every strike in the current chain in one request —
-// called on every poll regardless of which strike (if any) is selected, so
-// history accumulates for the whole chain, not just the one being viewed.
-async function saveAllTrendPoints(sym, allRows, time) {
+async function saveAllTrendPoints(sym, allRows, time, interval, date) {
   if (!allRows || !allRows.length) return;
   try {
     await fetch(`/api/oi-trend`, {
@@ -116,6 +129,8 @@ async function saveAllTrendPoints(sym, allRows, time) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         symbol: sym,
+        interval,
+        date,
         points: allRows.map((r) => ({
           strike: r.strike,
           ceOi: r.CE_oi ?? null,
@@ -131,21 +146,27 @@ async function saveAllTrendPoints(sym, allRows, time) {
   }
 }
 
+function StatCard({ label, value, tone = "slate" }) {
+  const tones = {
+    slate: "from-slate-50 to-white border-slate-200 text-slate-700",
+    green: "from-emerald-50 to-white border-emerald-200 text-emerald-700",
+    red: "from-rose-50 to-white border-rose-200 text-rose-700",
+    amber: "from-amber-50 to-white border-amber-200 text-amber-700",
+    blue: "from-blue-50 to-white border-blue-200 text-blue-700",
+  };
 
-// Pass strike = null to clear every strike's history for this symbol.
-async function clearTrendHistory(sym, strike) {
-  try {
-    const qs = strike
-      ? `symbol=${sym}&strike=${strike}`
-      : `symbol=${sym}`;
-    await fetch(`/api/oi-trend?${qs}`, { method: "DELETE" });
-  } catch (e) {
-    console.error("[oiTrend] failed to clear history", e);
-  }
+  return (
+    <div className={`rounded-2xl border bg-gradient-to-br p-4 shadow-sm ${tones[tone]}`}>
+      <div className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</div>
+      <div className="mt-2 text-lg font-semibold">{value}</div>
+    </div>
+  );
 }
 
 export default function OptionChain() {
   const [symbol, setSymbol] = useState("NIFTY");
+  const [interval, setIntervalValue] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
   const [rows, setRows] = useState([]);
   const [spot, setSpot] = useState(null);
   const [expiry, setExpiry] = useState(null);
@@ -153,114 +174,137 @@ export default function OptionChain() {
   const [updatedAt, setUpdatedAt] = useState(null);
   const [selectedStrike, setSelectedStrike] = useState(null);
   const [error, setError] = useState(null);
-  const [clearing, setClearing] = useState(false);
+  const [trendHistory, setTrendHistory] = useState([]);
+  const [selectedStrikeHistory, setSelectedStrikeHistory] = useState([]);
+  const [marketOpen, setMarketOpen] = useState(isMarketOpenNow());
 
-  // Real OI history for the selected strike, built up from each poll and persisted
-  // to the DB (per symbol+strike, reset daily) so it survives page reloads.
-  const [trendHistory, setTrendHistory] = useState([]); // [{ time, ceOi, peOi, ceOiChange, peOiChange }]
   const timeoutRef = useRef(null);
   const inFlightRef = useRef(false);
 
-  const fetchData = useCallback(async (sym, expiryOverride) => {
-    if (inFlightRef.current) return;
-    inFlightRef.current = true;
-    try {
-      const qs = new URLSearchParams({ index: sym });
-      if (expiryOverride) qs.set("expiry", expiryOverride);
+  const fetchData = useCallback(
+    async (sym, expiryOverride) => {
+      if (inFlightRef.current) return;
+      inFlightRef.current = true;
 
-      const res = await fetch(`/api/optionchain?${qs.toString()}`);
-      const data = await res.json();
+      try {
+        const qs = new URLSearchParams({ index: sym, interval: String(interval) });
+        if (expiryOverride) qs.set("expiry", expiryOverride);
+        if (selectedDate) qs.set("date", selectedDate);
 
-      if (!res.ok || data?.error) {
-        setError(
-          data?.error === "not_connected"
-            ? "Not connected to Kite — please log in."
-            : data?.message || "API error"
-        );
-        return;
-      }
+        const res = await fetch(`/api/optionchain?${qs.toString()}`);
+        const data = await res.json();
 
-      setError(null);
-      setRows(data.rows || []);
-      setSpot(data.spot ?? null);
-      setExpiry(data.expiry ?? null);
-      setExpiries(data.expiries || []);
-      setUpdatedAt(data.updatedAt ?? null);
-
-      // Persist a snapshot for every strike in this chain, regardless of
-      // which one (if any) is currently selected in the UI.
-      if ((data.rows || []).length) {
-        const snapTime = data.updatedAt
-          ? new Date(data.updatedAt).toLocaleTimeString()
-          : new Date().toLocaleTimeString();
-        saveAllTrendPoints(sym, data.rows, snapTime);
-      }
-
-      if (data.spot != null && (data.rows || []).length) {
-        let closest = data.rows[0];
-        let closestDist = Math.abs(closest.strike - data.spot);
-        for (const r of data.rows) {
-          const d = Math.abs(r.strike - data.spot);
-          if (d < closestDist) {
-            closest = r;
-            closestDist = d;
-          }
+        if (!res.ok || data?.error) {
+          setError(
+            data?.error === "not_connected"
+              ? "Not connected to Kite — please log in."
+              : data?.message || "API error"
+          );
+          return;
         }
-        setSelectedStrike((prev) => prev ?? closest.strike);
+
+        setError(null);
+        setRows(data.rows || []);
+        setSpot(data.spot ?? null);
+        setExpiry(data.expiry ?? null);
+        setExpiries(data.expiries || []);
+        setUpdatedAt(data.updatedAt ?? null);
+
+        if ((data.rows || []).length) {
+          const snapTime = data.updatedAt
+            ? new Date(data.updatedAt).toLocaleTimeString()
+            : getISTTimeString(new Date());
+          saveAllTrendPoints(sym, data.rows, snapTime, interval, selectedDate);
+        }
+
+        if (data.spot != null && (data.rows || []).length) {
+          let closest = data.rows[0];
+          let closestDist = Math.abs(closest.strike - data.spot);
+          for (const r of data.rows) {
+            const d = Math.abs(r.strike - data.spot);
+            if (d < closestDist) {
+              closest = r;
+              closestDist = d;
+            }
+          }
+          setSelectedStrike((prev) => prev ?? closest.strike);
+        }
+      } catch (err) {
+        setError("Network error");
+      } finally {
+        inFlightRef.current = false;
       }
-    } catch (err) {
-      setError("Network error");
-    } finally {
-      inFlightRef.current = false;
-    }
-  }, []);
+    },
+    [interval, selectedDate]
+  );
+
+  useEffect(() => {
+    setSelectedStrike(null);
+    fetchData(symbol);
+  }, [symbol, selectedDate, interval, fetchData]);
 
   useEffect(() => {
     let cancelled = false;
 
     const loop = async () => {
       if (cancelled) return;
-      await fetchData(symbol);
-      if (cancelled) return;
-      timeoutRef.current = setTimeout(loop, POLL_MS);
+
+      const open = isMarketOpenNow();
+      setMarketOpen(open);
+
+      if (!selectedDate) {
+        if (open) {
+          await fetchData(symbol);
+        }
+        if (cancelled) return;
+        timeoutRef.current = setTimeout(loop, POLL_MS);
+      }
     };
 
-    setSelectedStrike(null);
-    loop();
+    if (!selectedDate) {
+      loop();
+    }
 
     return () => {
       cancelled = true;
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [symbol, fetchData]);
+  }, [symbol, selectedDate, fetchData]);
+
+  useEffect(() => {
+    setMarketOpen(isMarketOpenNow());
+    const t = setInterval(() => setMarketOpen(isMarketOpenNow()), 30000);
+    return () => clearInterval(t);
+  }, []);
 
   const selectedRow = rows.find((r) => r.strike === Number(selectedStrike));
 
-  // When the user picks a different strike (or symbol changes), load whatever history
-  // is already saved for that strike from the DB instead of starting empty.
   useEffect(() => {
     let cancelled = false;
     if (!selectedStrike) {
       setTrendHistory([]);
+      setSelectedStrikeHistory([]);
       return;
     }
+
     loadTrendHistory(symbol, selectedStrike).then((points) => {
       if (!cancelled) setTrendHistory(points);
     });
+
+    loadSelectedStrikeHistory(symbol, selectedStrike).then((points) => {
+      if (!cancelled) setSelectedStrikeHistory(points);
+    });
+
     return () => {
       cancelled = true;
     };
-  }, [symbol, selectedStrike]);
+  }, [symbol, selectedStrike, interval, selectedDate]);
 
-  // Append a real snapshot point to the on-screen chart every time fresh data
-  // arrives for the selected strike. Persistence to the DB is already handled
-  // by saveAllTrendPoints (called once per poll for every strike in fetchData),
-  // so this effect only needs to update local state for immediate chart feedback.
   useEffect(() => {
     if (!selectedRow || (selectedRow.CE_oi == null && selectedRow.PE_oi == null)) return;
 
     const point = {
-      time: updatedAt ? new Date(updatedAt).toLocaleTimeString() : new Date().toLocaleTimeString(),
+      time: updatedAt ? new Date(updatedAt).toLocaleTimeString() : getISTTimeString(new Date()),
       ceOi: selectedRow.CE_oi ?? null,
       peOi: selectedRow.PE_oi ?? null,
       ceOiChange: selectedRow.CE_oiChange ?? null,
@@ -268,298 +312,335 @@ export default function OptionChain() {
     };
 
     setTrendHistory((prev) => [...prev, point].slice(-30));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRow?.CE_oi, selectedRow?.PE_oi, selectedRow?.CE_oiChange, selectedRow?.PE_oiChange, updatedAt]);
+  }, [
+    selectedRow?.CE_oi,
+    selectedRow?.PE_oi,
+    selectedRow?.CE_oiChange,
+    selectedRow?.PE_oiChange,
+    updatedAt,
+  ]);
 
-  const handleClearTrend = async () => {
-    if (!selectedStrike) return;
-    setClearing(true);
-    await clearTrendHistory(symbol, selectedStrike); // clears just this strike
-    setTrendHistory([]);
-    setClearing(false);
-  };
+  const selectedDiff = useMemo(
+    () => diffPct(selectedRow?.CE_oiChange ?? null, selectedRow?.PE_oiChange ?? null),
+    [selectedRow]
+  );
 
-  const handleClearAllTrend = async () => {
-    setClearing(true);
-    await clearTrendHistory(symbol, null); // no strike param → clears every strike for this symbol
-    setTrendHistory([]);
-    setClearing(false);
-  };
+  const selectedSentiment = useMemo(
+    () => sentimentFromDiff(selectedDiff),
+    [selectedDiff]
+  );
 
-  const barChartData = {
-    labels: ["Call OI", "Put OI"],
-    datasets: [
-      {
-        label: "Open Interest",
-        data: selectedRow ? [selectedRow.CE_oi || 0, selectedRow.PE_oi || 0] : [0, 0],
-        backgroundColor: ["#008000", "#f43f5e"],
-      },
-    ],
-  };
-
-  // ΔOI bar — separate chart since OI and ΔOI are on very different scales.
-  const oiChangeBarData = {
-    labels: ["Δ Call OI", "Δ Put OI"],
-    datasets: [
-      {
-        label: "Change in OI",
-        data: selectedRow ? [selectedRow.CE_oiChange ?? 0, selectedRow.PE_oiChange ?? 0] : [0, 0],
-        backgroundColor: [
-          (selectedRow?.CE_oiChange ?? 0) >= 0 ? "#166534" : "#86efac",
-          (selectedRow?.PE_oiChange ?? 0) >= 0 ? "#991b1b" : "#fca5a5",
-        ],
-      },
-    ],
-  };
-
-  // Built from real accumulated snapshots (see trendHistory effects above) — grows as you watch it.
-  const lineChartData = {
-    labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
-    datasets: [
-      {
-        label: "Call OI",
-        data: trendHistory.length ? trendHistory.map((p) => p.ceOi) : [selectedRow?.CE_oi ?? null],
-        borderColor: "#008000",
-        pointRadius: trendHistory.length > 1 ? 2 : 5,
-        tension: 0.3,
-        fill: false,
-      },
-      {
-        label: "Put OI",
-        data: trendHistory.length ? trendHistory.map((p) => p.peOi) : [selectedRow?.PE_oi ?? null],
-        borderColor: "#f43f5e",
-        pointRadius: trendHistory.length > 1 ? 2 : 5,
-        tension: 0.3,
-        fill: false,
-      },
-    ],
-  };
-
-  // ΔOI trend — same idea, separate chart since ΔOI can be negative and is on a different scale than raw OI.
-  const oiChangeLineChartData = {
-    labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
-    datasets: [
-      {
-        label: "Δ Call OI",
-        data: trendHistory.length
-          ? trendHistory.map((p) => p.ceOiChange)
-          : [selectedRow?.CE_oiChange ?? null],
-        borderColor: "#166534",
-        pointRadius: trendHistory.length > 1 ? 2 : 5,
-        tension: 0.3,
-        fill: false,
-      },
-      {
-        label: "Δ Put OI",
-        data: trendHistory.length
-          ? trendHistory.map((p) => p.peOiChange)
-          : [selectedRow?.PE_oiChange ?? null],
-        borderColor: "#991b1b",
-        pointRadius: trendHistory.length > 1 ? 2 : 5,
-        tension: 0.3,
-        fill: false,
-      },
-    ],
-  };
+  const oiChangeLineChartData = useMemo(
+    () => ({
+      labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
+      datasets: [
+        {
+          label: "Δ Call OI",
+          data: trendHistory.length
+            ? trendHistory.map((p) => p.ceOiChange)
+            : [selectedRow?.CE_oiChange ?? null],
+          borderColor: "#059669",
+          backgroundColor: "rgba(5, 150, 105, 0.12)",
+          pointBackgroundColor: "#059669",
+          pointBorderColor: "#059669",
+          pointRadius: trendHistory.length > 1 ? 2.5 : 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          tension: 0.35,
+          fill: true,
+        },
+        {
+          label: "Δ Put OI",
+          data: trendHistory.length
+            ? trendHistory.map((p) => p.peOiChange)
+            : [selectedRow?.PE_oiChange ?? null],
+          borderColor: "#e11d48",
+          backgroundColor: "rgba(225, 29, 72, 0.10)",
+          pointBackgroundColor: "#e11d48",
+          pointBorderColor: "#e11d48",
+          pointRadius: trendHistory.length > 1 ? 2.5 : 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          tension: 0.35,
+          fill: true,
+        },
+      ],
+    }),
+    [trendHistory, selectedRow]
+  );
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: { position: "top" },
+      legend: {
+        position: "top",
+        labels: { usePointStyle: true, boxWidth: 10, padding: 18 },
+      },
       title: { display: false },
+      tooltip: { mode: "index", intersect: false },
+    },
+    interaction: { mode: "index", intersect: false },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { maxRotation: 0, autoSkip: true, color: "#64748b" },
+      },
+      y: {
+        grid: { color: "rgba(148, 163, 184, 0.18)" },
+        ticks: { color: "#64748b" },
+      },
     },
   };
 
   return (
-    <div className="p-6 max-w-screen-xl mx-auto bg-white rounded-lg">
-      <div className="text-center mb-2">
-        <h2 className="text-3xl font-semibold text-gray-800 flex justify-center items-center gap-3">
-          <FaSitemap className="text-blue-600" /> {symbol} Option Chain
-        </h2>
-        {spot != null && (
-          <div className="text-sm text-gray-500 mt-1">
-            Spot: {spot.toLocaleString()} &middot; Expiry: {expiry}
-            {updatedAt && (
-              <> &middot; Updated {new Date(updatedAt).toLocaleTimeString()}</>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 md:p-6">
+      <div className="mx-auto max-w-screen-2xl space-y-6">
+        <div className="rounded-3xl border border-slate-200 bg-white/90 p-5 md:p-6 shadow-sm backdrop-blur">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
+                  <FaSitemap className="text-xl" />
+                </div>
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-semibold text-slate-800">
+                    {symbol} Option Chain
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Live OI trend, strike history, and market snapshot overview.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`inline-flex items-center gap-2 self-start rounded-full border px-4 py-2 text-sm font-medium ${
+                marketOpen
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                  : "border-rose-200 bg-rose-50 text-rose-700"
+              }`}
+            >
+              <span
+                className={`h-2.5 w-2.5 rounded-full ${
+                  marketOpen ? "bg-emerald-500" : "bg-rose-500"
+                }`}
+              />
+              {marketOpen ? "Market Open" : "Market Closed"}
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+            <StatCard label="Spot" value={spot != null ? spot.toLocaleString() : "—"} tone="blue" />
+            <StatCard label="Expiry" value={expiry || "—"} tone="slate" />
+            <StatCard
+              label="Updated"
+              value={updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"}
+              tone="slate"
+            />
+            <StatCard label="Snapshots" value={trendHistory.length} tone="green" />
+            <StatCard
+              label="Selected Sentiment"
+              value={selectedSentiment}
+              tone={selectedSentiment === "Bullish" ? "green" : selectedSentiment === "Bearish" ? "red" : "amber"}
+            />
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-slate-800">Filters</h3>
+            <div className="text-sm text-slate-500">Refine symbol, interval, expiry, and strike</div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            <select
+              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              value={symbol}
+              onChange={(e) => setSymbol(e.target.value)}
+            >
+              {indexOptions.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              value={interval}
+              onChange={(e) => setIntervalValue(Number(e.target.value))}
+            >
+              {intervalOptions.map((m) => (
+                <option key={m} value={m}>
+                  {m} min
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="date"
+              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+
+            {expiries.length > 0 ? (
+              <select
+                className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                value={expiry || ""}
+                onChange={(e) => fetchData(symbol, e.target.value)}
+              >
+                {expiries.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="flex h-12 items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-sm text-slate-400">
+                Expiry loading...
+              </div>
             )}
-          </div>
-        )}
-      </div>
 
-      {/* Dropdowns */}
-      <div className="flex flex-wrap justify-center gap-4 mb-6 mt-4">
-        <select
-          className="border border-gray-300 px-5 py-2 rounded shadow-sm bg-gray-50"
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
-        >
-          {indexOptions.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-
-        {expiries.length > 0 && (
-          <select
-            className="border border-gray-300 px-5 py-2 rounded shadow-sm bg-gray-50"
-            value={expiry || ""}
-            onChange={(e) => fetchData(symbol, e.target.value)}
-          >
-            {expiries.map((e) => (
-              <option key={e} value={e}>
-                {e}
-              </option>
-            ))}
-          </select>
-        )}
-
-        <select
-          className="border border-gray-300 px-5 py-2 rounded shadow-sm bg-gray-50"
-          value={selectedStrike || ""}
-          onChange={(e) => setSelectedStrike(Number(e.target.value))}
-        >
-          {rows.map((r) => (
-            <option key={r.strike} value={r.strike}>
-              {r.strike}
-            </option>
-          ))}
-        </select>
-
-        <button
-          onClick={handleClearTrend}
-          disabled={!selectedStrike || clearing}
-          className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white font-semibold shadow-sm hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <FaTrash /> {clearing ? "Clearing..." : "Clear Strike"}
-        </button>
-
-        <button
-          onClick={handleClearAllTrend}
-          disabled={clearing}
-          className="flex items-center gap-2 px-4 py-2 rounded bg-gray-600 text-white font-semibold shadow-sm hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <FaTrash /> {clearing ? "Clearing..." : "Clear All"}
-        </button>
-      </div>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-        <div className="md:col-span-3 col-span-12">
-          <h3 className="text-lg font-semibold mb-2 text-center">Current OI</h3>
-          <div className="h-[460px]">
-            <Bar data={barChartData} options={{ ...chartOptions, maintainAspectRatio: false }} />
+            <select
+              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              value={selectedStrike || ""}
+              onChange={(e) => setSelectedStrike(Number(e.target.value))}
+            >
+              {rows.map((r) => (
+                <option key={r.strike} value={r.strike}>
+                  {r.strike}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        <div className="md:col-span-9 col-span-12">
-          <h3 className="text-lg font-semibold mb-2 text-center">
-            OI Trend {trendHistory.length > 1 ? `(${trendHistory.length} live snapshots)` : "(collecting live data...)"}
-          </h3>
-          <Line key={`${symbol}-${selectedStrike}-oi`} data={lineChartData} options={chartOptions} />
-        </div>
-      </div>
+        <div className="grid gap-6 xl:grid-cols-12">
+          <div className="xl:col-span-12 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+            <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800">ΔOI Trend</h3>
+                <p className="text-sm text-slate-500">
+                  Call and put OI change over time for the selected strike.
+                </p>
+              </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start mt-10">
-        <div className="md:col-span-3 col-span-12">
-          <h3 className="text-lg font-semibold mb-2 text-center">Current ΔOI (Change)</h3>
-          <div className="h-[460px]">
-            <Bar data={oiChangeBarData} options={{ ...chartOptions, maintainAspectRatio: false }} />
+              {selectedRow && (
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
+                    Strike: {selectedRow.strike}
+                  </span>
+                  <span className={`rounded-full border px-3 py-1 text-xs font-medium ${sentimentClasses(selectedSentiment)}`}>
+                    {selectedSentiment}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="h-[420px] rounded-2xl bg-slate-50/70 p-3 md:p-4">
+              <Line
+                key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-diff`}
+                data={oiChangeLineChartData}
+                options={chartOptions}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="md:col-span-9 col-span-12">
-          <h3 className="text-lg font-semibold mb-2 text-center">
-            ΔOI Trend {trendHistory.length > 1 ? `(${trendHistory.length} live snapshots)` : "(collecting live data...)"}
-          </h3>
-          <Line key={`${symbol}-${selectedStrike}-diff`} data={oiChangeLineChartData} options={chartOptions} />
-        </div>
-      </div>
+          {selectedStrikeHistory.length > 0 && (
+            <div className="xl:col-span-12 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              <div className="border-b bg-slate-50 px-5 py-4">
+                <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+                  <h3 className="text-lg font-semibold text-slate-800">
+                    Selected Strike History - {selectedStrike}
+                  </h3>
+                  <div className="text-sm text-slate-500">
+                    {selectedStrikeHistory.length} records
+                  </div>
+                </div>
+              </div>
 
-      {/* Selected Strike Info */}
-      {selectedRow && (
-        <div className="mt-8 bg-gray-50 rounded-lg p-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-800 text-center">
-          <div><strong>Strike:</strong> {selectedRow.strike}</div>
-          <div><strong>Call OI:</strong> {selectedRow.CE_oi?.toLocaleString()}</div>
-          <div><strong>Put OI:</strong> {selectedRow.PE_oi?.toLocaleString()}</div>
-          <div><strong>Δ Call OI:</strong> {selectedRow.CE_oiChange?.toLocaleString()}</div>
-          <div><strong>Δ Put OI:</strong> {selectedRow.PE_oiChange?.toLocaleString()}</div>
-          <div>
-            <strong>ΔOI Diff %:</strong>{" "}
-            {(() => {
-              const p = diffPct(selectedRow.CE_oiChange, selectedRow.PE_oiChange);
-              return p == null ? "N/A" : `${p.toFixed(1)}%`;
-            })()}
-          </div>
-          <div><strong>LTP CE:</strong> ₹{selectedRow.CE_ltp}</div>
-          <div><strong>LTP PE:</strong> ₹{selectedRow.PE_ltp}</div>
-          <div><strong>Vol CE:</strong> {selectedRow.CE_vol}</div>
-          <div><strong>Vol PE:</strong> {selectedRow.PE_vol}</div>
-        </div>
-      )}
-
-      {/* Market Direction Table */}
-      {rows.length > 0 && (
-        <div className="mt-10">
-          <h3 className="text-xl font-semibold mb-3 text-center">Market Direction (ΔOI Diff %)</h3>
-          <div className="overflow-auto">
-            <table className="min-w-full text-sm text-center border border-gray-300">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="border px-4 py-2">Strike</th>
-                  <th className="border px-4 py-2">Call OI</th>
-                  <th className="border px-4 py-2">Put OI</th>
-                  <th className="border px-4 py-2">Δ Call OI</th>
-                  <th className="border px-4 py-2">Δ Put OI</th>
-                  <th className="border px-4 py-2">ΔOI Diff %</th>
-                  <th className="border px-4 py-2">Sentiment</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => {
-                  const pct = diffPct(row.CE_oiChange, row.PE_oiChange);
-                  const sentiment = sentimentFromDiff(pct);
-                  return (
-                    <tr
-                      key={row.strike}
-                      className={`hover:bg-gray-50 ${
-                        row.strike === selectedStrike ? "bg-yellow-50" : ""
-                      }`}
-                      onClick={() => setSelectedStrike(row.strike)}
-                    >
-                      <td className="border px-4 py-1 cursor-pointer">{row.strike}</td>
-                      <td className="border px-4 py-1">{row.CE_oi?.toLocaleString()}</td>
-                      <td className="border px-4 py-1">{row.PE_oi?.toLocaleString()}</td>
-                      <td className="border px-4 py-1">
-                        {row.CE_oiChange == null ? (
-                          <span className="text-gray-400 italic">N/A</span>
-                        ) : (
-                          row.CE_oiChange.toLocaleString()
-                        )}
-                      </td>
-                      <td className="border px-4 py-1">
-                        {row.PE_oiChange == null ? (
-                          <span className="text-gray-400 italic">N/A</span>
-                        ) : (
-                          row.PE_oiChange.toLocaleString()
-                        )}
-                      </td>
-                      <td className="border px-4 py-1 font-medium">
-                        {pct == null ? "N/A" : `${pct.toFixed(1)}%`}
-                      </td>
-                      <td className={`border px-4 py-1 font-semibold ${sentimentClasses(sentiment)}`}>
-                        {sentiment}
-                      </td>
+              <div className="max-h-[460px] overflow-auto">
+                <table className="min-w-full border-separate border-spacing-0 text-sm">
+                  <thead className="sticky top-0 z-10">
+                    <tr>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
+                        Strike
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
+                        Date
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
+                        Time
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
+                        Call Chg OI
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
+                        Put Chg OI
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
+                        Sentiment
+                      </th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+                  </thead>
+                  <tbody>
+                    {selectedStrikeHistory.map((row, idx) => {
+                      const callChg = Number(row.ceOiChange ?? 0);
+                      const putChg = Number(row.peOiChange ?? 0);
+                      const diff = putChg - callChg;
+                      const sentiment = diff > 0 ? "Bullish" : diff < 0 ? "Bearish" : "Neutral";
 
-      {error && <div className="text-red-600 text-center mt-4">{error}</div>}
+                      return (
+                        <tr
+                          key={row.id || `${row.strike}-${row.date}-${row.time}-${idx}`}
+                          className={`transition hover:bg-slate-50 ${
+                            sentiment === "Bullish"
+                              ? "bg-emerald-50/40"
+                              : sentiment === "Bearish"
+                              ? "bg-rose-50/40"
+                              : "bg-white"
+                          }`}
+                        >
+                          <td className="border-b border-slate-100 px-4 py-3 font-medium text-slate-700">
+                            {row.strike}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-slate-600">
+                            {row.date}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-slate-600">
+                            {row.time}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
+                            {row.ceOiChange == null ? "N/A" : Number(row.ceOiChange).toLocaleString()}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
+                            {row.peOiChange == null ? "N/A" : Number(row.peOiChange).toLocaleString()}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-center">
+                            <span
+                              className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${sentimentClasses(sentiment)}`}
+                            >
+                              {sentiment}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="xl:col-span-12 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-center text-rose-700">
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

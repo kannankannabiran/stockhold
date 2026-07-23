@@ -19,26 +19,31 @@ function fmtTime(iso) {
 }
 
 function cellStyle(status, isItm, side) {
-  if (status === "OPEN_HIGH") return side === "CE" ? styles.matchCellCE : styles.matchCellPE;
-  if (status === "RETEST") return styles.retestCell;
+  if (status === "OPEN_HIGH") return styles.matchCellBlue;
+  if (status === "RETEST") return styles.matchCellGreen;
   if (isItm) return side === "CE" ? styles.itmCellCE : styles.itmCellPE;
   return null;
 }
 
-// Hit  = currently OPEN_HIGH or RETEST
-// Pending = broke above open today but hasn't retested/matched yet
-// —    = hasn't broken above open at all today
-function hitLabel(status, broke) {
-  if (status) return "Hit";
-  if (broke) return "Pending";
-  return "—";
+// Hit     = currently OPEN_HIGH (never broke, blue) or RETEST (broke, then came back to open, green)
+// Pending = broke above open today, hasn't come back down to the open price yet
+// —       = hasn't broken above open at all today
+function badgeInfo(status, broke) {
+  if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeBlue };
+  if (status === "RETEST") return { label: "Hit", style: styles.badgeGreen };
+  if (broke) return { label: "Pending", style: styles.badgeAmber };
+  return { label: "—", style: styles.badgeMuted };
 }
 
-function hitTextStyle(status, broke) {
-  if (status === "OPEN_HIGH") return styles.hitTextGreen;
-  if (status === "RETEST") return styles.hitTextBlue;
-  if (broke) return styles.hitTextPending;
-  return styles.hitTextNone;
+function Badge({ status, broke }) {
+  const { label, style } = badgeInfo(status, broke);
+  const isDash = label === "—";
+  return (
+    <span style={{ ...styles.badge, ...style }}>
+      {!isDash && <span style={{ ...styles.badgeDot, ...(style.dotColor ? { background: style.dotColor } : null) }} />}
+      {label}
+    </span>
+  );
 }
 
 export default function OpenHighPage() {
@@ -100,7 +105,7 @@ export default function OpenHighPage() {
       <div style={styles.header}>
         <div>
           <h1 style={styles.title}>Open <span style={styles.titleAccent}>= High</span></h1>
-          <p style={styles.subtitle}>ATM ±10 strikes · Hit = open=high or retest · Pending = broke, awaiting retest</p>
+          <p style={styles.subtitle}>ATM ±10 strikes · Hit = open=high or retested the open price · Pending = broke out, waiting to retest open</p>
         </div>
 
         <div style={styles.controls}>
@@ -132,11 +137,11 @@ export default function OpenHighPage() {
         )}
         <div style={styles.statChip}>
           <span style={styles.statLabel}>OPEN=HIGH</span>
-          <span style={{ ...styles.statValue, color: "#16a34a" }}>{openHighCount}</span>
+          <span style={{ ...styles.statValue, color: "#2563eb" }}>{openHighCount}</span>
         </div>
         <div style={styles.statChip}>
           <span style={styles.statLabel}>RETESTS</span>
-          <span style={{ ...styles.statValue, color: "#2563eb" }}>{retestCount}</span>
+          <span style={{ ...styles.statValue, color: "#16a34a" }}>{retestCount}</span>
         </div>
         <div style={styles.statChip}>
           <span style={styles.statLabel}>PENDING</span>
@@ -148,8 +153,8 @@ export default function OpenHighPage() {
         </div>
         <div style={styles.legend}>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Open=High</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Retest</span>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High</span>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Retest</span>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>
         </div>
         {data?.updatedAt && (
@@ -199,8 +204,8 @@ export default function OpenHighPage() {
                     <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
                     <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_low)}</td>
                     <td style={{ ...styles.cell, ...styles.ltpCell, ...ceStyle }}>{fmt(r.CE_ltp)}</td>
-                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.CE_status, r.CE_broke) }}>
-                      {hitLabel(r.CE_status, r.CE_broke)}
+                    <td style={styles.cellCenter}>
+                      <Badge status={r.CE_status} broke={r.CE_broke} />
                     </td>
                     <td style={styles.cellCenterMuted}>{fmtTime(r.CE_hitAt)}</td>
 
@@ -210,8 +215,8 @@ export default function OpenHighPage() {
                     </td>
 
                     <td style={styles.cellCenterMuted}>{fmtTime(r.PE_hitAt)}</td>
-                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.PE_status, r.PE_broke) }}>
-                      {hitLabel(r.PE_status, r.PE_broke)}
+                    <td style={styles.cellCenter}>
+                      <Badge status={r.PE_status} broke={r.PE_broke} />
                     </td>
                     <td style={{ ...styles.cell, ...styles.ltpCell, ...peStyle }}>{fmt(r.PE_ltp)}</td>
                     <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_low)}</td>
@@ -235,7 +240,7 @@ const styles = {
   page: { minHeight: "100vh", background: "#f7f8fa", color: "#1a1d23", fontFamily: "'Inter', system-ui, sans-serif", padding: "28px 32px" },
   header: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 20 },
   title: { fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: -0.5, color: "#111318" },
-  titleAccent: { color: "#16a34a" },
+  titleAccent: { color: "#2563eb" },
   subtitle: { margin: "4px 0 0", color: "#6b7280", fontSize: 13 },
   controls: { display: "flex", gap: 10, alignItems: "center" },
   select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
@@ -261,18 +266,29 @@ const styles = {
   subHeadCenter: { padding: "8px 10px", color: "#9ca3af", fontSize: 11, fontWeight: 600, textAlign: "center", borderBottom: "1px solid #e5e7eb" },
   subHeadStrike: { borderBottom: "1px solid #e5e7eb", background: "#f3f4f6" },
   cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #f1f2f4", color: "#374151" },
-  cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4", fontWeight: 700, fontSize: 12 },
+  cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4" },
   cellCenterMuted: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4", color: "#9ca3af", fontSize: 11 },
   ltpCell: { fontWeight: 600 },
   itmCellCE: { background: "rgba(22, 163, 74, 0.08)", color: "#166534" },
   itmCellPE: { background: "rgba(220, 38, 38, 0.08)", color: "#991b1b" },
-  matchCellCE: { background: "rgba(22, 163, 74, 0.22)", color: "#15803d", fontWeight: 700 },
-  matchCellPE: { background: "rgba(220, 38, 38, 0.22)", color: "#b91c1c", fontWeight: 700 },
-  retestCell: { background: "rgba(37, 99, 235, 0.16)", color: "#2563eb", fontWeight: 700 },
-  hitTextGreen: { color: "#16a34a" },
-  hitTextBlue: { color: "#2563eb" },
-  hitTextPending: { color: "#d97706" },
-  hitTextNone: { color: "#d1d5db" },
+  matchCellBlue: { background: "rgba(37, 99, 235, 0.18)", color: "#1d4ed8", fontWeight: 700 },
+  matchCellGreen: { background: "rgba(22, 163, 74, 0.22)", color: "#15803d", fontWeight: 700 },
+  badge: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 5,
+    padding: "3px 9px",
+    borderRadius: 999,
+    fontSize: 10.5,
+    fontWeight: 700,
+    letterSpacing: 0.3,
+    lineHeight: 1.4,
+  },
+  badgeDot: { width: 6, height: 6, borderRadius: "50%" },
+  badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },
+  badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },
+  badgeAmber: { background: "#fef3c7", color: "#b45309", dotColor: "#d97706" },
+  badgeMuted: { background: "transparent", color: "#c1c5cc", fontWeight: 600 },
   strikeCell: { padding: "9px 10px", textAlign: "center", fontWeight: 700, background: "#f9fafb", borderBottom: "1px solid #f1f2f4", borderLeft: "1px solid #e5e7eb", borderRight: "1px solid #e5e7eb", whiteSpace: "nowrap", color: "#1a1d23" },
   atmStrikeCell: { background: "rgba(234, 179, 8, 0.18)", color: "#92620a" },
   atmBadge: { marginLeft: 6, fontSize: 9, fontWeight: 700, color: "#ffffff", background: "#eab308", borderRadius: 4, padding: "1px 5px", verticalAlign: "middle" },

@@ -1,623 +1,298 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
-const POLL_MS = 5000;
-const INDICES = ["NIFTY", "BANKNIFTY", "SENSEX"];
+const INDEXES = [
+  { key: "NIFTY", label: "NIFTY" },
+  { key: "BANKNIFTY", label: "BANK NIFTY" },
+  { key: "SENSEX", label: "SENSEX" },
+];
+
+const REFRESH_MS = 5000;
+
+function fmt(v) {
+  return v === null || v === undefined ? "—" : v;
+}
+
+function cellStyle(isMatch, isItm, side) {
+  if (isMatch) {
+    return side === "CE" ? styles.matchCellCE : styles.matchCellPE;
+  }
+  if (isItm) {
+    return side === "CE" ? styles.itmCellCE : styles.itmCellPE;
+  }
+  return null;
+}
 
 export default function OpenHighPage() {
-  const [selected, setSelected] = useState("NIFTY");
-  const [payload, setPayload] = useState(null);
+  const [index, setIndex] = useState("NIFTY");
+  const [expiry, setExpiry] = useState(null);
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
-  const fetchData = useCallback(async (index) => {
+  const load = useCallback(async () => {
     try {
-      const res = await fetch(`/api/open-high?index=${index}`);
+      const params = new URLSearchParams({ index });
+      if (expiry) params.set("expiry", expiry);
+      const res = await fetch(`/api/open-high?${params.toString()}`);
       const json = await res.json();
-
       if (!res.ok) {
-        setError(json.error || "Failed to fetch");
-      } else {
-        setPayload(json.data?.[0] || null);
-        setError(null);
+        setError(json.message || json.error || "Failed to load");
+        return;
       }
+      setError(null);
+      setData(json);
+      if (!expiry) setExpiry(json.expiry);
     } catch (e) {
       setError(e.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [index, expiry]);
 
   useEffect(() => {
     setLoading(true);
-    fetchData(selected);
-    const timer = setInterval(() => fetchData(selected), POLL_MS);
-    return () => clearInterval(timer);
-  }, [selected, fetchData]);
+    load();
+    const id = setInterval(load, REFRESH_MS);
+    return () => clearInterval(id);
+  }, [load]);
 
-  const rows = payload?.rows ?? [];
-  const hitCount = rows.filter((r) => r.openRetest === "Hit" || r.highRetest === "Hit").length;
+  const atmStrike = useMemo(() => {
+    if (!data?.spot || !data.rows.length) return null;
+    return data.rows.reduce((closest, r) =>
+      Math.abs(r.strike - data.spot) < Math.abs(closest - data.spot) ? r.strike : closest,
+    data.rows[0].strike);
+  }, [data]);
 
-  const byStrike = useMemo(() => {
-    const map = new Map();
-    for (const r of rows) {
-      if (!map.has(r.strike)) map.set(r.strike, {});
-      map.get(r.strike)[r.type] = r;
-    }
-    return map;
-  }, [rows]);
+  const visibleRows = useMemo(() => {
+    if (!data) return [];
+    if (showAll) return data.rows;
+    return data.rows.filter((r) => r.CE_openHighMatch || r.PE_openHighMatch);
+  }, [data, showAll]);
 
-  const strikes = useMemo(() => [...new Set(rows.map((r) => r.strike))].sort((a, b) => a - b), [rows]);
+  const matchCount = data ? data.rows.filter((r) => r.CE_openHighMatch || r.PE_openHighMatch).length : 0;
 
   return (
-    <div className="oh-root">
-      <style>{css}</style>
-
-      <div className="bg-blobs" />
-
-      <header className="oh-topbar">
+    <div style={styles.page}>
+      <div style={styles.header}>
         <div>
-          <span className="oh-eyebrow">Options Board</span>
-          <h1 className="oh-title">Open = High</h1>
-          <p className="oh-subtitle">Calls left, strike center, puts right.</p>
+          <h1 style={styles.title}>Open <span style={styles.titleAccent}>= High</span></h1>
+          <p style={styles.subtitle}>ATM ±10 strikes · haven't traded above their opening print</p>
         </div>
 
-        <div className="oh-actions">
-          <div className="oh-index-select">
-            <select value={selected} onChange={(e) => setSelected(e.target.value)} aria-label="Select index">
-              {INDICES.map((idx) => (
-                <option key={idx} value={idx}>
-                  {idx}
-                </option>
+        <div style={styles.controls}>
+          <select
+            value={index}
+            onChange={(e) => { setIndex(e.target.value); setExpiry(null); }}
+            style={styles.select}
+          >
+            {INDEXES.map((i) => (
+              <option key={i.key} value={i.key}>{i.label}</option>
+            ))}
+          </select>
+
+          {data?.expiries?.length > 0 && (
+            <select value={expiry || ""} onChange={(e) => setExpiry(e.target.value)} style={styles.select}>
+              {data.expiries.map((e) => (
+                <option key={e} value={e}>{e}</option>
               ))}
             </select>
-            <span className="oh-select-caret">▾</span>
-          </div>
+          )}
+
+          <button
+            onClick={() => setShowAll((s) => !s)}
+            style={{ ...styles.toggle, ...(showAll ? styles.toggleActive : {}) }}
+          >
+            {showAll ? "Showing All" : "Matches Only"}
+          </button>
         </div>
-      </header>
+      </div>
 
-      {payload && (
-        <section className="kpi-grid">
-          <div className="kpi-card kpi-blue">
-            <span className="kpi-label">Spot</span>
-            <span className="kpi-value">{payload.spot?.toFixed(2)}</span>
+      <div style={styles.statsBar}>
+        {data?.spot != null && (
+          <div style={styles.statChip}>
+            <span style={styles.statLabel}>SPOT</span>
+            <span style={styles.statValue}>{data.spot}</span>
           </div>
-          <div className="kpi-card">
-            <span className="kpi-label">ATM</span>
-            <span className="kpi-value">{payload.atm}</span>
+        )}
+        <div style={styles.statChip}>
+          <span style={styles.statLabel}>MATCHES</span>
+          <span style={{ ...styles.statValue, color: "#4ade80" }}>{matchCount}</span>
+        </div>
+        <div style={styles.statChip}>
+          <span style={styles.statLabel}>EXPIRY</span>
+          <span style={styles.statValue}>{data?.expiry || "—"}</span>
+        </div>
+        <div style={styles.legend}>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#facc15" }} /> ATM</span>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "rgba(74,222,128,0.35)" }} /> CALL ITM</span>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "rgba(248,113,113,0.35)" }} /> PUT ITM</span>
+        </div>
+        {data?.updatedAt && (
+          <div style={styles.liveDot}>
+            <span style={styles.pulseDot} />
+            {new Date(data.updatedAt).toLocaleTimeString()}
           </div>
-          <div className="kpi-card">
-            <span className="kpi-label">Expiry</span>
-            <span className="kpi-value">{payload.expiry}</span>
-          </div>
-          <div className="kpi-card kpi-green">
-            <span className="kpi-label">Retested</span>
-            <span className="kpi-value">{hitCount} / {rows.length}</span>
-          </div>
-          <div className="kpi-live">
-            <span className={`pulse-dot ${loading ? "pulse-off" : ""}`} />
-            <span>{loading ? "updating…" : "live"}</span>
-          </div>
-        </section>
-      )}
+        )}
+      </div>
 
-      {error && <div className="error-box">{error}</div>}
+      {error && <div style={styles.errorBox}>{error}</div>}
+      {loading && !data && <div style={styles.loading}>Loading…</div>}
 
-      {!error && payload && (
-        <section className="table-shell">
-          <div className="table-head">
-            <div>Calls</div>
-            <div>Strike</div>
-            <div>Puts</div>
-          </div>
-
-          <div className="table-scroll">
-            <div className="oc-table">
-              {strikes.map((strike) => {
-                const ce = byStrike.get(strike)?.CE;
-                const pe = byStrike.get(strike)?.PE;
-                const isAtm = strike === payload.atm;
-
+      {data && (
+        <div style={styles.tableWrap}>
+          <table style={styles.table}>
+            <thead>
+              <tr>
+                <th colSpan={4} style={styles.groupHeadCE}>CALL</th>
+                <th style={styles.strikeHeadCol}>STRIKE</th>
+                <th colSpan={4} style={styles.groupHeadPE}>PUT</th>
+              </tr>
+              <tr>
+                <th style={styles.subHead}>Open</th>
+                <th style={styles.subHead}>High</th>
+                <th style={styles.subHead}>Low</th>
+                <th style={styles.subHead}>LTP</th>
+                <th style={styles.subHeadStrike}></th>
+                <th style={styles.subHead}>Open</th>
+                <th style={styles.subHead}>High</th>
+                <th style={styles.subHead}>Low</th>
+                <th style={styles.subHead}>LTP</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visibleRows.map((r) => {
+                const isAtm = r.strike === atmStrike;
+                const ceStyle = cellStyle(r.CE_openHighMatch, r.CE_itm, "CE");
+                const peStyle = cellStyle(r.PE_openHighMatch, r.PE_itm, "PE");
                 return (
-                  <div key={strike} className={`oc-row ${isAtm ? "oc-atm" : ""}`}>
-                    <div className="oc-side oc-left">
-                      {ce ? (
-                        <OptionCell option={ce} atm={payload.atm} side="CE" strike={strike} />
-                      ) : (
-                        <span className="empty">—</span>
-                      )}
-                    </div>
-
-                    <div className={`oc-center ${isAtm ? "oc-center-atm" : ""}`}>
-                      <div className="strike-pill">{strike}</div>
-                      {isAtm && <div className="atm-chip">ATM</div>}
-                    </div>
-
-                    <div className="oc-side oc-right">
-                      {pe ? (
-                        <OptionCell option={pe} atm={payload.atm} side="PE" strike={strike} />
-                      ) : (
-                        <span className="empty">—</span>
-                      )}
-                    </div>
-                  </div>
+                  <tr key={r.strike}>
+                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_open)}</td>
+                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
+                    <td style={{ ...styles.cell, ...(r.CE_itm ? styles.itmCellCE : null) }}>{fmt(r.CE_low)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell, ...(r.CE_itm ? styles.itmCellCE : null) }}>{fmt(r.CE_ltp)}</td>
+                    <td style={{ ...styles.strikeCell, ...(isAtm ? styles.atmStrikeCell : null) }}>
+                      {r.strike}
+                      {isAtm && <span style={styles.atmBadge}>ATM</span>}
+                    </td>
+                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_open)}</td>
+                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_high)}</td>
+                    <td style={{ ...styles.cell, ...(r.PE_itm ? styles.itmCellPE : null) }}>{fmt(r.PE_low)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell, ...(r.PE_itm ? styles.itmCellPE : null) }}>{fmt(r.PE_ltp)}</td>
+                  </tr>
                 );
               })}
-            </div>
-          </div>
-        </section>
+              {visibleRows.length === 0 && (
+                <tr>
+                  <td colSpan={9} style={styles.emptyRow}>No strikes currently match Open = High.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
-
-      {!payload && !error && <div className="loading-box">Loading {selected}…</div>}
     </div>
   );
 }
 
-function OptionCell({ option, atm, side, strike }) {
-  const itm = side === "CE" ? strike < atm : strike > atm;
-
-  return (
-    <div className="opt-card">
-      <div className="opt-top">
-        <span className={`side-badge ${itm ? "itm" : "otm"}`}>{itm ? "ITM" : "OTM"}</span>
-        <span className={`type-badge ${side === "CE" ? "ce" : "pe"}`}>{side}</span>
-      </div>
-
-      <div className="opt-metrics">
-        <div>
-          <span>Open</span>
-          <strong>{option.open}</strong>
-        </div>
-        <div>
-          <span>High</span>
-          <strong>{option.high}</strong>
-        </div>
-        <div>
-          <span>Low</span>
-          <strong>{option.low}</strong>
-        </div>
-        <div>
-          <span>LTP</span>
-          <strong className="ltp">{option.ltp}</strong>
-        </div>
-      </div>
-
-      <div className="opt-badges">
-        <span className={`status-pill ${option.openRetest === "Hit" ? "hit" : ""}`}>
-          Open {option.openRetest}
-        </span>
-        <span className={`status-pill ${option.highRetest === "Hit" ? "hit" : ""}`}>
-          High {option.highRetest}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-const css = `
-.oh-root {
-  --bg: #f5f8ff;
-  --panel: rgba(255,255,255,0.88);
-  --panel-strong: #ffffff;
-  --line: #dbe3f0;
-  --line-strong: #c9d4e5;
-  --text: #102033;
-  --muted: #6b7a90;
-  --accent: #2f5de0;
-  --accent-soft: rgba(47,93,224,0.08);
-  --green: #16a34a;
-  --green-soft: rgba(22,163,74,0.12);
-  --ce: #0e9f6e;
-  --pe: #e4572e;
-  --ce-soft: rgba(14,159,110,0.12);
-  --pe-soft: rgba(228,87,46,0.12);
-
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  padding: 26px 30px 40px;
-  background:
-    radial-gradient(circle at top left, rgba(79,124,255,0.10), transparent 28%),
-    radial-gradient(circle at top right, rgba(22,163,74,0.08), transparent 24%),
-    linear-gradient(180deg, #f7f9ff 0%, #eef4ff 100%);
-  color: var(--text);
-  font-family: ui-sans-serif, "Inter", system-ui, -apple-system, sans-serif;
-}
-
-.bg-blobs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(79,124,255,0.12), transparent 18%),
-    radial-gradient(circle at 80% 12%, rgba(168,85,247,0.08), transparent 18%);
-  filter: blur(18px);
-  opacity: 0.9;
-}
-
-.oh-topbar {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 18px 20px;
-  margin-bottom: 18px;
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.78);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  box-shadow: 0 14px 34px rgba(16, 24, 40, 0.08);
-}
-
-.oh-eyebrow {
-  display: inline-block;
-  margin-bottom: 8px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.oh-title {
-  margin: 0;
-  font-size: 30px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
-
-.oh-subtitle {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.oh-index-select {
-  position: relative;
-}
-
-.oh-index-select select {
-  appearance: none;
-  min-width: 170px;
-  padding: 11px 42px 11px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
-  box-shadow: 0 10px 22px rgba(16,24,40,0.05);
-  cursor: pointer;
-}
-
-.oh-select-caret {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  pointer-events: none;
-  font-size: 12px;
-}
-
-.kpi-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
-  gap: 14px;
-  margin-bottom: 18px;
-}
-
-.kpi-card, .kpi-live {
-  border: 1px solid rgba(255,255,255,0.9);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.9);
-  box-shadow: 0 10px 28px rgba(16,24,40,0.06);
-}
-
-.kpi-card {
-  padding: 16px 18px;
-}
-
-.kpi-blue {
-  background: linear-gradient(135deg, rgba(79,124,255,0.10), rgba(255,255,255,0.92));
-}
-
-.kpi-green {
-  background: linear-gradient(135deg, rgba(22,163,74,0.10), rgba(255,255,255,0.92));
-}
-
-.kpi-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.kpi-value {
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--text);
-}
-
-.kpi-live {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 16px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--green);
-  box-shadow: 0 0 0 0 rgba(22,163,74,0.45);
-  animation: pulse 1.6s infinite;
-}
-
-.pulse-off {
-  animation: none;
-  background: var(--muted);
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.45); }
-  70% { box-shadow: 0 0 0 8px rgba(22,163,74,0); }
-  100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
-}
-
-.table-shell {
-  position: relative;
-  z-index: 1;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 16px 38px rgba(16,24,40,0.08);
-}
-
-.table-head {
-  display: grid;
-  grid-template-columns: 1fr 120px 1fr;
-  gap: 12px;
-  padding: 14px 18px;
-  background: linear-gradient(180deg, #ffffff, #f7faff);
-  border-bottom: 1px solid var(--line);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #6a7688;
-}
-
-.table-head div:nth-child(2) { text-align: center; }
-.table-head div:nth-child(3) { text-align: right; }
-
-.table-scroll {
-  overflow: auto;
-  max-height: 74vh;
-}
-
-.oc-table {
-  min-width: 1100px;
-}
-
-.oc-row {
-  display: grid;
-  grid-template-columns: 1fr 120px 1fr;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid #edf2f7;
-  transition: background 0.18s ease;
-}
-
-.oc-row:hover {
-  background: rgba(47,93,224,0.04);
-}
-
-.oc-atm {
-  background: linear-gradient(90deg, rgba(47,93,224,0.10), rgba(47,93,224,0.04));
-}
-
-.oc-side {
-  display: flex;
-  align-items: center;
-  min-height: 70px;
-}
-
-.oc-left { justify-content: flex-start; }
-.oc-right { justify-content: flex-end; }
-
-.oc-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-
-.strike-pill {
-  min-width: 92px;
-  text-align: center;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: #0f172a;
-  color: #fff;
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-  font-size: 15px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-}
-
-.oc-center-atm .strike-pill {
-  background: linear-gradient(135deg, #2f5de0, #1f4bd6);
-}
-
-.atm-chip {
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.opt-card {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, #ffffff, #fbfcff);
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 20px rgba(16,24,40,0.04);
-}
-
-.opt-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.side-badge,
-.type-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-}
-
-.side-badge.itm {
-  color: var(--ce);
-  background: var(--ce-soft);
-}
-
-.side-badge.otm {
-  color: var(--pe);
-  background: var(--pe-soft);
-}
-
-.type-badge.ce {
-  color: var(--ce);
-  background: rgba(14,159,110,0.08);
-}
-
-.type-badge.pe {
-  color: var(--pe);
-  background: rgba(228,87,46,0.08);
-}
-
-.opt-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.opt-metrics div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.opt-metrics span {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.opt-metrics strong {
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.opt-metrics strong.ltp {
-  color: var(--accent);
-}
-
-.opt-badges {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-  color: #607089;
-  background: #eef3fb;
-}
-
-.status-pill.hit {
-  color: var(--green);
-  background: var(--green-soft);
-}
-
-.empty {
-  color: rgba(107,122,144,0.5);
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.error-box,
-.loading-box {
-  position: relative;
-  z-index: 1;
-  margin-top: 16px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.9);
-  color: var(--muted);
-  box-shadow: 0 10px 22px rgba(16,24,40,0.05);
-}
-
-.error-box {
-  border-color: rgba(228,87,46,0.18);
-  color: #b8391a;
-  background: rgba(255,245,242,0.95);
-}
-
-@media (max-width: 900px) {
-  .oh-root {
-    padding: 18px;
-  }
-
-  .kpi-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .kpi-live {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-    padding: 14px 16px;
-  }
-
-  .oc-table {
-    min-width: 950px;
-  }
-}
-`;
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#0b0e14",
+    color: "#e6e9ef",
+    fontFamily: "'Inter', system-ui, sans-serif",
+    padding: "28px 32px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexWrap: "wrap",
+    gap: 16,
+    marginBottom: 20,
+  },
+  title: { fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: -0.5 },
+  titleAccent: { color: "#4ade80" },
+  subtitle: { margin: "4px 0 0", color: "#8b93a7", fontSize: 13 },
+  controls: { display: "flex", gap: 10, alignItems: "center" },
+  select: {
+    background: "#161b26",
+    color: "#e6e9ef",
+    border: "1px solid #262d3d",
+    borderRadius: 8,
+    padding: "8px 12px",
+    fontSize: 13,
+    outline: "none",
+  },
+  toggle: {
+    background: "#161b26",
+    color: "#8b93a7",
+    border: "1px solid #262d3d",
+    borderRadius: 8,
+    padding: "8px 14px",
+    fontSize: 13,
+    fontWeight: 600,
+    cursor: "pointer",
+  },
+  toggleActive: { background: "#1c2333", color: "#e6e9ef", borderColor: "#3b4356" },
+  statsBar: { display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" },
+  statChip: {
+    background: "#12161f",
+    border: "1px solid #1f2532",
+    borderRadius: 10,
+    padding: "8px 14px",
+    display: "flex",
+    flexDirection: "column",
+    gap: 2,
+    minWidth: 90,
+  },
+  statLabel: { fontSize: 10, letterSpacing: 1, color: "#5b6377" },
+  statValue: { fontSize: 16, fontWeight: 700, fontVariantNumeric: "tabular-nums" },
+  legend: { display: "flex", gap: 14, marginLeft: 8 },
+  legendItem: { display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#8b93a7" },
+  swatch: { width: 10, height: 10, borderRadius: 3, display: "inline-block" },
+  liveDot: { marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#8b93a7" },
+  pulseDot: { width: 8, height: 8, borderRadius: "50%", background: "#4ade80" },
+  errorBox: {
+    background: "#2a1418", border: "1px solid #5c2530", color: "#f87171",
+    borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontSize: 13,
+  },
+  loading: { color: "#8b93a7", fontSize: 14 },
+  tableWrap: { background: "#0f131c", border: "1px solid #1f2532", borderRadius: 14, overflow: "hidden" },
+  table: { width: "100%", borderCollapse: "collapse", fontSize: 13, fontVariantNumeric: "tabular-nums" },
+  groupHeadCE: {
+    background: "linear-gradient(90deg, #123324, #0f131c)", color: "#4ade80",
+    padding: "10px 0", fontSize: 12, fontWeight: 700, letterSpacing: 1,
+    textAlign: "center", borderBottom: "1px solid #1f2532",
+  },
+  groupHeadPE: {
+    background: "linear-gradient(270deg, #331217, #0f131c)", color: "#f87171",
+    padding: "10px 0", fontSize: 12, fontWeight: 700, letterSpacing: 1,
+    textAlign: "center", borderBottom: "1px solid #1f2532",
+  },
+  strikeHeadCol: { background: "#161b26", borderBottom: "1px solid #1f2532" },
+  subHead: {
+    padding: "8px 10px", color: "#5b6377", fontSize: 11, fontWeight: 600,
+    textAlign: "right", borderBottom: "1px solid #1f2532",
+  },
+  subHeadStrike: { borderBottom: "1px solid #1f2532", background: "#161b26" },
+  cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #171c27", color: "#c3c9d6" },
+  ltpCell: { fontWeight: 600 },
+  itmCellCE: { background: "rgba(74, 222, 128, 0.10)", color: "#bff2cf" },
+  itmCellPE: { background: "rgba(248, 113, 113, 0.10)", color: "#f9c9c9" },
+  matchCellCE: { background: "rgba(74, 222, 128, 0.28)", color: "#4ade80", fontWeight: 700 },
+  matchCellPE: { background: "rgba(248, 113, 113, 0.28)", color: "#f87171", fontWeight: 700 },
+  strikeCell: {
+    padding: "9px 10px", textAlign: "center", fontWeight: 700, background: "#12161f",
+    borderBottom: "1px solid #171c27", borderLeft: "1px solid #1f2532", borderRight: "1px solid #1f2532",
+    whiteSpace: "nowrap",
+  },
+  atmStrikeCell: { background: "rgba(250, 204, 21, 0.18)", color: "#facc15" },
+  atmBadge: {
+    marginLeft: 6, fontSize: 9, fontWeight: 700, color: "#0b0e14", background: "#facc15",
+    borderRadius: 4, padding: "1px 5px", verticalAlign: "middle",
+  },
+  emptyRow: { textAlign: "center", padding: "28px 0", color: "#5b6377", fontSize: 13 },
+};

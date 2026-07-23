@@ -1,188 +1,152 @@
-// app/api/open-high/route.js
-//
-// GET /api/open-high            -> all 3 indices
-// GET /api/open-high?index=NIFTY -> single index
-//
-// Retest state (Open/High hit-again flags) is persisted to SQLite via
-// lib/openHighRetestStore.js, so it survives a server restart. An
-// in-memory Map is kept as an L1 cache within a warm process so we're
-// not hitting SQLite on every single poll tick.
-
 import { NextResponse } from "next/server";
-import { newClient } from "@/lib/kite";
-import { getStoredAccessToken } from "@/lib/kiteTokenStore";
-import { getRetestState, saveRetestState } from "@/lib/openHighRetestStore";
+import { cookies } from "next/headers";
+import { newClient } from "../../../lib/kite";
+
+const INSTRUMENTS_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+const STRIKES_EACH_SIDE = 10;
 
 const INDEX_CONFIG = {
-  NIFTY: { spot: "NSE:NIFTY 50", interval: 50, exchange: "NFO", name: "NIFTY" },
-  BANKNIFTY: { spot: "NSE:NIFTY BANK", interval: 100, exchange: "NFO", name: "BANKNIFTY" },
-  SENSEX: { spot: "BSE:SENSEX", interval: 100, exchange: "BFO", name: "SENSEX" },
+  NIFTY: { label: "NIFTY", exchange: "NFO", name: "NIFTY", spotSymbol: "NSE:NIFTY 50" },
+  BANKNIFTY: { label: "BANK NIFTY", exchange: "NFO", name: "BANKNIFTY", spotSymbol: "NSE:NIFTY BANK" },
+  SENSEX: { label: "SENSEX", exchange: "BFO", name: "SENSEX", spotSymbol: "BSE:SENSEX" },
 };
 
-const STRIKE_RANGE = 10; // ATM-10 to ATM+10
+let instrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {data, fetchedAt} }
 
-const globalState = globalThis;
-if (!globalState.__openHighInstrumentCache) globalState.__openHighInstrumentCache = { date: null, byExchange: {} };
-if (!globalState.__openHighRetestCache) globalState.__openHighRetestCache = new Map();
-const instrumentCache = globalState.__openHighInstrumentCache;
-const retestCache = globalState.__openHighRetestCache; // L1 cache, backed by SQLite
-
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+async function getCachedExchangeInstruments(kc, exchange) {
+  const now = Date.now();
+  const cached = instrumentsCache[exchange];
+  if (cached && now - cached.fetchedAt < INSTRUMENTS_TTL_MS) {
+    return cached.data;
+  }
+  const data = await kc.getInstruments(exchange);
+  instrumentsCache[exchange] = { data, fetchedAt: now };
+  return data;
 }
 
-async function getInstrumentsCached(kc, exchange) {
-  const today = todayKey();
-  if (instrumentCache.date !== today) {
-    instrumentCache.date = today;
-    instrumentCache.byExchange = {};
-  }
-  if (!instrumentCache.byExchange[exchange]) {
-    instrumentCache.byExchange[exchange] = await kc.getInstruments([exchange]);
-  }
-  return instrumentCache.byExchange[exchange];
+async function getIndexOptionInstruments(kc, indexKey) {
+  const cfg = INDEX_CONFIG[indexKey];
+  const all = await getCachedExchangeInstruments(kc, cfg.exchange);
+  return all.filter(
+    (i) => i.name === cfg.name && (i.instrument_type === "CE" || i.instrument_type === "PE")
+  );
 }
 
-function getAtmStrike(spot, interval) {
-  return Math.round(spot / interval) * interval;
+function toDateStr(d) {
+  return new Date(d).toISOString().slice(0, 10);
 }
 
-function loadState(key) {
-  const cacheKey = `${todayKey()}:${key}`;
-  let st = retestCache.get(cacheKey);
-  if (st) return st;
-
-  st = getRetestState(key) || {
-    movedFromOpen: false, openHit: false,
-    lastHigh: null, movedFromHigh: false, highHit: false,
-  };
-  retestCache.set(cacheKey, st);
-  return st;
-}
-
-function updateRetestState(key, o, h, ltp) {
-  const st = loadState(key);
-
-  if (!st.movedFromOpen) {
-    if (ltp !== o) st.movedFromOpen = true;
-  } else if (ltp === o) {
-    st.openHit = true;
-  }
-
-  if (st.lastHigh !== h) {
-    st.lastHigh = h;
-    st.movedFromHigh = false;
-  } else if (ltp < h) {
-    st.movedFromHigh = true;
-  } else if (ltp === h && st.movedFromHigh) {
-    st.highHit = true;
-  }
-
-  saveRetestState(key, st); // write-through to SQLite
-
-  return { openHit: st.openHit, highHit: st.highHit };
-}
-
-function getNearestExpiry(instruments, name) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const expiries = [...new Set(
-    instruments
-      .filter((i) => i.name === name && (i.instrument_type === "CE" || i.instrument_type === "PE"))
-      .map((i) => i.expiry)
-  )].sort((a, b) => new Date(a) - new Date(b));
-
-  const future = expiries.filter((e) => new Date(e) >= today);
-  return future.length ? future[0] : expiries[expiries.length - 1];
-}
-
-async function fetchIndexData(kc, indexName) {
-  const cfg = INDEX_CONFIG[indexName];
-  const instruments = await getInstrumentsCached(kc, cfg.exchange);
-
-  const spotData = await kc.getLTP([cfg.spot]);
-  const spotPrice = spotData[cfg.spot].last_price;
-  const atm = getAtmStrike(spotPrice, cfg.interval);
-
-  const strikes = [];
-  for (let i = -STRIKE_RANGE; i <= STRIKE_RANGE; i++) strikes.push(atm + i * cfg.interval);
-
-  const expiry = getNearestExpiry(instruments, cfg.name);
-
-  const strikeMap = {};
-  for (const inst of instruments) {
-    if (inst.name === cfg.name && inst.expiry === expiry && strikes.includes(inst.strike)) {
-      strikeMap[inst.strike] = strikeMap[inst.strike] || {};
-      strikeMap[inst.strike][inst.instrument_type] = inst.tradingsymbol;
-    }
-  }
-
-  const quoteKeys = [];
-  for (const strike of strikes) {
-    const syms = strikeMap[strike] || {};
-    if (syms.CE) quoteKeys.push(`${cfg.exchange}:${syms.CE}`);
-    if (syms.PE) quoteKeys.push(`${cfg.exchange}:${syms.PE}`);
-  }
-
-  const quotes = quoteKeys.length ? await kc.getQuote(quoteKeys) : {};
-
-  const rows = [];
-  for (const strike of strikes) {
-    const syms = strikeMap[strike] || {};
-    for (const optType of ["CE", "PE"]) {
-      const ts = syms[optType];
-      if (!ts) continue;
-      const key = `${cfg.exchange}:${ts}`;
-      const q = quotes[key];
-      if (!q) continue;
-
-      const o = q.ohlc.open;
-      const h = q.ohlc.high;
-      const l = q.ohlc.low;
-      const ltp = q.last_price;
-      const { openHit, highHit } = updateRetestState(key, o, h, ltp);
-
-      rows.push({
-        strike,
-        type: optType,
-        symbol: ts,
-        open: o,
-        high: h,
-        low: l,
-        ltp,
-        openRetest: openHit ? "Hit" : "Not Hit",
-        highRetest: highHit ? "Hit" : "Not Hit",
-      });
-    }
-  }
-
-  return { index: indexName, spot: spotPrice, atm, expiry, rows };
+function batch(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
 }
 
 export async function GET(request) {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("kite_access_token")?.value;
+
+  if (!accessToken) {
+    return NextResponse.json({ error: "not_connected" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const requestedExpiry = searchParams.get("expiry");
+  const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
+
+  if (!INDEX_CONFIG[indexKey]) {
+    return NextResponse.json(
+      { error: "bad_request", message: `Unknown index "${indexKey}". Valid: ${Object.keys(INDEX_CONFIG).join(", ")}` },
+      { status: 400 }
+    );
+  }
+  const cfg = INDEX_CONFIG[indexKey];
+  const kc = newClient(accessToken);
+
   try {
-    const accessToken = getStoredAccessToken();
-    if (!accessToken) {
-      return NextResponse.json({ error: "Not authenticated with Kite. Log in first." }, { status: 401 });
-    }
-    const kc = newClient(accessToken);
+    const indexOptions = await getIndexOptionInstruments(kc, indexKey);
 
-    const { searchParams } = new URL(request.url);
-    const indexParam = searchParams.get("index");
-    const indices = indexParam ? [indexParam.toUpperCase()] : Object.keys(INDEX_CONFIG);
+    const expiries = Array.from(new Set(indexOptions.map((i) => toDateStr(i.expiry)))).sort(
+      (a, b) => new Date(a) - new Date(b)
+    );
 
-    for (const idx of indices) {
-      if (!INDEX_CONFIG[idx]) {
-        return NextResponse.json({ error: `Unknown index: ${idx}` }, { status: 400 });
+    const expiry = requestedExpiry || expiries[0];
+
+    const chainOpts = indexOptions.filter((i) => toDateStr(i.expiry) === expiry);
+    const uniqueStrikes = Array.from(new Set(chainOpts.map((i) => i.strike))).sort((a, b) => a - b);
+
+    // Spot fetched on its own first so we know the ATM window before pulling option quotes.
+    const spotQuote = await kc.getQuote([cfg.spotSymbol]);
+    const spot = spotQuote[cfg.spotSymbol]?.last_price ?? null;
+
+    let atmIndex = 0;
+    let atmDist = Infinity;
+    uniqueStrikes.forEach((s, idx) => {
+      const d = Math.abs(s - (spot ?? s));
+      if (d < atmDist) {
+        atmDist = d;
+        atmIndex = idx;
       }
+    });
+    const startIdx = Math.max(0, atmIndex - STRIKES_EACH_SIDE);
+    const endIdx = Math.min(uniqueStrikes.length, atmIndex + STRIKES_EACH_SIDE + 1);
+    const nearStrikes = new Set(uniqueStrikes.slice(startIdx, endIdx));
+
+    const nearOpts = chainOpts.filter((o) => nearStrikes.has(o.strike));
+    const symbolToOpt = {};
+    for (const opt of nearOpts) {
+      symbolToOpt[`${cfg.exchange}:${opt.tradingsymbol}`] = opt;
     }
 
-    const results = await Promise.all(indices.map((idx) => fetchIndexData(kc, idx)));
+    const quoteBatches = batch(Object.keys(symbolToOpt), 400);
+    const quoteResults = await Promise.all(quoteBatches.map((b) => kc.getQuote(b)));
+    const quotes = Object.assign({}, ...quoteResults);
 
-    return NextResponse.json({ data: results, timestamp: new Date().toISOString() });
+    const rowsMap = {};
+    for (const [tsym, opt] of Object.entries(symbolToOpt)) {
+      const q = quotes[tsym] || {};
+      const strike = opt.strike;
+      const side = opt.instrument_type;
+      const open = q.ohlc?.open ?? null;
+      const high = q.ohlc?.high ?? null;
+
+      rowsMap[strike] = rowsMap[strike] || { strike };
+      rowsMap[strike][`${side}_open`] = open;
+      rowsMap[strike][`${side}_high`] = high;
+      rowsMap[strike][`${side}_low`] = q.ohlc?.low ?? null;
+      rowsMap[strike][`${side}_ltp`] = q.last_price ?? null;
+      rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
+      rowsMap[strike][`${side}_openHighMatch`] =
+        open !== null && high !== null && open === high;
+      // CALL is ITM when strike is below spot; PUT is ITM when strike is above spot.
+      rowsMap[strike][`${side}_itm`] =
+        spot !== null && (side === "CE" ? strike < spot : strike > spot);
+    }
+
+    const rows = Object.values(rowsMap).sort((a, b) => a.strike - b.strike);
+
+    return NextResponse.json({
+      index: indexKey,
+      label: cfg.label,
+      spot,
+      expiry,
+      expiries,
+      rows,
+      updatedAt: new Date().toISOString(),
+    });
   } catch (err) {
-    console.error("open-high error:", err);
-    return NextResponse.json({ error: err.message || "Failed to fetch strike data" }, { status: 500 });
+    console.error("[open-high] error:", err);
+    const message = err?.message || "Unknown error fetching open/high/low/ltp data";
+    const isAuthError = /token|session|forbidden/i.test(message);
+    const isRateLimit = /429|too many requests/i.test(message);
+    return NextResponse.json(
+      {
+        error: isAuthError ? "not_connected" : isRateLimit ? "rate_limited" : "fetch_failed",
+        message: isRateLimit ? "Kite API rate limit hit — try again in a moment." : message,
+      },
+      { status: isAuthError ? 401 : isRateLimit ? 429 : 500 }
+    );
   }
 }
+
+export const INDEX_KEYS = Object.keys(INDEX_CONFIG);

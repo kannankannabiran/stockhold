@@ -25,9 +25,19 @@ function cellStyle(status, isItm, side) {
   return null;
 }
 
-function hitTextStyle(status) {
+// Hit  = currently OPEN_HIGH or RETEST
+// Pending = broke above open today but hasn't retested/matched yet
+// —    = hasn't broken above open at all today
+function hitLabel(status, broke) {
+  if (status) return "Hit";
+  if (broke) return "Pending";
+  return "—";
+}
+
+function hitTextStyle(status, broke) {
   if (status === "OPEN_HIGH") return styles.hitTextGreen;
   if (status === "RETEST") return styles.hitTextBlue;
+  if (broke) return styles.hitTextPending;
   return styles.hitTextNone;
 }
 
@@ -73,7 +83,7 @@ export default function OpenHighPage() {
     data.rows[0].strike);
   }, [data]);
 
-  const rowMatches = (r) => r.CE_status || r.PE_status;
+  const rowMatches = (r) => r.CE_status || r.PE_status || r.CE_broke || r.PE_broke;
 
   const visibleRows = useMemo(() => {
     if (!data) return [];
@@ -83,13 +93,14 @@ export default function OpenHighPage() {
 
   const openHighCount = data ? data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length : 0;
   const retestCount = data ? data.rows.filter((r) => r.CE_status === "RETEST" || r.PE_status === "RETEST").length : 0;
+  const pendingCount = data ? data.rows.filter((r) => (r.CE_broke && !r.CE_status) || (r.PE_broke && !r.PE_status)).length : 0;
 
   return (
     <div style={styles.page}>
       <div style={styles.header}>
         <div>
           <h1 style={styles.title}>Open <span style={styles.titleAccent}>= High</span></h1>
-          <p style={styles.subtitle}>ATM ±10 strikes · morning open=high, plus retests after breakout</p>
+          <p style={styles.subtitle}>ATM ±10 strikes · Hit = open=high or retest · Pending = broke, awaiting retest</p>
         </div>
 
         <div style={styles.controls}>
@@ -128,6 +139,10 @@ export default function OpenHighPage() {
           <span style={{ ...styles.statValue, color: "#2563eb" }}>{retestCount}</span>
         </div>
         <div style={styles.statChip}>
+          <span style={styles.statLabel}>PENDING</span>
+          <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
+        </div>
+        <div style={styles.statChip}>
           <span style={styles.statLabel}>EXPIRY</span>
           <span style={styles.statValue}>{data?.expiry || "—"}</span>
         </div>
@@ -135,8 +150,7 @@ export default function OpenHighPage() {
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Open=High</span>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Retest</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "rgba(22,163,74,0.35)" }} /> CALL ITM</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "rgba(220,38,38,0.35)" }} /> PUT ITM</span>
+          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>
         </div>
         {data?.updatedAt && (
           <div style={styles.liveDot}>
@@ -185,8 +199,8 @@ export default function OpenHighPage() {
                     <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
                     <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_low)}</td>
                     <td style={{ ...styles.cell, ...styles.ltpCell, ...ceStyle }}>{fmt(r.CE_ltp)}</td>
-                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.CE_status) }}>
-                      {r.CE_status ? "Hit" : "—"}
+                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.CE_status, r.CE_broke) }}>
+                      {hitLabel(r.CE_status, r.CE_broke)}
                     </td>
                     <td style={styles.cellCenterMuted}>{fmtTime(r.CE_hitAt)}</td>
 
@@ -196,8 +210,8 @@ export default function OpenHighPage() {
                     </td>
 
                     <td style={styles.cellCenterMuted}>{fmtTime(r.PE_hitAt)}</td>
-                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.PE_status) }}>
-                      {r.PE_status ? "Hit" : "—"}
+                    <td style={{ ...styles.cellCenter, ...hitTextStyle(r.PE_status, r.PE_broke) }}>
+                      {hitLabel(r.PE_status, r.PE_broke)}
                     </td>
                     <td style={{ ...styles.cell, ...styles.ltpCell, ...peStyle }}>{fmt(r.PE_ltp)}</td>
                     <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_low)}</td>
@@ -207,7 +221,7 @@ export default function OpenHighPage() {
                 );
               })}
               {visibleRows.length === 0 && (
-                <tr><td colSpan={13} style={styles.emptyRow}>No strikes currently match Open=High or Retest.</td></tr>
+                <tr><td colSpan={13} style={styles.emptyRow}>No strikes currently Hit or Pending.</td></tr>
               )}
             </tbody>
           </table>
@@ -257,6 +271,7 @@ const styles = {
   retestCell: { background: "rgba(37, 99, 235, 0.16)", color: "#2563eb", fontWeight: 700 },
   hitTextGreen: { color: "#16a34a" },
   hitTextBlue: { color: "#2563eb" },
+  hitTextPending: { color: "#d97706" },
   hitTextNone: { color: "#d1d5db" },
   strikeCell: { padding: "9px 10px", textAlign: "center", fontWeight: 700, background: "#f9fafb", borderBottom: "1px solid #f1f2f4", borderLeft: "1px solid #e5e7eb", borderRight: "1px solid #e5e7eb", whiteSpace: "nowrap", color: "#1a1d23" },
   atmStrikeCell: { background: "rgba(234, 179, 8, 0.18)", color: "#92620a" },

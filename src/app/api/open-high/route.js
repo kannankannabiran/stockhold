@@ -13,10 +13,11 @@ const INDEX_CONFIG = {
 
 let instrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {data, fetchedAt} }
 
-// Per-symbol daily state: broke = has it ever traded above open; retested = has
-// it since come back down to touch open again; status/statusAt track the current
-// Hit type (OPEN_HIGH | RETEST | null) and the timestamp it last changed to that
-// value, so the UI can show "when" a strike was hit, not just "that" it was hit.
+// Per-symbol daily state:
+// broke     = has it ever traded above open today
+// retested  = after breaking, has it come back down to touch open again
+// status    = "OPEN_HIGH" | "RETEST" | null (current Hit condition)
+// statusAt  = timestamp status last changed to a non-null value
 let strikeStateCache = { dateKey: null, data: {} };
 
 async function getCachedExchangeInstruments(kc, exchange) {
@@ -74,8 +75,6 @@ function updateStrikeState(tsym, open, high, ltp) {
   const openHighMatch = open !== null && high !== null && open === high;
   const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
 
-  // Only stamp a new time when the status actually changes — so "Time" reflects
-  // the moment a strike was hit, not the moment of the latest poll.
   if (currentStatus !== s.status) {
     s.status = currentStatus;
     s.statusAt = currentStatus ? Date.now() : null;
@@ -162,6 +161,7 @@ export async function GET(request) {
       rowsMap[strike][`${side}_ltp`] = ltp;
       rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
       rowsMap[strike][`${side}_status`] = state.status; // "OPEN_HIGH" | "RETEST" | null
+      rowsMap[strike][`${side}_broke`] = state.broke; // has it ever broken above open today
       rowsMap[strike][`${side}_hitAt`] = state.statusAt ? new Date(state.statusAt).toISOString() : null;
       rowsMap[strike][`${side}_itm`] =
         spot !== null && (side === "CE" ? strike < spot : strike > spot);

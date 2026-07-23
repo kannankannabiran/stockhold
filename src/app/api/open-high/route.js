@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { newClient } from "../../../lib/kite";
+import db from "../../../lib/db";
 
 const INSTRUMENTS_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 const STRIKES_EACH_SIDE = 10;
@@ -11,13 +12,57 @@ const INDEX_CONFIG = {
   SENSEX: { label: "SENSEX", exchange: "BFO", name: "SENSEX", spotSymbol: "BSE:SENSEX" },
 };
 
+// Persisted "hit" log — only confirmed OPEN_HIGH / RETEST events, one row per
+// (date, symbol, status). Pending is a live-only state and never lands here.
+db.exec(`
+  CREATE TABLE IF NOT EXISTS open_high_events (
+    id TEXT PRIMARY KEY,
+    date TEXT NOT NULL,
+    index_key TEXT NOT NULL,
+    expiry TEXT NOT NULL,
+    strike REAL NOT NULL,
+    side TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    status TEXT NOT NULL,
+    open_price REAL,
+    high_price REAL,
+    low_price REAL,
+    ltp REAL,
+    spot REAL,
+    hit_at TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_open_high_events_lookup
+    ON open_high_events (date, index_key, expiry);
+`);
+
+const insertHitEvent = db.prepare(`
+  INSERT OR IGNORE INTO open_high_events
+    (id, date, index_key, expiry, strike, side, symbol, status, open_price, high_price, low_price, ltp, spot, hit_at, timestamp)
+  VALUES
+    (@id, @date, @index_key, @expiry, @strike, @side, @symbol, @status, @open_price, @high_price, @low_price, @ltp, @spot, @hit_at, @timestamp)
+`);
+
+const selectExpiries = db.prepare(`
+  SELECT DISTINCT expiry FROM open_high_events WHERE date = ? AND index_key = ? ORDER BY expiry
+`);
+
+const selectLatestEvents = db.prepare(`
+  SELECT t.* FROM open_high_events t
+  INNER JOIN (
+    SELECT symbol, MAX(id) AS max_rowid
+    FROM open_high_events
+    WHERE date = ? AND index_key = ? AND expiry = ?
+    GROUP BY symbol
+  ) latest ON t.rowid = latest.max_rowid
+  ORDER BY t.strike
+`);
+
 let instrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {data, fetchedAt} }
 
-// Per-symbol daily state:
-// broke     = has it ever traded above open today
-// retested  = after breaking, has it come back down to touch open again
-// status    = "OPEN_HIGH" | "RETEST" | null (current Hit condition)
-// statusAt  = timestamp status last changed to a non-null value
+// In-memory, today-only. Tracks broke/retested/status for live Pending detection.
+// Confirmed hits are additionally written to trading.db (see insertHitEvent).
 let strikeStateCache = { dateKey: null, data: {} };
 
 async function getCachedExchangeInstruments(kc, exchange) {
@@ -53,8 +98,9 @@ function batch(arr, size) {
   return out;
 }
 
-function updateStrikeState(tsym, open, high, ltp) {
-  const dateKey = todayKey();
+function updateStrikeState(ctx) {
+  const { tsym, open, high, ltp, dateKey, indexKey, expiry, strike, side, spot } = ctx;
+
   if (strikeStateCache.dateKey !== dateKey) {
     strikeStateCache = { dateKey, data: {} };
   }
@@ -78,10 +124,64 @@ function updateStrikeState(tsym, open, high, ltp) {
   if (currentStatus !== s.status) {
     s.status = currentStatus;
     s.statusAt = currentStatus ? Date.now() : null;
+
+    if (currentStatus) {
+      const hitAtIso = new Date(s.statusAt).toISOString();
+      insertHitEvent.run({
+        id: `${dateKey}_${tsym}_${currentStatus}`,
+        date: dateKey,
+        index_key: indexKey,
+        expiry,
+        strike,
+        side,
+        symbol: tsym,
+        status: currentStatus,
+        open_price: open,
+        high_price: high,
+        low_price: null, // filled in by caller below via a second pass if needed
+        ltp,
+        spot,
+        hit_at: hitAtIso,
+        timestamp: s.statusAt,
+      });
+    }
   }
 
   strikeStateCache.data[tsym] = s;
   return s;
+}
+
+function getHistoricalData(indexKey, dateKey, requestedExpiry) {
+  const expiries = selectExpiries.all(dateKey, indexKey).map((r) => r.expiry);
+  const expiry = requestedExpiry || expiries[0] || null;
+
+  if (!expiry) {
+    return { expiry: null, expiries, spot: null, rows: [] };
+  }
+
+  const events = selectLatestEvents.all(dateKey, indexKey, expiry);
+
+  let spot = null;
+  const rowsMap = {};
+  for (const ev of events) {
+    if (ev.spot != null) spot = ev.spot;
+    const strike = ev.strike;
+    const side = ev.side;
+    rowsMap[strike] = rowsMap[strike] || { strike };
+    rowsMap[strike][`${side}_open`] = ev.open_price;
+    rowsMap[strike][`${side}_high`] = ev.high_price;
+    rowsMap[strike][`${side}_low`] = ev.low_price;
+    rowsMap[strike][`${side}_ltp`] = ev.ltp;
+    rowsMap[strike][`${side}_symbol`] = ev.symbol;
+    rowsMap[strike][`${side}_status`] = ev.status;
+    rowsMap[strike][`${side}_broke`] = ev.status === "RETEST";
+    rowsMap[strike][`${side}_hitAt`] = ev.hit_at;
+    rowsMap[strike][`${side}_itm`] =
+      ev.spot != null ? (side === "CE" ? strike < ev.spot : strike > ev.spot) : null;
+  }
+
+  const rows = Object.values(rowsMap).sort((a, b) => a.strike - b.strike);
+  return { expiry, expiries, spot, rows };
 }
 
 export async function GET(request) {
@@ -95,6 +195,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const requestedExpiry = searchParams.get("expiry");
   const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
+  const requestedDate = searchParams.get("date"); // YYYY-MM-DD, optional
 
   if (!INDEX_CONFIG[indexKey]) {
     return NextResponse.json(
@@ -103,16 +204,35 @@ export async function GET(request) {
     );
   }
   const cfg = INDEX_CONFIG[indexKey];
+  const today = todayKey();
+  const isHistorical = requestedDate && requestedDate !== today;
+
+  // Historical: pure DB read, no Kite calls, no in-memory state involved.
+  if (isHistorical) {
+    const { expiry, expiries, spot, rows } = getHistoricalData(indexKey, requestedDate, requestedExpiry);
+    return NextResponse.json({
+      index: indexKey,
+      label: cfg.label,
+      spot,
+      expiry,
+      expiries,
+      rows,
+      date: requestedDate,
+      historical: true,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
   const kc = newClient(accessToken);
 
   try {
     const indexOptions = await getIndexOptionInstruments(kc, indexKey);
 
-    const expiries = Array.from(new Set(indexOptions.map((i) => toDateStr(i.expiry)))).sort(
+    const liveExpiries = Array.from(new Set(indexOptions.map((i) => toDateStr(i.expiry)))).sort(
       (a, b) => new Date(a) - new Date(b)
     );
 
-    const expiry = requestedExpiry || expiries[0];
+    const expiry = requestedExpiry || liveExpiries[0];
 
     const chainOpts = indexOptions.filter((i) => toDateStr(i.expiry) === expiry);
     const uniqueStrikes = Array.from(new Set(chainOpts.map((i) => i.strike))).sort((a, b) => a - b);
@@ -150,18 +270,30 @@ export async function GET(request) {
       const side = opt.instrument_type;
       const open = q.ohlc?.open ?? null;
       const high = q.ohlc?.high ?? null;
+      const low = q.ohlc?.low ?? null;
       const ltp = q.last_price ?? null;
 
-      const state = updateStrikeState(opt.tradingsymbol, open, high, ltp);
+      const state = updateStrikeState({
+        tsym: opt.tradingsymbol,
+        open,
+        high,
+        ltp,
+        dateKey: today,
+        indexKey,
+        expiry,
+        strike,
+        side,
+        spot,
+      });
 
       rowsMap[strike] = rowsMap[strike] || { strike };
       rowsMap[strike][`${side}_open`] = open;
       rowsMap[strike][`${side}_high`] = high;
-      rowsMap[strike][`${side}_low`] = q.ohlc?.low ?? null;
+      rowsMap[strike][`${side}_low`] = low;
       rowsMap[strike][`${side}_ltp`] = ltp;
       rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
-      rowsMap[strike][`${side}_status`] = state.status; // "OPEN_HIGH" | "RETEST" | null
-      rowsMap[strike][`${side}_broke`] = state.broke; // has it ever broken above open today
+      rowsMap[strike][`${side}_status`] = state.status;
+      rowsMap[strike][`${side}_broke`] = state.broke;
       rowsMap[strike][`${side}_hitAt`] = state.statusAt ? new Date(state.statusAt).toISOString() : null;
       rowsMap[strike][`${side}_itm`] =
         spot !== null && (side === "CE" ? strike < spot : strike > spot);
@@ -174,8 +306,10 @@ export async function GET(request) {
       label: cfg.label,
       spot,
       expiry,
-      expiries,
+      expiries: liveExpiries,
       rows,
+      date: today,
+      historical: false,
       updatedAt: new Date().toISOString(),
     });
   } catch (err) {

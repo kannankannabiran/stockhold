@@ -10,6 +10,10 @@ const INDEXES = [
 
 const REFRESH_MS = 5000;
 
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 function fmt(v) {
   return v === null || v === undefined ? "—" : v;
 }
@@ -25,9 +29,6 @@ function cellStyle(status, isItm, side) {
   return null;
 }
 
-// Hit     = currently OPEN_HIGH (never broke, blue) or RETEST (broke, then came back to open, green)
-// Pending = broke above open today, hasn't come back down to the open price yet
-// —       = hasn't broken above open at all today
 function badgeInfo(status, broke) {
   if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeBlue };
   if (status === "RETEST") return { label: "Hit", style: styles.badgeGreen };
@@ -49,14 +50,17 @@ function Badge({ status, broke }) {
 export default function OpenHighPage() {
   const [index, setIndex] = useState("NIFTY");
   const [expiry, setExpiry] = useState(null);
+  const [date, setDate] = useState(todayStr());
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
+  const isToday = date === todayStr();
+
   const load = useCallback(async () => {
     try {
-      const params = new URLSearchParams({ index });
+      const params = new URLSearchParams({ index, date });
       if (expiry) params.set("expiry", expiry);
       const res = await fetch(`/api/open-high?${params.toString()}`);
       const json = await res.json();
@@ -72,14 +76,15 @@ export default function OpenHighPage() {
     } finally {
       setLoading(false);
     }
-  }, [index, expiry]);
+  }, [index, expiry, date]);
 
   useEffect(() => {
     setLoading(true);
     load();
+    if (!isToday) return; // no polling for historical dates
     const id = setInterval(load, REFRESH_MS);
     return () => clearInterval(id);
-  }, [load]);
+  }, [load, isToday]);
 
   const atmStrike = useMemo(() => {
     if (!data?.spot || !data.rows.length) return null;
@@ -105,13 +110,23 @@ export default function OpenHighPage() {
       <div style={styles.header}>
         <div>
           <h1 style={styles.title}>Open <span style={styles.titleAccent}>= High</span></h1>
-          <p style={styles.subtitle}>ATM ±10 strikes · Hit = open=high or retested the open price · Pending = broke out, waiting to retest open</p>
+          <p style={styles.subtitle}>
+            ATM ±10 strikes · Hit = open=high or retested the open price · Pending = broke out, waiting to retest open
+          </p>
         </div>
 
         <div style={styles.controls}>
           <select value={index} onChange={(e) => { setIndex(e.target.value); setExpiry(null); }} style={styles.select}>
             {INDEXES.map((i) => (<option key={i.key} value={i.key}>{i.label}</option>))}
           </select>
+
+          <input
+            type="date"
+            value={date}
+            max={todayStr()}
+            onChange={(e) => { setDate(e.target.value); setExpiry(null); }}
+            style={styles.select}
+          />
 
           {data?.expiries?.length > 0 && (
             <select value={expiry || ""} onChange={(e) => setExpiry(e.target.value)} style={styles.select}>
@@ -128,6 +143,12 @@ export default function OpenHighPage() {
         </div>
       </div>
 
+      {!isToday && (
+        <div style={styles.historicalBanner}>
+          Viewing history for {date} — read-only, no live polling.
+        </div>
+      )}
+
       <div style={styles.statsBar}>
         {data?.spot != null && (
           <div style={styles.statChip}>
@@ -143,10 +164,12 @@ export default function OpenHighPage() {
           <span style={styles.statLabel}>RETESTS</span>
           <span style={{ ...styles.statValue, color: "#16a34a" }}>{retestCount}</span>
         </div>
-        <div style={styles.statChip}>
-          <span style={styles.statLabel}>PENDING</span>
-          <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
-        </div>
+        {isToday && (
+          <div style={styles.statChip}>
+            <span style={styles.statLabel}>PENDING</span>
+            <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
+          </div>
+        )}
         <div style={styles.statChip}>
           <span style={styles.statLabel}>EXPIRY</span>
           <span style={styles.statValue}>{data?.expiry || "—"}</span>
@@ -155,9 +178,9 @@ export default function OpenHighPage() {
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High</span>
           <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Retest</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>
+          {isToday && <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>}
         </div>
-        {data?.updatedAt && (
+        {data?.updatedAt && isToday && (
           <div style={styles.liveDot}>
             <span style={styles.pulseDot} />
             {new Date(data.updatedAt).toLocaleTimeString()}
@@ -226,7 +249,7 @@ export default function OpenHighPage() {
                 );
               })}
               {visibleRows.length === 0 && (
-                <tr><td colSpan={13} style={styles.emptyRow}>No strikes currently Hit or Pending.</td></tr>
+                <tr><td colSpan={13} style={styles.emptyRow}>No strikes recorded for this date.</td></tr>
               )}
             </tbody>
           </table>
@@ -246,6 +269,7 @@ const styles = {
   select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
   toggle: { background: "#ffffff", color: "#6b7280", borderWidth: 1, borderStyle: "solid", borderColor: "#d8dce3", borderRadius: 8, padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer" },
   toggleActive: { background: "#eef2ff", color: "#1a1d23", borderColor: "#c7d2fe" },
+  historicalBanner: { background: "#fffbeb", border: "1px solid #fde68a", color: "#92400e", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
   statsBar: { display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" },
   statChip: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10, padding: "8px 14px", display: "flex", flexDirection: "column", gap: 2, minWidth: 90, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" },
   statLabel: { fontSize: 10, letterSpacing: 1, color: "#9ca3af" },
@@ -273,17 +297,7 @@ const styles = {
   itmCellPE: { background: "rgba(220, 38, 38, 0.08)", color: "#991b1b" },
   matchCellBlue: { background: "rgba(37, 99, 235, 0.18)", color: "#1d4ed8", fontWeight: 700 },
   matchCellGreen: { background: "rgba(22, 163, 74, 0.22)", color: "#15803d", fontWeight: 700 },
-  badge: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 5,
-    padding: "3px 9px",
-    borderRadius: 999,
-    fontSize: 10.5,
-    fontWeight: 700,
-    letterSpacing: 0.3,
-    lineHeight: 1.4,
-  },
+  badge: { display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999, fontSize: 10.5, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4 },
   badgeDot: { width: 6, height: 6, borderRadius: "50%" },
   badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },
   badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },

@@ -54,7 +54,6 @@ export default function OpenHighPage() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
 
   const isToday = date === todayStr();
 
@@ -93,14 +92,6 @@ export default function OpenHighPage() {
     data.rows[0].strike);
   }, [data]);
 
-  const rowMatches = (r) => r.CE_status || r.PE_status || r.CE_broke || r.PE_broke;
-
-  const visibleRows = useMemo(() => {
-    if (!data) return [];
-    if (showAll) return data.rows;
-    return data.rows.filter(rowMatches);
-  }, [data, showAll]);
-
   const openHighCount = data ? data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length : 0;
   const retestCount = data ? data.rows.filter((r) => r.CE_status === "RETEST" || r.PE_status === "RETEST").length : 0;
   const pendingCount = data ? data.rows.filter((r) => (r.CE_broke && !r.CE_status) || (r.PE_broke && !r.PE_status)).length : 0;
@@ -133,13 +124,6 @@ export default function OpenHighPage() {
               {data.expiries.map((e) => (<option key={e} value={e}>{e}</option>))}
             </select>
           )}
-
-          <button
-            onClick={() => setShowAll((s) => !s)}
-            style={{ ...styles.toggle, ...(showAll ? styles.toggleActive : {}) }}
-          >
-            {showAll ? "Showing All" : "Matches Only"}
-          </button>
         </div>
       </div>
 
@@ -217,7 +201,7 @@ export default function OpenHighPage() {
               </tr>
             </thead>
             <tbody>
-              {visibleRows.map((r) => {
+              {data.rows.map((r) => {
                 const isAtm = r.strike === atmStrike;
                 const ceStyle = cellStyle(r.CE_status, r.CE_itm, "CE");
                 const peStyle = cellStyle(r.PE_status, r.PE_itm, "PE");
@@ -248,7 +232,7 @@ export default function OpenHighPage() {
                   </tr>
                 );
               })}
-              {visibleRows.length === 0 && (
+              {data.rows.length === 0 && (
                 <tr><td colSpan={13} style={styles.emptyRow}>No strikes recorded for this date.</td></tr>
               )}
             </tbody>
@@ -267,8 +251,6 @@ const styles = {
   subtitle: { margin: "4px 0 0", color: "#6b7280", fontSize: 13 },
   controls: { display: "flex", gap: 10, alignItems: "center" },
   select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
-  toggle: { background: "#ffffff", color: "#6b7280", borderWidth: 1, borderStyle: "solid", borderColor: "#d8dce3", borderRadius: 8, padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer" },
-  toggleActive: { background: "#eef2ff", color: "#1a1d23", borderColor: "#c7d2fe" },
   historicalBanner: { background: "#fffbeb", border: "1px solid #fde68a", color: "#92400e", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
   statsBar: { display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" },
   statChip: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10, padding: "8px 14px", display: "flex", flexDirection: "column", gap: 2, minWidth: 90, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" },

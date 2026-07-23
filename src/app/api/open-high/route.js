@@ -13,6 +13,12 @@ const INDEX_CONFIG = {
 
 let instrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {data, fetchedAt} }
 
+// Per-symbol daily state: broke = has it ever traded above open; retested = has
+// it since come back down to touch open again; status/statusAt track the current
+// Hit type (OPEN_HIGH | RETEST | null) and the timestamp it last changed to that
+// value, so the UI can show "when" a strike was hit, not just "that" it was hit.
+let strikeStateCache = { dateKey: null, data: {} };
+
 async function getCachedExchangeInstruments(kc, exchange) {
   const now = Date.now();
   const cached = instrumentsCache[exchange];
@@ -36,10 +42,47 @@ function toDateStr(d) {
   return new Date(d).toISOString().slice(0, 10);
 }
 
+function todayKey() {
+  return toDateStr(new Date());
+}
+
 function batch(arr, size) {
   const out = [];
   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
   return out;
+}
+
+function updateStrikeState(tsym, open, high, ltp) {
+  const dateKey = todayKey();
+  if (strikeStateCache.dateKey !== dateKey) {
+    strikeStateCache = { dateKey, data: {} };
+  }
+  const s = strikeStateCache.data[tsym] || {
+    broke: false,
+    retested: false,
+    status: null,
+    statusAt: null,
+  };
+
+  if (open != null && high != null && high > open) {
+    s.broke = true;
+  }
+  if (s.broke && !s.retested && open != null && ltp != null && ltp <= open) {
+    s.retested = true;
+  }
+
+  const openHighMatch = open !== null && high !== null && open === high;
+  const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
+
+  // Only stamp a new time when the status actually changes — so "Time" reflects
+  // the moment a strike was hit, not the moment of the latest poll.
+  if (currentStatus !== s.status) {
+    s.status = currentStatus;
+    s.statusAt = currentStatus ? Date.now() : null;
+  }
+
+  strikeStateCache.data[tsym] = s;
+  return s;
 }
 
 export async function GET(request) {
@@ -75,7 +118,6 @@ export async function GET(request) {
     const chainOpts = indexOptions.filter((i) => toDateStr(i.expiry) === expiry);
     const uniqueStrikes = Array.from(new Set(chainOpts.map((i) => i.strike))).sort((a, b) => a - b);
 
-    // Spot fetched on its own first so we know the ATM window before pulling option quotes.
     const spotQuote = await kc.getQuote([cfg.spotSymbol]);
     const spot = spotQuote[cfg.spotSymbol]?.last_price ?? null;
 
@@ -109,16 +151,18 @@ export async function GET(request) {
       const side = opt.instrument_type;
       const open = q.ohlc?.open ?? null;
       const high = q.ohlc?.high ?? null;
+      const ltp = q.last_price ?? null;
+
+      const state = updateStrikeState(opt.tradingsymbol, open, high, ltp);
 
       rowsMap[strike] = rowsMap[strike] || { strike };
       rowsMap[strike][`${side}_open`] = open;
       rowsMap[strike][`${side}_high`] = high;
       rowsMap[strike][`${side}_low`] = q.ohlc?.low ?? null;
-      rowsMap[strike][`${side}_ltp`] = q.last_price ?? null;
+      rowsMap[strike][`${side}_ltp`] = ltp;
       rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
-      rowsMap[strike][`${side}_openHighMatch`] =
-        open !== null && high !== null && open === high;
-      // CALL is ITM when strike is below spot; PUT is ITM when strike is above spot.
+      rowsMap[strike][`${side}_status`] = state.status; // "OPEN_HIGH" | "RETEST" | null
+      rowsMap[strike][`${side}_hitAt`] = state.statusAt ? new Date(state.statusAt).toISOString() : null;
       rowsMap[strike][`${side}_itm`] =
         spot !== null && (side === "CE" ? strike < spot : strike > spot);
     }

@@ -216,10 +216,19 @@ export default function OptionChain() {
   );
 
   // Reset strike selection whenever the filters change (symbol/date/interval).
-  // Fetching itself is owned by the view-refresh loop below.
+  // Fetching itself is owned by the effects below.
   useEffect(() => {
     setSelectedStrike(null);
   }, [symbol, selectedDate, interval]);
+
+  // Historical date view — one-shot fetch (no polling, the data is fixed).
+  // This is what populates rows/spot for the picked date so the ATM
+  // auto-select in fetchData (closest strike to spot) can run against it.
+  useEffect(() => {
+    if (selectedDate) {
+      fetchData(symbol);
+    }
+  }, [symbol, selectedDate, interval, fetchData]);
 
   // View refresh loop — runs every 1 min whenever the page is open,
   // regardless of market hours. Purely for display; DB writes happen

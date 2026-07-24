@@ -10,8 +10,6 @@ export const INDEX_CONFIG = {
 };
 export const INDEX_KEYS = Object.keys(INDEX_CONFIG);
 
-// Persisted "hit" log — only confirmed OPEN_HIGH / RETEST events, one row per
-// (date, symbol, status). Pending is a live-only state and never lands here.
 db.exec(`
   CREATE TABLE IF NOT EXISTS open_high_events (
     id TEXT PRIMARY KEY,
@@ -57,13 +55,25 @@ const selectLatestEvents = db.prepare(`
   ORDER BY t.strike
 `);
 
-// globalThis-scoped so both the HTTP route (per-request) and the standalone
-// background poller (started once at server boot) share one instrument
-// cache and one strike-state cache — same pattern as trendingOiBackground's
-// g.__trendingOiStore, so state stays consistent no matter which path polled last.
 const g = globalThis;
-if (!g.__openHighInstrumentsCache) g.__openHighInstrumentsCache = {}; // { NFO: {data, fetchedAt}, BFO: {...} }
+if (!g.__openHighInstrumentsCache) g.__openHighInstrumentsCache = {};
 if (!g.__openHighStrikeStateCache) g.__openHighStrikeStateCache = { dateKey: null, data: {} };
+
+// NSE/BSE regular session is 9:15–15:30 IST. Kite's OHLC `open` field can be
+// unreliable in the pre-open window (9:00–9:15) or carry a stale prior value
+// right at the very first tick, which could otherwise get falsely recorded
+// as a permanent "OPEN_HIGH" hit for the whole day. Guard state transitions
+// to only run once the regular session has actually started.
+export function isMarketHours() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+  const day = ist.getDay();
+  if (day === 0 || day === 6) return false;
+  const minutes = ist.getHours() * 60 + ist.getMinutes();
+  const marketOpen = 9 * 60 + 15;
+  const marketClose = 15 * 60 + 30;
+  return minutes >= marketOpen && minutes <= marketClose;
+}
 
 async function getCachedExchangeInstruments(kc, exchange) {
   const now = Date.now();
@@ -112,39 +122,48 @@ function updateStrikeState(ctx) {
     statusAt: null,
   };
 
-  if (open != null && high != null && high > open) {
-    s.broke = true;
-  }
-  if (s.broke && !s.retested && open != null && ltp != null && ltp <= open) {
-    s.retested = true;
-  }
+  // Only evaluate open/high/retest transitions inside the regular session —
+  // pre-open (before 9:15) and post-close ticks don't get to change state,
+  // they just pass through as a display snapshot (see fetchLiveOpenHighData).
+  if (isMarketHours()) {
+    if (open != null && high != null && high > open) {
+      s.broke = true;
+    }
+    if (s.broke && !s.retested && open != null && ltp != null && ltp <= open) {
+      s.retested = true;
+    }
 
-  const openHighMatch = open !== null && high !== null && open === high;
-  const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
+    const openHighMatch = open !== null && high !== null && open === high;
+    const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
 
-  if (currentStatus !== s.status) {
-    s.status = currentStatus;
-    s.statusAt = currentStatus ? Date.now() : null;
+    if (currentStatus !== s.status) {
+      s.status = currentStatus;
+      // Stamped at the exact moment this poll detected the transition —
+      // independent of any browser tab/page refresh. With the background
+      // poller running every 30s during market hours, this is accurate to
+      // within ~30s of the real event, whether or not the page is open.
+      s.statusAt = currentStatus ? Date.now() : null;
 
-    if (currentStatus) {
-      const hitAtIso = new Date(s.statusAt).toISOString();
-      insertHitEvent.run({
-        id: `${dateKey}_${tsym}_${currentStatus}`,
-        date: dateKey,
-        index_key: indexKey,
-        expiry,
-        strike,
-        side,
-        symbol: tsym,
-        status: currentStatus,
-        open_price: open,
-        high_price: high,
-        low_price: low,
-        ltp,
-        spot,
-        hit_at: hitAtIso,
-        timestamp: s.statusAt,
-      });
+      if (currentStatus) {
+        const hitAtIso = new Date(s.statusAt).toISOString();
+        insertHitEvent.run({
+          id: `${dateKey}_${tsym}_${currentStatus}`,
+          date: dateKey,
+          index_key: indexKey,
+          expiry,
+          strike,
+          side,
+          symbol: tsym,
+          status: currentStatus,
+          open_price: open,
+          high_price: high,
+          low_price: low,
+          ltp,
+          spot,
+          hit_at: hitAtIso,
+          timestamp: s.statusAt,
+        });
+      }
     }
   }
 
@@ -152,9 +171,6 @@ function updateStrikeState(ctx) {
   return s;
 }
 
-// Used by both the live HTTP route (any requested expiry, any index) and the
-// background poller (nearest expiry, all indices) — single source of truth
-// for how a "live" open/high/retest snapshot is built.
 export async function fetchLiveOpenHighData(kc, indexKey, requestedExpiry) {
   const cfg = INDEX_CONFIG[indexKey];
   const today = todayKey();

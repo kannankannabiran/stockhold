@@ -105,6 +105,7 @@ export default function OpenHighPage() {
       const json = await res.json();
       if (!res.ok) {
         setError(json.message || json.error || "Failed to load");
+        setData(null); // don't leave a stale (previous date's) table on screen
         return;
       }
       setError(null);
@@ -112,6 +113,7 @@ export default function OpenHighPage() {
       if (!expiry) setExpiry(json.expiry);
     } catch (e) {
       setError(e.message);
+      setData(null);
     } finally {
       setLoading(false);
     }
@@ -119,11 +121,18 @@ export default function OpenHighPage() {
 
   useEffect(() => {
     setLoading(true);
+    setData(null); // clear immediately on date/index/expiry change, before the fetch resolves
     load();
     if (!isToday) return; // no polling for historical dates
     const id = setInterval(load, REFRESH_MS);
     return () => clearInterval(id);
-  }, [load, isToday]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, date]); // expiry intentionally excluded — expiry changes are handled by `load` itself without re-clearing data
+
+  useEffect(() => {
+    if (expiry) load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expiry]);
 
   const atmStrike = useMemo(() => {
     if (!data?.spot || !data.rows.length) return null;
@@ -325,58 +334,16 @@ const styles = {
   badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },
   badgeAmber: { background: "#fef3c7", color: "#b45309", dotColor: "#d97706" },
   badgeMuted: { background: "transparent", color: "#c1c5cc", fontWeight: 600 },
-  timeChip: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 4,
-    padding: "3px 8px",
-    borderRadius: 999,
-    background: "#f3f4f6",
-    border: "1px solid #e5e7eb",
-    color: "#6b7280",
-    fontSize: 10.5,
-    fontWeight: 600,
-    fontVariantNumeric: "tabular-nums",
-    letterSpacing: 0.2,
-  },
+  timeChip: { display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 8px", borderRadius: 999, background: "#f3f4f6", border: "1px solid #e5e7eb", color: "#6b7280", fontSize: 10.5, fontWeight: 600, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2 },
   timeChipIcon: { color: "#9ca3af", flexShrink: 0 },
   timeChipEmpty: { color: "#d1d5db", fontSize: 12 },
-  strikeCell: {
-    padding: "8px 6px",
-    textAlign: "center",
-    background: "linear-gradient(180deg, #ffffff, #f8f9fb)",
-    borderBottom: "1px solid #f1f2f4",
-    borderLeft: "1px solid #e5e7eb",
-    borderRight: "1px solid #e5e7eb",
-    whiteSpace: "nowrap",
-    color: "#1a1d23",
-  },
-  strikeInner: {
-    display: "inline-flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 2,
-    minWidth: 64,
-    padding: "4px 10px",
-    borderRadius: 10,
-    background: "#ffffff",
-    border: "1px solid #e9ebef",
-    boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
-  },
+  strikeCell: { padding: "8px 6px", textAlign: "center", background: "linear-gradient(180deg, #ffffff, #f8f9fb)", borderBottom: "1px solid #f1f2f4", borderLeft: "1px solid #e5e7eb", borderRight: "1px solid #e5e7eb", whiteSpace: "nowrap", color: "#1a1d23" },
+  strikeInner: { display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2, minWidth: 64, padding: "4px 10px", borderRadius: 10, background: "#ffffff", border: "1px solid #e9ebef", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" },
   strikeNumber: { fontSize: 14, fontWeight: 800, letterSpacing: -0.2, color: "#111318" },
   strikePts: { fontSize: 9.5, fontWeight: 700, letterSpacing: 0.2 },
   strikePtsPos: { color: "#16a34a" },
   strikePtsNeg: { color: "#dc2626" },
   atmStrikeCell: { background: "linear-gradient(180deg, #fffbeb, #fef9e7)" },
-  atmBadge: {
-    fontSize: 9,
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    color: "#ffffff",
-    background: "linear-gradient(135deg, #f59e0b, #eab308)",
-    borderRadius: 999,
-    padding: "1.5px 8px",
-    boxShadow: "0 1px 3px rgba(234,179,8,0.4)",
-  },
+  atmBadge: { fontSize: 9, fontWeight: 800, letterSpacing: 0.5, color: "#ffffff", background: "linear-gradient(135deg, #f59e0b, #eab308)", borderRadius: 999, padding: "1.5px 8px", boxShadow: "0 1px 3px rgba(234,179,8,0.4)" },
   emptyRow: { textAlign: "center", padding: "28px 0", color: "#9ca3af", fontSize: 13 },
 };

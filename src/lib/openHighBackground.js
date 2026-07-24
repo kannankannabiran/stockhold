@@ -1,9 +1,7 @@
 import { newClient } from "./kite";
 import { getStoredAccessToken } from "./kiteTokenStore";
-import { fetchLiveOpenHighData, INDEX_KEYS } from "./openHighCore";
+import { fetchLiveOpenHighData, INDEX_KEYS, isMarketHours } from "./openHighCore";
 
-// Faster than trending OI's 60s poll — a strike can break out and retest
-// within a couple of minutes, and we don't want to miss the window.
 const POLL_INTERVAL_MS = 30 * 1000;
 const SYMBOL_GAP_MS = 500;
 
@@ -11,17 +9,6 @@ const g = globalThis;
 if (!g.__openHighPollerStarted) g.__openHighPollerStarted = false;
 if (typeof g.__openHighMarketClosedLogged === "undefined") {
   g.__openHighMarketClosedLogged = false;
-}
-
-function isMarketHours() {
-  const now = new Date();
-  const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-  const day = ist.getDay();
-  if (day === 0 || day === 6) return false;
-  const minutes = ist.getHours() * 60 + ist.getMinutes();
-  const marketOpen = 9 * 60 + 15;
-  const marketClose = 15 * 60 + 30;
-  return minutes >= marketOpen && minutes <= marketClose;
 }
 
 function sleep(ms) {
@@ -61,10 +48,6 @@ async function pollOnce() {
 
     for (const indexKey of INDEX_KEYS) {
       try {
-        // requestedExpiry = null -> nearest expiry, same default the page uses
-        // on first load. Hit events are written as a side effect inside
-        // fetchLiveOpenHighData -> updateStrikeState, so we don't need the
-        // return value here.
         await fetchLiveOpenHighData(kc, indexKey, null);
       } catch (err) {
         console.error(`[openHigh] poll failed for ${indexKey}:`, err.message);

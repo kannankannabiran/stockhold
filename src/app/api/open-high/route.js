@@ -48,10 +48,12 @@ const selectExpiries = db.prepare(`
   SELECT DISTINCT expiry FROM open_high_events WHERE date = ? AND index_key = ? ORDER BY expiry
 `);
 
+// Aggregate on rowid (SQLite's real row identity) — NOT on `id`, which is a
+// composite TEXT key and would never match t.rowid in the join.
 const selectLatestEvents = db.prepare(`
   SELECT t.* FROM open_high_events t
   INNER JOIN (
-    SELECT symbol, MAX(id) AS max_rowid
+    SELECT symbol, MAX(rowid) AS max_rowid
     FROM open_high_events
     WHERE date = ? AND index_key = ? AND expiry = ?
     GROUP BY symbol
@@ -138,7 +140,7 @@ function updateStrikeState(ctx) {
         status: currentStatus,
         open_price: open,
         high_price: high,
-        low_price: null, // filled in by caller below via a second pass if needed
+        low_price: null,
         ltp,
         spot,
         hit_at: hitAtIso,

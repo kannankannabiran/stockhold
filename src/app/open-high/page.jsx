@@ -19,7 +19,15 @@ function fmt(v) {
 }
 
 function fmtTime(iso) {
-  return iso ? new Date(iso).toLocaleTimeString() : "—";
+  if (!iso) return null;
+  return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
+function fmtPts(strike, spot) {
+  if (spot == null) return null;
+  const diff = Math.round(strike - spot);
+  if (diff === 0) return "ATM";
+  return diff > 0 ? `+${diff}` : `${diff}`;
 }
 
 function cellStyle(status, isItm, side) {
@@ -44,6 +52,38 @@ function Badge({ status, broke }) {
       {!isDash && <span style={{ ...styles.badgeDot, ...(style.dotColor ? { background: style.dotColor } : null) }} />}
       {label}
     </span>
+  );
+}
+
+function TimeChip({ iso }) {
+  const time = fmtTime(iso);
+  if (!time) return <span style={styles.timeChipEmpty}>—</span>;
+  return (
+    <span style={styles.timeChip}>
+      <svg width="10" height="10" viewBox="0 0 10 10" style={styles.timeChipIcon}>
+        <circle cx="5" cy="5" r="4.25" fill="none" stroke="currentColor" strokeWidth="1" />
+        <path d="M5 2.6V5l1.7 1" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+      </svg>
+      {time}
+    </span>
+  );
+}
+
+function StrikeCell({ strike, spot, isAtm }) {
+  const pts = fmtPts(strike, spot);
+  return (
+    <td style={{ ...styles.strikeCell, ...(isAtm ? styles.atmStrikeCell : null) }}>
+      <div style={styles.strikeInner}>
+        <span style={styles.strikeNumber}>{strike}</span>
+        {isAtm ? (
+          <span style={styles.atmBadge}>ATM</span>
+        ) : pts ? (
+          <span style={{ ...styles.strikePts, ...(pts.startsWith("+") ? styles.strikePtsPos : styles.strikePtsNeg) }}>
+            {pts}
+          </span>
+        ) : null}
+      </div>
+    </td>
   );
 }
 
@@ -214,14 +254,15 @@ export default function OpenHighPage() {
                     <td style={styles.cellCenter}>
                       <Badge status={r.CE_status} broke={r.CE_broke} />
                     </td>
-                    <td style={styles.cellCenterMuted}>{fmtTime(r.CE_hitAt)}</td>
-
-                    <td style={{ ...styles.strikeCell, ...(isAtm ? styles.atmStrikeCell : null) }}>
-                      {r.strike}
-                      {isAtm && <span style={styles.atmBadge}>ATM</span>}
+                    <td style={styles.cellCenter}>
+                      <TimeChip iso={r.CE_hitAt} />
                     </td>
 
-                    <td style={styles.cellCenterMuted}>{fmtTime(r.PE_hitAt)}</td>
+                    <StrikeCell strike={r.strike} spot={data.spot} isAtm={isAtm} />
+
+                    <td style={styles.cellCenter}>
+                      <TimeChip iso={r.PE_hitAt} />
+                    </td>
                     <td style={styles.cellCenter}>
                       <Badge status={r.PE_status} broke={r.PE_broke} />
                     </td>
@@ -273,7 +314,6 @@ const styles = {
   subHeadStrike: { borderBottom: "1px solid #e5e7eb", background: "#f3f4f6" },
   cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #f1f2f4", color: "#374151" },
   cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4" },
-  cellCenterMuted: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4", color: "#9ca3af", fontSize: 11 },
   ltpCell: { fontWeight: 600 },
   itmCellCE: { background: "rgba(22, 163, 74, 0.08)", color: "#166534" },
   itmCellPE: { background: "rgba(220, 38, 38, 0.08)", color: "#991b1b" },
@@ -285,8 +325,58 @@ const styles = {
   badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },
   badgeAmber: { background: "#fef3c7", color: "#b45309", dotColor: "#d97706" },
   badgeMuted: { background: "transparent", color: "#c1c5cc", fontWeight: 600 },
-  strikeCell: { padding: "9px 10px", textAlign: "center", fontWeight: 700, background: "#f9fafb", borderBottom: "1px solid #f1f2f4", borderLeft: "1px solid #e5e7eb", borderRight: "1px solid #e5e7eb", whiteSpace: "nowrap", color: "#1a1d23" },
-  atmStrikeCell: { background: "rgba(234, 179, 8, 0.18)", color: "#92620a" },
-  atmBadge: { marginLeft: 6, fontSize: 9, fontWeight: 700, color: "#ffffff", background: "#eab308", borderRadius: 4, padding: "1px 5px", verticalAlign: "middle" },
+  timeChip: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 4,
+    padding: "3px 8px",
+    borderRadius: 999,
+    background: "#f3f4f6",
+    border: "1px solid #e5e7eb",
+    color: "#6b7280",
+    fontSize: 10.5,
+    fontWeight: 600,
+    fontVariantNumeric: "tabular-nums",
+    letterSpacing: 0.2,
+  },
+  timeChipIcon: { color: "#9ca3af", flexShrink: 0 },
+  timeChipEmpty: { color: "#d1d5db", fontSize: 12 },
+  strikeCell: {
+    padding: "8px 6px",
+    textAlign: "center",
+    background: "linear-gradient(180deg, #ffffff, #f8f9fb)",
+    borderBottom: "1px solid #f1f2f4",
+    borderLeft: "1px solid #e5e7eb",
+    borderRight: "1px solid #e5e7eb",
+    whiteSpace: "nowrap",
+    color: "#1a1d23",
+  },
+  strikeInner: {
+    display: "inline-flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 2,
+    minWidth: 64,
+    padding: "4px 10px",
+    borderRadius: 10,
+    background: "#ffffff",
+    border: "1px solid #e9ebef",
+    boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
+  },
+  strikeNumber: { fontSize: 14, fontWeight: 800, letterSpacing: -0.2, color: "#111318" },
+  strikePts: { fontSize: 9.5, fontWeight: 700, letterSpacing: 0.2 },
+  strikePtsPos: { color: "#16a34a" },
+  strikePtsNeg: { color: "#dc2626" },
+  atmStrikeCell: { background: "linear-gradient(180deg, #fffbeb, #fef9e7)" },
+  atmBadge: {
+    fontSize: 9,
+    fontWeight: 800,
+    letterSpacing: 0.5,
+    color: "#ffffff",
+    background: "linear-gradient(135deg, #f59e0b, #eab308)",
+    borderRadius: 999,
+    padding: "1.5px 8px",
+    boxShadow: "0 1px 3px rgba(234,179,8,0.4)",
+  },
   emptyRow: { textAlign: "center", padding: "28px 0", color: "#9ca3af", fontSize: 13 },
 };

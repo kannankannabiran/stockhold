@@ -32,7 +32,11 @@ const POLL_MS = 60000;
 const BULLISH_THRESHOLD = 20;
 const BEARISH_THRESHOLD = -20;
 
-function isMarketOpenNow() {
+// Market window: 9:15 AM – 3:30 PM IST
+const MARKET_START_MIN = 9 * 60 + 15;
+const MARKET_END_MIN = 15 * 60 + 30;
+
+function getISTMinutesNow() {
   const now = new Date();
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Asia/Kolkata",
@@ -43,12 +47,12 @@ function isMarketOpenNow() {
 
   const hour = Number(parts.find((p) => p.type === "hour")?.value || 0);
   const minute = Number(parts.find((p) => p.type === "minute")?.value || 0);
+  return hour * 60 + minute;
+}
 
-  const current = hour * 60 + minute;
-  const start = 9 * 60 + 15;
-  const end = 15 * 60 + 30;
-
-  return current >= start && current <= end;
+function isMarketOpenNow() {
+  const current = getISTMinutesNow();
+  return current >= MARKET_START_MIN && current <= MARKET_END_MIN;
 }
 
 function getISTTimeString(date = new Date()) {
@@ -90,10 +94,12 @@ function sentimentClasses(sentiment) {
   }
 }
 
-async function loadTrendHistory(sym, strike) {
+async function loadTrendHistory(sym, strike, date) {
   if (!strike) return [];
   try {
-    const res = await fetch(`/api/oi-trend?symbol=${sym}&strike=${strike}`, {
+    const qs = new URLSearchParams({ symbol: sym, strike: String(strike) });
+    if (date) qs.set("date", date);
+    const res = await fetch(`/api/oi-trend?${qs.toString()}`, {
       cache: "no-store",
     });
     if (!res.ok) return [];
@@ -105,44 +111,18 @@ async function loadTrendHistory(sym, strike) {
   }
 }
 
-async function loadSelectedStrikeHistory(sym, strike) {
+async function loadSelectedStrikeHistory(sym, strike, date) {
   if (!strike) return [];
   try {
-    const res = await fetch(
-      `/api/oi-trend?symbol=${sym}&strike=${strike}&mode=all`,
-      { cache: "no-store" }
-    );
+    const qs = new URLSearchParams({ symbol: sym, strike: String(strike), mode: "all" });
+    if (date) qs.set("date", date);
+    const res = await fetch(`/api/oi-trend?${qs.toString()}`, { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? data : [];
   } catch (e) {
     console.error("[oiTrend] failed to load selected strike history", e);
     return [];
-  }
-}
-
-async function saveAllTrendPoints(sym, allRows, time, interval, date) {
-  if (!allRows || !allRows.length) return;
-  try {
-    await fetch(`/api/oi-trend`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        symbol: sym,
-        interval,
-        date,
-        points: allRows.map((r) => ({
-          strike: r.strike,
-          ceOi: r.CE_oi ?? null,
-          peOi: r.PE_oi ?? null,
-          ceOiChange: r.CE_oiChange ?? null,
-          peOiChange: r.PE_oiChange ?? null,
-          time,
-        })),
-      }),
-    });
-  } catch (e) {
-    console.error("[oiTrend] failed to save all points", e);
   }
 }
 
@@ -210,12 +190,9 @@ export default function OptionChain() {
         setExpiries(data.expiries || []);
         setUpdatedAt(data.updatedAt ?? null);
 
-        if ((data.rows || []).length) {
-          const snapTime = data.updatedAt
-            ? new Date(data.updatedAt).toLocaleTimeString()
-            : getISTTimeString(new Date());
-          saveAllTrendPoints(sym, data.rows, snapTime, interval, selectedDate);
-        }
+        // Writes to DB are handled server-side by the background poller
+        // (lib/oiTrendBackground.js), not by the page. This fetch is
+        // view-only regardless of market hours.
 
         if (data.spot != null && (data.rows || []).length) {
           let closest = data.rows[0];
@@ -238,24 +215,25 @@ export default function OptionChain() {
     [interval, selectedDate]
   );
 
+  // Reset strike selection whenever the filters change (symbol/date/interval).
+  // Fetching itself is owned by the view-refresh loop below.
   useEffect(() => {
     setSelectedStrike(null);
-    fetchData(symbol);
-  }, [symbol, selectedDate, interval, fetchData]);
+  }, [symbol, selectedDate, interval]);
 
+  // View refresh loop — runs every 1 min whenever the page is open,
+  // regardless of market hours. Purely for display; DB writes happen
+  // independently in the background poller.
   useEffect(() => {
     let cancelled = false;
 
     const loop = async () => {
       if (cancelled) return;
 
-      const open = isMarketOpenNow();
-      setMarketOpen(open);
+      setMarketOpen(isMarketOpenNow());
 
       if (!selectedDate) {
-        if (open) {
-          await fetchData(symbol);
-        }
+        await fetchData(symbol);
         if (cancelled) return;
         timeoutRef.current = setTimeout(loop, POLL_MS);
       }
@@ -281,22 +259,36 @@ export default function OptionChain() {
 
   useEffect(() => {
     let cancelled = false;
+
     if (!selectedStrike) {
       setTrendHistory([]);
       setSelectedStrikeHistory([]);
       return;
     }
 
-    loadTrendHistory(symbol, selectedStrike).then((points) => {
-      if (!cancelled) setTrendHistory(points);
-    });
+    const refreshHistory = () => {
+      loadTrendHistory(symbol, selectedStrike, selectedDate).then((points) => {
+        if (!cancelled) setTrendHistory(points);
+      });
 
-    loadSelectedStrikeHistory(symbol, selectedStrike).then((points) => {
-      if (!cancelled) setSelectedStrikeHistory(points);
-    });
+      loadSelectedStrikeHistory(symbol, selectedStrike, selectedDate).then((points) => {
+        if (!cancelled) setSelectedStrikeHistory(points);
+      });
+    };
+
+    refreshHistory();
+
+    // Only keep auto-refreshing on a timer for the live (no date picked)
+    // view — that's what picks up new rows from the background poller.
+    // A selected historical date is a fixed snapshot; no need to re-poll it.
+    let historyTimer = null;
+    if (!selectedDate) {
+      historyTimer = setInterval(refreshHistory, POLL_MS);
+    }
 
     return () => {
       cancelled = true;
+      if (historyTimer) clearInterval(historyTimer);
     };
   }, [symbol, selectedStrike, interval, selectedDate]);
 

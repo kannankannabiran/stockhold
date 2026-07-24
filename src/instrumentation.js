@@ -5,5 +5,8 @@ export async function register() {
 
     const { startOpenHighPoller } = await import("./lib/openHighBackground");
     startOpenHighPoller();
+
+    const { startOiTrendPoller } = await import("./lib/Oitrendbackground");
+    startOiTrendPoller();
   }
 }

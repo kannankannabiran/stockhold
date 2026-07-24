@@ -3,6 +3,41 @@ import db from "../../../lib/db";
 
 const MAX_TREND_POINTS = 30;
 
+// Market window: 9:15 AM – 3:30 PM IST
+const MARKET_START_MIN = 9 * 60 + 15;
+const MARKET_END_MIN = 15 * 60 + 30;
+
+function istNowParts() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+
+  const get = (type) => parts.find((p) => p.type === type)?.value;
+  const year = get("year");
+  const month = get("month");
+  const day = get("day");
+  const hour = Number(get("hour"));
+  const minute = Number(get("minute"));
+
+  return { dateKey: `${year}-${month}-${day}`, minutes: hour * 60 + minute };
+}
+
+function isWithinMarketHoursIST() {
+  const { minutes } = istNowParts();
+  return minutes >= MARKET_START_MIN && minutes <= MARKET_END_MIN;
+}
+
+function todayKeyIST() {
+  return istNowParts().dateKey;
+}
+
 const insertPoint = db.prepare(`
   INSERT INTO oi_trend_history
     (id, symbol, strike, date, time, ce_oi, pe_oi, ce_oi_change, pe_oi_change, timestamp)
@@ -23,6 +58,16 @@ const loadRecent = db.prepare(`
   LIMIT ?
 `);
 
+const loadRecentByDate = db.prepare(`
+  SELECT id, date, time, strike,
+         ce_oi AS ceOi, pe_oi AS peOi,
+         ce_oi_change AS ceOiChange, pe_oi_change AS peOiChange, timestamp
+  FROM oi_trend_history
+  WHERE symbol = ? AND strike = ? AND date = ?
+  ORDER BY timestamp DESC
+  LIMIT ?
+`);
+
 const loadAllForStrike = db.prepare(`
   SELECT id, date, time, strike,
          ce_oi AS ceOi, pe_oi AS peOi,
@@ -32,15 +77,21 @@ const loadAllForStrike = db.prepare(`
   ORDER BY timestamp DESC
 `);
 
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
+const loadAllForStrikeByDate = db.prepare(`
+  SELECT id, date, time, strike,
+         ce_oi AS ceOi, pe_oi AS peOi,
+         ce_oi_change AS ceOiChange, pe_oi_change AS peOiChange, timestamp
+  FROM oi_trend_history
+  WHERE symbol = ? AND strike = ? AND date = ?
+  ORDER BY timestamp DESC
+`);
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get("symbol");
   const strike = Number(searchParams.get("strike"));
   const mode = searchParams.get("mode");
+  const date = searchParams.get("date") || null;
 
   if (!symbol || !strike) {
     return NextResponse.json(
@@ -50,11 +101,15 @@ export async function GET(request) {
   }
 
   if (mode === "all") {
-    const rows = loadAllForStrike.all(symbol, strike);
+    const rows = date
+      ? loadAllForStrikeByDate.all(symbol, strike, date)
+      : loadAllForStrike.all(symbol, strike);
     return NextResponse.json(rows);
   }
 
-  const rows = loadRecent.all(symbol, strike, MAX_TREND_POINTS);
+  const rows = date
+    ? loadRecentByDate.all(symbol, strike, date, MAX_TREND_POINTS)
+    : loadRecent.all(symbol, strike, MAX_TREND_POINTS);
   const points = rows.map(({ timestamp, ...rest }) => rest);
   return NextResponse.json(points);
 }
@@ -68,7 +123,18 @@ export async function POST(request) {
   }
 
   const now = new Date();
-  const date = body.date || todayKey();
+  const today = todayKeyIST();
+  const date = body.date || today;
+
+  // Only gate writes for "live" snapshots (no explicit date, or date === today).
+  // Explicit past-date payloads (backfill/replay) bypass the market-hours check.
+  const isLiveWrite = date === today;
+  if (isLiveWrite && !isWithinMarketHoursIST()) {
+    return NextResponse.json(
+      { ok: true, skipped: true, reason: "outside_market_hours" },
+      { status: 200 }
+    );
+  }
 
   if (Array.isArray(body.points)) {
     const rows = body.points

@@ -59,11 +59,6 @@ const g = globalThis;
 if (!g.__openHighInstrumentsCache) g.__openHighInstrumentsCache = {};
 if (!g.__openHighStrikeStateCache) g.__openHighStrikeStateCache = { dateKey: null, data: {} };
 
-// NSE/BSE regular session is 9:15–15:30 IST. Kite's OHLC `open` field can be
-// unreliable in the pre-open window (9:00–9:15) or carry a stale prior value
-// right at the very first tick, which could otherwise get falsely recorded
-// as a permanent "OPEN_HIGH" hit for the whole day. Guard state transitions
-// to only run once the regular session has actually started.
 export function isMarketHours() {
   const now = new Date();
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
@@ -122,14 +117,13 @@ function updateStrikeState(ctx) {
     statusAt: null,
   };
 
-  // Only evaluate open/high/retest transitions inside the regular session —
-  // pre-open (before 9:15) and post-close ticks don't get to change state,
-  // they just pass through as a display snapshot (see fetchLiveOpenHighData).
   if (isMarketHours()) {
     if (open != null && high != null && high > open) {
       s.broke = true;
     }
-    if (s.broke && !s.retested && open != null && ltp != null && ltp <= open) {
+    // Exact match only — LTP must land precisely back on the open price,
+    // not merely dip to or below it, for a RETEST to fire.
+    if (s.broke && !s.retested && open != null && ltp != null && ltp === open) {
       s.retested = true;
     }
 
@@ -138,10 +132,6 @@ function updateStrikeState(ctx) {
 
     if (currentStatus !== s.status) {
       s.status = currentStatus;
-      // Stamped at the exact moment this poll detected the transition —
-      // independent of any browser tab/page refresh. With the background
-      // poller running every 30s during market hours, this is accurate to
-      // within ~30s of the real event, whether or not the page is open.
       s.statusAt = currentStatus ? Date.now() : null;
 
       if (currentStatus) {

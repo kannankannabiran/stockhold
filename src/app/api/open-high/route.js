@@ -9,13 +9,6 @@ import {
 } from "../../../lib/openHighCore";
 
 export async function GET(request) {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("kite_access_token")?.value;
-
-  if (!accessToken) {
-    return NextResponse.json({ error: "not_connected" }, { status: 401 });
-  }
-
   const { searchParams } = new URL(request.url);
   const requestedExpiry = searchParams.get("expiry");
   const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
@@ -31,9 +24,9 @@ export async function GET(request) {
   const today = todayKey();
   const isHistorical = requestedDate && requestedDate !== today;
 
-  // Historical: pure DB read — no Kite calls, works even if the background
-  // poller (or this route) never ran live for that exact minute, since the
-  // background poller keeps writing hits whether or not anyone has this page open.
+  // Historical: pure DB read. No Kite call needed, so no auth requirement —
+  // this was previously blocked by the accessToken check below, which made
+  // date-picker requests silently fail (and the UI kept showing stale data).
   if (isHistorical) {
     const { expiry, expiries, spot, rows } = getHistoricalOpenHighData(indexKey, requestedDate, requestedExpiry);
     return NextResponse.json({
@@ -47,6 +40,14 @@ export async function GET(request) {
       historical: true,
       updatedAt: new Date().toISOString(),
     });
+  }
+
+  // Live path needs a Kite session.
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("kite_access_token")?.value;
+
+  if (!accessToken) {
+    return NextResponse.json({ error: "not_connected" }, { status: 401 });
   }
 
   try {

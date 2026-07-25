@@ -136,6 +136,60 @@ async function loadSelectedStrikeHistory(sym, strike, date) {
   }
 }
 
+// Groups raw per-poll history rows into buckets of `intervalMinutes` size
+// (aligned to the top of the hour), so the history table reflects the
+// selected timeframe instead of always showing every raw poll.
+// - ceOiChange / peOiChange are summed across the bucket (net change over
+//   that interval).
+// - ceOi / peOi take the latest snapshot within the bucket.
+function consolidateByInterval(rows, intervalMinutes) {
+  if (!rows || !rows.length) return [];
+  if (!intervalMinutes || intervalMinutes <= 1) return rows;
+
+  const buckets = new Map();
+
+  for (const row of rows) {
+    const match = /^(\d{1,2}):(\d{2})/.exec(row.time || "");
+    if (!match) continue;
+
+    const totalMin = Number(match[1]) * 60 + Number(match[2]);
+    const bucketStartMin = Math.floor(totalMin / intervalMinutes) * intervalMinutes;
+    const bucketLabel = `${String(Math.floor(bucketStartMin / 60)).padStart(2, "0")}:${String(
+      bucketStartMin % 60
+    ).padStart(2, "0")}`;
+    const key = `${row.date}-${bucketLabel}`;
+
+    let bucket = buckets.get(key);
+    if (!bucket) {
+      bucket = {
+        id: key,
+        strike: row.strike,
+        date: row.date,
+        time: bucketLabel,
+        ceOi: row.ceOi,
+        peOi: row.peOi,
+        ceOiChange: 0,
+        peOiChange: 0,
+        _lastMin: totalMin,
+      };
+      buckets.set(key, bucket);
+    }
+
+    bucket.ceOiChange += Number(row.ceOiChange ?? 0);
+    bucket.peOiChange += Number(row.peOiChange ?? 0);
+
+    if (totalMin >= bucket._lastMin) {
+      bucket.ceOi = row.ceOi;
+      bucket.peOi = row.peOi;
+      bucket._lastMin = totalMin;
+    }
+  }
+
+  return Array.from(buckets.values())
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+    .map(({ _lastMin, ...rest }) => rest);
+}
+
 function StatCard({ label, value, tone = "slate" }) {
   const tones = {
     slate: "from-slate-50 to-white border-slate-200 text-slate-700",
@@ -344,6 +398,11 @@ export default function OptionChain() {
   const selectedOiSentiment = useMemo(
     () => oiSentiment(selectedRow?.CE_oi ?? null, selectedRow?.PE_oi ?? null),
     [selectedRow]
+  );
+
+  const consolidatedStrikeHistory = useMemo(
+    () => consolidateByInterval(selectedStrikeHistory, interval),
+    [selectedStrikeHistory, interval]
   );
 
   const oiChangeLineChartData = useMemo(
@@ -647,7 +706,7 @@ export default function OptionChain() {
             </div>
           </div>
 
-          {selectedStrikeHistory.length > 0 && (
+          {consolidatedStrikeHistory.length > 0 && (
             <div className="xl:col-span-12 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
               <div className="border-b bg-slate-50 px-5 py-4">
                 <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
@@ -655,7 +714,7 @@ export default function OptionChain() {
                     Selected Strike History - {selectedStrike}
                   </h3>
                   <div className="text-sm text-slate-500">
-                    {selectedStrikeHistory.length} records
+                    {consolidatedStrikeHistory.length} records · {interval} min interval
                   </div>
                 </div>
               </div>
@@ -694,7 +753,7 @@ export default function OptionChain() {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedStrikeHistory.map((row, idx) => {
+                    {consolidatedStrikeHistory.map((row, idx) => {
                       const callChg = Number(row.ceOiChange ?? 0);
                       const putChg = Number(row.peOiChange ?? 0);
                       const diff = putChg - callChg;

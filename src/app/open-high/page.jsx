@@ -14,6 +14,11 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function isWeekend(dateStr) {
+  const day = new Date(`${dateStr}T00:00:00`).getDay();
+  return day === 0 || day === 6;
+}
+
 function fmt(v) {
   return v === null || v === undefined ? "—" : v;
 }
@@ -94,10 +99,18 @@ export default function OpenHighPage() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [dateWarning, setDateWarning] = useState(null);
 
   const isToday = date === todayStr();
+  const weekendSelected = isWeekend(date);
 
   const load = useCallback(async () => {
+    if (weekendSelected) {
+      setData(null);
+      setError(null);
+      setLoading(false);
+      return; // weekend — never a trading day, skip the fetch entirely
+    }
     try {
       const params = new URLSearchParams({ index, date });
       if (expiry) params.set("expiry", expiry);
@@ -105,7 +118,7 @@ export default function OpenHighPage() {
       const json = await res.json();
       if (!res.ok) {
         setError(json.message || json.error || "Failed to load");
-        setData(null); // don't leave a stale (previous date's) table on screen
+        setData(null);
         return;
       }
       setError(null);
@@ -117,22 +130,33 @@ export default function OpenHighPage() {
     } finally {
       setLoading(false);
     }
-  }, [index, expiry, date]);
+  }, [index, expiry, date, weekendSelected]);
 
   useEffect(() => {
     setLoading(true);
-    setData(null); // clear immediately on date/index/expiry change, before the fetch resolves
+    setData(null);
     load();
-    if (!isToday) return; // no polling for historical dates
+    if (!isToday || weekendSelected) return; // no polling for historical dates or weekends
     const id = setInterval(load, REFRESH_MS);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, date]); // expiry intentionally excluded — expiry changes are handled by `load` itself without re-clearing data
+  }, [index, date]);
 
   useEffect(() => {
     if (expiry) load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expiry]);
+
+  const handleDateChange = (e) => {
+    const picked = e.target.value;
+    if (isWeekend(picked)) {
+      setDateWarning("Markets are closed on weekends — pick a weekday.");
+      return; // don't accept the weekend date at all
+    }
+    setDateWarning(null);
+    setDate(picked);
+    setExpiry(null);
+  };
 
   const atmStrike = useMemo(() => {
     if (!data?.spot || !data.rows.length) return null;
@@ -144,6 +168,10 @@ export default function OpenHighPage() {
   const openHighCount = data ? data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length : 0;
   const retestCount = data ? data.rows.filter((r) => r.CE_status === "RETEST" || r.PE_status === "RETEST").length : 0;
   const pendingCount = data ? data.rows.filter((r) => (r.CE_broke && !r.CE_status) || (r.PE_broke && !r.PE_status)).length : 0;
+
+  // A weekday with zero recorded rows means the poller never saw a trading
+  // session that day — almost certainly a market holiday, not a bug.
+  const isLikelyHoliday = !loading && !weekendSelected && data && data.rows.length === 0;
 
   return (
     <div style={styles.page}>
@@ -164,7 +192,7 @@ export default function OpenHighPage() {
             type="date"
             value={date}
             max={todayStr()}
-            onChange={(e) => { setDate(e.target.value); setExpiry(null); }}
+            onChange={handleDateChange}
             style={styles.select}
           />
 
@@ -176,55 +204,71 @@ export default function OpenHighPage() {
         </div>
       </div>
 
-      {!isToday && (
+      {dateWarning && <div style={styles.warningBanner}>{dateWarning}</div>}
+
+      {!isToday && !weekendSelected && (
         <div style={styles.historicalBanner}>
           Viewing history for {date} — read-only, no live polling.
         </div>
       )}
 
-      <div style={styles.statsBar}>
-        {data?.spot != null && (
+      {weekendSelected && (
+        <div style={styles.holidayBanner}>
+          {date} is a weekend — markets are closed, no data to show.
+        </div>
+      )}
+
+      {isLikelyHoliday && (
+        <div style={styles.holidayBanner}>
+          No data recorded for {date} — likely a market holiday.
+        </div>
+      )}
+
+      {!weekendSelected && (
+        <div style={styles.statsBar}>
+          {data?.spot != null && (
+            <div style={styles.statChip}>
+              <span style={styles.statLabel}>SPOT</span>
+              <span style={styles.statValue}>{data.spot}</span>
+            </div>
+          )}
           <div style={styles.statChip}>
-            <span style={styles.statLabel}>SPOT</span>
-            <span style={styles.statValue}>{data.spot}</span>
+            <span style={styles.statLabel}>OPEN=HIGH</span>
+            <span style={{ ...styles.statValue, color: "#2563eb" }}>{openHighCount}</span>
           </div>
-        )}
-        <div style={styles.statChip}>
-          <span style={styles.statLabel}>OPEN=HIGH</span>
-          <span style={{ ...styles.statValue, color: "#2563eb" }}>{openHighCount}</span>
-        </div>
-        <div style={styles.statChip}>
-          <span style={styles.statLabel}>RETESTS</span>
-          <span style={{ ...styles.statValue, color: "#16a34a" }}>{retestCount}</span>
-        </div>
-        {isToday && (
           <div style={styles.statChip}>
-            <span style={styles.statLabel}>PENDING</span>
-            <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
+            <span style={styles.statLabel}>RETESTS</span>
+            <span style={{ ...styles.statValue, color: "#16a34a" }}>{retestCount}</span>
           </div>
-        )}
-        <div style={styles.statChip}>
-          <span style={styles.statLabel}>EXPIRY</span>
-          <span style={styles.statValue}>{data?.expiry || "—"}</span>
-        </div>
-        <div style={styles.legend}>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High</span>
-          <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Retest</span>
-          {isToday && <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>}
-        </div>
-        {data?.updatedAt && isToday && (
-          <div style={styles.liveDot}>
-            <span style={styles.pulseDot} />
-            {new Date(data.updatedAt).toLocaleTimeString()}
+          {isToday && (
+            <div style={styles.statChip}>
+              <span style={styles.statLabel}>PENDING</span>
+              <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
+            </div>
+          )}
+          <div style={styles.statChip}>
+            <span style={styles.statLabel}>EXPIRY</span>
+            <span style={styles.statValue}>{data?.expiry || "—"}</span>
           </div>
-        )}
-      </div>
+          <div style={styles.legend}>
+            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
+            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High</span>
+            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Retest</span>
+            {isToday && <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>}
+          </div>
+          {data?.updatedAt && isToday && (
+            <div style={styles.liveDot}>
+              <span style={styles.pulseDot} />
+              {new Date(data.updatedAt).toLocaleTimeString()}
+            </div>
+          )}
+        </div>
+      )}
 
       {error && <div style={styles.errorBox}>{error}</div>}
-      {loading && !data && <div style={styles.loading}>Loading…</div>}
+      {loading && !data && !weekendSelected && <div style={styles.loading}>Loading…</div>}
 
-      {data && (
+      {data && !weekendSelected && (
         <div style={styles.tableWrap}>
           <table style={styles.table}>
             <thead>
@@ -301,7 +345,9 @@ const styles = {
   subtitle: { margin: "4px 0 0", color: "#6b7280", fontSize: 13 },
   controls: { display: "flex", gap: 10, alignItems: "center" },
   select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
+  warningBanner: { background: "#fef2f2", border: "1px solid #fecaca", color: "#b91c1c", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
   historicalBanner: { background: "#fffbeb", border: "1px solid #fde68a", color: "#92400e", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
+  holidayBanner: { background: "#f3f4f6", border: "1px solid #e5e7eb", color: "#4b5563", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
   statsBar: { display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" },
   statChip: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10, padding: "8px 14px", display: "flex", flexDirection: "column", gap: 2, minWidth: 90, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" },
   statLabel: { fontSize: 10, letterSpacing: 1, color: "#9ca3af" },

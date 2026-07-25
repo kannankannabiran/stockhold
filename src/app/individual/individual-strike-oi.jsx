@@ -81,6 +81,16 @@ function sentimentFromDiff(pct) {
   return "Neutral";
 }
 
+// Raw-OI-based sentiment: more Put OI than Call OI suggests put writers
+// defending a floor (Bullish); more Call OI than Put OI suggests call
+// writers defending a ceiling (Bearish). Independent of the ΔOI sentiment.
+function oiSentiment(ceOi, peOi) {
+  if (ceOi == null || peOi == null) return "N/A";
+  if (ceOi < peOi) return "Bullish";
+  if (ceOi > peOi) return "Bearish";
+  return "Neutral";
+}
+
 function sentimentClasses(sentiment) {
   switch (sentiment) {
     case "Bullish":
@@ -331,6 +341,11 @@ export default function OptionChain() {
     [selectedDiff]
   );
 
+  const selectedOiSentiment = useMemo(
+    () => oiSentiment(selectedRow?.CE_oi ?? null, selectedRow?.PE_oi ?? null),
+    [selectedRow]
+  );
+
   const oiChangeLineChartData = useMemo(
     () => ({
       labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
@@ -359,6 +374,47 @@ export default function OptionChain() {
           backgroundColor: "rgba(225, 29, 72, 0.10)",
           pointBackgroundColor: "#e11d48",
           pointBorderColor: "#e11d48",
+          pointRadius: trendHistory.length > 1 ? 2.5 : 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          tension: 0.35,
+          fill: true,
+        },
+      ],
+    }),
+    [trendHistory, selectedRow]
+  );
+
+  // Raw (non-delta) Call OI / Put OI trend — plots the running open interest
+  // total for the selected strike, alongside the existing ΔOI chart above.
+  const oiLineChartData = useMemo(
+    () => ({
+      labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
+      datasets: [
+        {
+          label: "Call OI",
+          data: trendHistory.length
+            ? trendHistory.map((p) => p.ceOi)
+            : [selectedRow?.CE_oi ?? null],
+          borderColor: "#2563eb",
+          backgroundColor: "rgba(37, 99, 235, 0.10)",
+          pointBackgroundColor: "#2563eb",
+          pointBorderColor: "#2563eb",
+          pointRadius: trendHistory.length > 1 ? 2.5 : 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          tension: 0.35,
+          fill: true,
+        },
+        {
+          label: "Put OI",
+          data: trendHistory.length
+            ? trendHistory.map((p) => p.peOi)
+            : [selectedRow?.PE_oi ?? null],
+          borderColor: "#d97706",
+          backgroundColor: "rgba(217, 119, 6, 0.10)",
+          pointBackgroundColor: "#d97706",
+          pointBorderColor: "#d97706",
           pointRadius: trendHistory.length > 1 ? 2.5 : 4,
           pointHoverRadius: 6,
           borderWidth: 2.5,
@@ -431,7 +487,7 @@ export default function OptionChain() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-8">
             <StatCard label="Spot" value={spot != null ? spot.toLocaleString() : "—"} tone="blue" />
             <StatCard label="Expiry" value={expiry || "—"} tone="slate" />
             <StatCard
@@ -439,11 +495,26 @@ export default function OptionChain() {
               value={updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"}
               tone="slate"
             />
+            <StatCard
+              label="Call OI"
+              value={selectedRow?.CE_oi != null ? Number(selectedRow.CE_oi).toLocaleString() : "—"}
+              tone="blue"
+            />
+            <StatCard
+              label="Put OI"
+              value={selectedRow?.PE_oi != null ? Number(selectedRow.PE_oi).toLocaleString() : "—"}
+              tone="amber"
+            />
             <StatCard label="Snapshots" value={trendHistory.length} tone="green" />
             <StatCard
-              label="Selected Sentiment"
+              label="ΔOI Sentiment"
               value={selectedSentiment}
               tone={selectedSentiment === "Bullish" ? "green" : selectedSentiment === "Bearish" ? "red" : "amber"}
+            />
+            <StatCard
+              label="OI Sentiment"
+              value={selectedOiSentiment}
+              tone={selectedOiSentiment === "Bullish" ? "green" : selectedOiSentiment === "Bearish" ? "red" : "amber"}
             />
           </div>
         </div>
@@ -519,7 +590,34 @@ export default function OptionChain() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-12">
-          <div className="xl:col-span-12 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+          <div className="xl:col-span-6 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+            <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800">Call OI / Put OI</h3>
+                <p className="text-sm text-slate-500">
+                  Raw open interest for the selected strike over time.
+                </p>
+              </div>
+
+              {selectedRow && (
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
+                    Strike: {selectedRow.strike}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="h-[420px] rounded-2xl bg-slate-50/70 p-3 md:p-4">
+              <Line
+                key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-oi`}
+                data={oiLineChartData}
+                options={chartOptions}
+              />
+            </div>
+          </div>
+
+          <div className="xl:col-span-6 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
             <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-800">ΔOI Trend</h3>
@@ -576,13 +674,22 @@ export default function OptionChain() {
                         Time
                       </th>
                       <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
+                        Call OI
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
+                        Put OI
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
                         Call Chg OI
                       </th>
                       <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
                         Put Chg OI
                       </th>
                       <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
-                        Sentiment
+                        ΔOI Sentiment
+                      </th>
+                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
+                        OI Sentiment
                       </th>
                     </tr>
                   </thead>
@@ -592,6 +699,7 @@ export default function OptionChain() {
                       const putChg = Number(row.peOiChange ?? 0);
                       const diff = putChg - callChg;
                       const sentiment = diff > 0 ? "Bullish" : diff < 0 ? "Bearish" : "Neutral";
+                      const rowOiSentiment = oiSentiment(row.ceOi ?? null, row.peOi ?? null);
 
                       return (
                         <tr
@@ -614,6 +722,12 @@ export default function OptionChain() {
                             {row.time}
                           </td>
                           <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
+                            {row.ceOi == null ? "N/A" : Number(row.ceOi).toLocaleString()}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
+                            {row.peOi == null ? "N/A" : Number(row.peOi).toLocaleString()}
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
                             {row.ceOiChange == null ? "N/A" : Number(row.ceOiChange).toLocaleString()}
                           </td>
                           <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
@@ -624,6 +738,13 @@ export default function OptionChain() {
                               className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${sentimentClasses(sentiment)}`}
                             >
                               {sentiment}
+                            </span>
+                          </td>
+                          <td className="border-b border-slate-100 px-4 py-3 text-center">
+                            <span
+                              className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${sentimentClasses(rowOiSentiment)}`}
+                            >
+                              {rowOiSentiment}
                             </span>
                           </td>
                         </tr>

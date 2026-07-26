@@ -583,7 +583,7 @@ export default function OptionChain() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 md:p-6">
-      <div className="mx-auto max-w-screen-2xl space-y-6">
+      <div className="w-full space-y-6">
         <div className="rounded-3xl border border-slate-200 bg-white/90 p-5 md:p-6 shadow-sm backdrop-blur">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>

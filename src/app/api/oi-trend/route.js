@@ -86,12 +86,41 @@ const loadAllForStrikeByDate = db.prepare(`
   ORDER BY timestamp DESC
 `);
 
+// Latest snapshot per strike for a symbol+date — used to populate the whole
+// strike list for a historical date view without touching the live Kite API.
+const loadLatestPerStrikeForDate = db.prepare(`
+  SELECT t1.strike, t1.date, t1.time,
+         t1.ce_oi AS ceOi, t1.pe_oi AS peOi,
+         t1.ce_oi_change AS ceOiChange, t1.pe_oi_change AS peOiChange
+  FROM oi_trend_history t1
+  INNER JOIN (
+    SELECT strike, MAX(timestamp) AS maxTs
+    FROM oi_trend_history
+    WHERE symbol = ? AND date = ?
+    GROUP BY strike
+  ) t2 ON t1.strike = t2.strike AND t1.timestamp = t2.maxTs
+  WHERE t1.symbol = ? AND t1.date = ?
+  ORDER BY t1.strike ASC
+`);
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get("symbol");
-  const strike = Number(searchParams.get("strike"));
   const mode = searchParams.get("mode");
   const date = searchParams.get("date") || null;
+
+  if (mode === "strikes") {
+    if (!symbol || !date) {
+      return NextResponse.json(
+        { error: "symbol and date are required for mode=strikes" },
+        { status: 400 }
+      );
+    }
+    const rows = loadLatestPerStrikeForDate.all(symbol, date, symbol, date);
+    return NextResponse.json(rows);
+  }
+
+  const strike = Number(searchParams.get("strike"));
 
   if (!symbol || !strike) {
     return NextResponse.json(

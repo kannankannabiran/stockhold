@@ -136,6 +136,24 @@ async function loadSelectedStrikeHistory(sym, strike, date) {
   }
 }
 
+// Fetches all strikes' latest snapshot for a symbol+date, purely from the
+// DB (oi_trend_history) — no Kite/live API involved. This is what powers
+// the historical-date view so picking a past date can never show a
+// "Not connected to Kite" error: it never asks Kite for anything.
+async function loadStrikesForDate(sym, date) {
+  if (!sym || !date) return [];
+  try {
+    const qs = new URLSearchParams({ symbol: sym, date, mode: "strikes" });
+    const res = await fetch(`/api/oi-trend?${qs.toString()}`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    console.error("[oiTrend] failed to load strikes for date", e);
+    return [];
+  }
+}
+
 // Groups raw per-poll history rows into buckets of `intervalMinutes` size
 // (aligned to the top of the hour), so the history table reflects the
 // selected timeframe instead of always showing every raw poll.
@@ -225,6 +243,8 @@ export default function OptionChain() {
   const timeoutRef = useRef(null);
   const inFlightRef = useRef(false);
 
+  // Live fetch — talks to the Kite-backed /api/optionchain route. Only ever
+  // called when no historical date is selected.
   const fetchData = useCallback(
     async (sym, expiryOverride) => {
       if (inFlightRef.current) return;
@@ -233,7 +253,6 @@ export default function OptionChain() {
       try {
         const qs = new URLSearchParams({ index: sym, interval: String(interval) });
         if (expiryOverride) qs.set("expiry", expiryOverride);
-        if (selectedDate) qs.set("date", selectedDate);
 
         const res = await fetch(`/api/optionchain?${qs.toString()}`);
         const data = await res.json();
@@ -276,26 +295,79 @@ export default function OptionChain() {
         inFlightRef.current = false;
       }
     },
-    [interval, selectedDate]
+    [interval]
   );
 
-  // Reset strike selection whenever the filters change (symbol/date/interval).
-  // Fetching itself is owned by the effects below.
+  // Historical-date fetch — pure DB read via mode=strikes. Never touches
+  // Kite, so "Not connected to Kite" can never appear for a picked date.
+  const fetchHistoricalDate = useCallback(async (sym, date) => {
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
+
+    try {
+      const strikeRows = await loadStrikesForDate(sym, date);
+
+      setError(null);
+      // Map DB field names (ceOi/peOi/ceOiChange/peOiChange) to the same
+      // shape the live rows use (CE_oi/PE_oi/CE_oiChange/PE_oiChange) so
+      // the rest of the page doesn't need to branch on live vs historical.
+      const mappedRows = strikeRows.map((r) => ({
+        strike: r.strike,
+        CE_oi: r.ceOi,
+        PE_oi: r.peOi,
+        CE_oiChange: r.ceOiChange,
+        PE_oiChange: r.peOiChange,
+      }));
+
+      setRows(mappedRows);
+      // Spot isn't stored in oi_trend_history, so it isn't available for a
+      // historical view — the Spot stat card just shows "—" for that date.
+      setSpot(null);
+      setExpiry(null);
+      setExpiries([]);
+      setUpdatedAt(
+        mappedRows.length ? `${date}T${strikeRows[0]?.time || "00:00:00"}` : null
+      );
+
+      if (!mappedRows.length) {
+        setError(`No saved data found for ${date}.`);
+        return;
+      }
+
+      // No spot to find "closest to ATM" against, so default to the middle
+      // strike of the saved range as a reasonable starting point.
+      setSelectedStrike((prev) => prev ?? mappedRows[Math.floor(mappedRows.length / 2)].strike);
+    } catch (err) {
+      setError("Failed to load saved data for that date.");
+    } finally {
+      inFlightRef.current = false;
+    }
+  }, []);
+
+  // Reset strike selection and stale data when symbol/date change — NOT on
+  // interval (timeframe). Interval only re-buckets already-loaded history
+  // client-side (see consolidateByInterval below); wiping rows on interval
+  // change left historical views with nothing to redraw, since the
+  // historical fetch below only re-runs on symbol/date.
   useEffect(() => {
     setSelectedStrike(null);
-  }, [symbol, selectedDate, interval]);
+    setRows([]);
+    setSpot(null);
+    setExpiry(null);
+    setExpiries([]);
+    setUpdatedAt(null);
+    setError(null);
+  }, [symbol, selectedDate]);
 
-  // Historical date view — one-shot fetch (no polling, the data is fixed).
-  // This is what populates rows/spot for the picked date so the ATM
-  // auto-select in fetchData (closest strike to spot) can run against it.
+  // Historical date view — one-shot DB read (no polling, no Kite call).
   useEffect(() => {
     if (selectedDate) {
-      fetchData(symbol);
+      fetchHistoricalDate(symbol, selectedDate);
     }
-  }, [symbol, selectedDate, interval, fetchData]);
+  }, [symbol, selectedDate, fetchHistoricalDate]);
 
-  // View refresh loop — runs every 1 min whenever the page is open,
-  // regardless of market hours. Purely for display; DB writes happen
+  // Live view refresh loop — runs every 1 min whenever the page is open and
+  // no historical date is selected. Purely for display; DB writes happen
   // independently in the background poller.
   useEffect(() => {
     let cancelled = false;
@@ -524,7 +596,9 @@ export default function OptionChain() {
                     {symbol} Option Chain
                   </h2>
                   <p className="mt-1 text-sm text-slate-500">
-                    Live OI trend, strike history, and market snapshot overview.
+                    {selectedDate
+                      ? `Viewing saved data for ${selectedDate}.`
+                      : "Live OI trend, strike history, and market snapshot overview."}
                   </p>
                 </div>
               </div>
@@ -616,11 +690,18 @@ export default function OptionChain() {
               onChange={(e) => setSelectedDate(e.target.value)}
             />
 
-            {expiries.length > 0 ? (
+            {!selectedDate && expiries.length > 0 ? (
               <select
                 className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 value={expiry || ""}
-                onChange={(e) => fetchData(symbol, e.target.value)}
+                onChange={(e) => {
+                  setSelectedStrike(null);
+                  setRows([]);
+                  setSpot(null);
+                  setUpdatedAt(null);
+                  setError(null);
+                  fetchData(symbol, e.target.value);
+                }}
               >
                 {expiries.map((e) => (
                   <option key={e} value={e}>
@@ -628,9 +709,13 @@ export default function OptionChain() {
                   </option>
                 ))}
               </select>
-            ) : (
+            ) : !selectedDate ? (
               <div className="flex h-12 items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-sm text-slate-400">
                 Expiry loading...
+              </div>
+            ) : (
+              <div className="flex h-12 items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-sm text-slate-400">
+                Expiry N/A for saved date
               </div>
             )}
 

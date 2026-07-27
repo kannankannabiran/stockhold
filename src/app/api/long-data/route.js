@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import yahooFinance from "@/lib/yahooFinance";
+import { newClient } from "@/lib/kite";
+import { getStoredAccessToken } from "@/lib/kiteTokenStore"; // CONFIRM: is this the right path/filename?
 import stocklist from "@/app/symbol/data";
 import fs from "fs/promises";
 import path from "path";
 
-// symbols from your stocklist
-const symbols = stocklist.map((s) => s.value);
+// symbols from your stocklist — strip ".NS" since Kite tradingsymbols don't use it
+const symbols = stocklist.map((s) => s.value.replace(".NS", ""));
 
 // --- Helper: split into chunks ---
 function chunkArray(array, size) {
@@ -16,7 +17,7 @@ function chunkArray(array, size) {
   return result;
 }
 
-// --- VWAP calculation ---
+// --- VWAP calculation (unchanged) ---
 function calculateYearlyVWAP(data) {
   const yearlyMap = {};
 
@@ -43,6 +44,59 @@ function calculateYearlyVWAP(data) {
   return yearlyVWAP;
 }
 
+// --- NSE instrument map cache (tradingsymbol -> instrument_token) ---
+// Kite's historical data endpoint needs instrument_token, not the symbol string.
+let instrumentMapCache = null;
+let instrumentMapFetchedAt = 0;
+const INSTRUMENT_MAP_TTL_MS = 24 * 60 * 60 * 1000; // refresh once a day
+
+// Normalize a symbol so case/whitespace differences between your stocklist
+// and Kite's tradingsymbol format don't cause false lookup misses.
+function normalizeSymbol(s) {
+  return String(s).trim().toUpperCase();
+}
+
+async function getInstrumentMap(kc) {
+  const now = Date.now();
+  if (instrumentMapCache && now - instrumentMapFetchedAt < INSTRUMENT_MAP_TTL_MS) {
+    return instrumentMapCache;
+  }
+
+  const instruments = await kc.getInstruments(["NSE"]);
+  const map = new Map();
+  for (const inst of instruments) {
+    // only equity segment, exact tradingsymbol match
+    if (inst.segment === "NSE" && inst.instrument_type === "EQ") {
+      map.set(normalizeSymbol(inst.tradingsymbol), inst.instrument_token);
+    }
+  }
+
+  instrumentMapCache = map;
+  instrumentMapFetchedAt = now;
+  console.log(`[instrumentMap] built with ${map.size} NSE equity entries`);
+  console.log(`[instrumentMap] sample keys:`, Array.from(map.keys()).slice(0, 10));
+  return map;
+}
+
+// --- Fetch historical daily candles from Kite with 429 retry ---
+async function fetchHistoricalWithRetry(kc, instrumentToken, from, to, retries = 3) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const data = await kc.getHistoricalData(instrumentToken, "day", from, to, false, 0);
+      return data;
+    } catch (err) {
+      const isRateLimited =
+        err?.message?.includes("Too many requests") || err?.status_code === 429;
+      if (isRateLimited && attempt < retries) {
+        const backoff = 1000 * (attempt + 1);
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
+      throw err;
+    }
+  }
+}
+
 // --- Global scan lock: only ONE scan can run at a time across all users ---
 let isScanning = false;
 let scanProgress = { current: 0, total: 0 };
@@ -57,19 +111,36 @@ async function runScanInBackground() {
   console.log(`🚀 Long-term scan started! Total symbols: ${symbols.length}`);
 
   try {
+    const accessToken = getStoredAccessToken();
+    if (!accessToken) {
+      throw new Error(
+        "No valid Kite access token found — log in via your Kite auth route first (tokens expire daily)."
+      );
+    }
+    const kc = newClient(accessToken);
+    const instrumentMap = await getInstrumentMap(kc);
+
     const resultRise = [];
     const resultDecline = [];
+    const missedSymbols = [];
 
-    const batches = chunkArray(symbols, 20);
+    const toDate = new Date();
+    const fromDate = new Date();
+    fromDate.setFullYear(toDate.getFullYear() - 5);
+
+    // Kite historical endpoint is strict on rate limits — small batches, real delay between them
+    const batches = chunkArray(symbols, 3);
 
     for (const batch of batches) {
       const promises = batch.map(async (symbol) => {
         try {
-          const rawData = await yahooFinance.historical(symbol, {
-            period1: new Date(new Date().setFullYear(new Date().getFullYear() - 5)),
-            period2: new Date(),
-            interval: "1d",
-          });
+          const instrumentToken = instrumentMap.get(normalizeSymbol(symbol));
+          if (!instrumentToken) {
+            missedSymbols.push(symbol);
+            return null;
+          }
+
+          const rawData = await fetchHistoricalWithRetry(kc, instrumentToken, fromDate, toDate);
 
           if (!rawData || rawData.length === 0) return null;
 
@@ -131,18 +202,13 @@ async function runScanInBackground() {
 
           return null;
         } catch (err) {
-          if (err.message?.includes("No data found") || err.message?.includes("delisted")) {
-            console.log(`${symbol} appears to be delisted, skipping`);
-          } else {
-            console.error(`Error fetching ${symbol}:`, err.message);
-          }
+          console.error(`Error fetching ${symbol}:`, err.message);
           return null;
         }
       });
 
       const batchResults = await Promise.all(promises);
 
-      // Update progress after each batch completes
       scanProgress.current = Math.min(scanProgress.current + batch.length, symbols.length);
 
       for (const res of batchResults) {
@@ -150,8 +216,15 @@ async function runScanInBackground() {
         if (res?.trend === "decline") resultDecline.push(res);
       }
 
-      // Small delay between batches to avoid rate-limiting
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      // Larger delay between batches — Kite's historical API rate limit is much tighter than Yahoo's
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    if (missedSymbols.length > 0) {
+      console.log(
+        `[instrumentMap] ${missedSymbols.length}/${symbols.length} symbols had no match:`,
+        missedSymbols.join(", ")
+      );
     }
 
     const finalResults = {
@@ -185,10 +258,8 @@ export async function GET() {
 
 // --- POST: trigger a background scan (only if one isn't already running) ---
 export async function POST() {
-  // Fire the background scan — non-blocking
   runScanInBackground();
 
-  // Immediately return current status + any existing results
   try {
     const filePath = path.join(process.cwd(), "data", "longterm.json");
     const data = await fs.readFile(filePath, "utf-8");

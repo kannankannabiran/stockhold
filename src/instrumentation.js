@@ -8,5 +8,8 @@ export async function register() {
 
     const { startOiTrendPoller } = await import("./lib/Oitrendbackground");
     startOiTrendPoller();
+
+    const { startOptionChainSnapshotBackground } = await import("./lib/optionChainSnapshotBackground");
+    startOptionChainSnapshotBackground();
   }
 }

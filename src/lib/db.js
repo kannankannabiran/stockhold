@@ -68,6 +68,30 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_trending_oi_summary_symbol_ts
     ON trending_oi_summary (symbol, timestamp DESC);
+
+  CREATE TABLE IF NOT EXISTS option_chain_snapshots (
+    id TEXT PRIMARY KEY,
+    index_key TEXT NOT NULL,
+    expiry TEXT NOT NULL,
+    strike REAL NOT NULL,
+    spot REAL,
+    ce_ltp REAL,
+    ce_oi INTEGER,
+    ce_oi_change INTEGER,
+    ce_vol INTEGER,
+    ce_chg REAL,
+    pe_ltp REAL,
+    pe_oi INTEGER,
+    pe_oi_change INTEGER,
+    pe_vol INTEGER,
+    pe_chg REAL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_option_chain_snapshots_lookup
+    ON option_chain_snapshots (index_key, date, timestamp);
 `);
 
 // Migrations: if trending_oi_history was created before spot/call_oi/put_oi

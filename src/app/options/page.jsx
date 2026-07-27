@@ -23,10 +23,12 @@ function fmtInt(n) {
   return Number(n).toLocaleString("en-IN");
 }
 
+function todayIstKey() {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+}
+
 function ChgCell({ value }) {
-  if (value === null || value === undefined) {
-    return <span className="text-slate-400">—</span>;
-  }
+  if (value === null || value === undefined) return <span className="text-slate-400">—</span>;
   const positive = value > 0;
   const negative = value < 0;
   return (
@@ -38,9 +40,7 @@ function ChgCell({ value }) {
 }
 
 function OiCell({ value }) {
-  if (value === null || value === undefined) {
-    return <span className="text-slate-400">—</span>;
-  }
+  if (value === null || value === undefined) return <span className="text-slate-400">—</span>;
   const positive = value > 0;
   const negative = value < 0;
   return (
@@ -58,7 +58,6 @@ function StatCard({ label, value, subtext, accent = "slate" }) {
     amber: "from-amber-500/10 to-white",
     rose: "from-rose-500/10 to-white",
   };
-
   return (
     <div className={`rounded-2xl border border-slate-200 bg-gradient-to-br ${accentMap[accent]} px-5 py-4 shadow-sm`}>
       <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-slate-500">{label}</p>
@@ -79,10 +78,18 @@ export default function Page() {
   const intervalRef = useRef(null);
   const waitingRetryRef = useRef(null);
 
-  const load = useCallback(async (idx, expiry) => {
+  // --- history mode state ---
+  const [selectedDate, setSelectedDate] = useState(todayIstKey());
+  const [historyTimes, setHistoryTimes] = useState([]); // [{ time: "09:31:05", timestamp: 175... }]
+  const [selectedTimestamp, setSelectedTimestamp] = useState(null);
+  const isHistoryMode = selectedDate !== todayIstKey();
+
+  const load = useCallback(async (idx, expiry, date, timestamp) => {
     try {
       const params = new URLSearchParams({ index: idx });
       if (expiry) params.set("expiry", expiry);
+      if (date) params.set("date", date);
+      if (timestamp) params.set("time", String(timestamp));
       const res = await fetch(`/api/optionchain?${params.toString()}`, { cache: "no-store" });
 
       if (res.status === 401) {
@@ -93,7 +100,7 @@ export default function Page() {
       const json = await res.json();
 
       if (!res.ok) {
-        setStatus("error");
+        setStatus(json.error === "no_history" ? "no_history" : "error");
         setErrorMsg(json.message || "Failed to load option chain.");
         return;
       }
@@ -103,20 +110,77 @@ export default function Page() {
       setStatus("connected");
       setErrorMsg(null);
       setLastFetched(new Date());
+      if (json.historical && json.capturedTimestamp) {
+        setSelectedTimestamp(json.capturedTimestamp);
+      }
     } catch (err) {
       setStatus("error");
       setErrorMsg(err.message || "Something went wrong.");
     }
   }, []);
 
+  const loadHistoryTimes = useCallback(
+    async (idx, date) => {
+      try {
+        const params = new URLSearchParams({ index: idx, date });
+        const res = await fetch(`/api/optionchain/history-meta?${params.toString()}`, { cache: "no-store" });
+        const json = await res.json();
+        const times = json.times || [];
+        setHistoryTimes(times);
+        const latest = times.length ? times[times.length - 1] : null;
+        if (latest) {
+          setStatus("loading");
+          load(idx, null, date, latest.timestamp);
+        } else {
+          setSelectedTimestamp(null);
+          setStatus("no_history");
+          setErrorMsg(`No saved snapshots for ${idx} on ${date}.`);
+        }
+      } catch (err) {
+        setStatus("error");
+        setErrorMsg(err.message || "Failed to load snapshot list.");
+      }
+    },
+    [load]
+  );
+
   const handleIndexChange = useCallback(
     (key) => {
       setIndexKey(key);
       setStatus("loading");
       setSelectedExpiry(null);
-      load(key);
+      if (selectedDate !== todayIstKey()) {
+        loadHistoryTimes(key, selectedDate);
+      } else {
+        load(key);
+      }
     },
-    [load]
+    [load, loadHistoryTimes, selectedDate]
+  );
+
+  const handleDateChange = useCallback(
+    (dateStr) => {
+      setSelectedDate(dateStr);
+      setStatus("loading");
+      setSelectedTimestamp(null);
+      setHistoryTimes([]);
+      if (dateStr === todayIstKey()) {
+        load(indexKey);
+      } else {
+        loadHistoryTimes(indexKey, dateStr);
+      }
+    },
+    [indexKey, load, loadHistoryTimes]
+  );
+
+  const handleTimeChange = useCallback(
+    (timestampStr) => {
+      const timestamp = Number(timestampStr);
+      setSelectedTimestamp(timestamp);
+      setStatus("loading");
+      load(indexKey, null, selectedDate, timestamp);
+    },
+    [indexKey, selectedDate, load]
   );
 
   useEffect(() => {
@@ -124,25 +188,23 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // While waiting for the Zerodha connection to come up, keep quietly
-  // retrying instead of redirecting away from this page.
+  // While waiting for the Zerodha connection to come up, keep quietly retrying (live mode only).
   useEffect(() => {
-    if (status !== "waiting") return;
-
+    if (status !== "waiting" || isHistoryMode) return;
     waitingRetryRef.current = setInterval(() => load(indexKey, selectedExpiry), RETRY_MS);
     return () => {
       if (waitingRetryRef.current) clearInterval(waitingRetryRef.current);
     };
-  }, [status, indexKey, selectedExpiry, load]);
+  }, [status, indexKey, selectedExpiry, load, isHistoryMode]);
 
+  // Auto-refresh only applies in live mode.
   useEffect(() => {
-    if (!autoRefresh || status !== "connected") return;
-
+    if (!autoRefresh || status !== "connected" || isHistoryMode) return;
     intervalRef.current = setInterval(() => load(indexKey, selectedExpiry), 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [autoRefresh, status, indexKey, selectedExpiry, load]);
+  }, [autoRefresh, status, indexKey, selectedExpiry, load, isHistoryMode]);
 
   const atmStrike =
     data && data.rows.length
@@ -160,7 +222,6 @@ export default function Page() {
   const putOiChange = data?.rows?.reduce((sum, r) => sum + (Number(r.PE_oiChange) || 0), 0) || 0;
 
   const diffOI = putOiChange - callOiChange;
-
   const overallDiffOI = (putTotalOI - putOiChange) - (callTotalOI - callOiChange);
 
   return (
@@ -188,10 +249,26 @@ export default function Page() {
                   <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Spot</p>
                   <p className="mt-1 font-display text-3xl font-bold text-slate-900">{fmt(data.spot)}</p>
                 </div>
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-700">Live Status</p>
-                  <p className="mt-1 font-mono text-xs text-emerald-700">
-                    {lastFetched ? `updated ${lastFetched.toLocaleTimeString("en-IN")}` : ""}
+                <div
+                  className={`rounded-2xl border px-4 py-3 ${
+                    isHistoryMode ? "border-amber-200 bg-amber-50" : "border-emerald-200 bg-emerald-50"
+                  }`}
+                >
+                  <p
+                    className={`font-mono text-[11px] uppercase tracking-[0.18em] ${
+                      isHistoryMode ? "text-amber-700" : "text-emerald-700"
+                    }`}
+                  >
+                    {isHistoryMode ? "Historical Snapshot" : "Live Status"}
+                  </p>
+                  <p className={`mt-1 font-mono text-xs ${isHistoryMode ? "text-amber-700" : "text-emerald-700"}`}>
+                    {isHistoryMode
+                      ? data.capturedDate && data.capturedTime
+                        ? `captured ${data.capturedDate} ${data.capturedTime}`
+                        : ""
+                      : lastFetched
+                      ? `updated ${lastFetched.toLocaleTimeString("en-IN")}`
+                      : ""}
                   </p>
                 </div>
               </div>
@@ -214,46 +291,56 @@ export default function Page() {
               </button>
             ))}
           </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-4">
+            <label className="flex items-center gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">Date</span>
+              <input
+                type="date"
+                value={selectedDate}
+                max={todayIstKey()}
+                onChange={(e) => handleDateChange(e.target.value)}
+                className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+              />
+            </label>
+
+            {isHistoryMode && (
+              <>
+                <label className="flex items-center gap-2">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">Time</span>
+                  <select
+                    value={selectedTimestamp || ""}
+                    onChange={(e) => handleTimeChange(e.target.value)}
+                    disabled={historyTimes.length === 0}
+                    className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+                  >
+                    {historyTimes.length === 0 && <option value="">No snapshots</option>}
+                    {historyTimes.map((t) => (
+                      <option key={t.timestamp} value={t.timestamp}>
+                        {t.time}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  onClick={() => handleDateChange(todayIstKey())}
+                  className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 font-mono text-sm text-amber-800 transition hover:border-amber-400 cursor-pointer"
+                >
+                  Back to live
+                </button>
+              </>
+            )}
+          </div>
         </header>
 
         {status === "connected" && data && (
           <div className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
-            <StatCard
-              label="Expiry"
-              value={selectedExpiry || "—"}
-              subtext="Selected contract expiry"
-              accent="amber"
-            />
-            <StatCard
-              label="Call OI"
-              value={fmtInt(callTotalOI)}
-              subtext="Call side total OI"
-              accent="emerald"
-            />
-            <StatCard
-              label="Put OI"
-              value={fmtInt(putTotalOI)}
-              subtext="Put side total OI"
-              accent="rose"
-            />
-            <StatCard
-              label="Call OI Δ"
-              value={fmtInt(callOiChange)}
-              subtext="Sum of call OI change"
-              accent="emerald"
-            />
-            <StatCard
-              label="Put OI Δ"
-              value={fmtInt(putOiChange)}
-              subtext="Sum of put OI change"
-              accent="rose"
-            />
-            <StatCard
-              label="Total Vol"
-              value={fmtInt(totalVol)}
-              subtext="Combined traded volume"
-              accent="slate"
-            />
+            <StatCard label="Expiry" value={selectedExpiry || "—"} subtext="Selected contract expiry" accent="amber" />
+            <StatCard label="Call OI" value={fmtInt(callTotalOI)} subtext="Call side total OI" accent="emerald" />
+            <StatCard label="Put OI" value={fmtInt(putTotalOI)} subtext="Put side total OI" accent="rose" />
+            <StatCard label="Call OI Δ" value={fmtInt(callOiChange)} subtext="Sum of call OI change" accent="emerald" />
+            <StatCard label="Put OI Δ" value={fmtInt(putOiChange)} subtext="Sum of put OI change" accent="rose" />
+            <StatCard label="Total Vol" value={fmtInt(totalVol)} subtext="Combined traded volume" accent="slate" />
             <StatCard
               label="Diff OI"
               value={`${diffOI > 0 ? "+" : ""}${fmtInt(diffOI)}`}
@@ -270,10 +357,7 @@ export default function Page() {
         )}
 
         {errorMsg && (
-          <div
-            className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 font-mono text-sm text-rose-700 shadow-sm"
-            role="alert"
-          >
+          <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 font-mono text-sm text-rose-700 shadow-sm" role="alert">
             {errorMsg}
           </div>
         )}
@@ -284,7 +368,15 @@ export default function Page() {
           </div>
         )}
 
-        {status === "waiting" && (
+        {status === "no_history" && (
+          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm">
+            <p className="font-mono text-sm text-slate-500">
+              No snapshots saved for this date yet. Snapshots are captured automatically every minute while the market's connected.
+            </p>
+          </div>
+        )}
+
+        {status === "waiting" && !isHistoryMode && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-8 shadow-sm">
             <div className="flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
@@ -309,7 +401,11 @@ export default function Page() {
                     value={selectedExpiry || ""}
                     onChange={(e) => {
                       setSelectedExpiry(e.target.value);
-                      load(indexKey, e.target.value);
+                      if (isHistoryMode) {
+                        load(indexKey, e.target.value, selectedDate, selectedTimestamp);
+                      } else {
+                        load(indexKey, e.target.value);
+                      }
                     }}
                     aria-label="Select expiry"
                   >
@@ -322,17 +418,26 @@ export default function Page() {
                 </label>
 
                 <button
-                  onClick={() => load(indexKey, selectedExpiry)}
+                  onClick={() =>
+                    isHistoryMode
+                      ? load(indexKey, selectedExpiry, selectedDate, selectedTimestamp)
+                      : load(indexKey, selectedExpiry)
+                  }
                   className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200 cursor-pointer"
                   aria-label="Refresh option chain"
                 >
                   Refresh
                 </button>
 
-                <label className="flex items-center gap-2 rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-600 select-none">
+                <label
+                  className={`flex items-center gap-2 rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-600 select-none ${
+                    isHistoryMode ? "opacity-50" : ""
+                  }`}
+                >
                   <input
                     type="checkbox"
                     checked={autoRefresh}
+                    disabled={isHistoryMode}
                     onChange={(e) => setAutoRefresh(e.target.checked)}
                     className="h-4 w-4 accent-amber-500"
                     aria-label="Auto-refresh"
@@ -362,15 +467,9 @@ export default function Page() {
                 <table className="w-full min-w-[1220px] table-fixed border-collapse text-sm">
                   <thead className="sticky top-0 z-20">
                     <tr className="border-b border-slate-200 bg-slate-100 font-mono text-[11px] uppercase tracking-wider text-slate-500">
-                      <th colSpan={5} className="px-3 py-3 text-left text-emerald-700">
-                        Calls
-                      </th>
-                      <th className="spine bg-white px-3 py-3 text-center text-amber-700">
-                        Strike
-                      </th>
-                      <th colSpan={5} className="px-3 py-3 text-right text-rose-700">
-                        Puts
-                      </th>
+                      <th colSpan={5} className="px-3 py-3 text-left text-emerald-700">Calls</th>
+                      <th className="spine bg-white px-3 py-3 text-center text-amber-700">Strike</th>
+                      <th colSpan={5} className="px-3 py-3 text-right text-rose-700">Puts</th>
                     </tr>
                     <tr className="border-b border-slate-200 bg-white font-mono text-xs text-slate-500">
                       <th className="w-[10%] px-3 py-3 text-right font-medium">OI Δ</th>
@@ -403,21 +502,11 @@ export default function Page() {
                             isAtm ? "bg-amber-100/90" : "hover:bg-slate-50"
                           }`}
                         >
-                          <td className={`px-3 py-2 text-right ${callCellBg}`}>
-                            <OiCell value={r.CE_oiChange} />
-                          </td>
-                          <td className={`px-3 py-2 text-right text-slate-800 ${callCellBg}`}>
-                            {fmtInt(r.CE_oi)}
-                          </td>
-                          <td className={`px-3 py-2 text-right text-slate-600 ${callCellBg}`}>
-                            {fmtInt(r.CE_vol)}
-                          </td>
-                          <td className={`px-3 py-2 text-right ${callCellBg}`}>
-                            <ChgCell value={r.CE_chg} />
-                          </td>
-                          <td className={`px-3 py-2 text-right font-medium text-slate-900 ${callCellBg}`}>
-                            {fmt(r.CE_ltp)}
-                          </td>
+                          <td className={`px-3 py-2 text-right ${callCellBg}`}><OiCell value={r.CE_oiChange} /></td>
+                          <td className={`px-3 py-2 text-right text-slate-800 ${callCellBg}`}>{fmtInt(r.CE_oi)}</td>
+                          <td className={`px-3 py-2 text-right text-slate-600 ${callCellBg}`}>{fmtInt(r.CE_vol)}</td>
+                          <td className={`px-3 py-2 text-right ${callCellBg}`}><ChgCell value={r.CE_chg} /></td>
+                          <td className={`px-3 py-2 text-right font-medium text-slate-900 ${callCellBg}`}>{fmt(r.CE_ltp)}</td>
 
                           <td
                             className={`spine px-3 py-2 text-center font-bold tracking-wide ${
@@ -428,21 +517,11 @@ export default function Page() {
                             {r.strike}
                           </td>
 
-                          <td className={`px-3 py-2 text-left font-medium text-slate-900 ${putCellBg}`}>
-                            {fmt(r.PE_ltp)}
-                          </td>
-                          <td className={`px-3 py-2 text-left ${putCellBg}`}>
-                            <ChgCell value={r.PE_chg} />
-                          </td>
-                          <td className={`px-3 py-2 text-left text-slate-600 ${putCellBg}`}>
-                            {fmtInt(r.PE_vol)}
-                          </td>
-                          <td className={`px-3 py-2 text-left text-slate-800 ${putCellBg}`}>
-                            {fmtInt(r.PE_oi)}
-                          </td>
-                          <td className={`px-3 py-2 text-left ${putCellBg}`}>
-                            <OiCell value={r.PE_oiChange} />
-                          </td>
+                          <td className={`px-3 py-2 text-left font-medium text-slate-900 ${putCellBg}`}>{fmt(r.PE_ltp)}</td>
+                          <td className={`px-3 py-2 text-left ${putCellBg}`}><ChgCell value={r.PE_chg} /></td>
+                          <td className={`px-3 py-2 text-left text-slate-600 ${putCellBg}`}>{fmtInt(r.PE_vol)}</td>
+                          <td className={`px-3 py-2 text-left text-slate-800 ${putCellBg}`}>{fmtInt(r.PE_oi)}</td>
+                          <td className={`px-3 py-2 text-left ${putCellBg}`}><OiCell value={r.PE_oiChange} /></td>
                         </tr>
                       );
                     })}

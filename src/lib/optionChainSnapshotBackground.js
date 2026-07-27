@@ -1,18 +1,13 @@
 import { newClient } from "./kite";
 import { getOptionChainData, INDEX_KEYS } from "./optionChainCore";
 import { saveSnapshot } from "./optionChainHistoryDb";
-import db from "./db";
+import { getStoredAccessToken } from "./kiteTokenStore";
 
 const POLL_MS = 60 * 1000;
 
-function getStoredAccessToken() {
-  const row = db.prepare(`SELECT access_token FROM kite_tokens WHERE id = 1`).get();
-  return row?.access_token ?? null;
-}
-
 async function pollOnce() {
   const accessToken = getStoredAccessToken();
-  if (!accessToken) return; // Zerodha session not connected yet — skip this tick.
+  if (!accessToken) return; // Zerodha session not connected or expired — skip this tick.
 
   const kc = newClient(accessToken);
 

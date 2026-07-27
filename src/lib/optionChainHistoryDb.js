@@ -50,14 +50,37 @@ export function listSnapshotDates(indexKey) {
     .map((r) => r.date);
 }
 
-// One row per captured snapshot (a snapshot = many strike rows sharing one timestamp).
-export function listSnapshotTimes(indexKey, date) {
-  return db
+export const TIMEFRAME_MINUTES = [1, 3, 5, 15, 30, 60];
+
+// timeframe: 1 | 3 | 5 | 15 | 30 | 60 (minutes) or "day".
+export function listSnapshotTimes(indexKey, date, timeframe = 1) {
+  if (timeframe === "day") {
+    const row = db
+      .prepare(
+        `SELECT time, timestamp FROM option_chain_snapshots
+         WHERE index_key = ? AND date = ? ORDER BY timestamp DESC LIMIT 1`
+      )
+      .get(indexKey, date);
+    return row ? [row] : [];
+  }
+
+  const rows = db
     .prepare(
       `SELECT DISTINCT time, timestamp FROM option_chain_snapshots
        WHERE index_key = ? AND date = ? ORDER BY timestamp ASC`
     )
     .all(indexKey, date);
+
+  const minutes = Number(timeframe) || 1;
+  if (minutes <= 1) return rows;
+
+  const bucketMs = minutes * 60 * 1000;
+  const bucketed = new Map();
+  for (const r of rows) {
+    const bucketKey = Math.floor(r.timestamp / bucketMs);
+    bucketed.set(bucketKey, r); // later rows overwrite -> keeps latest in bucket
+  }
+  return Array.from(bucketed.values()).sort((a, b) => a.timestamp - b.timestamp);
 }
 
 export function getSnapshotByTimestamp(indexKey, timestamp) {
@@ -91,7 +114,6 @@ export function getSnapshotByTimestamp(indexKey, timestamp) {
   };
 }
 
-// Latest snapshot on a date, used when a date is picked but no exact time yet.
 export function getLatestSnapshotForDate(indexKey, date) {
   const row = db
     .prepare(
@@ -100,4 +122,22 @@ export function getLatestSnapshotForDate(indexKey, date) {
     )
     .get(indexKey, date);
   return row ? getSnapshotByTimestamp(indexKey, row.timestamp) : null;
+}
+
+// Nearest saved snapshot to targetTimestamp, used to build a live "N minutes
+// ago" baseline for interval OI/LTP change. Returns null if nothing was
+// captured within `toleranceMs` of the target (e.g. market just opened,
+// or the poller had downtime).
+export function getSnapshotNearTimestamp(indexKey, targetTimestamp, toleranceMs) {
+  const row = db
+    .prepare(
+      `SELECT timestamp FROM option_chain_snapshots
+       WHERE index_key = ?
+       ORDER BY ABS(timestamp - ?) ASC
+       LIMIT 1`
+    )
+    .get(indexKey, targetTimestamp);
+  if (!row) return null;
+  if (Math.abs(row.timestamp - targetTimestamp) > toleranceMs) return null;
+  return getSnapshotByTimestamp(indexKey, row.timestamp);
 }

@@ -8,6 +8,16 @@ const INDEX_TABS = [
   { key: "SENSEX", label: "SENSEX" },
 ];
 
+const TIMEFRAMES = [
+  { key: 1, label: "1m" },
+  { key: 3, label: "3m" },
+  { key: 5, label: "5m" },
+  { key: 15, label: "15m" },
+  { key: 30, label: "30m" },
+  { key: 60, label: "60m" },
+  { key: "day", label: "Day" },
+];
+
 const RETRY_MS = 5000;
 
 function fmt(n, decimals = 2) {
@@ -25,6 +35,11 @@ function fmtInt(n) {
 
 function todayIstKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+}
+
+function timeframeLabel(tf) {
+  const found = TIMEFRAMES.find((t) => t.key === tf);
+  return found ? found.label : "";
 }
 
 function ChgCell({ value }) {
@@ -78,18 +93,20 @@ export default function Page() {
   const intervalRef = useRef(null);
   const waitingRetryRef = useRef(null);
 
-  // --- history mode state ---
+  // --- date / timeframe state ---
   const [selectedDate, setSelectedDate] = useState(todayIstKey());
+  const [timeframe, setTimeframe] = useState(1); // 1 | 3 | 5 | 15 | 30 | 60 | "day"
   const [historyTimes, setHistoryTimes] = useState([]); // [{ time: "09:31:05", timestamp: 175... }]
   const [selectedTimestamp, setSelectedTimestamp] = useState(null);
   const isHistoryMode = selectedDate !== todayIstKey();
 
-  const load = useCallback(async (idx, expiry, date, timestamp) => {
+  const load = useCallback(async (idx, expiry, date, timestamp, tf) => {
     try {
       const params = new URLSearchParams({ index: idx });
       if (expiry) params.set("expiry", expiry);
       if (date) params.set("date", date);
       if (timestamp) params.set("time", String(timestamp));
+      if (tf !== undefined) params.set("timeframe", String(tf));
       const res = await fetch(`/api/optionchain?${params.toString()}`, { cache: "no-store" });
 
       if (res.status === 401) {
@@ -120,9 +137,9 @@ export default function Page() {
   }, []);
 
   const loadHistoryTimes = useCallback(
-    async (idx, date) => {
+    async (idx, date, tf) => {
       try {
-        const params = new URLSearchParams({ index: idx, date });
+        const params = new URLSearchParams({ index: idx, date, timeframe: String(tf) });
         const res = await fetch(`/api/optionchain/history-meta?${params.toString()}`, { cache: "no-store" });
         const json = await res.json();
         const times = json.times || [];
@@ -130,7 +147,7 @@ export default function Page() {
         const latest = times.length ? times[times.length - 1] : null;
         if (latest) {
           setStatus("loading");
-          load(idx, null, date, latest.timestamp);
+          load(idx, null, date, latest.timestamp, tf);
         } else {
           setSelectedTimestamp(null);
           setStatus("no_history");
@@ -149,13 +166,13 @@ export default function Page() {
       setIndexKey(key);
       setStatus("loading");
       setSelectedExpiry(null);
-      if (selectedDate !== todayIstKey()) {
-        loadHistoryTimes(key, selectedDate);
+      if (isHistoryMode) {
+        loadHistoryTimes(key, selectedDate, timeframe);
       } else {
-        load(key);
+        load(key, null, null, null, timeframe);
       }
     },
-    [load, loadHistoryTimes, selectedDate]
+    [load, loadHistoryTimes, selectedDate, timeframe, isHistoryMode]
   );
 
   const handleDateChange = useCallback(
@@ -165,12 +182,28 @@ export default function Page() {
       setSelectedTimestamp(null);
       setHistoryTimes([]);
       if (dateStr === todayIstKey()) {
-        load(indexKey);
+        load(indexKey, null, null, null, timeframe);
       } else {
-        loadHistoryTimes(indexKey, dateStr);
+        loadHistoryTimes(indexKey, dateStr, timeframe);
       }
     },
-    [indexKey, load, loadHistoryTimes]
+    [indexKey, load, loadHistoryTimes, timeframe]
+  );
+
+  // Timeframe now applies in BOTH modes:
+  // - live: recomputes OI Δ / LTP Δ vs a snapshot from N minutes ago
+  // - history: resamples the Time dropdown to one entry per N minutes
+  const handleTimeframeChange = useCallback(
+    (tf) => {
+      setTimeframe(tf);
+      setStatus("loading");
+      if (isHistoryMode) {
+        loadHistoryTimes(indexKey, selectedDate, tf);
+      } else {
+        load(indexKey, selectedExpiry, null, null, tf);
+      }
+    },
+    [indexKey, selectedDate, selectedExpiry, isHistoryMode, load, loadHistoryTimes]
   );
 
   const handleTimeChange = useCallback(
@@ -178,33 +211,33 @@ export default function Page() {
       const timestamp = Number(timestampStr);
       setSelectedTimestamp(timestamp);
       setStatus("loading");
-      load(indexKey, null, selectedDate, timestamp);
+      load(indexKey, null, selectedDate, timestamp, timeframe);
     },
-    [indexKey, selectedDate, load]
+    [indexKey, selectedDate, timeframe, load]
   );
 
   useEffect(() => {
-    load(indexKey);
+    load(indexKey, null, null, null, timeframe);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // While waiting for the Zerodha connection to come up, keep quietly retrying (live mode only).
   useEffect(() => {
     if (status !== "waiting" || isHistoryMode) return;
-    waitingRetryRef.current = setInterval(() => load(indexKey, selectedExpiry), RETRY_MS);
+    waitingRetryRef.current = setInterval(() => load(indexKey, selectedExpiry, null, null, timeframe), RETRY_MS);
     return () => {
       if (waitingRetryRef.current) clearInterval(waitingRetryRef.current);
     };
-  }, [status, indexKey, selectedExpiry, load, isHistoryMode]);
+  }, [status, indexKey, selectedExpiry, load, isHistoryMode, timeframe]);
 
   // Auto-refresh only applies in live mode.
   useEffect(() => {
     if (!autoRefresh || status !== "connected" || isHistoryMode) return;
-    intervalRef.current = setInterval(() => load(indexKey, selectedExpiry), 5000);
+    intervalRef.current = setInterval(() => load(indexKey, selectedExpiry, null, null, timeframe), 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [autoRefresh, status, indexKey, selectedExpiry, load, isHistoryMode]);
+  }, [autoRefresh, status, indexKey, selectedExpiry, load, isHistoryMode, timeframe]);
 
   const atmStrike =
     data && data.rows.length
@@ -223,6 +256,14 @@ export default function Page() {
 
   const diffOI = putOiChange - callOiChange;
   const overallDiffOI = (putTotalOI - putOiChange) - (callTotalOI - callOiChange);
+
+  const tfLabel = timeframeLabel(timeframe);
+  const oiDeltaSubtext =
+    !isHistoryMode && timeframe !== "day"
+      ? data?.timeframeApplied
+        ? `vs OI at ${data.timeframeApplied.baselineTime}`
+        : `waiting for ${tfLabel} of history…`
+      : "vs previous day's close";
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-5 text-slate-900 sm:px-6 lg:px-8">
@@ -304,6 +345,28 @@ export default function Page() {
               />
             </label>
 
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
+                {isHistoryMode ? "Resample" : "OI Δ Interval"}
+              </span>
+              <div className="flex flex-wrap gap-1">
+                {TIMEFRAMES.map((tf) => (
+                  <button
+                    key={tf.key}
+                    onClick={() => handleTimeframeChange(tf.key)}
+                    className={`rounded-lg px-3 py-1.5 font-mono text-xs font-semibold transition cursor-pointer ${
+                      timeframe === tf.key
+                        ? "bg-slate-900 text-white shadow-sm"
+                        : "border border-slate-300 bg-white text-slate-600 hover:border-slate-400 hover:text-slate-900"
+                    }`}
+                    aria-pressed={timeframe === tf.key}
+                  >
+                    {tf.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {isHistoryMode && (
               <>
                 <label className="flex items-center gap-2">
@@ -338,8 +401,8 @@ export default function Page() {
             <StatCard label="Expiry" value={selectedExpiry || "—"} subtext="Selected contract expiry" accent="amber" />
             <StatCard label="Call OI" value={fmtInt(callTotalOI)} subtext="Call side total OI" accent="emerald" />
             <StatCard label="Put OI" value={fmtInt(putTotalOI)} subtext="Put side total OI" accent="rose" />
-            <StatCard label="Call OI Δ" value={fmtInt(callOiChange)} subtext="Sum of call OI change" accent="emerald" />
-            <StatCard label="Put OI Δ" value={fmtInt(putOiChange)} subtext="Sum of put OI change" accent="rose" />
+            <StatCard label="Call OI Δ" value={fmtInt(callOiChange)} subtext={oiDeltaSubtext} accent="emerald" />
+            <StatCard label="Put OI Δ" value={fmtInt(putOiChange)} subtext={oiDeltaSubtext} accent="rose" />
             <StatCard label="Total Vol" value={fmtInt(totalVol)} subtext="Combined traded volume" accent="slate" />
             <StatCard
               label="Diff OI"
@@ -402,9 +465,9 @@ export default function Page() {
                     onChange={(e) => {
                       setSelectedExpiry(e.target.value);
                       if (isHistoryMode) {
-                        load(indexKey, e.target.value, selectedDate, selectedTimestamp);
+                        load(indexKey, e.target.value, selectedDate, selectedTimestamp, timeframe);
                       } else {
-                        load(indexKey, e.target.value);
+                        load(indexKey, e.target.value, null, null, timeframe);
                       }
                     }}
                     aria-label="Select expiry"
@@ -420,8 +483,8 @@ export default function Page() {
                 <button
                   onClick={() =>
                     isHistoryMode
-                      ? load(indexKey, selectedExpiry, selectedDate, selectedTimestamp)
-                      : load(indexKey, selectedExpiry)
+                      ? load(indexKey, selectedExpiry, selectedDate, selectedTimestamp, timeframe)
+                      : load(indexKey, selectedExpiry, null, null, timeframe)
                   }
                   className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200 cursor-pointer"
                   aria-label="Refresh option chain"
@@ -502,11 +565,21 @@ export default function Page() {
                             isAtm ? "bg-amber-100/90" : "hover:bg-slate-50"
                           }`}
                         >
-                          <td className={`px-3 py-2 text-right ${callCellBg}`}><OiCell value={r.CE_oiChange} /></td>
-                          <td className={`px-3 py-2 text-right text-slate-800 ${callCellBg}`}>{fmtInt(r.CE_oi)}</td>
-                          <td className={`px-3 py-2 text-right text-slate-600 ${callCellBg}`}>{fmtInt(r.CE_vol)}</td>
-                          <td className={`px-3 py-2 text-right ${callCellBg}`}><ChgCell value={r.CE_chg} /></td>
-                          <td className={`px-3 py-2 text-right font-medium text-slate-900 ${callCellBg}`}>{fmt(r.CE_ltp)}</td>
+                          <td className={`px-3 py-2 text-right ${callCellBg}`}>
+                            <OiCell value={r.CE_oiChange} />
+                          </td>
+                          <td className={`px-3 py-2 text-right text-slate-800 ${callCellBg}`}>
+                            {fmtInt(r.CE_oi)}
+                          </td>
+                          <td className={`px-3 py-2 text-right text-slate-600 ${callCellBg}`}>
+                            {fmtInt(r.CE_vol)}
+                          </td>
+                          <td className={`px-3 py-2 text-right ${callCellBg}`}>
+                            <ChgCell value={r.CE_chg} />
+                          </td>
+                          <td className={`px-3 py-2 text-right font-medium text-slate-900 ${callCellBg}`}>
+                            {fmt(r.CE_ltp)}
+                          </td>
 
                           <td
                             className={`spine px-3 py-2 text-center font-bold tracking-wide ${
@@ -517,11 +590,21 @@ export default function Page() {
                             {r.strike}
                           </td>
 
-                          <td className={`px-3 py-2 text-left font-medium text-slate-900 ${putCellBg}`}>{fmt(r.PE_ltp)}</td>
-                          <td className={`px-3 py-2 text-left ${putCellBg}`}><ChgCell value={r.PE_chg} /></td>
-                          <td className={`px-3 py-2 text-left text-slate-600 ${putCellBg}`}>{fmtInt(r.PE_vol)}</td>
-                          <td className={`px-3 py-2 text-left text-slate-800 ${putCellBg}`}>{fmtInt(r.PE_oi)}</td>
-                          <td className={`px-3 py-2 text-left ${putCellBg}`}><OiCell value={r.PE_oiChange} /></td>
+                          <td className={`px-3 py-2 text-left font-medium text-slate-900 ${putCellBg}`}>
+                            {fmt(r.PE_ltp)}
+                          </td>
+                          <td className={`px-3 py-2 text-left ${putCellBg}`}>
+                            <ChgCell value={r.PE_chg} />
+                          </td>
+                          <td className={`px-3 py-2 text-left text-slate-600 ${putCellBg}`}>
+                            {fmtInt(r.PE_vol)}
+                          </td>
+                          <td className={`px-3 py-2 text-left text-slate-800 ${putCellBg}`}>
+                            {fmtInt(r.PE_oi)}
+                          </td>
+                          <td className={`px-3 py-2 text-left ${putCellBg}`}>
+                            <OiCell value={r.PE_oiChange} />
+                          </td>
                         </tr>
                       );
                     })}

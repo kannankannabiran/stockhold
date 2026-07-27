@@ -2,10 +2,33 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { newClient } from "../../../lib/kite";
 import { getOptionChainData, INDEX_CONFIG } from "../../../lib/optionChainCore";
-import { getSnapshotByTimestamp, getLatestSnapshotForDate } from "../../../lib/optionChainHistoryDb";
+import {
+  getSnapshotByTimestamp,
+  getLatestSnapshotForDate,
+  getSnapshotNearTimestamp,
+} from "../../../lib/optionChainHistoryDb";
 
 function todayIstKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+}
+
+// Rebuild OI-change / LTP-change fields on `rows` using `baseline.rows` (same
+// shape, captured N minutes ago) as the reference point instead of previous
+// day's close.
+function applyIntervalBaseline(rows, baseline) {
+  const baselineByStrike = {};
+  for (const r of baseline.rows) baselineByStrike[r.strike] = r;
+
+  return rows.map((r) => {
+    const b = baselineByStrike[r.strike];
+    return {
+      ...r,
+      CE_oiChange: b && b.CE_oi != null && r.CE_oi != null ? r.CE_oi - b.CE_oi : null,
+      PE_oiChange: b && b.PE_oi != null && r.PE_oi != null ? r.PE_oi - b.PE_oi : null,
+      CE_chg: b && b.CE_ltp != null && r.CE_ltp != null ? Number((r.CE_ltp - b.CE_ltp).toFixed(2)) : null,
+      PE_chg: b && b.PE_ltp != null && r.PE_ltp != null ? Number((r.PE_ltp - b.PE_ltp).toFixed(2)) : null,
+    };
+  });
 }
 
 export async function GET(request) {
@@ -13,7 +36,8 @@ export async function GET(request) {
   const requestedExpiry = searchParams.get("expiry");
   const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
   const date = searchParams.get("date"); // YYYY-MM-DD, optional
-  const time = searchParams.get("time"); // timestamp (ms), optional
+  const time = searchParams.get("time"); // timestamp (ms), optional — historical browsing
+  const timeframeParam = searchParams.get("timeframe"); // "1" | "3" | "5" | "15" | "30" | "60" | "day" | null
 
   if (!INDEX_CONFIG[indexKey]) {
     return NextResponse.json(
@@ -60,7 +84,28 @@ export async function GET(request) {
 
   try {
     const result = await getOptionChainData(kc, indexKey, requestedExpiry);
-    return NextResponse.json({ ...result, historical: false });
+
+    let rows = result.rows;
+    let timeframeApplied = null;
+    const timeframe = timeframeParam === "day" || !timeframeParam ? "day" : Number(timeframeParam) || 1;
+
+    if (timeframe !== "day") {
+      const targetTs = Date.now() - timeframe * 60 * 1000;
+      const tolerance = Math.max(90 * 1000, timeframe * 60 * 1000 * 0.5);
+      const baseline = getSnapshotNearTimestamp(indexKey, targetTs, tolerance);
+      if (baseline) {
+        rows = applyIntervalBaseline(result.rows, baseline);
+        timeframeApplied = {
+          minutes: timeframe,
+          baselineTimestamp: baseline.timestamp,
+          baselineTime: baseline.time,
+        };
+      }
+      // If no baseline is available yet (e.g. market just opened), fall back
+      // to the original day-vs-prev-close numbers rather than showing nulls.
+    }
+
+    return NextResponse.json({ ...result, rows, historical: false, timeframe, timeframeApplied });
   } catch (err) {
     console.error("[optionchain] error:", err);
     const message = err?.message || "Unknown error fetching option chain";

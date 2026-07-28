@@ -18,8 +18,14 @@ const TIMEFRAMES = [
   { key: "day", label: "Day" },
 ];
 
+const PLAY_SPEEDS = [
+  { key: 1, label: "1s" },
+  { key: 2, label: "2s" },
+  { key: 3, label: "3s" },
+];
+
 const RETRY_MS = 5000;
-const PLAY_STEP_MS = 800; // how fast Play advances through snapshots
+const MARKET_OPEN_TIME = "09:15:00"; // default time when a new date is picked
 
 function fmt(n, decimals = 2) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
@@ -41,6 +47,15 @@ function todayIstKey() {
 function timeframeLabel(tf) {
   const found = TIMEFRAMES.find((t) => t.key === tf);
   return found ? found.label : "";
+}
+
+// Picks the snapshot at or immediately after 9:15 AM; if the day's earliest
+// snapshot is already after 9:15 (late poller start), falls back to that
+// earliest one. Assumes `times` is sorted ascending by timestamp.
+function pickDefaultTime(times) {
+  if (!times.length) return null;
+  const atOrAfterOpen = times.find((t) => t.time >= MARKET_OPEN_TIME);
+  return atOrAfterOpen || times[0];
 }
 
 function ChgCell({ value }) {
@@ -102,6 +117,7 @@ export default function Page() {
   const [historyTimes, setHistoryTimes] = useState([]); // [{ time: "09:31:05", timestamp: 175... }]
   const [selectedTimestamp, setSelectedTimestamp] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playSpeedSec, setPlaySpeedSec] = useState(1); // 1 | 2 | 3 seconds per step
   const isHistoryMode = selectedDate !== todayIstKey();
   const currentTimeIndex = historyTimes.findIndex((t) => t.timestamp === selectedTimestamp);
 
@@ -157,9 +173,9 @@ export default function Page() {
         const json = await res.json();
         const times = json.times || [];
         setHistoryTimes(times);
-        const latest = times.length ? times[times.length - 1] : null;
-        if (latest) {
-          load(idx, null, date, latest.timestamp, tf); // full loading — no data on screen yet for this date
+        const defaultEntry = pickDefaultTime(times); // nearest to 9:15 AM
+        if (defaultEntry) {
+          load(idx, null, date, defaultEntry.timestamp, tf); // full loading — no data on screen yet for this date
         } else {
           setSelectedTimestamp(null);
           setStatus("no_history");
@@ -271,7 +287,9 @@ export default function Page() {
     });
   }, [isHistoryMode, historyTimes, currentTimeIndex, indexKey, selectedDate, timeframe, load]);
 
-  // Playback tick — same non-blocking load, table never unmounts mid-play.
+  // Playback tick — speed is configurable (1s/2s/3s per step); re-arms
+  // whenever playSpeedSec changes so a mid-play speed switch takes effect
+  // on the next tick instead of waiting out the old interval.
   useEffect(() => {
     if (!isPlaying || !isHistoryMode) return;
     playIntervalRef.current = setInterval(() => {
@@ -286,9 +304,9 @@ export default function Page() {
         load(indexKey, null, selectedDate, t.timestamp, timeframe, { showFullLoading: false });
         return t.timestamp;
       });
-    }, PLAY_STEP_MS);
+    }, playSpeedSec * 1000);
     return () => clearInterval(playIntervalRef.current);
-  }, [isPlaying, isHistoryMode, historyTimes, indexKey, selectedDate, timeframe, load]);
+  }, [isPlaying, isHistoryMode, historyTimes, indexKey, selectedDate, timeframe, load, playSpeedSec]);
 
   useEffect(() => {
     load(indexKey, null, null, null, timeframe);
@@ -480,6 +498,24 @@ export default function Page() {
                       {currentTimeIndex + 1}/{historyTimes.length}
                     </span>
                   )}
+                </div>
+
+                <div className="flex items-center gap-1 rounded-xl border border-slate-300 bg-slate-50 px-2 py-1.5">
+                  <span className="mr-1 font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">Speed</span>
+                  {PLAY_SPEEDS.map((s) => (
+                    <button
+                      key={s.key}
+                      onClick={() => setPlaySpeedSec(s.key)}
+                      className={`rounded-lg px-2.5 py-1 font-mono text-xs font-semibold transition cursor-pointer ${
+                        playSpeedSec === s.key
+                          ? "bg-slate-900 text-white shadow-sm"
+                          : "border border-slate-300 bg-white text-slate-600 hover:border-slate-400 hover:text-slate-900"
+                      }`}
+                      aria-pressed={playSpeedSec === s.key}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
                 </div>
 
                 <label className="flex items-center gap-2">

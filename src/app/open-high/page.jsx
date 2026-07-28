@@ -193,7 +193,13 @@ export default function OpenHighPage() {
             value={date}
             max={todayStr()}
             onChange={handleDateChange}
-            style={styles.select}
+            onClick={(e) => {
+              // Show the date picker native UI if supported by the browser
+              if (typeof e.target.showPicker === 'function') {
+                e.target.showPicker();
+              }
+            }}
+            style={{ ...styles.select, cursor: "pointer" }}
           />
 
           {data?.expiries?.length > 0 && (

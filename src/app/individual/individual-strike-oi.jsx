@@ -685,9 +685,14 @@ export default function OptionChain() {
 
             <input
               type="date"
-              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition cursor-pointer focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
+              onClick={(e) => {
+                if (typeof e.target.showPicker === 'function') {
+                  e.target.showPicker();
+                }
+              }}
             />
 
             {!selectedDate && expiries.length > 0 ? (

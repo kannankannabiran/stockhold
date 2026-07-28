@@ -311,6 +311,12 @@ export default function Navbar() {
                   >
                     Individual Strike
                   </div>
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleNavigate("/cpr-scanner")}
+                  >
+                    CPR Scanner
+                  </div>
                 </div>
               )}
             </div>
@@ -458,6 +464,9 @@ export default function Navbar() {
                 </div>
                 <div onClick={() => handleNavigate("/individual")}>
                   Individual Strike
+                </div>
+                <div onClick={() => handleNavigate("/cpr-scanner")}>
+                  CPR Scanner
                 </div>
               </div>
             )}

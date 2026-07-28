@@ -284,7 +284,14 @@ export default function TrendingOiPage() {
                 value={selectedDate}
                 max={todayStr()}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                onClick={(e) => {
+                  // Open the native calendar on click anywhere in the box,
+                  // not just when the small calendar icon is clicked.
+                  if (typeof e.target.showPicker === "function") {
+                    e.target.showPicker();
+                  }
+                }}
+                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 cursor-pointer"
               />
 
               <select

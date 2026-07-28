@@ -52,10 +52,16 @@ export async function GET(request) {
     const spot = spotQuote?.[cfg.spotSymbol]?.last_price;
     if (!spot) throw new Error("Could not fetch spot price");
 
-    // FIX: SENSEX options are on 'BSE', others usually on 'NFO'
     const exchangeSegment = cfg.exchange || (indexKey === "SENSEX" ? "BSE" : "NFO");
     const allInstruments = await kc.getInstruments([exchangeSegment]);
     
+    // Fallback spot token retrieval
+    let spotToken = spotQuote?.[cfg.spotSymbol]?.instrument_token;
+    if (!spotToken) {
+      const spotInst = allInstruments.find(i => i.tradingsymbol === cfg.spotSymbol || (i.name === cfg.name && (i.instrument_type === "EQ" || i.instrument_type === "IND")));
+      spotToken = spotInst?.instrument_token;
+    }
+
     const indexOpts = allInstruments.filter(
       (i) => i.name === cfg.name && (i.instrument_type === "CE" || i.instrument_type === "PE")
     );
@@ -88,9 +94,68 @@ export async function GET(request) {
     fromDate.setDate(fromDate.getDate() - 5);
     const fromStr = fromDate.toISOString().slice(0, 10);
     const toStr = new Date().toISOString().slice(0, 10);
+    const actualTodayStr = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+
+    // Fetch Spot Historical Data & Calculate Spot CPR / Touches
+    let spotData = null;
+    if (spotToken) {
+      try {
+        const spotCandles = await kc.getHistoricalData(spotToken, "minute", fromStr, toStr, false, 0);
+        if (spotCandles && spotCandles.length > 0) {
+          const byDate = {};
+          spotCandles.forEach((c) => {
+            const dStr = new Date(c.date).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+            if (!byDate[dStr]) byDate[dStr] = [];
+            byDate[dStr].push(c);
+          });
+          const dates = Object.keys(byDate).sort();
+          const prevDateStr = dates.filter((d) => d !== actualTodayStr).pop();
+          
+          let cpr = null;
+          if (prevDateStr && byDate[prevDateStr]) {
+            const prevCandles = byDate[prevDateStr];
+            let pHigh = -Infinity, pLow = Infinity, pClose = prevCandles[prevCandles.length - 1].close;
+            prevCandles.forEach((c) => {
+              if (c.high > pHigh) pHigh = c.high;
+              if (c.low < pLow) pLow = c.low;
+            });
+            cpr = calculateCPR(pHigh, pLow, pClose);
+          }
+
+          const touches = [];
+          if (byDate[actualTodayStr]) {
+            const todayCandles = byDate[actualTodayStr]
+              .filter((c) => {
+                const timeStr = new Date(c.date).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" });
+                return timeStr >= "09:20:00" && timeStr <= "15:30:00";
+              })
+              .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+            if (todayCandles.length > 0 && cpr) {
+              let hitTC = false, hitPivot = false, hitBC = false;
+              for (const c of todayCandles) {
+                const tStr = new Date(c.date).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: '2-digit', minute:'2-digit' });
+                if (!hitTC && cpr.TC <= c.high && cpr.TC >= c.low) {
+                  hitTC = true; touches.push({ level: "Top", time: tStr });
+                }
+                if (!hitPivot && cpr.Pivot <= c.high && cpr.Pivot >= c.low) {
+                  hitPivot = true; touches.push({ level: "Pivot", time: tStr });
+                }
+                if (!hitBC && cpr.BC <= c.high && cpr.BC >= c.low) {
+                  hitBC = true; touches.push({ level: "Bottom", time: tStr });
+                }
+                if (hitTC && hitPivot && hitBC) break;
+              }
+            }
+          }
+          spotData = { ltp: spot, cpr, touches };
+        }
+      } catch (err) {
+        console.error("Failed historical fetch for spot", err);
+      }
+    }
 
     const resultsByStrike = {};
-    const actualTodayStr = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
     const batches = batch(targetOpts, 3);
     for (const chunk of batches) {
@@ -170,7 +235,7 @@ export async function GET(request) {
 
     const rows = Object.values(resultsByStrike).sort((a, b) => a.strike - b.strike);
     
-    const finalData = { spot, index: indexKey, expiry, availableExpiries: expiries, rows, updatedAt: new Date().toISOString() };
+    const finalData = { spot, index: indexKey, expiry, availableExpiries: expiries, rows, spotData, updatedAt: new Date().toISOString() };
     
     memoryCache[cacheKey] = { timestamp: Date.now(), data: finalData };
     if (!reqExpiry) {

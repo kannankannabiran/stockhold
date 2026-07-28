@@ -47,7 +47,7 @@ export default function CPRScannerPage() {
   const handleIndexChange = (e) => {
     setSelectedIndex(e.target.value);
     setSelectedExpiry(""); 
-    setData(null);         
+    setData(null);          
   };
 
   const TouchBadge = ({ touches }) => {
@@ -103,12 +103,28 @@ export default function CPRScannerPage() {
     </div>
   );
 
-  // SAFE ATM STRIKE COMPUTATION (Prevents empty array crash)
   const atmStrike = data?.rows?.length > 0 
     ? data.rows.reduce((prev, curr) => 
         Math.abs(curr.strike - data.spot) < Math.abs(prev.strike - data.spot) ? curr : prev
       ).strike 
     : 0;
+
+  // Build items list with Spot Index integrated into the table sequence matching columns
+  const tableItems = [];
+  let spotAdded = false;
+
+  if (data?.rows) {
+    data.rows.forEach((row) => {
+      if (!spotAdded && data.spot <= row.strike) {
+        tableItems.push({ type: 'SPOT', strike: data.spot });
+        spotAdded = true;
+      }
+      tableItems.push({ type: 'ROW', data: row });
+    });
+    if (!spotAdded) {
+      tableItems.push({ type: 'SPOT', strike: data.spot });
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans selection:bg-yellow-200">
@@ -189,7 +205,7 @@ export default function CPRScannerPage() {
                   <th className="pb-2 w-1/4">Yesterday CPR</th>
                   <th className="pb-2 w-[10%] text-gray-800">LTP</th>
                   <th className="pb-2 w-[15%] text-green-600">CE Touches (9:20 - 3:30)</th>
-                  <th className="pb-2 w-[10%] text-gray-400">Strike</th>
+                  <th className="pb-2 w-[10%] text-gray-400">Strike / Spot</th>
                   <th className="pb-2 w-[15%] text-red-600">PE Touches (9:20 - 3:30)</th>
                   <th className="pb-2 w-[10%] text-gray-800">LTP</th>
                   <th className="pb-2 w-1/4">Yesterday CPR</th>
@@ -197,7 +213,45 @@ export default function CPRScannerPage() {
               </thead>
               
               <tbody>
-                {data.rows.map((row) => {
+                {tableItems.map((item, index) => {
+                  if (item.type === 'SPOT') {
+                    return (
+                      <tr key={`spot-${index}`} className="bg-blue-50/60 shadow-sm relative z-20">
+                        <td className="py-4 px-2 rounded-l-xl border-y border-l border-blue-200">
+                          <CPRDisplay cpr={data.spotData?.cpr} />
+                        </td>
+                        <td className="py-4 px-2 border-y border-blue-200">
+                          <span className="text-[17px] font-black text-blue-700">
+                            {data.spotData?.ltp || data.spot}
+                          </span>
+                        </td>
+                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30">
+                          <TouchBadge touches={data.spotData?.touches} />
+                        </td>
+                        <td className="py-4 px-2 relative border-y border-blue-200 bg-blue-100/30">
+                          <div className="mx-auto w-28 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-base tracking-tight bg-blue-600 text-white shadow-md ring-2 ring-blue-300 ring-offset-2 relative">
+                            <span className="absolute -top-2.5 text-[9px] uppercase tracking-widest font-black bg-blue-900 text-blue-100 px-2 py-0.5 rounded shadow-sm border border-blue-700">
+                              {selectedIndex} SPOT
+                            </span>
+                            {data.spot}
+                          </div>
+                        </td>
+                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30">
+                          <TouchBadge touches={data.spotData?.touches} />
+                        </td>
+                        <td className="py-4 px-2 border-y border-blue-200">
+                          <span className="text-[17px] font-black text-blue-700">
+                            {data.spotData?.ltp || data.spot}
+                          </span>
+                        </td>
+                        <td className="py-4 px-2 rounded-r-xl border-y border-r border-blue-200">
+                          <CPRDisplay cpr={data.spotData?.cpr} />
+                        </td>
+                      </tr>
+                    );
+                  }
+
+                  const row = item.data;
                   const isAtm = row.strike === atmStrike;
                   
                   return (

@@ -19,6 +19,7 @@ const TIMEFRAMES = [
 ];
 
 const RETRY_MS = 5000;
+const PLAY_STEP_MS = 800; // how fast Play advances through snapshots
 
 function fmt(n, decimals = 2) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
@@ -90,17 +91,27 @@ export default function Page() {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [lastFetched, setLastFetched] = useState(null);
+  const [isFetching, setIsFetching] = useState(false); // subtle indicator, doesn't unmount the table
   const intervalRef = useRef(null);
   const waitingRetryRef = useRef(null);
+  const playIntervalRef = useRef(null);
 
-  // --- date / timeframe state ---
+  // --- date / timeframe / playback state ---
   const [selectedDate, setSelectedDate] = useState(todayIstKey());
   const [timeframe, setTimeframe] = useState(1); // 1 | 3 | 5 | 15 | 30 | 60 | "day"
   const [historyTimes, setHistoryTimes] = useState([]); // [{ time: "09:31:05", timestamp: 175... }]
   const [selectedTimestamp, setSelectedTimestamp] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const isHistoryMode = selectedDate !== todayIstKey();
+  const currentTimeIndex = historyTimes.findIndex((t) => t.timestamp === selectedTimestamp);
 
-  const load = useCallback(async (idx, expiry, date, timestamp, tf) => {
+  // showFullLoading = true -> swaps the whole panel to "Loading…" (first load,
+  // switching index/date/timeframe where we don't have anything to show yet).
+  // showFullLoading = false -> table stays mounted, only `isFetching` flips
+  // (used by Prev/Next/Play/Time-select, where we already have data on screen).
+  const load = useCallback(async (idx, expiry, date, timestamp, tf, { showFullLoading = true } = {}) => {
+    if (showFullLoading) setStatus("loading");
+    setIsFetching(true);
     try {
       const params = new URLSearchParams({ index: idx });
       if (expiry) params.set("expiry", expiry);
@@ -133,6 +144,8 @@ export default function Page() {
     } catch (err) {
       setStatus("error");
       setErrorMsg(err.message || "Something went wrong.");
+    } finally {
+      setIsFetching(false);
     }
   }, []);
 
@@ -146,8 +159,7 @@ export default function Page() {
         setHistoryTimes(times);
         const latest = times.length ? times[times.length - 1] : null;
         if (latest) {
-          setStatus("loading");
-          load(idx, null, date, latest.timestamp, tf);
+          load(idx, null, date, latest.timestamp, tf); // full loading — no data on screen yet for this date
         } else {
           setSelectedTimestamp(null);
           setStatus("no_history");
@@ -161,60 +173,122 @@ export default function Page() {
     [load]
   );
 
+  const stopPlayback = useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
   const handleIndexChange = useCallback(
     (key) => {
+      stopPlayback();
       setIndexKey(key);
-      setStatus("loading");
       setSelectedExpiry(null);
       if (isHistoryMode) {
+        setStatus("loading");
         loadHistoryTimes(key, selectedDate, timeframe);
       } else {
         load(key, null, null, null, timeframe);
       }
     },
-    [load, loadHistoryTimes, selectedDate, timeframe, isHistoryMode]
+    [load, loadHistoryTimes, selectedDate, timeframe, isHistoryMode, stopPlayback]
   );
 
   const handleDateChange = useCallback(
     (dateStr) => {
+      stopPlayback();
       setSelectedDate(dateStr);
-      setStatus("loading");
       setSelectedTimestamp(null);
       setHistoryTimes([]);
       if (dateStr === todayIstKey()) {
         load(indexKey, null, null, null, timeframe);
       } else {
+        setStatus("loading");
         loadHistoryTimes(indexKey, dateStr, timeframe);
       }
     },
-    [indexKey, load, loadHistoryTimes, timeframe]
+    [indexKey, load, loadHistoryTimes, timeframe, stopPlayback]
   );
 
-  // Timeframe now applies in BOTH modes:
+  // Timeframe applies in BOTH modes:
   // - live: recomputes OI Δ / LTP Δ vs a snapshot from N minutes ago
-  // - history: resamples the Time dropdown to one entry per N minutes
+  // - history: resamples the Time list to one entry per N minutes (also the playback step size)
   const handleTimeframeChange = useCallback(
     (tf) => {
+      stopPlayback();
       setTimeframe(tf);
-      setStatus("loading");
       if (isHistoryMode) {
+        setStatus("loading");
         loadHistoryTimes(indexKey, selectedDate, tf);
       } else {
         load(indexKey, selectedExpiry, null, null, tf);
       }
     },
-    [indexKey, selectedDate, selectedExpiry, isHistoryMode, load, loadHistoryTimes]
+    [indexKey, selectedDate, selectedExpiry, isHistoryMode, load, loadHistoryTimes, stopPlayback]
   );
 
+  // Dropdown pick within the SAME date — data is already on screen, just swap it in.
   const handleTimeChange = useCallback(
     (timestampStr) => {
+      stopPlayback();
       const timestamp = Number(timestampStr);
       setSelectedTimestamp(timestamp);
-      setStatus("loading");
-      load(indexKey, null, selectedDate, timestamp, timeframe);
+      load(indexKey, null, selectedDate, timestamp, timeframe, { showFullLoading: false });
     },
-    [indexKey, selectedDate, timeframe, load]
+    [indexKey, selectedDate, timeframe, load, stopPlayback]
   );
+
+  // Step to a specific index in historyTimes — used by Prev/Next and Play.
+  // Never triggers the full "Loading…" panel; table stays mounted throughout.
+  const stepTo = useCallback(
+    (idx) => {
+      if (idx < 0 || idx >= historyTimes.length) return false;
+      const t = historyTimes[idx];
+      setSelectedTimestamp(t.timestamp);
+      load(indexKey, null, selectedDate, t.timestamp, timeframe, { showFullLoading: false });
+      return true;
+    },
+    [historyTimes, indexKey, selectedDate, timeframe, load]
+  );
+
+  const handlePrev = useCallback(() => {
+    stopPlayback();
+    stepTo(currentTimeIndex - 1);
+  }, [stepTo, currentTimeIndex, stopPlayback]);
+
+  const handleNext = useCallback(() => {
+    stopPlayback();
+    stepTo(currentTimeIndex + 1);
+  }, [stepTo, currentTimeIndex, stopPlayback]);
+
+  const handleTogglePlay = useCallback(() => {
+    if (!isHistoryMode || historyTimes.length < 2) return;
+    setIsPlaying((wasPlaying) => {
+      if (!wasPlaying && currentTimeIndex >= historyTimes.length - 1) {
+        const t = historyTimes[0];
+        setSelectedTimestamp(t.timestamp);
+        load(indexKey, null, selectedDate, t.timestamp, timeframe, { showFullLoading: false });
+      }
+      return !wasPlaying;
+    });
+  }, [isHistoryMode, historyTimes, currentTimeIndex, indexKey, selectedDate, timeframe, load]);
+
+  // Playback tick — same non-blocking load, table never unmounts mid-play.
+  useEffect(() => {
+    if (!isPlaying || !isHistoryMode) return;
+    playIntervalRef.current = setInterval(() => {
+      setSelectedTimestamp((prevTs) => {
+        const idx = historyTimes.findIndex((t) => t.timestamp === prevTs);
+        const nextIdx = idx + 1;
+        if (nextIdx >= historyTimes.length) {
+          setIsPlaying(false);
+          return prevTs;
+        }
+        const t = historyTimes[nextIdx];
+        load(indexKey, null, selectedDate, t.timestamp, timeframe, { showFullLoading: false });
+        return t.timestamp;
+      });
+    }, PLAY_STEP_MS);
+    return () => clearInterval(playIntervalRef.current);
+  }, [isPlaying, isHistoryMode, historyTimes, indexKey, selectedDate, timeframe, load]);
 
   useEffect(() => {
     load(indexKey, null, null, null, timeframe);
@@ -233,7 +307,10 @@ export default function Page() {
   // Auto-refresh only applies in live mode.
   useEffect(() => {
     if (!autoRefresh || status !== "connected" || isHistoryMode) return;
-    intervalRef.current = setInterval(() => load(indexKey, selectedExpiry, null, null, timeframe), 5000);
+    intervalRef.current = setInterval(
+      () => load(indexKey, selectedExpiry, null, null, timeframe, { showFullLoading: false }),
+      5000
+    );
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -300,7 +377,8 @@ export default function Page() {
                       isHistoryMode ? "text-amber-700" : "text-emerald-700"
                     }`}
                   >
-                    {isHistoryMode ? "Historical Snapshot" : "Live Status"}
+                    {isHistoryMode ? (isPlaying ? "Playing Back" : "Historical Snapshot") : "Live Status"}
+                    {isFetching ? " · updating…" : ""}
                   </p>
                   <p className={`mt-1 font-mono text-xs ${isHistoryMode ? "text-amber-700" : "text-emerald-700"}`}>
                     {isHistoryMode
@@ -347,7 +425,7 @@ export default function Page() {
 
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
-                {isHistoryMode ? "Resample" : "OI Δ Interval"}
+                {isHistoryMode ? "Timeframe" : "OI Δ Interval"}
               </span>
               <div className="flex flex-wrap gap-1">
                 {TIMEFRAMES.map((tf) => (
@@ -369,6 +447,41 @@ export default function Page() {
 
             {isHistoryMode && (
               <>
+                <div className="flex items-center gap-1 rounded-xl border border-slate-300 bg-slate-50 px-2 py-1.5">
+                  <button
+                    onClick={handlePrev}
+                    disabled={currentTimeIndex <= 0}
+                    className="rounded-lg px-2 py-1 font-mono text-sm text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                    aria-label="Previous snapshot"
+                    title="Previous"
+                  >
+                    ◀
+                  </button>
+                  <button
+                    onClick={handleTogglePlay}
+                    disabled={historyTimes.length < 2}
+                    className="rounded-lg px-3 py-1 font-mono text-sm font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                    aria-label={isPlaying ? "Pause playback" : "Play through snapshots"}
+                    title={isPlaying ? "Pause" : "Play"}
+                  >
+                    {isPlaying ? "⏸" : "▶"}
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    disabled={currentTimeIndex === -1 || currentTimeIndex >= historyTimes.length - 1}
+                    className="rounded-lg px-2 py-1 font-mono text-sm text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                    aria-label="Next snapshot"
+                    title="Next"
+                  >
+                    ▶
+                  </button>
+                  {historyTimes.length > 0 && (
+                    <span className="ml-1 font-mono text-[11px] text-slate-500">
+                      {currentTimeIndex + 1}/{historyTimes.length}
+                    </span>
+                  )}
+                </div>
+
                 <label className="flex items-center gap-2">
                   <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">Time</span>
                   <select
@@ -463,11 +576,12 @@ export default function Page() {
                     className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200 cursor-pointer"
                     value={selectedExpiry || ""}
                     onChange={(e) => {
+                      stopPlayback();
                       setSelectedExpiry(e.target.value);
                       if (isHistoryMode) {
-                        load(indexKey, e.target.value, selectedDate, selectedTimestamp, timeframe);
+                        load(indexKey, e.target.value, selectedDate, selectedTimestamp, timeframe, { showFullLoading: false });
                       } else {
-                        load(indexKey, e.target.value, null, null, timeframe);
+                        load(indexKey, e.target.value, null, null, timeframe, { showFullLoading: false });
                       }
                     }}
                     aria-label="Select expiry"
@@ -483,8 +597,8 @@ export default function Page() {
                 <button
                   onClick={() =>
                     isHistoryMode
-                      ? load(indexKey, selectedExpiry, selectedDate, selectedTimestamp, timeframe)
-                      : load(indexKey, selectedExpiry, null, null, timeframe)
+                      ? load(indexKey, selectedExpiry, selectedDate, selectedTimestamp, timeframe, { showFullLoading: false })
+                      : load(indexKey, selectedExpiry, null, null, timeframe, { showFullLoading: false })
                   }
                   className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-mono text-sm text-slate-700 transition hover:border-amber-500 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-200 cursor-pointer"
                   aria-label="Refresh option chain"

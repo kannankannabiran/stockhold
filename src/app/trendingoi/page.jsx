@@ -119,9 +119,10 @@ export default function TrendingOiPage() {
 
       const callChg = callPlus + callMinus;
       const putChg = putPlus + putMinus;
-      const diffOi = Math.abs(putChg) - Math.abs(callChg);
-      const denom = Math.abs(callChg) + Math.abs(putChg);
-      const diffPct = denom === 0 ? 0 : (diffOi / denom) * 100;
+
+      const diffOi = putChg - callChg;
+      const maxOi = Math.max(Math.abs(callChg), Math.abs(putChg));
+      const diffPct = maxOi === 0 ? 0 : (diffOi / maxOi) * 100;
 
       let dayBreak = "-";
       if (row.spot !== null && row.spot !== undefined) {
@@ -246,7 +247,7 @@ export default function TrendingOiPage() {
               />
               <MetricCard
                 title="Diff OI"
-                value={latest ? fmtInt(Math.abs(latest.diffOi)) : "—"}
+                value={latest ? `${latest.diffOi > 0 ? "+" : ""}${fmtInt(latest.diffOi)}` : "—"}
                 subtitle="Current cumulative OI difference"
                 tone={latest?.diffOi > 0 ? "green" : latest?.diffOi < 0 ? "red" : "slate"}
               />
@@ -285,8 +286,6 @@ export default function TrendingOiPage() {
                 max={todayStr()}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 onClick={(e) => {
-                  // Open the native calendar on click anywhere in the box,
-                  // not just when the small calendar icon is clicked.
                   if (typeof e.target.showPicker === "function") {
                     e.target.showPicker();
                   }
@@ -418,7 +417,7 @@ export default function TrendingOiPage() {
 
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <span className={`font-semibold ${signClass(row.callChg)}`}>
-                          {fmtInt(Math.abs(row.callChg))}
+                          {row.callChg > 0 ? "+" : ""}{fmtInt(row.callChg)}
                         </span>
                       </td>
 
@@ -444,7 +443,7 @@ export default function TrendingOiPage() {
 
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <span className={`font-semibold ${signClass(row.putChg)}`}>
-                          {fmtInt(Math.abs(row.putChg))}
+                          {row.putChg > 0 ? "+" : ""}{fmtInt(row.putChg)}
                         </span>
                       </td>
 
@@ -458,7 +457,7 @@ export default function TrendingOiPage() {
                               : "text-slate-700"
                           }`}
                         >
-                          {fmtInt(Math.abs(row.diffOi))}
+                          {row.diffOi > 0 ? "+" : ""}{fmtInt(row.diffOi)}
                         </span>
                       </td>
 
@@ -472,7 +471,7 @@ export default function TrendingOiPage() {
                               : "text-slate-700"
                           }`}
                         >
-                          {Math.abs(row.diffPct).toFixed(1)}%
+                          {row.diffPct > 0 ? "+" : ""}{row.diffPct.toFixed(1)}%
                         </span>
                       </td>
 

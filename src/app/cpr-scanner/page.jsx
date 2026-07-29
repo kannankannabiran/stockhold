@@ -7,14 +7,75 @@ export default function CPRScannerPage() {
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
-  
+
   const [selectedIndex, setSelectedIndex] = useState("NIFTY");
   const [selectedExpiry, setSelectedExpiry] = useState("");
   const [selectedDate, setSelectedDate] = useState(() => {
     return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   });
 
+  const [notifPermission, setNotifPermission] = useState(
+    typeof window !== "undefined" && "Notification" in window ? Notification.permission : "unsupported"
+  );
+
   const fetchingRef = useRef(false);
+  // Tracks touch-count per key ("spot", "<strike>-CE", "<strike>-PE") so we only
+  // notify on NEW touches, not ones that already existed on first load.
+  const prevTouchesRef = useRef({});
+  // True until the first successful fetch for the current index/expiry/date context
+  // completes — suppresses notifications for pre-existing touches on load/context switch.
+  const isFirstLoadRef = useRef(true);
+
+  const requestNotifPermission = () => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      Notification.requestPermission().then(setNotifPermission);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission().then(setNotifPermission);
+    }
+  }, []);
+
+  const notifyNewTouches = (label, newTouches) => {
+    if (typeof window === "undefined" || !("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+    newTouches.forEach((t) => {
+      try {
+        new Notification(`CPR ${t.level} Touch`, {
+          body: `${selectedIndex} — ${label} touched ${t.level} CPR at ${t.time}`,
+          tag: `${selectedIndex}-${label}-${t.level}-${t.time}`,
+        });
+      } catch (e) {
+        console.error("Notification failed", e);
+      }
+    });
+  };
+
+  const checkForNewTouches = (json) => {
+    const spotKey = "spot";
+    const spotTouches = json.spotData?.touches || [];
+    const prevSpotLen = prevTouchesRef.current[spotKey] || 0;
+    if (!isFirstLoadRef.current && spotTouches.length > prevSpotLen) {
+      notifyNewTouches(`${json.index} Spot`, spotTouches.slice(prevSpotLen));
+    }
+    prevTouchesRef.current[spotKey] = spotTouches.length;
+
+    (json.rows || []).forEach((row) => {
+      ["CE", "PE"].forEach((side) => {
+        const key = `${row.strike}-${side}`;
+        const touches = row[side]?.touches || [];
+        const prevLen = prevTouchesRef.current[key] || 0;
+        if (!isFirstLoadRef.current && touches.length > prevLen) {
+          notifyNewTouches(`${row.strike} ${side}`, touches.slice(prevLen));
+        }
+        prevTouchesRef.current[key] = touches.length;
+      });
+    });
+
+    isFirstLoadRef.current = false;
+  };
 
   const fetchScannerData = async (isBackground = false) => {
     if (fetchingRef.current && !isBackground) return;
@@ -27,17 +88,18 @@ export default function CPRScannerPage() {
       params.append("index", selectedIndex);
       if (selectedExpiry) params.append("expiry", selectedExpiry);
       if (selectedDate) params.append("date", selectedDate);
-        
+
       const res = await fetch(`/api/cpr-scanner?${params.toString()}`);
       if (!res.ok) throw new Error("Kite data not connected or failed to fetch");
       const json = await res.json();
-      
+
+      checkForNewTouches(json);
       setData(json);
-      
+
       if (!selectedExpiry || !json.availableExpiries?.includes(selectedExpiry)) {
         if (json.expiry) setSelectedExpiry(json.expiry);
       }
-      
+
       setLastUpdated(new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" }));
       setError(null);
     } catch (err) {
@@ -50,8 +112,13 @@ export default function CPRScannerPage() {
   };
 
   useEffect(() => {
+    // New context (index/expiry/date) — reset touch tracking so we don't fire
+    // notifications for touches that already existed before this context was selected.
+    prevTouchesRef.current = {};
+    isFirstLoadRef.current = true;
+
     fetchScannerData(false);
-    const interval = setInterval(() => fetchScannerData(true), 10000); 
+    const interval = setInterval(() => fetchScannerData(true), 10000);
     return () => clearInterval(interval);
   }, [selectedExpiry, selectedIndex, selectedDate]);
 
@@ -59,7 +126,7 @@ export default function CPRScannerPage() {
     const newIdx = e.target.value;
     if (newIdx === selectedIndex) return;
     setSelectedIndex(newIdx);
-    setSelectedExpiry(""); 
+    setSelectedExpiry("");
   };
 
   const TouchBadge = ({ touches }) => {
@@ -67,8 +134,8 @@ export default function CPRScannerPage() {
     return (
       <div className="flex flex-col gap-1.5 items-center justify-center">
         {touches.map((t, idx) => (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             className={`flex items-center justify-between w-[120px] px-2 py-1 text-[11px] font-bold rounded-md border ${
               t.level === "Top" ? "bg-green-50 border-green-200 text-green-700 shadow-sm" :
               t.level === "Bottom" ? "bg-red-50 border-red-200 text-red-700 shadow-sm" :
@@ -105,10 +172,10 @@ export default function CPRScannerPage() {
     </div>
   );
 
-  const atmStrike = data?.rows?.length > 0 
-    ? data.rows.reduce((prev, curr) => 
+  const atmStrike = data?.rows?.length > 0
+    ? data.rows.reduce((prev, curr) =>
         Math.abs(curr.strike - data.spot) < Math.abs(prev.strike - data.spot) ? curr : prev
-      ).strike 
+      ).strike
     : 0;
 
   const tableItems = [];
@@ -130,10 +197,10 @@ export default function CPRScannerPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans selection:bg-yellow-200">
       <div className="w-full mx-auto">
-        
+
         {/* Terminal Header */}
         <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-4 flex flex-col lg:flex-row justify-between items-center gap-6 shadow-sm relative overflow-hidden">
-          
+
           <div className="flex items-center gap-5 z-10 flex-wrap">
             <div className="h-12 w-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-950 shadow-inner">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
@@ -141,8 +208,8 @@ export default function CPRScannerPage() {
             <div>
               <h1 className="text-2xl font-black text-gray-800 tracking-tight">CPR Scanner <span className="text-xs font-bold text-white bg-gray-800 px-2.5 py-0.5 rounded ml-1">PRO</span></h1>
               <div className="flex flex-wrap items-center gap-3 mt-1.5 text-sm font-medium">
-                
-                <select 
+
+                <select
                   value={selectedIndex}
                   onChange={handleIndexChange}
                   className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs uppercase cursor-pointer transition-all hover:bg-blue-100 shadow-sm tracking-wider"
@@ -151,12 +218,12 @@ export default function CPRScannerPage() {
                   <option value="BANKNIFTY">BANKNIFTY</option>
                   <option value="SENSEX">SENSEX</option>
                 </select>
-                
+
                 <span className="text-gray-300">|</span>
-                
+
                 <span className="text-gray-500 flex items-center gap-1.5">
                   Date
-                  <input 
+                  <input
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
@@ -167,8 +234,8 @@ export default function CPRScannerPage() {
                 <span className="text-gray-300">|</span>
 
                 <span className="text-gray-500 flex items-center gap-1.5">
-                  Exp 
-                  <select 
+                  Exp
+                  <select
                     value={selectedExpiry || data?.expiry || ""}
                     onChange={(e) => setSelectedExpiry(e.target.value)}
                     className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
@@ -185,8 +252,28 @@ export default function CPRScannerPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-5 z-10">
+            {/* Notification permission indicator */}
+            <button
+              onClick={requestNotifPermission}
+              disabled={notifPermission === "granted" || notifPermission === "unsupported"}
+              title={
+                notifPermission === "granted" ? "Alerts enabled — you'll be notified on new CPR touches" :
+                notifPermission === "denied" ? "Notifications blocked — enable them in your browser's site settings" :
+                notifPermission === "unsupported" ? "Notifications not supported in this browser" :
+                "Click to enable CPR touch alerts"
+              }
+              className={`flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border transition-all ${
+                notifPermission === "granted" ? "bg-green-50 border-green-200 text-green-700 cursor-default" :
+                notifPermission === "denied" ? "bg-red-50 border-red-200 text-red-600 cursor-not-allowed" :
+                "bg-yellow-50 border-yellow-300 text-yellow-800 hover:bg-yellow-100 cursor-pointer"
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+              {notifPermission === "granted" ? "Alerts On" : notifPermission === "denied" ? "Alerts Blocked" : "Enable Alerts"}
+            </button>
+
             <div className="flex flex-col items-end">
               <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1 ${error ? 'text-red-500' : 'text-green-600'}`}>
                 <span className="relative flex h-2 w-2">
@@ -197,7 +284,7 @@ export default function CPRScannerPage() {
               </div>
               <span className="font-mono text-xs text-gray-400">Sync: {lastUpdated || "--:--:--"}</span>
             </div>
-            <button 
+            <button
               onClick={() => fetchScannerData(false)}
               className="bg-gray-900 hover:bg-gray-800 border border-gray-900 text-white text-sm py-2 px-4 rounded-lg transition-all active:scale-95 flex items-center gap-2 shadow-sm"
             >
@@ -242,7 +329,7 @@ export default function CPRScannerPage() {
                   <th className="pb-2 w-1/4">Yesterday CPR</th>
                 </tr>
               </thead>
-              
+
               <tbody>
                 {tableItems.map((item, index) => {
                   if (item.type === 'SPOT') {
@@ -284,13 +371,13 @@ export default function CPRScannerPage() {
 
                   const row = item.data;
                   const isAtm = row.strike === atmStrike;
-                  
+
                   return (
-                    <tr 
-                      key={row.strike} 
+                    <tr
+                      key={row.strike}
                       className={`group transition-all duration-300 shadow-sm ${
-                        isAtm 
-                          ? "bg-yellow-50 relative z-10" 
+                        isAtm
+                          ? "bg-yellow-50 relative z-10"
                           : "bg-white hover:bg-gray-50"
                       }`}
                     >
@@ -308,8 +395,8 @@ export default function CPRScannerPage() {
 
                       <td className={`py-4 px-2 relative border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 group-hover:border-gray-300'}`}>
                         <div className={`mx-auto w-24 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-lg tracking-tight transition-all
-                          ${isAtm 
-                            ? "bg-yellow-400 text-yellow-950 shadow-md ring-2 ring-yellow-200 ring-offset-2" 
+                          ${isAtm
+                            ? "bg-yellow-400 text-yellow-950 shadow-md ring-2 ring-yellow-200 ring-offset-2"
                             : "bg-gray-100 text-gray-800 border border-gray-200 group-hover:bg-gray-200"
                           }`}
                         >
@@ -340,7 +427,7 @@ export default function CPRScannerPage() {
             </table>
           )}
         </div>
-        
+
       </div>
     </div>
   );

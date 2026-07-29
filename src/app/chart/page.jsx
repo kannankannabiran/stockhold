@@ -1,26 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import axios from "axios";
 import { useAccessControl } from "../../hooks/useAccessControl"; // Adjust path as needed
 import stocklist from "../symbol/data"; // Adjust path as needed
 import TradingViewChart from "./LightWeightChartWithIndicators"; // Adjust path as needed
 import { FiSearch, FiTrendingUp, FiPlus } from "react-icons/fi";
-
-// ==========================================
-// TIME PERIOD CONFIG
-// ==========================================
-const periodOptions = [
-  { label: "1 Month", value: "1mo" },
-  { label: "3 Months", value: "3mo" },
-  { label: "6 Months", value: "6mo" },
-  { label: "1 Year", value: "1y" },
-  { label: "5 Years", value: "5y" },
-  { label: "10 Years", value: "10y" },
-  { label: "15 Years", value: "15y" },
-  { label: "20 Years", value: "20y" },
-];
 
 // ==========================================
 // INDICATOR CATALOG
@@ -48,9 +33,6 @@ export default function ChartPage() {
   
   const [selectedStock, setSelectedStock] = useState(
     stocklist.find((s) => s.value === "RELIANCE.NS") || stocklist[0]
-  );
-  const [selectedPeriod, setSelectedPeriod] = useState(
-    periodOptions.find((p) => p.value === "1y")
   );
   const [chartData, setChartData] = useState([]);
 
@@ -101,6 +83,7 @@ export default function ChartPage() {
     setIsIndicatorDropdownOpen(false);
   };
 
+  // Automatically fetch maximum available historical data by default
   useEffect(() => {
     const fetchData = async () => {
       if (!selectedStock) return;
@@ -109,7 +92,7 @@ export default function ChartPage() {
           params: {
             symbol: selectedStock.value,
             interval: "1d",
-            period: selectedPeriod.value,
+            period: "max", // Fetches all available years of data from your backend
             t: Date.now(),
           },
         });
@@ -119,14 +102,13 @@ export default function ChartPage() {
       }
     };
     fetchData();
-  }, [selectedStock, selectedPeriod]);
+  }, [selectedStock]);
 
   if (loading) return <div className="p-8 text-gray-500 flex items-center justify-center h-screen overflow-hidden">Loading Workspace...</div>;
   if (!hasAccess) return <div className="p-8 text-red-500 flex items-center justify-center h-screen overflow-hidden">Access Denied</div>;
 
   return (
-    // CHANGED HERE: h-screen and overflow-hidden lock the viewport height and strip out the vertical scrollbar
-    <div className="flex flex-col w-full h-[calc(100vh-5rem)] overflow-hidden p-4 md:p-8 bg-[#f8f9fa] font-sans box-border">
+    <div className="flex flex-col w-full h-[calc(100vh-2rem)] p-4 md:p-8 bg-[#f8f9fa] font-sans box-border overflow-hidden">
       
       {/* Top Header */}
       <div className="flex items-center gap-3 mb-4 flex-shrink-0">
@@ -142,7 +124,7 @@ export default function ChartPage() {
       </div>
 
       {/* Control Panel */}
-      <div className="relative z-50 flex flex-col md:flex-row gap-4 mb-4 w-full max-w-5xl bg-white p-4 rounded-xl shadow-sm border border-gray-100 items-center flex-shrink-0">
+      <div className="relative z-50 flex flex-col md:flex-row gap-4 mb-4 w-full max-w-4xl bg-white p-4 rounded-xl shadow-sm border border-gray-100 items-center flex-shrink-0">
         
         {/* Symbol Search */}
         <div className="relative flex-1 w-full">
@@ -177,28 +159,6 @@ export default function ChartPage() {
           )}
         </div>
 
-        {/* Period Dropdown */}
-        <div className="w-full md:w-56">
-          <Select
-            options={periodOptions}
-            value={selectedPeriod}
-            onChange={(option) => setSelectedPeriod(option)}
-            placeholder="Timeframe"
-            styles={{
-              control: (base, state) => ({
-                ...base,
-                backgroundColor: '#f9fafb',
-                padding: "2px",
-                borderRadius: "0.5rem",
-                borderColor: state.isFocused ? '#3b82f6' : '#e5e7eb',
-                boxShadow: state.isFocused ? '0 0 0 2px rgba(59, 130, 246, 0.2)' : 'none',
-                '&:hover': { borderColor: '#d1d5db' }
-              }),
-              menu: (base) => ({ ...base, zIndex: 9999, borderRadius: '0.5rem', overflow: 'hidden', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }),
-            }}
-          />
-        </div>
-
         {/* Add Indicator Button */}
         <div className="relative w-full md:w-auto">
           <button 
@@ -225,7 +185,7 @@ export default function ChartPage() {
       </div>
 
       {/* Chart Canvas Container */}
-      <div className="relative z-0 w-full flex-grow flex flex-col rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white min-h-0">
+      <div className="relative z-0 w-full flex-grow flex flex-col rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white">
         {chartData && chartData.length > 0 ? (
           <TradingViewChart 
             data={chartData} 

@@ -38,7 +38,7 @@ export async function GET(request) {
   }
 
   const interval = INTERVAL_MAP[intervalParam] || "day";
-  const days = PERIOD_TO_MS[period] || 30;
+  const days = PERIOD_TO_MS[period] || 1825;
 
   const to = new Date();
   const from = new Date();

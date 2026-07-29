@@ -23,7 +23,7 @@ const periodOptions = [
 ];
 
 // ==========================================
-// INDICATOR CATALOG (Single VWAP with default session)
+// INDICATOR CATALOG
 // ==========================================
 const INDICATOR_CATALOG = [
   // Moving Averages 
@@ -121,14 +121,15 @@ export default function ChartPage() {
     fetchData();
   }, [selectedStock, selectedPeriod]);
 
-  if (loading) return <div className="p-8 text-gray-500 flex items-center justify-center min-h-screen">Loading Workspace...</div>;
-  if (!hasAccess) return <div className="p-8 text-red-500 flex items-center justify-center min-h-screen">Access Denied</div>;
+  if (loading) return <div className="p-8 text-gray-500 flex items-center justify-center h-screen overflow-hidden">Loading Workspace...</div>;
+  if (!hasAccess) return <div className="p-8 text-red-500 flex items-center justify-center h-screen overflow-hidden">Access Denied</div>;
 
   return (
-    <div className="flex flex-col w-full h-full p-4 md:p-8 bg-[#f8f9fa] min-h-screen font-sans">
+    // CHANGED HERE: h-screen and overflow-hidden lock the viewport height and strip out the vertical scrollbar
+    <div className="flex flex-col w-full h-[calc(100vh-5rem)] overflow-hidden p-4 md:p-8 bg-[#f8f9fa] font-sans box-border">
       
       {/* Top Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-4 flex-shrink-0">
         <div className="p-3 bg-blue-600 rounded-lg shadow-md text-white">
           <FiTrendingUp size={24} />
         </div>
@@ -141,7 +142,7 @@ export default function ChartPage() {
       </div>
 
       {/* Control Panel */}
-      <div className="relative z-50 flex flex-col md:flex-row gap-4 mb-6 w-full max-w-5xl bg-white p-4 rounded-xl shadow-sm border border-gray-100 items-center">
+      <div className="relative z-50 flex flex-col md:flex-row gap-4 mb-4 w-full max-w-5xl bg-white p-4 rounded-xl shadow-sm border border-gray-100 items-center flex-shrink-0">
         
         {/* Symbol Search */}
         <div className="relative flex-1 w-full">
@@ -159,7 +160,7 @@ export default function ChartPage() {
           </div>
           
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-2xl w-full max-h-64 overflow-y-auto z-[60]">
+            <div className="absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-2xl w-full max-h-60 overflow-y-auto z-[60]">
               {suggestions.map((stock, index) => (
                 <div
                   key={stock.value}
@@ -208,7 +209,7 @@ export default function ChartPage() {
           </button>
 
           {isIndicatorDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-xl rounded-xl max-h-80 overflow-y-auto z-[70]">
+            <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-xl rounded-xl max-h-60 overflow-y-auto z-[70]">
               {INDICATOR_CATALOG.map(item => (
                 <div 
                   key={`${item.type}-${item.period || 'none'}`}
@@ -224,7 +225,7 @@ export default function ChartPage() {
       </div>
 
       {/* Chart Canvas Container */}
-      <div className="relative z-0 w-full flex-grow flex flex-col rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white min-h-[650px]">
+      <div className="relative z-0 w-full flex-grow flex flex-col rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white min-h-0">
         {chartData && chartData.length > 0 ? (
           <TradingViewChart 
             data={chartData} 

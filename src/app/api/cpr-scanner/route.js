@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { newClient } from "../../../lib/kite";
 import { INDEX_CONFIG } from "../../../lib/optionChainCore";
+import db from "../../../lib/db"; // Import your SQLite db connection
 
-let memoryCache = {}; 
-const CACHE_TTL = 4500; 
+let instrumentCache = {}; 
+const INSTRUMENT_TTL = 3600000; // 1 hour
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -27,15 +28,68 @@ function calculateCPR(high, low, close) {
   };
 }
 
+async function getCachedInstruments(kc, exchangeSegment) {
+  const now = Date.now();
+  if (instrumentCache[exchangeSegment] && now - instrumentCache[exchangeSegment].timestamp < INSTRUMENT_TTL) {
+    return instrumentCache[exchangeSegment].data;
+  }
+  const instruments = await kc.getInstruments([exchangeSegment]);
+  instrumentCache[exchangeSegment] = { timestamp: now, data: instruments };
+  return instruments;
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
   const reqExpiry = searchParams.get("expiry") || ""; 
+  const reqDate = searchParams.get("date") || ""; 
 
-  const cacheKey = `${indexKey}_${reqExpiry}`;
+  const istTodayStr = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+  const targetDateStr = reqDate || istTodayStr;
 
-  if (memoryCache[cacheKey] && Date.now() - memoryCache[cacheKey].timestamp < CACHE_TTL && memoryCache[cacheKey].data) {
-    return NextResponse.json({ ...memoryCache[cacheKey].data, cached: true });
+  // 1. Check SQLite DB first for past dates to load instantly
+  if (targetDateStr !== istTodayStr && reqExpiry) {
+    const cachedRows = db.prepare(`
+      SELECT * FROM cpr_scanner_snapshots 
+      WHERE index_key = ? AND expiry = ? AND date = ?
+      ORDER BY strike ASC
+    `).all(indexKey, reqExpiry, targetDateStr);
+
+    if (cachedRows.length > 0) {
+      const rows = cachedRows.map(r => ({
+        strike: r.strike,
+        CE: {
+          symbol: r.ce_symbol,
+          ltp: r.ce_ltp,
+          cpr: r.ce_cpr_tc ? { TC: r.ce_cpr_tc, Pivot: r.ce_cpr_pivot, BC: r.ce_cpr_bc } : null,
+          touches: r.ce_touches ? JSON.parse(r.ce_touches) : []
+        },
+        PE: {
+          symbol: r.pe_symbol,
+          ltp: r.pe_ltp,
+          cpr: r.pe_cpr_tc ? { TC: r.pe_cpr_tc, Pivot: r.pe_cpr_pivot, BC: r.pe_cpr_bc } : null,
+          touches: r.pe_touches ? JSON.parse(r.pe_touches) : []
+        }
+      }));
+
+      const spotData = cachedRows[0].spot_data ? JSON.parse(cachedRows[0].spot_data) : null;
+      const spot = cachedRows[0].spot;
+
+      const expiriesQuery = db.prepare(`SELECT DISTINCT expiry FROM cpr_scanner_snapshots WHERE index_key = ?`).all(indexKey);
+      const availableExpiries = expiriesQuery.map(e => e.expiry);
+
+      return NextResponse.json({
+        spot,
+        index: indexKey,
+        expiry: reqExpiry,
+        date: targetDateStr,
+        availableExpiries,
+        rows,
+        spotData,
+        cached: true,
+        source: "sqlite"
+      });
+    }
   }
 
   const cookieStore = await cookies();
@@ -49,13 +103,12 @@ export async function GET(request) {
 
   try {
     const spotQuote = await kc.getQuote([cfg.spotSymbol]);
-    const spot = spotQuote?.[cfg.spotSymbol]?.last_price;
+    let spot = spotQuote?.[cfg.spotSymbol]?.last_price;
     if (!spot) throw new Error("Could not fetch spot price");
 
     const exchangeSegment = cfg.exchange || (indexKey === "SENSEX" ? "BSE" : "NFO");
-    const allInstruments = await kc.getInstruments([exchangeSegment]);
+    const allInstruments = await getCachedInstruments(kc, exchangeSegment);
     
-    // Fallback spot token retrieval
     let spotToken = spotQuote?.[cfg.spotSymbol]?.instrument_token;
     if (!spotToken) {
       const spotInst = allInstruments.find(i => i.tradingsymbol === cfg.spotSymbol || (i.name === cfg.name && (i.instrument_type === "EQ" || i.instrument_type === "IND")));
@@ -90,13 +143,12 @@ export async function GET(request) {
     const targetStrikes = new Set(uniqueStrikes.slice(startIdx, endIdx));
     const targetOpts = chainOpts.filter((o) => targetStrikes.has(o.strike));
 
-    const fromDate = new Date();
-    fromDate.setDate(fromDate.getDate() - 5);
+    const targetDateObj = new Date(targetDateStr);
+    const fromDate = new Date(targetDateObj);
+    fromDate.setDate(fromDate.getDate() - 10);
     const fromStr = fromDate.toISOString().slice(0, 10);
-    const toStr = new Date().toISOString().slice(0, 10);
-    const actualTodayStr = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+    const toStr = targetDateStr;
 
-    // Fetch Spot Historical Data & Calculate Spot CPR / Touches
     let spotData = null;
     if (spotToken) {
       try {
@@ -109,7 +161,7 @@ export async function GET(request) {
             byDate[dStr].push(c);
           });
           const dates = Object.keys(byDate).sort();
-          const prevDateStr = dates.filter((d) => d !== actualTodayStr).pop();
+          const prevDateStr = dates.filter((d) => d < targetDateStr).pop();
           
           let cpr = null;
           if (prevDateStr && byDate[prevDateStr]) {
@@ -123,8 +175,8 @@ export async function GET(request) {
           }
 
           const touches = [];
-          if (byDate[actualTodayStr]) {
-            const todayCandles = byDate[actualTodayStr]
+          if (byDate[targetDateStr]) {
+            const todayCandles = byDate[targetDateStr]
               .filter((c) => {
                 const timeStr = new Date(c.date).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" });
                 return timeStr >= "09:20:00" && timeStr <= "15:30:00";
@@ -147,6 +199,7 @@ export async function GET(request) {
                 if (hitTC && hitPivot && hitBC) break;
               }
             }
+            spot = byDate[targetDateStr][byDate[targetDateStr].length - 1].close;
           }
           spotData = { ltp: spot, cpr, touches };
         }
@@ -156,7 +209,6 @@ export async function GET(request) {
     }
 
     const resultsByStrike = {};
-
     const batches = batch(targetOpts, 3);
     for (const chunk of batches) {
       await Promise.all(
@@ -173,7 +225,7 @@ export async function GET(request) {
             });
 
             const dates = Object.keys(byDate).sort();
-            const prevDateStr = dates.filter((d) => d !== actualTodayStr).pop();
+            const prevDateStr = dates.filter((d) => d < targetDateStr).pop();
             
             let cpr = null;
             if (prevDateStr && byDate[prevDateStr]) {
@@ -189,24 +241,22 @@ export async function GET(request) {
             const touches = [];
             let ltp = null;
             
-            if (byDate[actualTodayStr]) {
-              const todayCandles = byDate[actualTodayStr]
+            if (byDate[targetDateStr]) {
+              const todayCandles = byDate[targetDateStr]
                 .filter((c) => {
                   const timeStr = new Date(c.date).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" });
                   return timeStr >= "09:20:00" && timeStr <= "15:30:00";
                 })
                 .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-              if (byDate[actualTodayStr].length > 0) {
-                ltp = byDate[actualTodayStr][byDate[actualTodayStr].length - 1].close;
+              if (byDate[targetDateStr].length > 0) {
+                ltp = byDate[targetDateStr][byDate[targetDateStr].length - 1].close;
               }
 
               if (todayCandles.length > 0 && cpr) {
                 let hitTC = false, hitPivot = false, hitBC = false;
-
                 for (const c of todayCandles) {
                   const tStr = new Date(c.date).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: '2-digit', minute:'2-digit' });
-                  
                   if (!hitTC && cpr.TC <= c.high && cpr.TC >= c.low) {
                     hitTC = true; touches.push({ level: "Top", time: tStr });
                   }
@@ -230,18 +280,49 @@ export async function GET(request) {
           }
         })
       );
-      await sleep(350);
+      await sleep(200);
     }
 
     const rows = Object.values(resultsByStrike).sort((a, b) => a.strike - b.strike);
-    
-    const finalData = { spot, index: indexKey, expiry, availableExpiries: expiries, rows, spotData, updatedAt: new Date().toISOString() };
-    
-    memoryCache[cacheKey] = { timestamp: Date.now(), data: finalData };
-    if (!reqExpiry) {
-      memoryCache[`${indexKey}_`] = { timestamp: Date.now(), data: finalData };
-    }
 
+    // Save fetched results into SQLite DB in a high-speed transaction
+    const insertStmt = db.prepare(`
+      INSERT OR REPLACE INTO cpr_scanner_snapshots 
+      (id, index_key, expiry, date, strike, spot, ce_symbol, ce_ltp, ce_cpr_tc, ce_cpr_pivot, ce_cpr_bc, ce_touches, pe_symbol, pe_ltp, pe_cpr_tc, pe_cpr_pivot, pe_cpr_bc, pe_touches, spot_data, timestamp)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    const saveToDb = db.transaction((rowsData) => {
+      for (const row of rowsData) {
+        const rowId = `${indexKey}_${expiry}_${targetDateStr}_${row.strike}`;
+        insertStmt.run(
+          rowId,
+          indexKey,
+          expiry,
+          targetDateStr,
+          row.strike,
+          spot,
+          row.CE?.symbol || null,
+          row.CE?.ltp || null,
+          row.CE?.cpr?.TC || null,
+          row.CE?.cpr?.Pivot || null,
+          row.CE?.cpr?.BC || null,
+          JSON.stringify(row.CE?.touches || []),
+          row.PE?.symbol || null,
+          row.PE?.ltp || null,
+          row.PE?.cpr?.TC || null,
+          row.PE?.cpr?.Pivot || null,
+          row.PE?.cpr?.BC || null,
+          JSON.stringify(row.PE?.touches || []),
+          JSON.stringify(spotData),
+          Date.now()
+        );
+      }
+    });
+
+    saveToDb(rows);
+
+    const finalData = { spot, index: indexKey, expiry, date: targetDateStr, availableExpiries: expiries, rows, spotData, updatedAt: new Date().toISOString() };
     return NextResponse.json({ ...finalData, cached: false });
   } catch (err) {
     return NextResponse.json({ error: "fetch_failed", message: err.message }, { status: 500 });

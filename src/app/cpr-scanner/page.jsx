@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function CPRScannerPage() {
   const [data, setData] = useState(null);
@@ -10,29 +10,40 @@ export default function CPRScannerPage() {
   
   const [selectedIndex, setSelectedIndex] = useState("NIFTY");
   const [selectedExpiry, setSelectedExpiry] = useState("");
+  const [selectedDate, setSelectedDate] = useState(() => {
+    return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+  });
+
+  const fetchingRef = useRef(false);
 
   const fetchScannerData = async (isBackground = false) => {
+    if (fetchingRef.current && !isBackground) return;
+    fetchingRef.current = true;
+
     if (!isBackground && !data) setLoading(true);
     setIsRefreshing(true);
     try {
-      const url = selectedExpiry 
-        ? `/api/cpr-scanner?index=${selectedIndex}&expiry=${selectedExpiry}`
-        : `/api/cpr-scanner?index=${selectedIndex}`;
+      const params = new URLSearchParams();
+      params.append("index", selectedIndex);
+      if (selectedExpiry) params.append("expiry", selectedExpiry);
+      if (selectedDate) params.append("date", selectedDate);
         
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to fetch data");
+      const res = await fetch(`/api/cpr-scanner?${params.toString()}`);
+      if (!res.ok) throw new Error("Kite data not connected or failed to fetch");
       const json = await res.json();
       
       setData(json);
       
-      if (!selectedExpiry && json.expiry) {
-        setSelectedExpiry(json.expiry);
+      if (!selectedExpiry || !json.availableExpiries?.includes(selectedExpiry)) {
+        if (json.expiry) setSelectedExpiry(json.expiry);
       }
       
       setLastUpdated(new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" }));
+      setError(null);
     } catch (err) {
       if (!isBackground) setError(err.message);
     } finally {
+      fetchingRef.current = false;
       setLoading(false);
       setTimeout(() => setIsRefreshing(false), 500);
     }
@@ -40,14 +51,15 @@ export default function CPRScannerPage() {
 
   useEffect(() => {
     fetchScannerData(false);
-    const interval = setInterval(() => fetchScannerData(true), 5000); 
+    const interval = setInterval(() => fetchScannerData(true), 10000); 
     return () => clearInterval(interval);
-  }, [selectedExpiry, selectedIndex]);
+  }, [selectedExpiry, selectedIndex, selectedDate]);
 
   const handleIndexChange = (e) => {
-    setSelectedIndex(e.target.value);
+    const newIdx = e.target.value;
+    if (newIdx === selectedIndex) return;
+    setSelectedIndex(newIdx);
     setSelectedExpiry(""); 
-    setData(null);          
   };
 
   const TouchBadge = ({ touches }) => {
@@ -84,21 +96,11 @@ export default function CPRScannerPage() {
     );
   };
 
-  if (loading || !data) return (
+  if (!data && loading) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-800">
       <div className="flex flex-col items-center gap-4 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
         <div className="w-10 h-10 border-4 border-gray-100 border-t-yellow-400 rounded-full animate-spin"></div>
         <p className="text-gray-500 text-sm font-semibold tracking-wide">Connecting to Market...</p>
-      </div>
-    </div>
-  );
-  
-  if (error) return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-      <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-5 rounded-xl max-w-lg text-center shadow-md">
-        <svg className="w-8 h-8 mx-auto mb-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-        <h3 className="font-bold text-lg mb-1">System Error</h3>
-        <p className="text-sm font-medium">{error}</p>
       </div>
     </div>
   );
@@ -109,7 +111,6 @@ export default function CPRScannerPage() {
       ).strike 
     : 0;
 
-  // Build items list with Spot Index integrated into the table sequence matching columns
   const tableItems = [];
   let spotAdded = false;
 
@@ -131,15 +132,15 @@ export default function CPRScannerPage() {
       <div className="w-full mx-auto">
         
         {/* Terminal Header */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-8 flex flex-col lg:flex-row justify-between items-center gap-6 shadow-sm relative overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-4 flex flex-col lg:flex-row justify-between items-center gap-6 shadow-sm relative overflow-hidden">
           
-          <div className="flex items-center gap-5 z-10">
+          <div className="flex items-center gap-5 z-10 flex-wrap">
             <div className="h-12 w-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-950 shadow-inner">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
             </div>
             <div>
               <h1 className="text-2xl font-black text-gray-800 tracking-tight">CPR Scanner <span className="text-xs font-bold text-white bg-gray-800 px-2.5 py-0.5 rounded ml-1">PRO</span></h1>
-              <div className="flex items-center gap-4 mt-1.5 text-sm font-medium">
+              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-sm font-medium">
                 
                 <select 
                   value={selectedIndex}
@@ -152,21 +153,34 @@ export default function CPRScannerPage() {
                 </select>
                 
                 <span className="text-gray-300">|</span>
-                <span className="text-gray-500">Spot <span className="font-mono text-gray-900 bg-gray-100 px-1.5 rounded ml-1">{data.spot}</span></span>
-                <span className="text-gray-300">|</span>
                 
+                <span className="text-gray-500 flex items-center gap-1.5">
+                  Date
+                  <input 
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
+                  />
+                </span>
+
+                <span className="text-gray-300">|</span>
+
                 <span className="text-gray-500 flex items-center gap-1.5">
                   Exp 
                   <select 
-                    value={selectedExpiry || data.expiry}
+                    value={selectedExpiry || data?.expiry || ""}
                     onChange={(e) => setSelectedExpiry(e.target.value)}
                     className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
                   >
-                    {data.availableExpiries?.map((exp) => (
+                    {data?.availableExpiries?.map((exp) => (
                       <option key={exp} value={exp}>{exp}</option>
                     ))}
                   </select>
                 </span>
+
+                <span className="text-gray-300">|</span>
+                <span className="text-gray-500">Spot <span className="font-mono text-gray-900 bg-gray-100 px-1.5 rounded ml-1">{data?.spot || "-"}</span></span>
 
               </div>
             </div>
@@ -174,14 +188,14 @@ export default function CPRScannerPage() {
           
           <div className="flex items-center gap-5 z-10">
             <div className="flex flex-col items-end">
-              <div className="flex items-center gap-2 text-green-600 text-xs font-bold tracking-widest uppercase mb-1">
+              <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1 ${error ? 'text-red-500' : 'text-green-600'}`}>
                 <span className="relative flex h-2 w-2">
-                  <span className={`absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 ${isRefreshing ? 'animate-ping' : ''}`}></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isRefreshing ? 'animate-ping' : ''} ${error ? 'bg-red-400' : 'bg-green-400'}`}></span>
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${error ? 'bg-red-500' : 'bg-green-500'}`}></span>
                 </span>
-                Live Market (5s)
+                {isRefreshing ? 'Updating...' : error ? 'Disconnected' : 'Live Market'}
               </div>
-              <span className="font-mono text-xs text-gray-400">Sync: {lastUpdated}</span>
+              <span className="font-mono text-xs text-gray-400">Sync: {lastUpdated || "--:--:--"}</span>
             </div>
             <button 
               onClick={() => fetchScannerData(false)}
@@ -192,11 +206,28 @@ export default function CPRScannerPage() {
           </div>
         </div>
 
-        {/* Pro Data Table */}
+        {/* Small Inline Error Message */}
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-3 shadow-sm text-sm font-medium w-fit">
+            <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Pro Data Table or Empty State Notice */}
         <div className="w-full overflow-x-auto pb-10">
-          {(!data.rows || data.rows.length === 0) ? (
-            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center text-gray-500 font-semibold">
-              No strike data found for {selectedIndex} on expiry {data.expiry}.
+          {(!data?.rows || data.rows.length === 0) ? (
+            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center text-gray-500 font-semibold flex flex-col items-center gap-3 shadow-sm">
+              <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              <div>
+                <p className="text-base text-gray-800 font-bold">
+                  {isRefreshing ? `Loading data for ${selectedIndex}...` : error ? `Could not load data for ${selectedIndex}` : `No data available for ${selectedIndex} on ${selectedDate}.`}
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  {!isRefreshing && !error && "This date may be a market holiday, weekend, or historical records are not present."}
+                  {!isRefreshing && error && "Ensure your Kite data connection is active and try again."}
+                </p>
+              </div>
             </div>
           ) : (
             <table className="w-full text-center border-separate" style={{ borderSpacing: '0 8px' }}>

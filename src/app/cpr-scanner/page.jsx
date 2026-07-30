@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 export default function CPRScannerPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [wsStatus, setWsStatus] = useState("disconnected");
+  const [tickPulse, setTickPulse] = useState(0); 
 
   const [selectedIndex, setSelectedIndex] = useState("NIFTY");
   const [selectedExpiry, setSelectedExpiry] = useState("");
@@ -18,13 +18,9 @@ export default function CPRScannerPage() {
     typeof window !== "undefined" && "Notification" in window ? Notification.permission : "unsupported"
   );
 
-  const fetchingRef = useRef(false);
-  // Tracks touch-count per key ("spot", "<strike>-CE", "<strike>-PE") so we only
-  // notify on NEW touches, not ones that already existed on first load.
   const prevTouchesRef = useRef({});
-  // True until the first successful fetch for the current index/expiry/date context
-  // completes — suppresses notifications for pre-existing touches on load/context switch.
   const isFirstLoadRef = useRef(true);
+  const lastLtpRef = useRef({}); 
 
   const requestNotifPermission = () => {
     if (typeof window !== "undefined" && "Notification" in window) {
@@ -38,22 +34,20 @@ export default function CPRScannerPage() {
     }
   }, []);
 
-  const notifyNewTouches = (label, newTouches) => {
+  const notifyNewTouches = useCallback((label, newTouches) => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
     if (Notification.permission !== "granted") return;
     newTouches.forEach((t) => {
       try {
         new Notification(`CPR ${t.level} Touch`, {
-          body: `${selectedIndex} — ${label} touched ${t.level} CPR at ${t.time}`,
+          body: `${selectedIndex} — ${label} crossed ${t.level} CPR at ${t.time}`,
           tag: `${selectedIndex}-${label}-${t.level}-${t.time}`,
         });
-      } catch (e) {
-        console.error("Notification failed", e);
-      }
+      } catch (e) { console.error("Notification failed", e); }
     });
-  };
+  }, [selectedIndex]);
 
-  const checkForNewTouches = (json) => {
+  const checkForNewTouches = useCallback((json) => {
     const spotKey = "spot";
     const spotTouches = json.spotData?.touches || [];
     const prevSpotLen = prevTouchesRef.current[spotKey] || 0;
@@ -75,59 +69,206 @@ export default function CPRScannerPage() {
     });
 
     isFirstLoadRef.current = false;
-  };
+  }, [notifyNewTouches]);
 
-  const fetchScannerData = async (isBackground = false) => {
-    if (fetchingRef.current && !isBackground) return;
-    fetchingRef.current = true;
-
-    if (!isBackground && !data) setLoading(true);
-    setIsRefreshing(true);
+  // Main Data Fetcher (Handles both Initial Load and Background Polling)
+  const fetchScannerData = useCallback(async (isBackground = false) => {
+    if (!isBackground) setLoading(true);
     try {
       const params = new URLSearchParams();
       params.append("index", selectedIndex);
       if (selectedExpiry) params.append("expiry", selectedExpiry);
       if (selectedDate) params.append("date", selectedDate);
+      
+      // CRITICAL FIX: Prevent browser and Next.js from caching the response
+      params.append("_t", Date.now()); 
 
-      const res = await fetch(`/api/cpr-scanner?${params.toString()}`);
+      const res = await fetch(`/api/cpr-scanner?${params.toString()}`, {
+        cache: 'no-store', // Force Next.js to skip cache
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+
       if (!res.ok) throw new Error("Kite data not connected or failed to fetch");
       const json = await res.json();
-
+      
       checkForNewTouches(json);
       setData(json);
 
-      if (!selectedExpiry || !json.availableExpiries?.includes(selectedExpiry)) {
-        if (json.expiry) setSelectedExpiry(json.expiry);
-      }
-
-      setLastUpdated(new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" }));
-      setError(null);
+      if (!selectedExpiry && json.expiry) setSelectedExpiry(json.expiry);
+      if (!isBackground) setError(null);
+      
     } catch (err) {
       if (!isBackground) setError(err.message);
     } finally {
-      fetchingRef.current = false;
-      setLoading(false);
-      setTimeout(() => setIsRefreshing(false), 500);
+      if (!isBackground) setLoading(false);
     }
-  };
+  }, [selectedIndex, selectedExpiry, selectedDate, checkForNewTouches]);
 
+  // Set up the Auto-Refresh Loop
   useEffect(() => {
-    // New context (index/expiry/date) — reset touch tracking so we don't fire
-    // notifications for touches that already existed before this context was selected.
+    // Reset touch trackers when filters change
     prevTouchesRef.current = {};
     isFirstLoadRef.current = true;
+    lastLtpRef.current = {}; 
 
     fetchScannerData(false);
+    
+    // Background polling every 10 seconds as a fallback
     const interval = setInterval(() => fetchScannerData(true), 10000);
     return () => clearInterval(interval);
-  }, [selectedExpiry, selectedIndex, selectedDate]);
+  }, [fetchScannerData]);
 
+  // Zero-Latency WebSocket Live Streaming
+  useEffect(() => {
+    if (!data || !data.credentials) return;
+    
+    const { apiKey, accessToken } = data.credentials;
+    if (!apiKey) {
+        setWsStatus("fallback"); // Will rely on 10s polling
+        return;
+    }
+
+    const istTodayStr = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+    if (selectedDate !== istTodayStr) {
+        setWsStatus("disconnected");
+        return; 
+    }
+
+    setWsStatus("connecting");
+    const wsUrl = `wss://ws.kite.trade/?api_key=${apiKey}&access_token=${accessToken}`;
+    const ws = new WebSocket(wsUrl);
+    ws.binaryType = "arraybuffer";
+
+    ws.onopen = () => {
+      setWsStatus("connected");
+      const tokens = [];
+      if (data.spotData?.token) tokens.push(Number(data.spotData.token));
+      data.rows?.forEach((r) => {
+        if (r.CE?.token) tokens.push(Number(r.CE.token));
+        if (r.PE?.token) tokens.push(Number(r.PE.token));
+      });
+
+      if (tokens.length > 0) {
+        ws.send(JSON.stringify({ a: "mode", v: ["ltp", tokens] }));
+        ws.send(JSON.stringify({ a: "subscribe", v: tokens }));
+      }
+    };
+
+    ws.onmessage = (e) => {
+      if (!(e.data instanceof ArrayBuffer)) return;
+      const buffer = new DataView(e.data);
+      if (buffer.byteLength < 2) return; 
+      
+      const numPackets = buffer.getInt16(0);
+      let offset = 2;
+      const newTicks = {};
+
+      for (let i = 0; i < numPackets; i++) {
+        if (offset + 2 > buffer.byteLength) break;
+        const packetLength = buffer.getInt16(offset);
+        offset += 2;
+        if (packetLength === 8 && offset + 8 <= buffer.byteLength) {
+          const token = buffer.getInt32(offset);
+          const ltp = buffer.getInt32(offset + 4) / 100;
+          newTicks[token] = ltp;
+        }
+        offset += packetLength;
+      }
+
+      if (Object.keys(newTicks).length > 0) {
+        setTickPulse(p => (p >= 99 ? 1 : p + 1)); 
+
+        setData(prevData => {
+          if (!prevData) return prevData;
+          let hasChanges = false;
+
+          const processItem = (item, label) => {
+            if (!item || !item.token || newTicks[item.token] === undefined) return item;
+            
+            const newLtp = newTicks[item.token];
+            const prevLtp = lastLtpRef.current[item.token];
+            let newTouches = item.touches ? [...item.touches] : [];
+            let itemUpdated = false;
+
+            if (item.cpr && prevLtp !== undefined && prevLtp !== newLtp) {
+              const tStr = new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: '2-digit', minute:'2-digit' });
+              
+              const checkCross = (levelName, val) => {
+                if ((prevLtp < val && newLtp >= val) || (prevLtp > val && newLtp <= val)) {
+                  if (!newTouches.find(t => t.level === levelName && t.time === tStr)) {
+                    newTouches.push({ level: levelName, time: tStr });
+                    notifyNewTouches(label, [{ level: levelName, time: tStr }]);
+                    itemUpdated = true;
+                  }
+                }
+              };
+              checkCross("Top", item.cpr.TC);
+              checkCross("Pivot", item.cpr.Pivot);
+              checkCross("Bottom", item.cpr.BC);
+            }
+
+            lastLtpRef.current[item.token] = newLtp;
+            
+            if (item.ltp !== newLtp || itemUpdated) {
+              return { ...item, ltp: newLtp, touches: newTouches };
+            }
+            return item;
+          };
+
+          const nextSpotData = processItem(prevData.spotData, `${prevData.index} Spot`);
+          if (nextSpotData !== prevData.spotData) hasChanges = true;
+
+          const nextRows = prevData.rows.map(row => {
+            const nextCE = processItem(row.CE, `${row.strike} CE`);
+            const nextPE = processItem(row.PE, `${row.strike} PE`);
+            if (nextCE !== row.CE || nextPE !== row.PE) {
+              hasChanges = true;
+              return { ...row, CE: nextCE, PE: nextPE };
+            }
+            return row;
+          });
+
+          if (hasChanges) {
+            return { 
+                ...prevData, 
+                spotData: nextSpotData, 
+                spot: nextSpotData ? nextSpotData.ltp : prevData.spot, 
+                rows: nextRows 
+            };
+          }
+          return prevData;
+        });
+      }
+    };
+
+    ws.onclose = () => setWsStatus("fallback");
+    ws.onerror = () => setWsStatus("fallback");
+
+    return () => ws.close();
+  }, [data?.credentials?.accessToken, selectedDate, notifyNewTouches]); 
+
+  // --- Handlers immediately clear UI to prove changes are happening ---
   const handleIndexChange = (e) => {
     const newIdx = e.target.value;
     if (newIdx === selectedIndex) return;
+    setData(null); 
     setSelectedIndex(newIdx);
     setSelectedExpiry("");
   };
+
+  const handleDateChange = (e) => {
+    setData(null);
+    setSelectedDate(e.target.value);
+  };
+
+  const handleExpiryChange = (e) => {
+    setData(null); 
+    setSelectedExpiry(e.target.value);
+  };
+  // --------------------------------------------------------------------
 
   const TouchBadge = ({ touches }) => {
     if (!touches || touches.length === 0) return <span className="text-gray-300 text-sm font-medium">—</span>;
@@ -163,19 +304,17 @@ export default function CPRScannerPage() {
     );
   };
 
-  if (!data && loading) return (
+  if (!data || loading) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-800">
       <div className="flex flex-col items-center gap-4 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
         <div className="w-10 h-10 border-4 border-gray-100 border-t-yellow-400 rounded-full animate-spin"></div>
-        <p className="text-gray-500 text-sm font-semibold tracking-wide">Connecting to Market...</p>
+        <p className="text-gray-500 text-sm font-semibold tracking-wide">Fetching market data...</p>
       </div>
     </div>
   );
 
   const atmStrike = data?.rows?.length > 0
-    ? data.rows.reduce((prev, curr) =>
-        Math.abs(curr.strike - data.spot) < Math.abs(prev.strike - data.spot) ? curr : prev
-      ).strike
+    ? data.rows.reduce((prev, curr) => Math.abs(curr.strike - data.spot) < Math.abs(prev.strike - data.spot) ? curr : prev).strike
     : 0;
 
   const tableItems = [];
@@ -189,18 +328,13 @@ export default function CPRScannerPage() {
       }
       tableItems.push({ type: 'ROW', data: row });
     });
-    if (!spotAdded) {
-      tableItems.push({ type: 'SPOT', strike: data.spot });
-    }
+    if (!spotAdded) tableItems.push({ type: 'SPOT', strike: data.spot });
   }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans selection:bg-yellow-200">
       <div className="w-full mx-auto">
-
-        {/* Terminal Header */}
         <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-4 flex flex-col lg:flex-row justify-between items-center gap-6 shadow-sm relative overflow-hidden">
-
           <div className="flex items-center gap-5 z-10 flex-wrap">
             <div className="h-12 w-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-950 shadow-inner">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
@@ -208,92 +342,49 @@ export default function CPRScannerPage() {
             <div>
               <h1 className="text-2xl font-black text-gray-800 tracking-tight">CPR Scanner <span className="text-xs font-bold text-white bg-gray-800 px-2.5 py-0.5 rounded ml-1">PRO</span></h1>
               <div className="flex flex-wrap items-center gap-3 mt-1.5 text-sm font-medium">
-
-                <select
-                  value={selectedIndex}
-                  onChange={handleIndexChange}
-                  className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs uppercase cursor-pointer transition-all hover:bg-blue-100 shadow-sm tracking-wider"
-                >
+                <select value={selectedIndex} onChange={handleIndexChange} className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs uppercase cursor-pointer transition-all hover:bg-blue-100 shadow-sm tracking-wider">
                   <option value="NIFTY">NIFTY</option>
                   <option value="BANKNIFTY">BANKNIFTY</option>
                   <option value="SENSEX">SENSEX</option>
                 </select>
-
                 <span className="text-gray-300">|</span>
-
                 <span className="text-gray-500 flex items-center gap-1.5">
                   Date
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
-                  />
+                  <input type="date" value={selectedDate} onChange={handleDateChange} className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"/>
                 </span>
-
                 <span className="text-gray-300">|</span>
-
                 <span className="text-gray-500 flex items-center gap-1.5">
                   Exp
-                  <select
-                    value={selectedExpiry || data?.expiry || ""}
-                    onChange={(e) => setSelectedExpiry(e.target.value)}
-                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
-                  >
+                  <select value={selectedExpiry || data?.expiry || ""} onChange={handleExpiryChange} className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm">
                     {data?.availableExpiries?.map((exp) => (
                       <option key={exp} value={exp}>{exp}</option>
                     ))}
                   </select>
                 </span>
-
                 <span className="text-gray-300">|</span>
                 <span className="text-gray-500">Spot <span className="font-mono text-gray-900 bg-gray-100 px-1.5 rounded ml-1">{data?.spot || "-"}</span></span>
-
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-5 z-10">
-            {/* Notification permission indicator */}
-            <button
-              onClick={requestNotifPermission}
-              disabled={notifPermission === "granted" || notifPermission === "unsupported"}
-              title={
-                notifPermission === "granted" ? "Alerts enabled — you'll be notified on new CPR touches" :
-                notifPermission === "denied" ? "Notifications blocked — enable them in your browser's site settings" :
-                notifPermission === "unsupported" ? "Notifications not supported in this browser" :
-                "Click to enable CPR touch alerts"
-              }
-              className={`flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border transition-all ${
-                notifPermission === "granted" ? "bg-green-50 border-green-200 text-green-700 cursor-default" :
-                notifPermission === "denied" ? "bg-red-50 border-red-200 text-red-600 cursor-not-allowed" :
-                "bg-yellow-50 border-yellow-300 text-yellow-800 hover:bg-yellow-100 cursor-pointer"
-              }`}
-            >
+            <button onClick={requestNotifPermission} disabled={notifPermission === "granted" || notifPermission === "unsupported"} className={`flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border transition-all ${notifPermission === "granted" ? "bg-green-50 border-green-200 text-green-700 cursor-default" : notifPermission === "denied" ? "bg-red-50 border-red-200 text-red-600 cursor-not-allowed" : "bg-yellow-50 border-yellow-300 text-yellow-800 hover:bg-yellow-100 cursor-pointer"}`}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
               {notifPermission === "granted" ? "Alerts On" : notifPermission === "denied" ? "Alerts Blocked" : "Enable Alerts"}
             </button>
 
             <div className="flex flex-col items-end">
-              <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1 ${error ? 'text-red-500' : 'text-green-600'}`}>
+              <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1 ${wsStatus === 'fallback' ? 'text-blue-600' : wsStatus === 'disconnected' ? 'text-gray-500' : 'text-green-600'}`}>
                 <span className="relative flex h-2 w-2">
-                  <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isRefreshing ? 'animate-ping' : ''} ${error ? 'bg-red-400' : 'bg-green-400'}`}></span>
-                  <span className={`relative inline-flex rounded-full h-2 w-2 ${error ? 'bg-red-500' : 'bg-green-500'}`}></span>
+                  <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${wsStatus === 'connected' ? 'animate-ping bg-green-400' : wsStatus === 'connecting' ? 'animate-ping bg-yellow-400' : wsStatus === 'fallback' ? 'animate-ping bg-blue-400' : 'bg-gray-400'}`}></span>
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${wsStatus === 'connected' ? 'bg-green-500' : wsStatus === 'connecting' ? 'bg-yellow-500' : wsStatus === 'fallback' ? 'bg-blue-500' : 'bg-gray-500'}`}></span>
                 </span>
-                {isRefreshing ? 'Updating...' : error ? 'Disconnected' : 'Live Market'}
+                {wsStatus === 'connected' ? `Live Stream [${tickPulse}]` : wsStatus === 'connecting' ? 'Connecting...' : wsStatus === 'fallback' ? '10s Auto-Sync' : 'Historical View'}
               </div>
-              <span className="font-mono text-xs text-gray-400">Sync: {lastUpdated || "--:--:--"}</span>
             </div>
-            <button
-              onClick={() => fetchScannerData(false)}
-              className="bg-gray-900 hover:bg-gray-800 border border-gray-900 text-white text-sm py-2 px-4 rounded-lg transition-all active:scale-95 flex items-center gap-2 shadow-sm"
-            >
-              <svg className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-            </button>
           </div>
         </div>
 
-        {/* Small Inline Error Message */}
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-3 shadow-sm text-sm font-medium w-fit">
             <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -301,19 +392,12 @@ export default function CPRScannerPage() {
           </div>
         )}
 
-        {/* Pro Data Table or Empty State Notice */}
         <div className="w-full overflow-x-auto pb-10">
           {(!data?.rows || data.rows.length === 0) ? (
             <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center text-gray-500 font-semibold flex flex-col items-center gap-3 shadow-sm">
               <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
               <div>
-                <p className="text-base text-gray-800 font-bold">
-                  {isRefreshing ? `Loading data for ${selectedIndex}...` : error ? `Could not load data for ${selectedIndex}` : `No data available for ${selectedIndex} on ${selectedDate}.`}
-                </p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {!isRefreshing && !error && "This date may be a market holiday, weekend, or historical records are not present."}
-                  {!isRefreshing && error && "Ensure your Kite data connection is active and try again."}
-                </p>
+                <p className="text-base text-gray-800 font-bold">{loading ? `Loading data for ${selectedIndex}...` : error ? `Could not load data for ${selectedIndex}` : `No data available for ${selectedIndex} on ${selectedDate}.`}</p>
               </div>
             </div>
           ) : (
@@ -322,49 +406,30 @@ export default function CPRScannerPage() {
                 <tr className="text-xs uppercase tracking-widest font-extrabold text-gray-500">
                   <th className="pb-2 w-1/4">Yesterday CPR</th>
                   <th className="pb-2 w-[10%] text-gray-800">LTP</th>
-                  <th className="pb-2 w-[15%] text-green-600">CE Touches (9:20 - 3:30)</th>
+                  <th className="pb-2 w-[15%] text-green-600">CE Touches</th>
                   <th className="pb-2 w-[10%] text-gray-400">Strike / Spot</th>
-                  <th className="pb-2 w-[15%] text-red-600">PE Touches (9:20 - 3:30)</th>
+                  <th className="pb-2 w-[15%] text-red-600">PE Touches</th>
                   <th className="pb-2 w-[10%] text-gray-800">LTP</th>
                   <th className="pb-2 w-1/4">Yesterday CPR</th>
                 </tr>
               </thead>
-
               <tbody>
                 {tableItems.map((item, index) => {
                   if (item.type === 'SPOT') {
                     return (
-                      <tr key={`spot-${index}`} className="bg-blue-50/60 shadow-sm relative z-20">
-                        <td className="py-4 px-2 rounded-l-xl border-y border-l border-blue-200">
-                          <CPRDisplay cpr={data.spotData?.cpr} />
-                        </td>
-                        <td className="py-4 px-2 border-y border-blue-200">
-                          <span className="text-[17px] font-black text-blue-700">
-                            {data.spotData?.ltp || data.spot}
-                          </span>
-                        </td>
-                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30">
-                          <TouchBadge touches={data.spotData?.touches} />
-                        </td>
+                      <tr key={`spot-${index}`} className="bg-blue-50/60 shadow-sm relative z-20 transition-all">
+                        <td className="py-4 px-2 rounded-l-xl border-y border-l border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
+                        <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
+                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
                         <td className="py-4 px-2 relative border-y border-blue-200 bg-blue-100/30">
                           <div className="mx-auto w-28 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-base tracking-tight bg-blue-600 text-white shadow-md ring-2 ring-blue-300 ring-offset-2 relative">
-                            <span className="absolute -top-2.5 text-[9px] uppercase tracking-widest font-black bg-blue-900 text-blue-100 px-2 py-0.5 rounded shadow-sm border border-blue-700">
-                              {selectedIndex} SPOT
-                            </span>
+                            <span className="absolute -top-2.5 text-[9px] uppercase tracking-widest font-black bg-blue-900 text-blue-100 px-2 py-0.5 rounded shadow-sm border border-blue-700">{selectedIndex} SPOT</span>
                             {data.spot}
                           </div>
                         </td>
-                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30">
-                          <TouchBadge touches={data.spotData?.touches} />
-                        </td>
-                        <td className="py-4 px-2 border-y border-blue-200">
-                          <span className="text-[17px] font-black text-blue-700">
-                            {data.spotData?.ltp || data.spot}
-                          </span>
-                        </td>
-                        <td className="py-4 px-2 rounded-r-xl border-y border-r border-blue-200">
-                          <CPRDisplay cpr={data.spotData?.cpr} />
-                        </td>
+                        <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
+                        <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
+                        <td className="py-4 px-2 rounded-r-xl border-y border-r border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
                       </tr>
                     );
                   }
@@ -373,53 +438,21 @@ export default function CPRScannerPage() {
                   const isAtm = row.strike === atmStrike;
 
                   return (
-                    <tr
-                      key={row.strike}
-                      className={`group transition-all duration-300 shadow-sm ${
-                        isAtm
-                          ? "bg-yellow-50 relative z-10"
-                          : "bg-white hover:bg-gray-50"
-                      }`}
-                    >
-                      <td className={`py-4 px-2 rounded-l-xl border-y border-l ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}>
-                        <CPRDisplay cpr={row.CE?.cpr} />
-                      </td>
-                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}>
-                        <span className={`text-[17px] font-black ${isAtm ? 'text-green-700' : 'text-green-600'}`}>
-                          {row.CE?.ltp || "-"}
-                        </span>
-                      </td>
-                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 bg-green-50/30 group-hover:border-gray-300'}`}>
-                        <TouchBadge touches={row.CE?.touches} />
-                      </td>
-
+                    <tr key={row.strike} className={`group transition-all duration-300 shadow-sm ${isAtm ? "bg-yellow-50 relative z-10" : "bg-white hover:bg-gray-50"}`}>
+                      <td className={`py-4 px-2 rounded-l-xl border-y border-l ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}><CPRDisplay cpr={row.CE?.cpr} /></td>
+                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}><span className={`text-[17px] font-black ${isAtm ? 'text-green-700' : 'text-green-600'}`}>{row.CE?.ltp || "-"}</span></td>
+                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 bg-green-50/30 group-hover:border-gray-300'}`}><TouchBadge touches={row.CE?.touches} /></td>
+                      
                       <td className={`py-4 px-2 relative border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 group-hover:border-gray-300'}`}>
-                        <div className={`mx-auto w-24 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-lg tracking-tight transition-all
-                          ${isAtm
-                            ? "bg-yellow-400 text-yellow-950 shadow-md ring-2 ring-yellow-200 ring-offset-2"
-                            : "bg-gray-100 text-gray-800 border border-gray-200 group-hover:bg-gray-200"
-                          }`}
-                        >
-                          {isAtm && (
-                            <span className="absolute -top-2.5 text-[9px] uppercase tracking-widest font-black bg-yellow-900 text-yellow-100 px-2 py-0.5 rounded shadow-sm border border-yellow-700">
-                              ATM
-                            </span>
-                          )}
+                        <div className={`mx-auto w-24 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-lg tracking-tight transition-all ${isAtm ? "bg-yellow-400 text-yellow-950 shadow-md ring-2 ring-yellow-200 ring-offset-2" : "bg-gray-100 text-gray-800 border border-gray-200 group-hover:bg-gray-200"}`}>
+                          {isAtm && (<span className="absolute -top-2.5 text-[9px] uppercase tracking-widest font-black bg-yellow-900 text-yellow-100 px-2 py-0.5 rounded shadow-sm border border-yellow-700">ATM</span>)}
                           {row.strike}
                         </div>
                       </td>
 
-                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 bg-red-50/30 group-hover:border-gray-300'}`}>
-                        <TouchBadge touches={row.PE?.touches} />
-                      </td>
-                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}>
-                        <span className={`text-[17px] font-black ${isAtm ? 'text-red-700' : 'text-red-600'}`}>
-                          {row.PE?.ltp || "-"}
-                        </span>
-                      </td>
-                      <td className={`py-4 px-2 rounded-r-xl border-y border-r ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}>
-                        <CPRDisplay cpr={row.PE?.cpr} />
-                      </td>
+                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300 bg-yellow-100/30' : 'border-gray-200 bg-red-50/30 group-hover:border-gray-300'}`}><TouchBadge touches={row.PE?.touches} /></td>
+                      <td className={`py-4 px-2 border-y ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}><span className={`text-[17px] font-black ${isAtm ? 'text-red-700' : 'text-red-600'}`}>{row.PE?.ltp || "-"}</span></td>
+                      <td className={`py-4 px-2 rounded-r-xl border-y border-r ${isAtm ? 'border-yellow-300' : 'border-gray-200 group-hover:border-gray-300'}`}><CPRDisplay cpr={row.PE?.cpr} /></td>
                     </tr>
                   );
                 })}
@@ -427,7 +460,6 @@ export default function CPRScannerPage() {
             </table>
           )}
         </div>
-
       </div>
     </div>
   );

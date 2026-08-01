@@ -1,7 +1,13 @@
 import db from "./db";
 
+// Kite's access_token expires once per trading day, on IST time — not UTC.
+// UTC midnight falls at 5:30 AM IST, so using toISOString() directly meant
+// there was a ~5.5 hour window each morning where a token got treated as
+// stale (or fresh) a half-day off from when Kite actually expires it.
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return new Date(Date.now() + IST_OFFSET_MS).toISOString().slice(0, 10);
 }
 
 const upsertToken = db.prepare(`
@@ -33,6 +39,6 @@ export function saveAccessToken(accessToken) {
 export function getStoredAccessToken() {
   const row = readToken.get();
   if (!row) return null;
-  if (row.date !== todayKey()) return null; // Kite tokens expire daily
+  if (row.date !== todayKey()) return null; // Kite tokens expire daily (IST trading day)
   return row.accessToken;
 }

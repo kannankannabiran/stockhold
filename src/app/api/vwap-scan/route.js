@@ -1,11 +1,8 @@
-// app/api/vwap-scan/route.js
 import { NextResponse } from "next/server";
 import yahooFinance from "@/lib/yahooFinance";
 import stocklist from "@/app/symbol/data";
-import fs from "fs/promises";
-import path from "path";
+import db from "@/lib/db"; // IMPORTANT: Adjust this path to point to your db.js file
 
-const filePath = path.join(process.cwd(), "data", "vwap-scan.json");
 const symbols = stocklist.map((s) => s.value);
 
 function chunkArray(array, size) {
@@ -111,13 +108,61 @@ export async function GET() {
     }
   }
 
-  // add scan timestamp (only saved in JSON, not shown in frontend)
-  const finalResults = {
-    last_scan: new Date().toISOString(),
-    rise: resultRise,
-    decline: resultDecline,
-  };
+  // --- SAVE TO SQLITE DATABASE ---
+  try {
+    // 1. Clear old scan data to replace with new data
+    db.prepare("DELETE FROM vwap_scan_results").run();
 
-  await fs.writeFile(filePath, JSON.stringify(finalResults, null, 2));
-  return NextResponse.json(finalResults);
+    // 2. Prepare Insert Statement
+    const insertStmt = db.prepare(`
+      INSERT INTO vwap_scan_results 
+      (symbol, trend, current_year, current_year_vwap, last_price, condition_date, previous_years, updated_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    // 3. Run Transaction to save all results fast
+    const now = Date.now();
+    const saveTransaction = db.transaction((results) => {
+      for (const res of results) {
+        insertStmt.run(
+          res.symbol,
+          res.trend,
+          res.current_year,
+          res.current_year_vwap,
+          res.last_price,
+          res.condition_date,
+          JSON.stringify(res.previous_years),
+          now
+        );
+      }
+    });
+
+    // Combine both rise and decline arrays to save to DB
+    const allResults = [...resultRise, ...resultDecline];
+    if (allResults.length > 0) {
+      saveTransaction(allResults);
+    }
+
+    // 4. Update scan status timestamp
+    const lastScanTime = new Date().toISOString();
+    db.prepare("UPDATE vwap_scan_status SET last_scan = ?, is_scanning = 0 WHERE id = 1").run(lastScanTime);
+
+    // 5. Send exact same JSON payload back to the frontend
+    const finalResults = {
+      last_scan: lastScanTime,
+      rise: resultRise,
+      decline: resultDecline,
+    };
+
+    return NextResponse.json(finalResults);
+
+  } catch (dbError) {
+    console.error("Failed to save to database:", dbError);
+    // Still return results to frontend even if DB fails
+    return NextResponse.json({
+      last_scan: new Date().toISOString(),
+      rise: resultRise,
+      decline: resultDecline,
+    });
+  }
 }

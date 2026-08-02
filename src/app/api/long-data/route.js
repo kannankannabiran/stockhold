@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { newClient } from "@/lib/kite";
-import { getStoredAccessToken } from "@/lib/kiteTokenStore"; // CONFIRM: is this the right path/filename?
+import { getStoredAccessToken } from "@/lib/kiteTokenStore";
 import stocklist from "@/app/symbol/data";
-import fs from "fs/promises";
-import path from "path";
+import db from "@/lib/db";
 
 // symbols from your stocklist — strip ".NS" since Kite tradingsymbols don't use it
 const symbols = stocklist.map((s) => s.value.replace(".NS", ""));
@@ -17,7 +16,7 @@ function chunkArray(array, size) {
   return result;
 }
 
-// --- VWAP calculation (unchanged) ---
+// --- VWAP calculation ---
 function calculateYearlyVWAP(data) {
   const yearlyMap = {};
 
@@ -44,14 +43,11 @@ function calculateYearlyVWAP(data) {
   return yearlyVWAP;
 }
 
-// --- NSE instrument map cache (tradingsymbol -> instrument_token) ---
-// Kite's historical data endpoint needs instrument_token, not the symbol string.
+// --- NSE instrument map cache ---
 let instrumentMapCache = null;
 let instrumentMapFetchedAt = 0;
-const INSTRUMENT_MAP_TTL_MS = 24 * 60 * 60 * 1000; // refresh once a day
+const INSTRUMENT_MAP_TTL_MS = 24 * 60 * 60 * 1000;
 
-// Normalize a symbol so case/whitespace differences between your stocklist
-// and Kite's tradingsymbol format don't cause false lookup misses.
 function normalizeSymbol(s) {
   return String(s).trim().toUpperCase();
 }
@@ -65,7 +61,6 @@ async function getInstrumentMap(kc) {
   const instruments = await kc.getInstruments(["NSE"]);
   const map = new Map();
   for (const inst of instruments) {
-    // only equity segment, exact tradingsymbol match
     if (inst.segment === "NSE" && inst.instrument_type === "EQ") {
       map.set(normalizeSymbol(inst.tradingsymbol), inst.instrument_token);
     }
@@ -73,8 +68,6 @@ async function getInstrumentMap(kc) {
 
   instrumentMapCache = map;
   instrumentMapFetchedAt = now;
-  console.log(`[instrumentMap] built with ${map.size} NSE equity entries`);
-  console.log(`[instrumentMap] sample keys:`, Array.from(map.keys()).slice(0, 10));
   return map;
 }
 
@@ -97,17 +90,18 @@ async function fetchHistoricalWithRetry(kc, instrumentToken, from, to, retries =
   }
 }
 
-// --- Global scan lock: only ONE scan can run at a time across all users ---
-let isScanning = false;
-let scanProgress = { current: 0, total: 0 };
-
+// --- Background Worker saving strictly to SQLite DB ---
 async function runScanInBackground() {
-  if (isScanning) {
+  const statusRow = db.prepare("SELECT is_scanning FROM vwap_scan_status WHERE id = 1").get();
+  
+  if (statusRow?.is_scanning === 1) {
     console.log("⏳ Long-term scan is already running, skipping new trigger.");
     return;
   }
-  isScanning = true;
-  scanProgress = { current: 0, total: symbols.length };
+  
+  db.prepare("UPDATE vwap_scan_status SET is_scanning = 1, current_progress = 0, total_progress = ? WHERE id = 1")
+    .run(symbols.length);
+
   console.log(`🚀 Long-term scan started! Total symbols: ${symbols.length}`);
 
   try {
@@ -120,16 +114,21 @@ async function runScanInBackground() {
     const kc = newClient(accessToken);
     const instrumentMap = await getInstrumentMap(kc);
 
-    const resultRise = [];
-    const resultDecline = [];
     const missedSymbols = [];
-
     const toDate = new Date();
     const fromDate = new Date();
     fromDate.setFullYear(toDate.getFullYear() - 5);
 
-    // Kite historical endpoint is strict on rate limits — small batches, real delay between them
+    db.prepare("DELETE FROM vwap_scan_results").run();
+
     const batches = chunkArray(symbols, 3);
+    let currentProgress = 0;
+
+    const insertStmt = db.prepare(`
+      INSERT INTO vwap_scan_results 
+      (symbol, trend, current_year, current_year_vwap, last_price, condition_date, previous_years, updated_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
 
     for (const batch of batches) {
       const promises = batch.map(async (symbol) => {
@@ -141,7 +140,6 @@ async function runScanInBackground() {
           }
 
           const rawData = await fetchHistoricalWithRetry(kc, instrumentToken, fromDate, toDate);
-
           if (!rawData || rawData.length === 0) return null;
 
           const cleanData = rawData.map((row) => ({
@@ -154,16 +152,35 @@ async function runScanInBackground() {
           }));
 
           const yearlyVWAP = calculateYearlyVWAP(cleanData);
-          const years = Object.keys(yearlyVWAP)
-            .map((y) => parseInt(y))
-            .sort((a, b) => b - a);
-
+          const years = Object.keys(yearlyVWAP).map((y) => parseInt(y)).sort((a, b) => b - a);
           if (years.length < 5) return null;
 
           const latestYear = years[0];
           const previousYears = years.slice(1, 5);
           const currentVWAP = yearlyVWAP[latestYear];
           const prevVWAPs = previousYears.map((y) => yearlyVWAP[y]);
+
+          // ==========================================================
+          // 🆕 YEARLY CPR CALCULATION LOGIC 
+          // ==========================================================
+          const prevYearData = cleanData.filter(row => new Date(row.date).getFullYear() === latestYear - 1);
+          
+          if (prevYearData.length === 0) return null; // Cannot calculate CPR without previous year data
+
+          let prevYearHigh = -Infinity;
+          let prevYearLow = Infinity;
+          for (const row of prevYearData) {
+              if (row.high > prevYearHigh) prevYearHigh = row.high;
+              if (row.low < prevYearLow) prevYearLow = row.low;
+          }
+          const prevYearClose = prevYearData[prevYearData.length - 1].close;
+
+          const pivot = (prevYearHigh + prevYearLow + prevYearClose) / 3;
+          const bc = (prevYearHigh + prevYearLow) / 2;
+          const tc = (pivot - bc) + pivot;
+          
+          const cprTop = Math.max(tc, bc); // The highest point of the CPR zone
+          // ==========================================================
 
           const currentYearData = cleanData.filter(
             (row) => new Date(row.date).getFullYear() === latestYear
@@ -181,6 +198,9 @@ async function runScanInBackground() {
 
           const lastClose = cleanData[cleanData.length - 1].close;
 
+          // 🆕 Check if current price is ABOVE the Yearly CPR
+          const isAboveYearlyCPR = lastClose > cprTop; 
+
           const resultObj = {
             symbol,
             current_year: latestYear,
@@ -192,11 +212,12 @@ async function runScanInBackground() {
             ),
           };
 
-          if (prevVWAPs.every((v) => v < currentVWAP) && lastClose > currentVWAP) {
+          // 🆕 ADDED `isAboveYearlyCPR` to the selection conditions
+          if (prevVWAPs.every((v) => v < currentVWAP) && lastClose > currentVWAP && isAboveYearlyCPR) {
             return { ...resultObj, trend: "rise" };
           }
 
-          if (prevVWAPs.every((v) => v > currentVWAP) && lastClose > currentVWAP) {
+          if (prevVWAPs.every((v) => v > currentVWAP) && lastClose > currentVWAP && isAboveYearlyCPR) {
             return { ...resultObj, trend: "decline" };
           }
 
@@ -209,63 +230,89 @@ async function runScanInBackground() {
 
       const batchResults = await Promise.all(promises);
 
-      scanProgress.current = Math.min(scanProgress.current + batch.length, symbols.length);
+      const now = Date.now();
+      const saveTransaction = db.transaction((results) => {
+        for (const res of results) {
+          if (res && (res.trend === "rise" || res.trend === "decline")) {
+            insertStmt.run(
+              res.symbol,
+              res.trend,
+              res.current_year,
+              res.current_year_vwap,
+              res.last_price,
+              res.condition_date,
+              JSON.stringify(res.previous_years),
+              now
+            );
+          }
+        }
+      });
+      saveTransaction(batchResults);
 
-      for (const res of batchResults) {
-        if (res?.trend === "rise") resultRise.push(res);
-        if (res?.trend === "decline") resultDecline.push(res);
-      }
+      currentProgress = Math.min(currentProgress + batch.length, symbols.length);
+      db.prepare("UPDATE vwap_scan_status SET current_progress = ? WHERE id = 1").run(currentProgress);
 
-      // Larger delay between batches — Kite's historical API rate limit is much tighter than Yahoo's
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
-    if (missedSymbols.length > 0) {
-      console.log(
-        `[instrumentMap] ${missedSymbols.length}/${symbols.length} symbols had no match:`,
-        missedSymbols.join(", ")
-      );
-    }
+    db.prepare("UPDATE vwap_scan_status SET is_scanning = 0, last_scan = ? WHERE id = 1")
+      .run(new Date().toISOString());
+    console.log("✅ Long-term scan completed successfully and saved to trading.db!");
 
-    const finalResults = {
-      last_scan: new Date().toISOString(),
-      rise: resultRise,
-      decline: resultDecline,
-    };
-
-    const filePath = path.join(process.cwd(), "data", "longterm.json");
-    await fs.writeFile(filePath, JSON.stringify(finalResults, null, 2), "utf-8");
-    console.log("✅ Long-term scan completed successfully!");
   } catch (error) {
     console.error("❌ Long-term scan failed:", error.message);
-  } finally {
-    isScanning = false;
-    scanProgress = { current: 0, total: 0 };
+    db.prepare("UPDATE vwap_scan_status SET is_scanning = 0 WHERE id = 1").run();
   }
 }
 
-// --- GET: return current scan status + existing results (does NOT trigger a scan) ---
+// --- GET: Fetch from DB (returns formatted JSON for frontend) ---
 export async function GET() {
   try {
-    const filePath = path.join(process.cwd(), "data", "longterm.json");
-    const data = await fs.readFile(filePath, "utf-8");
-    const parsed = JSON.parse(data);
-    return NextResponse.json({ isScanning, scanProgress, ...parsed });
-  } catch {
-    return NextResponse.json({ isScanning, scanProgress, rise: [], decline: [] });
+    const statusRow = db.prepare("SELECT * FROM vwap_scan_status WHERE id = 1").get();
+    const rows = db.prepare("SELECT * FROM vwap_scan_results").all();
+    
+    const rise = [];
+    const decline = [];
+
+    rows.forEach(row => {
+      const formatted = {
+        symbol: row.symbol,
+        trend: row.trend,
+        current_year: row.current_year,
+        current_year_vwap: row.current_year_vwap,
+        last_price: row.last_price,
+        condition_date: row.condition_date,
+        previous_years: JSON.parse(row.previous_years),
+      };
+      if (row.trend === "rise") rise.push(formatted);
+      if (row.trend === "decline") decline.push(formatted);
+    });
+
+    return NextResponse.json({
+      isScanning: statusRow?.is_scanning === 1,
+      scanProgress: {
+        current: statusRow?.current_progress || 0,
+        total: statusRow?.total_progress || 0
+      },
+      last_scan: statusRow?.last_scan || null,
+      rise,
+      decline
+    });
+  } catch (err) {
+    console.error("DB Fetch Error:", err);
+    return NextResponse.json({ 
+      isScanning: false, 
+      scanProgress: { current: 0, total: 0 }, 
+      rise: [], 
+      decline: [] 
+    });
   }
 }
 
-// --- POST: trigger a background scan (only if one isn't already running) ---
+// --- POST: Trigger background scan ---
 export async function POST() {
   runScanInBackground();
-
-  try {
-    const filePath = path.join(process.cwd(), "data", "longterm.json");
-    const data = await fs.readFile(filePath, "utf-8");
-    const parsed = JSON.parse(data);
-    return NextResponse.json({ isScanning: true, scanProgress, ...parsed });
-  } catch {
-    return NextResponse.json({ isScanning: true, scanProgress, rise: [], decline: [] });
-  }
+  
+  const response = await GET();
+  return response;
 }

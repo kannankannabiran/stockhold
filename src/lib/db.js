@@ -92,6 +92,30 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_option_chain_snapshots_lookup
     ON option_chain_snapshots (index_key, date, timestamp);
+
+  -- NEW TABLES FOR VWAP SCANNER --
+  CREATE TABLE IF NOT EXISTS vwap_scan_status (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    last_scan TEXT,
+    is_scanning INTEGER DEFAULT 0,
+    current_progress INTEGER DEFAULT 0,
+    total_progress INTEGER DEFAULT 0
+  );
+
+  CREATE TABLE IF NOT EXISTS vwap_scan_results (
+    symbol TEXT PRIMARY KEY,
+    trend TEXT NOT NULL,
+    current_year INTEGER NOT NULL,
+    current_year_vwap REAL NOT NULL,
+    last_price REAL NOT NULL,
+    condition_date TEXT NOT NULL,
+    previous_years TEXT NOT NULL,
+    updated_at INTEGER NOT NULL
+  );
+
+  -- Initialize scan status if it doesn't exist --
+  INSERT OR IGNORE INTO vwap_scan_status (id, last_scan, is_scanning, current_progress, total_progress) 
+  VALUES (1, NULL, 0, 0, 0);
 `);
 
 // Migrations: if trending_oi_history was created before spot/call_oi/put_oi

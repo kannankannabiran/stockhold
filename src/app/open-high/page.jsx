@@ -35,13 +35,6 @@ function fmtPts(strike, spot) {
   return diff > 0 ? `+${diff}` : `${diff}`;
 }
 
-function cellStyle(status, isItm, side) {
-  if (status === "OPEN_HIGH") return styles.matchCellBlue;
-  if (status === "RETEST") return styles.matchCellGreen;
-  if (isItm) return side === "CE" ? styles.itmCellCE : styles.itmCellPE;
-  return null;
-}
-
 function badgeInfo(status, broke) {
   if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeBlue };
   if (status === "RETEST") return { label: "Hit", style: styles.badgeGreen };
@@ -109,21 +102,25 @@ export default function OpenHighPage() {
       setData(null);
       setError(null);
       setLoading(false);
-      return; // weekend — never a trading day, skip the fetch entirely
+      return;
     }
+
     try {
       const params = new URLSearchParams({ index, date });
       if (expiry) params.set("expiry", expiry);
+
       const res = await fetch(`/api/open-high?${params.toString()}`);
       const json = await res.json();
+
       if (!res.ok) {
         setError(json.message || json.error || "Failed to load");
         setData(null);
         return;
       }
+
       setError(null);
       setData(json);
-      if (!expiry) setExpiry(json.expiry);
+      if (!expiry) setExpiry(json.expiry || null);
     } catch (e) {
       setError(e.message);
       setData(null);
@@ -136,56 +133,71 @@ export default function OpenHighPage() {
     setLoading(true);
     setData(null);
     load();
-    if (!isToday || weekendSelected) return; // no polling for historical dates or weekends
+
+    if (!isToday || weekendSelected) return;
+
     const id = setInterval(load, REFRESH_MS);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, date]);
+  }, [index, date, load, isToday, weekendSelected]);
 
   useEffect(() => {
     if (expiry) load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expiry]);
+  }, [expiry, load]);
 
   const handleDateChange = (e) => {
     const picked = e.target.value;
+
     if (isWeekend(picked)) {
       setDateWarning("Markets are closed on weekends — pick a weekday.");
-      return; // don't accept the weekend date at all
+      return;
     }
+
     setDateWarning(null);
     setDate(picked);
     setExpiry(null);
   };
 
-  const atmStrike = useMemo(() => {
-    if (!data?.spot || !data.rows.length) return null;
-    return data.rows.reduce((closest, r) =>
-      Math.abs(r.strike - data.spot) < Math.abs(closest - data.spot) ? r.strike : closest,
-    data.rows[0].strike);
+  const matchedRows = useMemo(() => {
+    if (!data?.rows?.length) return [];
+    return data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH");
   }, [data]);
 
-  const openHighCount = data ? data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length : 0;
-  const retestCount = data ? data.rows.filter((r) => r.CE_status === "RETEST" || r.PE_status === "RETEST").length : 0;
-  const pendingCount = data ? data.rows.filter((r) => (r.CE_broke && !r.CE_status) || (r.PE_broke && !r.PE_status)).length : 0;
+  const atmStrike = useMemo(() => {
+    if (!data?.spot || !matchedRows.length) return null;
+    return matchedRows.reduce(
+      (closest, r) => (Math.abs(r.strike - data.spot) < Math.abs(closest - data.spot) ? r.strike : closest),
+      matchedRows[0].strike
+    );
+  }, [data, matchedRows]);
 
-  // A weekday with zero recorded rows means the poller never saw a trading
-  // session that day — almost certainly a market holiday, not a bug.
+  const openHighCount = matchedRows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length;
+
   const isLikelyHoliday = !loading && !weekendSelected && data && data.rows.length === 0;
 
   return (
     <div style={styles.page}>
       <div style={styles.header}>
         <div>
-          <h1 style={styles.title}>Open <span style={styles.titleAccent}>= High</span></h1>
-          <p style={styles.subtitle}>
-            ATM ±10 strikes · Hit = open=high or retested the open price · Pending = broke out, waiting to retest open
-          </p>
+          <h1 style={styles.title}>
+            Open <span style={styles.titleAccent}>= High</span>
+          </h1>
+          <p style={styles.subtitle}>Only strikes where Open = High matched are shown.</p>
         </div>
 
         <div style={styles.controls}>
-          <select value={index} onChange={(e) => { setIndex(e.target.value); setExpiry(null); }} style={styles.select}>
-            {INDEXES.map((i) => (<option key={i.key} value={i.key}>{i.label}</option>))}
+          <select
+            value={index}
+            onChange={(e) => {
+              setIndex(e.target.value);
+              setExpiry(null);
+            }}
+            style={styles.select}
+          >
+            {INDEXES.map((i) => (
+              <option key={i.key} value={i.key}>
+                {i.label}
+              </option>
+            ))}
           </select>
 
           <input
@@ -194,8 +206,7 @@ export default function OpenHighPage() {
             max={todayStr()}
             onChange={handleDateChange}
             onClick={(e) => {
-              // Show the date picker native UI if supported by the browser
-              if (typeof e.target.showPicker === 'function') {
+              if (typeof e.target.showPicker === "function") {
                 e.target.showPicker();
               }
             }}
@@ -204,7 +215,11 @@ export default function OpenHighPage() {
 
           {data?.expiries?.length > 0 && (
             <select value={expiry || ""} onChange={(e) => setExpiry(e.target.value)} style={styles.select}>
-              {data.expiries.map((e) => (<option key={e} value={e}>{e}</option>))}
+              {data.expiries.map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
             </select>
           )}
         </div>
@@ -213,22 +228,12 @@ export default function OpenHighPage() {
       {dateWarning && <div style={styles.warningBanner}>{dateWarning}</div>}
 
       {!isToday && !weekendSelected && (
-        <div style={styles.historicalBanner}>
-          Viewing history for {date} — read-only, no live polling.
-        </div>
+        <div style={styles.historicalBanner}>Viewing history for {date} — read-only, no live polling.</div>
       )}
 
-      {weekendSelected && (
-        <div style={styles.holidayBanner}>
-          {date} is a weekend — markets are closed, no data to show.
-        </div>
-      )}
+      {weekendSelected && <div style={styles.holidayBanner}>{date} is a weekend — markets are closed, no data to show.</div>}
 
-      {isLikelyHoliday && (
-        <div style={styles.holidayBanner}>
-          No data recorded for {date} — likely a market holiday.
-        </div>
-      )}
+      {isLikelyHoliday && <div style={styles.holidayBanner}>No data recorded for {date} — likely a market holiday.</div>}
 
       {!weekendSelected && (
         <div style={styles.statsBar}>
@@ -239,28 +244,17 @@ export default function OpenHighPage() {
             </div>
           )}
           <div style={styles.statChip}>
-            <span style={styles.statLabel}>OPEN=HIGH</span>
+            <span style={styles.statLabel}>MATCHED</span>
             <span style={{ ...styles.statValue, color: "#2563eb" }}>{openHighCount}</span>
           </div>
-          <div style={styles.statChip}>
-            <span style={styles.statLabel}>RETESTS</span>
-            <span style={{ ...styles.statValue, color: "#16a34a" }}>{retestCount}</span>
-          </div>
-          {isToday && (
-            <div style={styles.statChip}>
-              <span style={styles.statLabel}>PENDING</span>
-              <span style={{ ...styles.statValue, color: "#d97706" }}>{pendingCount}</span>
-            </div>
-          )}
           <div style={styles.statChip}>
             <span style={styles.statLabel}>EXPIRY</span>
             <span style={styles.statValue}>{data?.expiry || "—"}</span>
           </div>
           <div style={styles.legend}>
-            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#eab308" }} /> ATM</span>
-            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High</span>
-            <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#16a34a" }} /> Retest</span>
-            {isToday && <span style={styles.legendItem}><i style={{ ...styles.swatch, background: "#d97706" }} /> Pending</span>}
+            <span style={styles.legendItem}>
+              <i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High
+            </span>
           </div>
           {data?.updatedAt && isToday && (
             <div style={styles.liveDot}>
@@ -279,9 +273,13 @@ export default function OpenHighPage() {
           <table style={styles.table}>
             <thead>
               <tr>
-                <th colSpan={6} style={styles.groupHeadCE}>CALL</th>
+                <th colSpan={6} style={styles.groupHeadCE}>
+                  CALL
+                </th>
                 <th style={styles.strikeHeadCol}>STRIKE</th>
-                <th colSpan={6} style={styles.groupHeadPE}>PUT</th>
+                <th colSpan={6} style={styles.groupHeadPE}>
+                  PUT
+                </th>
               </tr>
               <tr>
                 <th style={styles.subHead}>Open</th>
@@ -300,16 +298,15 @@ export default function OpenHighPage() {
               </tr>
             </thead>
             <tbody>
-              {data.rows.map((r) => {
+              {matchedRows.map((r) => {
                 const isAtm = r.strike === atmStrike;
-                const ceStyle = cellStyle(r.CE_status, r.CE_itm, "CE");
-                const peStyle = cellStyle(r.PE_status, r.PE_itm, "PE");
+
                 return (
                   <tr key={r.strike}>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_open)}</td>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_low)}</td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell, ...ceStyle }}>{fmt(r.CE_ltp)}</td>
+                    <td style={styles.cell}>{fmt(r.CE_open)}</td>
+                    <td style={styles.cell}>{fmt(r.CE_high)}</td>
+                    <td style={styles.cell}>{fmt(r.CE_low)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell }}>{fmt(r.CE_ltp)}</td>
                     <td style={styles.cellCenter}>
                       <Badge status={r.CE_status} broke={r.CE_broke} />
                     </td>
@@ -325,15 +322,20 @@ export default function OpenHighPage() {
                     <td style={styles.cellCenter}>
                       <Badge status={r.PE_status} broke={r.PE_broke} />
                     </td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell, ...peStyle }}>{fmt(r.PE_ltp)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_low)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_high)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_open)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell }}>{fmt(r.PE_ltp)}</td>
+                    <td style={styles.cell}>{fmt(r.PE_low)}</td>
+                    <td style={styles.cell}>{fmt(r.PE_high)}</td>
+                    <td style={styles.cell}>{fmt(r.PE_open)}</td>
                   </tr>
                 );
               })}
-              {data.rows.length === 0 && (
-                <tr><td colSpan={13} style={styles.emptyRow}>No strikes recorded for this date.</td></tr>
+
+              {matchedRows.length === 0 && (
+                <tr>
+                  <td colSpan={13} style={styles.emptyRow}>
+                    No Open = High matches for this date.
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
@@ -376,10 +378,6 @@ const styles = {
   cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #f1f2f4", color: "#374151" },
   cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4" },
   ltpCell: { fontWeight: 600 },
-  itmCellCE: { background: "rgba(22, 163, 74, 0.08)", color: "#166534" },
-  itmCellPE: { background: "rgba(220, 38, 38, 0.08)", color: "#991b1b" },
-  matchCellBlue: { background: "rgba(37, 99, 235, 0.18)", color: "#1d4ed8", fontWeight: 700 },
-  matchCellGreen: { background: "rgba(22, 163, 74, 0.22)", color: "#15803d", fontWeight: 700 },
   badge: { display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999, fontSize: 10.5, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4 },
   badgeDot: { width: 6, height: 6, borderRadius: "50%" },
   badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },

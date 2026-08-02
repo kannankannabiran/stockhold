@@ -22,12 +22,20 @@ export async function PUT(request, context) {
     }
 
     if (mode === 'paper') {
-      modifyPaperOrder(order_id, {
+      const updated = modifyPaperOrder(order_id, {
         quantity: body.quantity !== undefined ? Number(body.quantity) : undefined,
         price: body.price !== undefined ? Number(body.price) : undefined,
         order_type: body.order_type,
         trigger_price: body.trigger_price !== undefined ? Number(body.trigger_price) : undefined,
       });
+
+      if (!updated) {
+        return NextResponse.json(
+          { success: false, error: `No modifiable paper order with id ${order_id}` },
+          { status: 404 }
+        );
+      }
+
       return NextResponse.json({ success: true, order_id, mode: 'paper' });
     }
 
@@ -65,7 +73,15 @@ export async function DELETE(request, context) {
     }
 
     if (mode === 'paper') {
-      cancelPaperOrder(order_id);
+      const cancelled = cancelPaperOrder(order_id);
+
+      if (!cancelled) {
+        return NextResponse.json(
+          { success: false, error: `No cancellable paper order with id ${order_id}` },
+          { status: 404 }
+        );
+      }
+
       return NextResponse.json({ success: true, order_id, mode: 'paper' });
     }
 

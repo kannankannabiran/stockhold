@@ -40,7 +40,27 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     trigger_price: '',
   });
 
-  const [pendingConfirm, setPendingConfirm] = useState(null); // { transaction_type } while awaiting live-order confirmation
+  const [pendingConfirm, setPendingConfirm] = useState(null); // { transaction_type, payload? } while awaiting live-order confirmation — payload overrides `form` when set (used by the NFO quick-trade pad)
+
+  // ---- NFO quick-trade: index + strike picker resolving to CE/PE contracts ----
+  const NFO_INDEXES = ['NIFTY', 'BANKNIFTY', 'SENSEX'];
+  const [nfoIndex, setNfoIndex] = useState('NIFTY');
+  const [nfoInstruments, setNfoInstruments] = useState([]); // raw NFO instrument list for the chosen index
+  const [nfoExpiries, setNfoExpiries] = useState([]);
+  const [nfoExpiry, setNfoExpiry] = useState('');
+  const [nfoStrikes, setNfoStrikes] = useState([]); // available strikes for the chosen index + expiry
+  const [nfoStrikesLoading, setNfoStrikesLoading] = useState(false);
+  const [nfoCallStrike, setNfoCallStrike] = useState('');
+  const [nfoPutStrike, setNfoPutStrike] = useState('');
+  const [nfoLots, setNfoLots] = useState(1);
+  const [nfoCallOption, setNfoCallOption] = useState(null); // { tradingsymbol, exchange, instrument_token, lot_size }
+  const [nfoPutOption, setNfoPutOption] = useState(null);
+  const [nfoError, setNfoError] = useState('');
+  const [oneClickEnabled, setOneClickEnabled] = useState(true); // when on, skip the live-confirm modal for quick-trade orders
+  const [spotQuote, setSpotQuote] = useState(null); // { ltp, change, changePercent }
+  const [nfoCallLtp, setNfoCallLtp] = useState(null);
+  const [nfoPutLtp, setNfoPutLtp] = useState(null);
+  const [activeOrdersTab, setActiveOrdersTab] = useState('positions'); // 'positions' | 'orderbook' | 'tradebook'
 
   // ---- Risk management: day max loss / target, trailing stop-loss ----
   const [risk, setRisk] = useState({
@@ -203,12 +223,255 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
   };
 
+  // 1) Fetch the full NFO instrument list for the chosen index and derive
+  // its available expiries. Runs once per index change.
+  useEffect(() => {
+    if (form.exchange !== 'NFO') {
+      setNfoInstruments([]);
+      setNfoExpiries([]);
+      setNfoExpiry('');
+      return;
+    }
+    setNfoStrikesLoading(true);
+    setNfoError('');
+    setNfoExpiry('');
+    setNfoCallStrike('');
+    setNfoPutStrike('');
+    setNfoCallOption(null);
+    setNfoPutOption(null);
+    const timer = setTimeout(async () => {
+      try {
+        // limit=1000: the route defaults to only 30 rows sorted alphabetically
+        // by tradingsymbol, which (for NIFTY's price range) means only the
+        // lowest ~30 strikes come back — nowhere near current spot. We need
+        // the full chain to find real ATM.
+        const res = await fetch(`/api/instruments?q=${encodeURIComponent(nfoIndex)}&exchange=NFO&limit=1000`);
+        const data = await res.json();
+        if (!data.success) {
+          setNfoInstruments([]);
+          setNfoExpiries([]);
+          setNfoError(data.error || 'Could not load instruments');
+          return;
+        }
+        // A search for "NIFTY" can also match other NIFTY-family
+        // instruments (NIFTYNXT50, etc.) if /api/instruments does a loose
+        // substring match — those have their own, very different strike
+        // ranges and will silently wreck the ATM calculation if they slip
+        // in. Keep only rows whose tradingsymbol is the index name followed
+        // immediately by a digit (the start of a date/strike), which real
+        // NIFTY/BANKNIFTY/SENSEX option symbols always are, but a
+        // differently-named instrument sharing the prefix never is.
+        const rawResults = data.results || [];
+        const results = rawResults.filter(
+          (r) => r.tradingsymbol && r.tradingsymbol.startsWith(nfoIndex) && /^[0-9]/.test(r.tradingsymbol.slice(nfoIndex.length))
+        );
+        if (rawResults.length && !results.length) {
+          console.warn(`All ${rawResults.length} /api/instruments results for "${nfoIndex}" were filtered out by the tradingsymbol-prefix check — the filter is probably too strict for your symbol format.`);
+        }
+        setNfoInstruments(results);
+        const expiries = Array.from(new Set(results.filter((r) => r.expiry).map((r) => r.expiry))).sort();
+        setNfoExpiries(expiries);
+        if (!expiries.length) setNfoError(`No expiries found for ${nfoIndex}.`);
+        else setNfoExpiry(expiries[0]); // nearest expiry first, assumes API/expiry strings sort chronologically
+      } catch (err) {
+        setNfoInstruments([]);
+        setNfoExpiries([]);
+        setNfoError(err.message || 'Could not load instruments');
+      } finally {
+        setNfoStrikesLoading(false);
+      }
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [nfoIndex, form.exchange]);
+
+  // 2) Derive the strike list for the chosen expiry, fetch spot to find ATM,
+  // then window the shown strikes to ATM ± 20 (instead of the full chain)
+  // and default both Call/Put pickers to that ATM strike.
+  const STRIKE_WINDOW = 20;
+  useEffect(() => {
+    if (form.exchange !== 'NFO' || !nfoExpiry || !nfoInstruments.length) {
+      setNfoStrikes([]);
+      return;
+    }
+    const forExpiry = nfoInstruments.filter((r) => r.expiry === nfoExpiry);
+    const allStrikes = Array.from(new Set(forExpiry.filter((r) => r.strike).map((r) => Number(r.strike)))).sort((a, b) => a - b);
+    if (!allStrikes.length) {
+      setNfoStrikes([]);
+      setNfoError(`No strikes found for ${nfoIndex} ${nfoExpiry}.`);
+      return;
+    }
+    (async () => {
+      let atmIndex = Math.floor(allStrikes.length / 2);
+      let spotOk = false;
+      try {
+        const spotRes = await fetch(`/api/spot-ltp?index=${encodeURIComponent(nfoIndex)}`);
+        const spotData = await spotRes.json();
+        if (spotData.success && typeof spotData.ltp === 'number') {
+          spotOk = true;
+          setSpotQuote({ ltp: spotData.ltp, change: spotData.change ?? null, changePercent: spotData.changePercent ?? null });
+          atmIndex = allStrikes.reduce(
+            (bestIdx, s, i) => (Math.abs(s - spotData.ltp) < Math.abs(allStrikes[bestIdx] - spotData.ltp) ? i : bestIdx),
+            0
+          );
+        } else {
+          console.warn('spot-ltp fetch returned no usable price:', spotData);
+        }
+      } catch (spotErr) {
+        console.warn('spot-ltp fetch failed:', spotErr.message);
+      }
+      if (!spotOk) {
+        setNfoError(`Could not fetch ${nfoIndex} spot price — defaulted to a mid-range strike instead of ATM. Check the console/terminal for /api/spot-ltp errors.`);
+      }
+
+      const windowStart = Math.max(0, atmIndex - STRIKE_WINDOW);
+      const windowEnd = Math.min(allStrikes.length, atmIndex + STRIKE_WINDOW + 1);
+      const windowedStrikes = allStrikes.slice(windowStart, windowEnd);
+      const defaultStrike = allStrikes[atmIndex];
+
+      setNfoStrikes(windowedStrikes);
+      setNfoCallStrike(String(defaultStrike));
+      setNfoPutStrike(String(defaultStrike));
+    })();
+  }, [nfoExpiry, nfoInstruments, nfoIndex, form.exchange]);
+
+  // Poll the index spot quote every 5s while on NFO, independent of strike
+  // selection — keeps the center ticker (LTP + change%) live.
+  useEffect(() => {
+    if (form.exchange !== 'NFO' || !nfoIndex) return;
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/spot-ltp?index=${encodeURIComponent(nfoIndex)}`);
+        const data = await res.json();
+        if (data.success && typeof data.ltp === 'number') {
+          setSpotQuote({ ltp: data.ltp, change: data.change ?? null, changePercent: data.changePercent ?? null });
+        }
+      } catch (err) {
+        // Polling failure isn't worth surfacing every 5s — the initial fetch
+        // above already reports it once via nfoError.
+      }
+    };
+    const interval = setInterval(poll, 5000);
+    return () => clearInterval(interval);
+  }, [nfoIndex, form.exchange]);
+
+  // Poll Call/Put LTP every 5s over plain REST, same reasoning as the spot
+  // poll above — the WS ticker hasn't reliably delivered ticks in this app,
+  // so don't depend on it for a number that needs to actually show up.
+  useEffect(() => {
+    if (form.exchange !== 'NFO') {
+      setNfoCallLtp(null);
+      setNfoPutLtp(null);
+      return;
+    }
+    const pollLeg = async (option, setter) => {
+      if (!option) {
+        setter(null);
+        return;
+      }
+      try {
+        const symbol = `${option.exchange || 'NFO'}:${option.tradingsymbol}`;
+        const res = await fetch(`/api/spot-ltp?symbol=${encodeURIComponent(symbol)}`);
+        const data = await res.json();
+        if (data.success && typeof data.ltp === 'number') {
+          setter(data.ltp);
+        }
+      } catch (err) {
+        // leave the last known value in place rather than flashing to '—'
+        // on a single failed poll
+      }
+    };
+    const poll = () => {
+      pollLeg(nfoCallOption, setNfoCallLtp);
+      pollLeg(nfoPutOption, setNfoPutLtp);
+    };
+    poll();
+    const interval = setInterval(poll, 5000);
+    return () => clearInterval(interval);
+  }, [nfoCallOption, nfoPutOption, form.exchange]);
+
+  // Resolve CE for the chosen call strike + PE for the chosen put strike,
+  // independently, from the already-fetched instrument list for this expiry
+  // — no extra network calls.
+  useEffect(() => {
+    if (form.exchange !== 'NFO' || !nfoExpiry || !nfoInstruments.length) {
+      setNfoCallOption(null);
+      return;
+    }
+    if (!nfoCallStrike) {
+      setNfoCallOption(null);
+      return;
+    }
+    const match = nfoInstruments.find(
+      (r) => r.expiry === nfoExpiry && Number(r.strike) === Number(nfoCallStrike) && r.instrument_type === 'CE'
+    );
+    setNfoCallOption(match || null);
+    if (match?.instrument_token && tickerRef.current) {
+      tickerRef.current.subscribe([match.instrument_token], 'ltp');
+    }
+  }, [nfoCallStrike, nfoExpiry, nfoInstruments, form.exchange]);
+
+  useEffect(() => {
+    if (form.exchange !== 'NFO' || !nfoExpiry || !nfoInstruments.length) {
+      setNfoPutOption(null);
+      return;
+    }
+    if (!nfoPutStrike) {
+      setNfoPutOption(null);
+      return;
+    }
+    const match = nfoInstruments.find(
+      (r) => r.expiry === nfoExpiry && Number(r.strike) === Number(nfoPutStrike) && r.instrument_type === 'PE'
+    );
+    setNfoPutOption(match || null);
+    if (match?.instrument_token && tickerRef.current) {
+      tickerRef.current.subscribe([match.instrument_token], 'ltp');
+    }
+  }, [nfoPutStrike, nfoExpiry, nfoInstruments, form.exchange]);
+
+  // side: 'call' | 'put'
+  const placeQuickOrder = (side, transaction_type) => {
+    const option = side === 'call' ? nfoCallOption : nfoPutOption;
+    if (!option) {
+      setStatusMsg(`No ${side === 'call' ? 'CE' : 'PE'} contract resolved for that strike yet.`);
+      return;
+    }
+    const quantity = (option.lot_size || 1) * nfoLots;
+    const payload = {
+      exchange: option.exchange || 'NFO',
+      tradingsymbol: option.tradingsymbol,
+      instrument_token: option.instrument_token,
+      quantity,
+      product: form.product,
+      order_type: 'MARKET',
+    };
+
+    if (mode === 'live' && !oneClickEnabled) {
+      setPendingConfirm({ transaction_type, payload });
+      return;
+    }
+    submitOrder(transaction_type, payload);
+  };
+
   const setLots = (n) => {
     if (!form.lot_size) return;
     setForm({ ...form, quantity: String(form.lot_size * n) });
   };
 
+
   const ltpPreview = form.instrument_token ? ltpMap[form.instrument_token] : null;
+
+  // Nearest strike to live spot = ATM. For a call, strikes below spot are
+  // ITM and above are OTM; for a put it's the reverse.
+  const atmStrike = spotQuote && nfoStrikes.length
+    ? nfoStrikes.reduce((nearest, s) => (Math.abs(s - spotQuote.ltp) < Math.abs(nearest - spotQuote.ltp) ? s : nearest))
+    : null;
+  const strikeMoneyness = (strike, side) => {
+    if (!spotQuote || atmStrike === null) return '';
+    if (strike === atmStrike) return 'ATM';
+    if (side === 'call') return strike < spotQuote.ltp ? 'ITM' : 'OTM';
+    return strike > spotQuote.ltp ? 'ITM' : 'OTM';
+  };
+
   const estimatedValue =
     ltpPreview && form.quantity
       ? Number(form.quantity) *
@@ -229,20 +492,25 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     return () => clearTimeout(timer);
   }, [statusMsg]);
 
-  const submitOrder = async (transaction_type) => {
+  const submitOrder = async (transaction_type, overridePayload = null) => {
     setPlacing(true);
     setStatusMsg('');
     try {
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, transaction_type, mode }),
+        body: JSON.stringify(
+          overridePayload
+            ? { ...overridePayload, transaction_type, mode }
+            : { ...form, transaction_type, mode }
+        ),
       });
       const data = await res.json();
       if (data.success) {
         setStatusMsg(`[${mode.toUpperCase()}] ${transaction_type} order placed: ${data.order_id}`);
         // Reset symbol/quantity so the form is ready for the next trade;
         // keep exchange/product/order_type since those tend to repeat.
+        // (Quick-trade orders don't touch `form`, so this is a no-op for those.)
         setForm((f) => ({ ...f, tradingsymbol: '', instrument_token: null, lot_size: null, quantity: '', price: '', trigger_price: '' }));
         setSymbolQuery('');
         refreshOrders();
@@ -304,6 +572,20 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     } finally {
       squaringRef.current = false;
     }
+  };
+
+  const cancelAllOrders = async () => {
+    setStatusMsg('Cancelling all open orders…');
+    for (const o of openOrders) {
+      try {
+        await fetch(`/api/orders/${o.order_id}?variety=${o.variety || 'regular'}&mode=${mode}`, { method: 'DELETE' });
+      } catch (err) {
+        // keep going even if one cancel fails — refreshOrders below will
+        // show whichever ones didn't actually cancel
+      }
+    }
+    setStatusMsg('Cancel-all requested — check the order book for any that failed.');
+    refreshOrders();
   };
 
   const startEdit = (order) => {
@@ -614,7 +896,9 @@ export default function TradingDashboard({ apiKey, accessToken }) {
         {/* Order entry */}
         <section style={cardStyle('#6E7BFF')}>
           <h2 style={sectionTitleStyle}>Place Order</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 240px))', gap: 14 }} className="stk-form-grid">
+
+          {/* Control strip: Exchange, and — for NFO — Index / Expiry / Call Strike / Put Strike / Lots / Product / One-click */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 160px))', gap: 12 }} className="stk-form-grid">
             <label style={labelStyle}>
               Exchange
               <select
@@ -628,191 +912,421 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </select>
             </label>
 
-            <label style={{ ...labelStyle, gridColumn: 'span 2' }}>
-              Trading Symbol
-              <div ref={symbolBoxRef} style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  value={symbolQuery}
-                  onChange={(e) => {
-                    setSymbolQuery(e.target.value.toUpperCase());
-                    setSymbolDropdownOpen(true);
-                  }}
-                  onFocus={() => setSymbolDropdownOpen(true)}
-                  placeholder="Search e.g. NIFTY, BANKNIFTY, SENSEX..."
-                  style={darkInputStyle}
-                  autoComplete="off"
-                />
-                {symbolDropdownOpen && symbolQuery.trim() && (
-                  <div style={dropdownStyle}>
-                    {symbolSearching && <div style={dropdownItemStyle}>Searching...</div>}
-                    {!symbolSearching && symbolError && (
-                      <div style={{ ...dropdownItemStyle, color: '#FF4B5C' }}>{symbolError}</div>
-                    )}
-                    {!symbolSearching && !symbolError && symbolResults.length === 0 && (
-                      <div style={dropdownItemStyle}>No matches</div>
-                    )}
-                    {!symbolSearching &&
-                      !symbolError &&
-                      symbolResults.map((r) => (
-                        <div
-                          key={r.instrument_token}
-                          onClick={() => selectSymbol(r)}
-                          style={dropdownItemStyle}
-                          onMouseDown={(e) => e.preventDefault()}
-                        >
-                          <span style={{ fontWeight: 600, color: '#111827', fontFamily: monoFont }}>{r.tradingsymbol}</span>
-                          <span style={{ color: '#9CA3AF', marginLeft: 8, fontSize: 12 }}>
-                            {r.exchange}
-                            {r.expiry ? ` · exp ${r.expiry}` : ''}
-                            {r.strike ? ` · ${r.strike}` : ''}
-                            {r.lot_size ? ` · lot ${r.lot_size}` : ''}
-                          </span>
-                        </div>
-                      ))}
+            {form.exchange === 'NFO' && (
+              <>
+                <label style={labelStyle}>
+                  Select Options
+                  <select value={nfoIndex} onChange={(e) => setNfoIndex(e.target.value)} style={darkInputStyle}>
+                    {NFO_INDEXES.map((idx) => (
+                      <option key={idx} value={idx}>{idx}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label style={labelStyle}>
+                  Expiry Date
+                  <select
+                    value={nfoExpiry}
+                    onChange={(e) => setNfoExpiry(e.target.value)}
+                    disabled={!nfoExpiries.length}
+                    style={darkInputStyle}
+                  >
+                    {!nfoExpiries.length && <option value="">Loading…</option>}
+                    {nfoExpiries.map((exp) => (
+                      <option key={exp} value={exp}>{exp}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label style={labelStyle}>
+                  Call Strike Price
+                  <select
+                    value={nfoCallStrike}
+                    onChange={(e) => setNfoCallStrike(e.target.value)}
+                    disabled={nfoStrikesLoading || !nfoStrikes.length}
+                    style={darkInputStyle}
+                  >
+                    {(nfoStrikesLoading || !nfoStrikes.length) && <option value="">—</option>}
+                    {nfoStrikes.map((s) => {
+                      const tag = strikeMoneyness(s, 'call');
+                      return (
+                        <option key={s} value={s}>{s}{tag ? ` (${tag})` : ''}</option>
+                      );
+                    })}
+                  </select>
+                  <div style={{ marginTop: 4, fontSize: 11, color: '#9CA3AF' }}>
+                    Spot: <span style={{ fontFamily: monoFont, color: '#6B7280' }}>{spotQuote ? spotQuote.ltp.toFixed(2) : '—'}</span>
                   </div>
-                )}
-              </div>
-              {form.tradingsymbol && (
-                <div style={{ marginTop: 6, fontSize: 12, color: '#6B7280', display: 'flex', gap: 10 }}>
-                  <span>
-                    LTP:{' '}
-                    <span style={{ fontFamily: monoFont, color: '#111827', fontWeight: 600 }}>
-                      {ltpPreview ? ltpPreview.toFixed(2) : '...'}
-                    </span>
-                  </span>
-                  {form.lot_size && <span>Lot size: {form.lot_size}</span>}
-                </div>
-              )}
-            </label>
+                </label>
 
-            <label style={labelStyle}>
-              Quantity
-              <input
-                type="number"
-                value={form.quantity}
-                onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-                style={darkInputStyle}
-              />
-              {form.lot_size ? (
-                <div style={{ display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
-                  {[1, 2, 5, 10].map((n) => {
-                    const active = Number(form.quantity) === form.lot_size * n;
-                    return (
-                      <button
-                        key={n}
-                        type="button"
-                        onClick={() => setLots(n)}
-                        className="stk-btn"
-                        style={{
-                          ...lotChipStyle,
-                          background: active ? 'rgba(110,123,255,0.14)' : '#F3F4F6',
-                          borderColor: active ? '#6E7BFF' : '#E5E7EB',
-                          color: active ? '#A9B2FF' : '#6B7280',
-                        }}
-                      >
-                        {n} lot{n > 1 ? 's' : ''}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div style={{ fontSize: 11, color: '#9CA3AF', marginTop: 6 }}>Pick a symbol to see lot-size shortcuts</div>
-              )}
-            </label>
-            <label style={labelStyle}>
-              Product
-              <select
-                value={form.product}
-                onChange={(e) => setForm({ ...form, product: e.target.value })}
-                style={darkInputStyle}
-              >
-                {PRODUCTS.map((p) => (
-                  <option key={p} value={p}>{p}</option>
-                ))}
-              </select>
-            </label>
+                <label style={labelStyle}>
+                  Put Strike Price
+                  <select
+                    value={nfoPutStrike}
+                    onChange={(e) => setNfoPutStrike(e.target.value)}
+                    disabled={nfoStrikesLoading || !nfoStrikes.length}
+                    style={darkInputStyle}
+                  >
+                    {(nfoStrikesLoading || !nfoStrikes.length) && <option value="">—</option>}
+                    {nfoStrikes.map((s) => {
+                      const tag = strikeMoneyness(s, 'put');
+                      return (
+                        <option key={s} value={s}>{s}{tag ? ` (${tag})` : ''}</option>
+                      );
+                    })}
+                  </select>
+                  <div style={{ marginTop: 4, fontSize: 11, color: '#9CA3AF' }}>
+                    Spot: <span style={{ fontFamily: monoFont, color: '#6B7280' }}>{spotQuote ? spotQuote.ltp.toFixed(2) : '—'}</span>
+                  </div>
+                </label>
 
-            <label style={{ ...labelStyle, gridColumn: 'span 2' }}>
-              Order Type
-              <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
-                {ORDER_TYPES.map((t) => {
-                  const active = form.order_type === t;
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setForm({ ...form, order_type: t })}
-                      className="stk-btn"
-                      style={{
-                        ...segBtnStyle,
-                        background: active ? '#6E7BFF' : '#F3F4F6',
-                        borderColor: active ? '#6E7BFF' : '#E5E7EB',
-                        color: active ? '#FFFFFF' : '#6B7280',
-                      }}
-                    >
-                      {t}
-                    </button>
-                  );
-                })}
-              </div>
-            </label>
-
-            {['LIMIT', 'SL'].includes(form.order_type) && (
-              <label style={labelStyle}>
-                Price
-                <div style={{ display: 'flex', gap: 6 }}>
+                <label style={labelStyle}>
+                  Qty (Lots)
                   <input
                     type="number"
-                    value={form.price}
-                    onChange={(e) => setForm({ ...form, price: e.target.value })}
-                    style={{ ...darkInputStyle, flex: 1 }}
+                    min={1}
+                    value={nfoLots}
+                    onChange={(e) => setNfoLots(Math.max(1, Number(e.target.value) || 1))}
+                    style={darkInputStyle}
                   />
-                  {ltpPreview && (
+                </label>
+
+                <label style={labelStyle}>
+                  Product
+                  <select
+                    value={form.product}
+                    onChange={(e) => setForm({ ...form, product: e.target.value })}
+                    style={darkInputStyle}
+                  >
+                    {PRODUCTS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 8, marginTop: 18 }}>
+                  <input
+                    type="checkbox"
+                    checked={oneClickEnabled}
+                    onChange={(e) => setOneClickEnabled(e.target.checked)}
+                    style={checkboxStyle}
+                  />
+                  <span style={{ fontSize: 13, color: '#374151' }}>
+                    One click: <strong style={{ color: oneClickEnabled ? '#1FD980' : '#9CA3AF' }}>{oneClickEnabled ? 'Enabled' : 'Disabled'}</strong>
+                  </span>
+                </label>
+              </>
+            )}
+
+            {form.exchange !== 'NFO' && (
+              <>
+                <label style={{ ...labelStyle, gridColumn: 'span 2' }}>
+                  Trading Symbol
+                  <div ref={symbolBoxRef} style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      value={symbolQuery}
+                      onChange={(e) => {
+                        setSymbolQuery(e.target.value.toUpperCase());
+                        setSymbolDropdownOpen(true);
+                      }}
+                      onFocus={() => setSymbolDropdownOpen(true)}
+                      placeholder="Search e.g. NIFTY, BANKNIFTY, SENSEX..."
+                      style={darkInputStyle}
+                      autoComplete="off"
+                    />
+                    {symbolDropdownOpen && symbolQuery.trim() && (
+                      <div style={dropdownStyle}>
+                        {symbolSearching && <div style={dropdownItemStyle}>Searching...</div>}
+                        {!symbolSearching && symbolError && (
+                          <div style={{ ...dropdownItemStyle, color: '#FF4B5C' }}>{symbolError}</div>
+                        )}
+                        {!symbolSearching && !symbolError && symbolResults.length === 0 && (
+                          <div style={dropdownItemStyle}>No matches</div>
+                        )}
+                        {!symbolSearching &&
+                          !symbolError &&
+                          symbolResults.map((r) => (
+                            <div
+                              key={r.instrument_token}
+                              onClick={() => selectSymbol(r)}
+                              style={dropdownItemStyle}
+                              onMouseDown={(e) => e.preventDefault()}
+                            >
+                              <span style={{ fontWeight: 600, color: '#111827', fontFamily: monoFont }}>{r.tradingsymbol}</span>
+                              <span style={{ color: '#9CA3AF', marginLeft: 8, fontSize: 12 }}>
+                                {r.exchange}
+                                {r.expiry ? ` · exp ${r.expiry}` : ''}
+                                {r.strike ? ` · ${r.strike}` : ''}
+                                {r.lot_size ? ` · lot ${r.lot_size}` : ''}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                  {form.tradingsymbol && (
+                    <div style={{ marginTop: 6, fontSize: 12, color: '#6B7280', display: 'flex', gap: 10 }}>
+                      <span>
+                        LTP:{' '}
+                        <span style={{ fontFamily: monoFont, color: '#111827', fontWeight: 600 }}>
+                          {ltpPreview ? ltpPreview.toFixed(2) : '...'}
+                        </span>
+                      </span>
+                      {form.lot_size && <span>Lot size: {form.lot_size}</span>}
+                    </div>
+                  )}
+                </label>
+
+                <label style={labelStyle}>
+                  Quantity
+                  <input
+                    type="number"
+                    value={form.quantity}
+                    onChange={(e) => setForm({ ...form, quantity: e.target.value })}
+                    style={darkInputStyle}
+                  />
+                  {form.lot_size ? (
+                    <div style={{ display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
+                      {[1, 2, 5, 10].map((n) => {
+                        const active = Number(form.quantity) === form.lot_size * n;
+                        return (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() => setLots(n)}
+                            className="stk-btn"
+                            style={{
+                              ...lotChipStyle,
+                              background: active ? 'rgba(110,123,255,0.14)' : '#F3F4F6',
+                              borderColor: active ? '#6E7BFF' : '#E5E7EB',
+                              color: active ? '#A9B2FF' : '#6B7280',
+                            }}
+                          >
+                            {n} lot{n > 1 ? 's' : ''}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 11, color: '#9CA3AF', marginTop: 6 }}>Pick a symbol to see lot-size shortcuts</div>
+                  )}
+                </label>
+                <label style={labelStyle}>
+                  Product
+                  <select
+                    value={form.product}
+                    onChange={(e) => setForm({ ...form, product: e.target.value })}
+                    style={darkInputStyle}
+                  >
+                    {PRODUCTS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label style={{ ...labelStyle, gridColumn: 'span 2' }}>
+                  Order Type
+                  <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+                    {ORDER_TYPES.map((t) => {
+                      const active = form.order_type === t;
+                      return (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => setForm({ ...form, order_type: t })}
+                          className="stk-btn"
+                          style={{
+                            ...segBtnStyle,
+                            background: active ? '#6E7BFF' : '#F3F4F6',
+                            borderColor: active ? '#6E7BFF' : '#E5E7EB',
+                            color: active ? '#FFFFFF' : '#6B7280',
+                          }}
+                        >
+                          {t}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </label>
+
+                {['LIMIT', 'SL'].includes(form.order_type) && (
+                  <label style={labelStyle}>
+                    Price
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <input
+                        type="number"
+                        value={form.price}
+                        onChange={(e) => setForm({ ...form, price: e.target.value })}
+                        style={{ ...darkInputStyle, flex: 1 }}
+                      />
+                      {ltpPreview && (
+                        <button
+                          type="button"
+                          className="stk-btn"
+                          onClick={() => setForm({ ...form, price: String(ltpPreview) })}
+                          style={{ ...smallBtnStyle, marginTop: 6, whiteSpace: 'nowrap' }}
+                        >
+                          Use LTP
+                        </button>
+                      )}
+                    </div>
+                  </label>
+                )}
+                {['SL', 'SL-M'].includes(form.order_type) && (
+                  <label style={labelStyle}>
+                    Trigger Price
+                    <input
+                      type="number"
+                      value={form.trigger_price}
+                      onChange={(e) => setForm({ ...form, trigger_price: e.target.value })}
+                      style={darkInputStyle}
+                    />
+                  </label>
+                )}
+              </>
+            )}
+          </div>
+
+          {form.exchange === 'NFO' ? (
+            <>
+              {nfoError && <p style={{ marginTop: 10, fontSize: 12, color: '#FF4B5C' }}>{nfoError}</p>}
+
+              {/* Horizontal Call | Index ticker | Put quick-trade bar, mirroring a standard 1-click options terminal */}
+              <div
+                style={{
+                  marginTop: 18,
+                  display: 'grid',
+                  gridTemplateColumns: '1fr auto 1fr',
+                  gap: 16,
+                  alignItems: 'center',
+                }}
+              >
+                {/* Call side */}
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', fontFamily: monoFont }}>
+                    {nfoCallStrike || '—'} <span style={{ fontSize: 12, fontWeight: 600, color: '#6B7280' }}>CE</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: '#9CA3AF', marginBottom: 2, fontFamily: monoFont }}>
+                    {nfoCallOption ? nfoCallOption.tradingsymbol : '—'}
+                  </div>
+                  <div style={{ fontSize: 13, color: '#374151', marginBottom: 10 }}>
+                    LTP: <strong style={{ fontFamily: monoFont, color: '#111827' }}>{nfoCallLtp != null ? nfoCallLtp.toFixed(2) : '—'}</strong>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
                     <button
-                      type="button"
+                      disabled={placing || !nfoCallOption}
+                      onClick={() => placeQuickOrder('call', 'SELL')}
                       className="stk-btn"
-                      onClick={() => setForm({ ...form, price: String(ltpPreview) })}
-                      style={{ ...smallBtnStyle, marginTop: 6, whiteSpace: 'nowrap' }}
+                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoCallOption ? disabledBtnStyle : {}) }}
                     >
-                      Use LTP
+                      ← Sell Call
                     </button>
+                    <button
+                      disabled={placing || !nfoCallOption}
+                      onClick={() => placeQuickOrder('call', 'BUY')}
+                      className="stk-btn"
+                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoCallOption ? disabledBtnStyle : {}) }}
+                    >
+                      ↑ Buy Call
+                    </button>
+                  </div>
+                </div>
+
+                {/* Center: index ticker + global actions */}
+                <div style={{ textAlign: 'center', minWidth: 220 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', fontFamily: displayFont }}>{nfoIndex}</div>
+                  <div style={{ fontSize: 15, fontFamily: monoFont, marginTop: 2 }}>
+                    LTP: <strong style={{ color: '#111827' }}>{spotQuote ? spotQuote.ltp.toFixed(2) : '—'}</strong>{' '}
+                    {spotQuote && spotQuote.change !== null && (
+                      <span style={{ color: spotQuote.change >= 0 ? '#1FD980' : '#FF4B5C', fontSize: 12 }}>
+                        ({spotQuote.change >= 0 ? '+' : ''}{spotQuote.change.toFixed(2)}
+                        {spotQuote.changePercent !== null ? ` / ${spotQuote.changePercent >= 0 ? '+' : ''}${spotQuote.changePercent.toFixed(2)}%` : ''})
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: 'center' }}>
+                    <button
+                      onClick={() => squareOffAll('Close All Positions requested.')}
+                      className="stk-btn"
+                      style={{ ...smallBtnStyle, color: '#FF4B5C', borderColor: 'rgba(255,75,92,0.35)' }}
+                    >
+                      Close All Positions
+                    </button>
+                    <button
+                      onClick={cancelAllOrders}
+                      className="stk-btn"
+                      style={{ ...smallBtnStyle, color: '#F5A623', borderColor: 'rgba(245,166,35,0.35)' }}
+                    >
+                      Cancel All Orders
+                    </button>
+                  </div>
+                  {statusMsg && (
+                    <div style={{ marginTop: 8, fontSize: 11, color: statusMsg.toLowerCase().includes('fail') ? '#991B1B' : '#6B7280' }}>
+                      {statusMsg}
+                    </div>
                   )}
                 </div>
-              </label>
-            )}
-            {['SL', 'SL-M'].includes(form.order_type) && (
-              <label style={labelStyle}>
-                Trigger Price
-                <input
-                  type="number"
-                  value={form.trigger_price}
-                  onChange={(e) => setForm({ ...form, trigger_price: e.target.value })}
-                  style={darkInputStyle}
-                />
-              </label>
-            )}
-          </div>
 
-          {estimatedValue !== null && (
-            <div style={{ marginTop: 14, fontSize: 13, color: '#6B7280' }}>
-              Est. order value:{' '}
-              <span style={{ fontFamily: monoFont, fontWeight: 700, color: '#111827' }}>
-                ₹{estimatedValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
-              </span>
-            </div>
-          )}
+                {/* Put side */}
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', fontFamily: monoFont }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: '#6B7280' }}>PE</span> {nfoPutStrike || '—'}
+                  </div>
+                  <div style={{ fontSize: 11, color: '#9CA3AF', marginBottom: 2, fontFamily: monoFont }}>
+                    {nfoPutOption ? nfoPutOption.tradingsymbol : '—'}
+                  </div>
+                  <div style={{ fontSize: 13, color: '#374151', marginBottom: 10 }}>
+                    LTP: <strong style={{ fontFamily: monoFont, color: '#111827' }}>{nfoPutLtp != null ? nfoPutLtp.toFixed(2) : '—'}</strong>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                    <button
+                      disabled={placing || !nfoPutOption}
+                      onClick={() => placeQuickOrder('put', 'BUY')}
+                      className="stk-btn"
+                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoPutOption ? disabledBtnStyle : {}) }}
+                    >
+                      ↓ Buy Put
+                    </button>
+                    <button
+                      disabled={placing || !nfoPutOption}
+                      onClick={() => placeQuickOrder('put', 'SELL')}
+                      className="stk-btn"
+                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoPutOption ? disabledBtnStyle : {}) }}
+                    >
+                      Sell Put →
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p style={{ marginTop: 10, fontSize: 11, color: '#9CA3AF', textAlign: 'center' }}>
+                Orders place at MARKET, {nfoLots} lot{nfoLots > 1 ? 's' : ''} × lot size, product {form.product}
+                {oneClickEnabled ? ' — one-click enabled, live orders skip confirmation.' : ' — live orders still ask for confirmation.'}
+              </p>
+            </>
+          ) : (
+            <>
+              {estimatedValue !== null && (
+                <div style={{ marginTop: 14, fontSize: 13, color: '#6B7280' }}>
+                  Est. order value:{' '}
+                  <span style={{ fontFamily: monoFont, fontWeight: 700, color: '#111827' }}>
+                    ₹{estimatedValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+              )}
 
-          <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
-            <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('BUY')} style={{ ...buyBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
-              {mode === 'paper' ? 'BUY (paper)' : 'BUY'}
-            </button>
-            <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('SELL')} style={{ ...sellBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
-              {mode === 'paper' ? 'SELL (paper)' : 'SELL'}
-            </button>
-          </div>
-          {orderError && !placing && (
-            <p style={{ marginTop: 8, fontSize: 12, color: '#9CA3AF' }}>{orderError}</p>
+              <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+                <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('BUY')} style={{ ...buyBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
+                  {mode === 'paper' ? 'BUY (paper)' : 'BUY'}
+                </button>
+                <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('SELL')} style={{ ...sellBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
+                  {mode === 'paper' ? 'SELL (paper)' : 'SELL'}
+                </button>
+              </div>
+              {orderError && !placing && (
+                <p style={{ marginTop: 8, fontSize: 12, color: '#9CA3AF' }}>{orderError}</p>
+              )}
+            </>
           )}
         </section>
 
@@ -831,7 +1345,9 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </p>
               <div style={confirmRowStyle}>
                 <span>Symbol</span>
-                <strong style={{ color: '#111827', fontFamily: monoFont }}>{form.tradingsymbol}</strong>
+                <strong style={{ color: '#111827', fontFamily: monoFont }}>
+                  {pendingConfirm.payload?.tradingsymbol ?? form.tradingsymbol}
+                </strong>
               </div>
               <div style={confirmRowStyle}>
                 <span>Side</span>
@@ -841,19 +1357,23 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </div>
               <div style={confirmRowStyle}>
                 <span>Quantity</span>
-                <strong style={{ fontFamily: monoFont, color: '#111827' }}>{form.quantity}</strong>
+                <strong style={{ fontFamily: monoFont, color: '#111827' }}>
+                  {pendingConfirm.payload?.quantity ?? form.quantity}
+                </strong>
               </div>
               <div style={confirmRowStyle}>
                 <span>Order type</span>
-                <strong style={{ color: '#111827' }}>{form.order_type}</strong>
+                <strong style={{ color: '#111827' }}>
+                  {pendingConfirm.payload?.order_type ?? form.order_type}
+                </strong>
               </div>
-              {form.order_type !== 'MARKET' && (
+              {!pendingConfirm.payload && form.order_type !== 'MARKET' && (
                 <div style={confirmRowStyle}>
                   <span>Price</span>
                   <strong style={{ fontFamily: monoFont, color: '#111827' }}>{form.price || form.trigger_price}</strong>
                 </div>
               )}
-              {estimatedValue !== null && (
+              {!pendingConfirm.payload && estimatedValue !== null && (
                 <div style={confirmRowStyle}>
                   <span>Est. value</span>
                   <strong style={{ fontFamily: monoFont, color: '#111827' }}>
@@ -874,8 +1394,9 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                   disabled={placing}
                   onClick={async () => {
                     const tt = pendingConfirm.transaction_type;
+                    const payload = pendingConfirm.payload;
                     setPendingConfirm(null);
-                    await submitOrder(tt);
+                    await submitOrder(tt, payload);
                   }}
                   style={pendingConfirm.transaction_type === 'BUY' ? buyBtnStyle : sellBtnStyle}
                 >
@@ -1069,7 +1590,7 @@ const topBarStyle = {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginBottom: 18,
+  marginBottom: 14,
   flexWrap: 'wrap',
   gap: 14,
 };
@@ -1125,10 +1646,10 @@ const cardStyle = (accent) => ({
   background: '#FFFFFF',
   border: '1px solid #E5E7EB',
   borderTop: `2px solid ${accent || '#E5E7EB'}`,
-  borderRadius: 10,
-  padding: 20,
-  marginBottom: 18,
-  boxShadow: '0 1px 2px rgba(16,24,40,0.06)',
+  borderRadius: 8,
+  padding: 18,
+  marginBottom: 14,
+  boxShadow: '0 1px 2px rgba(16,24,40,0.05)',
 });
 
 const disabledBtnStyle = {
@@ -1174,7 +1695,7 @@ const sectionTitleStyle = {
   textTransform: 'uppercase',
   letterSpacing: '0.08em',
   color: '#9CA3AF',
-  marginBottom: 16,
+  marginBottom: 12,
   fontFamily: monoFont,
 };
 
@@ -1245,6 +1766,17 @@ const segBtnStyle = {
   textAlign: 'center',
 };
 
+const quickPadBtnStyle = {
+  padding: '14px 6px',
+  fontSize: 12,
+  fontWeight: 700,
+  letterSpacing: '0.02em',
+  borderRadius: 8,
+  border: 'none',
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
+};
+
 const lotChipStyle = {
   padding: '5px 10px',
   fontSize: 12,
@@ -1290,7 +1822,7 @@ const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 13, ma
 const thStyle = {
   textAlign: 'left',
   borderBottom: '1px solid #E5E7EB',
-  padding: '8px 10px',
+  padding: '6px 8px',
   color: '#9CA3AF',
   fontSize: 10,
   textTransform: 'uppercase',
@@ -1298,8 +1830,8 @@ const thStyle = {
   fontWeight: 600,
   fontFamily: monoFont,
 };
-const tdStyle = { borderBottom: '1px solid #E5E7EB', padding: '10px', color: '#374151' };
-const emptyCellStyle = { ...tdStyle, textAlign: 'center', color: '#9CA3AF', padding: '24px 10px' };
+const tdStyle = { borderBottom: '1px solid #E5E7EB', padding: '7px 8px', color: '#374151', fontSize: 12.5 };
+const emptyCellStyle = { ...tdStyle, textAlign: 'center', color: '#9CA3AF', padding: '20px 8px' };
 
 const statusPillStyle = (status) => {
   const complete = status === 'COMPLETE';

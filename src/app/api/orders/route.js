@@ -65,20 +65,10 @@ export async function POST(request) {
     const kite = await getKiteClient();
 
     if (mode === 'paper') {
-      let ltp = null;
-      if (body.order_type === 'MARKET') {
-        const quoteKey = `${body.exchange}:${body.tradingsymbol}`;
-        const quote = await kite.getLTP([quoteKey]);
-        ltp = quote?.[quoteKey]?.last_price;
-        if (!ltp) {
-          return NextResponse.json(
-            { success: false, error: 'Could not fetch LTP for paper fill' },
-            { status: 500 }
-          );
-        }
-      }
-
-      const order_id = placePaperOrder({
+      // placePaperOrder resolves MARKET fills via live LTP internally, so we
+      // don't need to fetch/pass one here — this also avoids double-fetching
+      // the same quote twice.
+      const order = await placePaperOrder({
         tradingsymbol: body.tradingsymbol,
         exchange: body.exchange,
         transaction_type: body.transaction_type,
@@ -88,10 +78,9 @@ export async function POST(request) {
         price: body.price ? Number(body.price) : null,
         trigger_price: body.trigger_price ? Number(body.trigger_price) : null,
         instrument_token: body.instrument_token,
-        ltp,
       });
 
-      return NextResponse.json({ success: true, order_id, mode: 'paper' });
+      return NextResponse.json({ success: true, order_id: order.order_id, mode: 'paper' });
     }
 
     const variety = body.variety || kite.VARIETY_REGULAR || 'regular';

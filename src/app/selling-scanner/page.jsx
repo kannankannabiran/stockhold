@@ -8,6 +8,10 @@ export default function CPRScannerPage() {
   const [wsStatus, setWsStatus] = useState("disconnected");
   const [tickPulse, setTickPulse] = useState(0);
 
+  // New Feature States
+  const [strikeRange, setStrikeRange] = useState("10"); // Show ±10 strikes from ATM by default
+  const [audioEnabled, setAudioEnabled] = useState(false);
+
   const [selectedIndex, setSelectedIndex] = useState("NIFTY");
   const [selectedExpiry, setSelectedExpiry] = useState("");
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -18,6 +22,26 @@ export default function CPRScannerPage() {
   const isFirstLoadRef = useRef(true);
   const lastLtpRef = useRef({});
   const dateInputRef = useRef(null);
+
+  // Simple Web Audio API beep for alerts
+  const playAlertSound = useCallback(() => {
+    if (!audioEnabled) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime); // Low volume
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3);
+      osc.stop(ctx.currentTime + 0.3);
+    } catch (e) {
+      console.error("Audio play failed:", e);
+    }
+  }, [audioEnabled]);
 
   const checkForNewTouches = useCallback((json) => {
     const spotKey = "spot";
@@ -142,6 +166,7 @@ export default function CPRScannerPage() {
 
       if (Object.keys(newTicks).length > 0) {
         setTickPulse((p) => (p >= 99 ? 1 : p + 1));
+        let newlyTouched = false;
 
         setData((prevData) => {
           if (!prevData) return prevData;
@@ -154,6 +179,13 @@ export default function CPRScannerPage() {
             const prevLtp = lastLtpRef.current[item.token];
             let newTouches = item.touches ? [...item.touches] : [];
             let itemUpdated = false;
+            
+            // Determine Tick Direction (Green for Up, Red for Down)
+            let tickDirection = item.tickDirection || "default";
+            if (prevLtp !== undefined) {
+              if (newLtp > prevLtp) tickDirection = "up";
+              else if (newLtp < prevLtp) tickDirection = "down";
+            }
 
             if (item.cpr && prevLtp !== undefined && prevLtp !== newLtp) {
               const tStr = new Date().toLocaleTimeString("en-GB", {
@@ -170,6 +202,7 @@ export default function CPRScannerPage() {
                   if (!newTouches.find((t) => t.level === levelName && t.time === tStr)) {
                     newTouches.push({ level: levelName, time: tStr });
                     itemUpdated = true;
+                    newlyTouched = true;
                   }
                 }
               };
@@ -181,8 +214,8 @@ export default function CPRScannerPage() {
 
             lastLtpRef.current[item.token] = newLtp;
 
-            if (item.ltp !== newLtp || itemUpdated) {
-              return { ...item, ltp: newLtp, touches: newTouches };
+            if (item.ltp !== newLtp || itemUpdated || item.tickDirection !== tickDirection) {
+              return { ...item, ltp: newLtp, touches: newTouches, tickDirection };
             }
             return item;
           };
@@ -210,6 +243,11 @@ export default function CPRScannerPage() {
           }
           return prevData;
         });
+
+        // Fire audio alert if a new touch occurred
+        if (newlyTouched) {
+          playAlertSound();
+        }
       }
     };
 
@@ -217,13 +255,11 @@ export default function CPRScannerPage() {
     ws.onerror = () => setWsStatus("fallback");
 
     return () => ws.close();
-  }, [data?.credentials?.accessToken, selectedDate]);
+  }, [data?.credentials?.accessToken, selectedDate, playAlertSound]);
 
   const handleIndexChange = (e) => {
-    const newIdx = e.target.value;
-    if (newIdx === selectedIndex) return;
     setData(null);
-    setSelectedIndex(newIdx);
+    setSelectedIndex(e.target.value);
     setSelectedExpiry("");
   };
 
@@ -245,6 +281,32 @@ export default function CPRScannerPage() {
       dateInputRef.current?.click();
     }
   };
+
+  // --- Analytical Widgets Computations ---
+  
+  const getCprWidthStatus = (cpr, spot) => {
+    if (!cpr || !spot) return null;
+    const width = Math.abs(cpr.TC - cpr.BC);
+    const pct = (width / spot) * 100;
+    
+    if (pct < 0.15) return { label: "NARROW CPR", desc: "Trending Day", color: "bg-green-100 text-green-800 border-green-300" };
+    if (pct > 0.40) return { label: "WIDE CPR", desc: "Sideways Day", color: "bg-red-100 text-red-800 border-red-300" };
+    return { label: "AVERAGE CPR", desc: "Normal Vol.", color: "bg-blue-100 text-blue-800 border-blue-300" };
+  };
+
+  const getDailyBias = (cpr, spot) => {
+    if (!cpr || !spot) return null;
+    const top = Math.max(cpr.TC, cpr.BC);
+    const bot = Math.min(cpr.TC, cpr.BC);
+    if (spot > top) return { label: "BULLISH", icon: "↑", color: "text-green-700 bg-green-100 border-green-300" };
+    if (spot < bot) return { label: "BEARISH", icon: "↓", color: "text-red-700 bg-red-100 border-red-300" };
+    return { label: "SIDEWAYS", icon: "↔", color: "text-yellow-700 bg-yellow-100 border-yellow-300" };
+  };
+
+  const cprWidthStatus = getCprWidthStatus(data?.spotData?.cpr, data?.spot);
+  const dailyBias = getDailyBias(data?.spotData?.cpr, data?.spot);
+
+  // --- UI Components ---
 
   const TouchBadge = ({ touches }) => {
     if (!touches || touches.length === 0)
@@ -294,23 +356,17 @@ export default function CPRScannerPage() {
     );
   };
 
-  // Helper function to extract numerical sum
   const getTcBcSumValue = (cpr) => {
     if (!cpr || cpr.TC === undefined || cpr.BC === undefined) return null;
     const sum = parseFloat(cpr.TC) - parseFloat(cpr.BC);
     return isNaN(sum) ? null : sum;
   };
 
-  // Helper function to render the badge with dynamic colors
   const renderTcBcBadge = (sum, colorMode) => {
     if (sum === null) return <span className="text-gray-300">—</span>;
-
-    let styleClasses = "text-indigo-700 bg-indigo-50 border-indigo-200"; // default
-    if (colorMode === "green") {
-      styleClasses = "text-green-700 bg-green-50 border-green-200";
-    } else if (colorMode === "red") {
-      styleClasses = "text-red-700 bg-red-50 border-red-200";
-    }
+    let styleClasses = "text-indigo-700 bg-indigo-50 border-indigo-200"; 
+    if (colorMode === "green") styleClasses = "text-green-700 bg-green-50 border-green-200";
+    else if (colorMode === "red") styleClasses = "text-red-700 bg-red-50 border-red-200";
 
     return (
       <div className="flex items-center justify-center">
@@ -319,6 +375,21 @@ export default function CPRScannerPage() {
         </span>
       </div>
     );
+  };
+
+  // Helper to format LTP color based on tick direction
+  const renderLTP = (ltp, tickDirection, isAtm, isCE) => {
+    if (!ltp) return <span className="text-gray-400">—</span>;
+    
+    // Base colors
+    let textColor = isCE ? "text-gray-600" : "text-gray-600";
+    if (isAtm) textColor = isCE ? "text-green-700" : "text-red-700";
+
+    // Tick flashing override
+    if (tickDirection === "up") textColor = "text-green-600 bg-green-100 px-2 py-0.5 rounded";
+    else if (tickDirection === "down") textColor = "text-red-600 bg-red-100 px-2 py-0.5 rounded";
+
+    return <span className={`text-[17px] font-black transition-colors ${textColor}`}>{ltp}</span>;
   };
 
   if (!data || loading)
@@ -342,39 +413,55 @@ export default function CPRScannerPage() {
         ).strike
       : 0;
 
+  // Apply Strike Range Filter
+  let filteredRows = [];
+  if (data?.rows) {
+    if (strikeRange === "ALL") {
+      filteredRows = data.rows;
+    } else {
+      const atmIndex = data.rows.findIndex((r) => r.strike === atmStrike);
+      const range = parseInt(strikeRange, 10);
+      const minIndex = Math.max(0, atmIndex - range);
+      const maxIndex = Math.min(data.rows.length - 1, atmIndex + range);
+      filteredRows = data.rows.slice(minIndex, maxIndex + 1);
+    }
+  }
+
   const tableItems = [];
   let spotAdded = false;
 
-  if (data?.rows) {
-    data.rows.forEach((row) => {
-      if (!spotAdded && data.spot <= row.strike) {
-        tableItems.push({ type: "SPOT", strike: data.spot });
-        spotAdded = true;
-      }
-      tableItems.push({ type: "ROW", data: row });
-    });
-    if (!spotAdded) tableItems.push({ type: "SPOT", strike: data.spot });
-  }
+  filteredRows.forEach((row) => {
+    if (!spotAdded && data.spot <= row.strike) {
+      tableItems.push({ type: "SPOT", strike: data.spot });
+      spotAdded = true;
+    }
+    tableItems.push({ type: "ROW", data: row });
+  });
+  if (!spotAdded && filteredRows.length > 0) tableItems.push({ type: "SPOT", strike: data.spot });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans selection:bg-yellow-200">
-      <div className="w-full mx-auto">
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-4 flex flex-col lg:flex-row justify-between items-center gap-6 shadow-sm relative overflow-hidden">
+    // Changed padding slightly and removed max-w restriction to allow full 100% width
+    <div className="min-h-screen bg-slate-50 text-slate-900 p-2 sm:p-4 lg:p-6 font-sans selection:bg-yellow-200">
+      <div className="w-full">
+        {/* Top Control Panel */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-4 md:p-5 mb-4 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 shadow-sm relative overflow-hidden">
+          
+          {/* Title and Base Controls */}
           <div className="flex items-center gap-5 z-10 flex-wrap">
-            <div className="h-12 w-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-950 shadow-inner">
+            <div className="h-12 w-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-950 shadow-inner flex-shrink-0">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
             </div>
             <div>
               <h1 className="text-2xl font-black text-gray-800 tracking-tight">
-                CPR Scanner <span className="text-xs font-bold text-white bg-gray-800 px-2.5 py-0.5 rounded ml-1">PRO</span>
+                Selling Scanner <span className="text-xs font-bold text-white bg-gray-800 px-2.5 py-0.5 rounded ml-1">PRO</span>
               </h1>
-              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-sm font-medium">
+              <div className="flex flex-wrap items-center gap-3 mt-2 text-sm font-medium">
                 <select
                   value={selectedIndex}
                   onChange={handleIndexChange}
-                  className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs uppercase cursor-pointer transition-all hover:bg-blue-100 shadow-sm tracking-wider"
+                  className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 outline-none focus:ring-2 focus:ring-yellow-400 text-xs uppercase cursor-pointer transition-all hover:bg-blue-100 shadow-sm"
                 >
                   <option value="NIFTY">NIFTY</option>
                   <option value="BANKNIFTY">BANKNIFTY</option>
@@ -384,17 +471,11 @@ export default function CPRScannerPage() {
                 <span className="text-gray-300">|</span>
 
                 <span className="text-gray-500 flex items-center gap-1.5">
-                  Date
                   <div
-                    className="relative min-w-[150px] flex items-center justify-between gap-2 font-mono text-gray-900 bg-gray-50 px-3 py-1 rounded-md border border-gray-200 outline-none focus-within:ring-2 focus-within:ring-yellow-400 focus-within:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
+                    className="relative flex items-center justify-between gap-2 font-mono text-gray-900 bg-gray-50 px-3 py-1 rounded-md border border-gray-200 outline-none focus-within:ring-2 focus-within:ring-yellow-400 text-xs font-bold cursor-pointer hover:bg-gray-100 shadow-sm"
                     onClick={openDatePicker}
                   >
-                    <span className="pointer-events-none font-mono text-gray-900">
-                      {selectedDate}
-                    </span>
-                    <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                    <span className="pointer-events-none font-mono">{selectedDate}</span>
                     <input
                       ref={dateInputRef}
                       type="date"
@@ -407,39 +488,79 @@ export default function CPRScannerPage() {
 
                 <span className="text-gray-300">|</span>
 
-                <span className="text-gray-500 flex items-center gap-1.5">
+                <span className="text-gray-500 flex items-center gap-1.5 text-xs font-bold">
                   Exp
                   <select
                     value={selectedExpiry || data?.expiry || ""}
                     onChange={handleExpiryChange}
-                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-xs font-bold cursor-pointer transition-all hover:bg-gray-100 shadow-sm"
+                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 cursor-pointer hover:bg-gray-100 shadow-sm"
                   >
                     {data?.availableExpiries?.map((exp) => (
-                      <option key={exp} value={exp}>
-                        {exp}
-                      </option>
+                      <option key={exp} value={exp}>{exp}</option>
                     ))}
                   </select>
                 </span>
-
+                
                 <span className="text-gray-300">|</span>
 
-                <span className="text-gray-500">
-                  Spot <span className="font-mono text-gray-900 bg-gray-100 px-1.5 rounded ml-1">{data?.spot || "-"}</span>
+                <span className="text-gray-500 flex items-center gap-1.5 text-xs font-bold">
+                  Strikes
+                  <select
+                    value={strikeRange}
+                    onChange={(e) => setStrikeRange(e.target.value)}
+                    className="font-mono text-gray-900 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 outline-none focus:ring-2 focus:ring-yellow-400 cursor-pointer hover:bg-gray-100 shadow-sm"
+                  >
+                    <option value="5">± 5</option>
+                    <option value="10">± 10</option>
+                    <option value="20">± 20</option>
+                    <option value="ALL">All</option>
+                  </select>
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-5 z-10">
-            <div className="flex flex-col items-end">
-              <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1 ${wsStatus === "fallback" ? "text-blue-600" : wsStatus === "disconnected" ? "text-gray-500" : "text-green-600"}`}>
+          {/* Analytical Dashboards & Audio */}
+          <div className="flex flex-wrap items-center gap-4 z-10 w-full lg:w-auto mt-2 lg:mt-0">
+            {/* CPR Width Widget */}
+            {cprWidthStatus && (
+              <div className={`flex flex-col px-3 py-1.5 rounded-lg border shadow-sm ${cprWidthStatus.color}`}>
+                <span className="text-[10px] font-black tracking-widest uppercase opacity-80">{cprWidthStatus.label}</span>
+                <span className="text-xs font-bold">{cprWidthStatus.desc}</span>
+              </div>
+            )}
+
+            {/* Daily Bias Widget */}
+            {dailyBias && (
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border shadow-sm ${dailyBias.color}`}>
+                <span className="text-lg font-black">{dailyBias.icon}</span>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black tracking-widest uppercase opacity-80">Trend Bias</span>
+                  <span className="text-xs font-bold">{dailyBias.label}</span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-col items-end gap-2 ml-auto">
+              <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase ${wsStatus === "fallback" ? "text-blue-600" : wsStatus === "disconnected" ? "text-gray-500" : "text-green-600"}`}>
                 <span className="relative flex h-2 w-2">
                   <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${wsStatus === "connected" ? "animate-ping bg-green-400" : wsStatus === "connecting" ? "animate-ping bg-yellow-400" : wsStatus === "fallback" ? "animate-ping bg-blue-400" : "bg-gray-400"}`}></span>
                   <span className={`relative inline-flex rounded-full h-2 w-2 ${wsStatus === "connected" ? "bg-green-500" : wsStatus === "connecting" ? "bg-yellow-500" : wsStatus === "fallback" ? "bg-blue-500" : "bg-gray-500"}`}></span>
                 </span>
                 {wsStatus === "connected" ? `Live Stream [${tickPulse}]` : wsStatus === "connecting" ? "Connecting..." : wsStatus === "fallback" ? "10s Auto-Sync" : "Historical View"}
               </div>
+              
+              <button 
+                onClick={() => setAudioEnabled(!audioEnabled)}
+                className={`flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded border transition-colors ${audioEnabled ? 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200' : 'bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200'}`}
+              >
+                {audioEnabled ? (
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
+                )}
+                {audioEnabled ? "Alerts On" : "Alerts Off"}
+              </button>
             </div>
           </div>
         </div>
@@ -453,21 +574,16 @@ export default function CPRScannerPage() {
           </div>
         )}
 
+        {/* Table Container - fully responsive width */}
         <div className="w-full overflow-x-auto pb-10">
-          {!data?.rows || data.rows.length === 0 ? (
+          {!filteredRows || filteredRows.length === 0 ? (
             <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center text-gray-500 font-semibold flex flex-col items-center gap-3 shadow-sm">
               <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
-              <div>
-                <p className="text-base text-gray-800 font-bold">
-                  {loading
-                    ? `Loading data for ${selectedIndex}...`
-                    : error
-                    ? `Could not load data for ${selectedIndex}`
-                    : `No data available for ${selectedIndex} on ${selectedDate}.`}
-                </p>
-              </div>
+              <p className="text-base text-gray-800 font-bold">
+                {loading ? `Loading data...` : error ? `Could not load data.` : `No strikes match range for ${selectedIndex}.`}
+              </p>
             </div>
           ) : (
             <table className="w-full text-center border-separate" style={{ borderSpacing: "0 8px" }}>
@@ -492,7 +608,9 @@ export default function CPRScannerPage() {
                       <tr key={`spot-${index}`} className="bg-blue-50/60 shadow-sm relative z-20 transition-all">
                         <td className="py-4 px-2 rounded-l-xl border-y border-l border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
                         <td className="py-4 px-2 border-y border-blue-200">{renderTcBcBadge(spotSum, "default")}</td>
-                        <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
+                        <td className="py-4 px-2 border-y border-blue-200">
+                          {renderLTP(data.spotData?.ltp || data.spot, data.spotData?.tickDirection, false, true)}
+                        </td>
                         <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
                         <td className="py-4 px-2 relative border-y border-blue-200 bg-blue-100/30">
                           <div className="mx-auto w-28 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-base tracking-tight bg-blue-600 text-white shadow-md ring-2 ring-blue-300 ring-offset-2 relative">
@@ -501,7 +619,9 @@ export default function CPRScannerPage() {
                           </div>
                         </td>
                         <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
-                        <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
+                        <td className="py-4 px-2 border-y border-blue-200">
+                           {renderLTP(data.spotData?.ltp || data.spot, data.spotData?.tickDirection, false, false)}
+                        </td>
                         <td className="py-4 px-2 border-y border-blue-200">{renderTcBcBadge(spotSum, "default")}</td>
                         <td className="py-4 px-2 rounded-r-xl border-y border-r border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
                       </tr>
@@ -511,33 +631,23 @@ export default function CPRScannerPage() {
                   const row = item.data;
                   const isAtm = row.strike === atmStrike;
 
-                  // Get numerical values to compare
                   const ceSum = getTcBcSumValue(row.CE?.cpr);
                   const peSum = getTcBcSumValue(row.PE?.cpr);
 
                   let ceColor = "default";
                   let peColor = "default";
-
-                  // Assign colors based on which side is higher
                   if (ceSum !== null && peSum !== null) {
-                    if (ceSum > peSum) {
-                      ceColor = "green";
-                      peColor = "red";
-                    } else if (peSum > ceSum) {
-                      peColor = "green";
-                      ceColor = "red";
-                    }
+                    if (ceSum > peSum) { ceColor = "green"; peColor = "red"; } 
+                    else if (peSum > ceSum) { peColor = "green"; ceColor = "red"; }
                   }
 
                   return (
                     <tr key={row.strike} className={`group transition-all duration-300 shadow-sm ${isAtm ? "bg-yellow-50 relative z-10" : "bg-white hover:bg-gray-50"}`}>
                       <td className={`py-4 px-2 rounded-l-xl border-y border-l ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><CPRDisplay cpr={row.CE?.cpr} /></td>
-                      
+                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>{renderTcBcBadge(ceSum, ceColor)}</td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>
-                        {renderTcBcBadge(ceSum, ceColor)}
+                        {renderLTP(row.CE?.ltp, row.CE?.tickDirection, isAtm, true)}
                       </td>
-                      
-                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><span className={`text-[17px] font-black ${isAtm ? "text-green-700" : "text-green-600"}`}>{row.CE?.ltp || "-"}</span></td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 bg-green-50/30 group-hover:border-gray-300"}`}><TouchBadge touches={row.CE?.touches} /></td>
                       <td className={`py-4 px-2 relative border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 group-hover:border-gray-300"}`}>
                         <div className={`mx-auto w-24 py-1.5 rounded-lg flex flex-col items-center justify-center font-black text-lg tracking-tight transition-all ${isAtm ? "bg-yellow-400 text-yellow-950 shadow-md ring-2 ring-yellow-200 ring-offset-2" : "bg-gray-100 text-gray-800 border border-gray-200 group-hover:bg-gray-200"}`}>
@@ -546,12 +656,10 @@ export default function CPRScannerPage() {
                         </div>
                       </td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 bg-red-50/30 group-hover:border-gray-300"}`}><TouchBadge touches={row.PE?.touches} /></td>
-                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><span className={`text-[17px] font-black ${isAtm ? "text-red-700" : "text-red-600"}`}>{row.PE?.ltp || "-"}</span></td>
-                      
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>
-                        {renderTcBcBadge(peSum, peColor)}
+                        {renderLTP(row.PE?.ltp, row.PE?.tickDirection, isAtm, false)}
                       </td>
-                      
+                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>{renderTcBcBadge(peSum, peColor)}</td>
                       <td className={`py-4 px-2 rounded-r-xl border-y border-r ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><CPRDisplay cpr={row.PE?.cpr} /></td>
                     </tr>
                   );

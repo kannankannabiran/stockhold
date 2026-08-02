@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useVwapScanContext } from "../hooks/page";
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
@@ -24,11 +24,22 @@ export default function SwingScanner() {
     })
     .sort((a, b) => new Date(b.condition_date) - new Date(a.condition_date));
 
-  useEffect(() => {
+  // Function to load and sync added symbols from localStorage
+  const loadAddedSymbols = useCallback(() => {
     const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
-    const symbols = new Set(savedList.map((item) => item.symbol));
+    const symbols = new Set(savedList.map((item) => item.symbol.replace(".NS", "")));
     setAddedSymbols(symbols);
   }, []);
+
+  // Load added symbols on mount and whenever the window gains focus (navigating back to the page)
+  useEffect(() => {
+    loadAddedSymbols();
+
+    window.addEventListener("focus", loadAddedSymbols);
+    return () => {
+      window.removeEventListener("focus", loadAddedSymbols);
+    };
+  }, [loadAddedSymbols]);
 
   const groupByMonth = (data) => {
     const groups = {};
@@ -57,11 +68,17 @@ export default function SwingScanner() {
 
       const item = { symbol: cleanSymbol, date: today.toISOString().slice(0, 10), addPrice: ltp };
       const existing = JSON.parse(localStorage.getItem("stockList") || "[]");
-      if (existing.some((e) => e.symbol === cleanSymbol)) return alert(`${cleanSymbol} already added.`);
+      
+      if (existing.some((e) => e.symbol.replace(".NS", "") === cleanSymbol)) {
+        loadAddedSymbols(); // Ensure state is aligned
+        return alert(`${cleanSymbol} already added.`);
+      }
 
       const updated = [...existing, item];
       localStorage.setItem("stockList", JSON.stringify(updated));
-      setAddedSymbols(new Set([...addedSymbols, cleanSymbol]));
+      
+      // Immediately update state
+      setAddedSymbols((prev) => new Set([...prev, cleanSymbol]));
     } catch (error) {
       alert("Error fetching LTP.");
     }
@@ -104,14 +121,10 @@ export default function SwingScanner() {
     <div className="p-6 bg-white">
       {loading && !results?.isScanning && (
         <div className="fixed inset-0 bg-black/60 flex flex-col items-center justify-center z-50">
-          {/* Card container */}
           <div className="bg-gray-900 p-6 rounded-2xl shadow-lg flex flex-col items-center space-y-4 w-72">
-            {/* Spinner */}
             <div className="relative">
               <div className="h-14 w-14 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin"></div>
             </div>
-
-            {/* Loading text */}
             <p className="text-gray-200 font-medium">Loading scanner data...</p>
           </div>
         </div>
@@ -140,7 +153,6 @@ export default function SwingScanner() {
             </button>
           </div>
 
-          {/* Progress bar */}
           {results?.scanProgress?.total > 0 && (
             <div className="mt-3">
               <div className="flex justify-between text-xs text-blue-700 mb-1 font-medium">

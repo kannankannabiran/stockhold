@@ -251,7 +251,7 @@ export default function Navbar() {
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                           onClick={() => handleNavigate("/stocklist")}
                         >
-                          Stocks List
+                          Portfolio Tracker
                         </div>
                         <div
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -436,7 +436,7 @@ export default function Navbar() {
                         Scan
                       </div>
                       <div onClick={() => handleNavigate("/stocklist")}>
-                        Stocks List
+                        Portfolio Tracker
                       </div>
                       <div onClick={() => handleNavigate("/backtest")}>
                         Back Test

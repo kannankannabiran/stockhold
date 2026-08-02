@@ -313,7 +313,7 @@ export default function Navbar() {
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleNavigate("/cpr-scanner")}
+                    onClick={() => handleNavigate("/selling-scanner")}
                   >
                     CPR Scanner
                   </div>
@@ -471,7 +471,7 @@ export default function Navbar() {
                 <div onClick={() => handleNavigate("/individual")}>
                   Individual Strike
                 </div>
-                <div onClick={() => handleNavigate("/cpr-scanner")}>
+                <div onClick={() => handleNavigate("/selling-scanner")}>
                   CPR Scanner
                 </div>
                 <div onClick={() => handleNavigate("/trading")}>

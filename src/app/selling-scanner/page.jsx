@@ -9,7 +9,7 @@ export default function CPRScannerPage() {
   const [tickPulse, setTickPulse] = useState(0);
 
   // New Feature States
-  const [strikeRange, setStrikeRange] = useState("10"); // Show ±10 strikes from ATM by default
+  const [strikeRange, setStrikeRange] = useState("5"); // Show ±10 strikes from ATM by default
   const [audioEnabled, setAudioEnabled] = useState(false);
 
   const [selectedIndex, setSelectedIndex] = useState("NIFTY");

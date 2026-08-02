@@ -294,6 +294,33 @@ export default function CPRScannerPage() {
     );
   };
 
+  // Helper function to extract numerical sum
+  const getTcBcSumValue = (cpr) => {
+    if (!cpr || cpr.TC === undefined || cpr.BC === undefined) return null;
+    const sum = parseFloat(cpr.TC) - parseFloat(cpr.BC);
+    return isNaN(sum) ? null : sum;
+  };
+
+  // Helper function to render the badge with dynamic colors
+  const renderTcBcBadge = (sum, colorMode) => {
+    if (sum === null) return <span className="text-gray-300">—</span>;
+
+    let styleClasses = "text-indigo-700 bg-indigo-50 border-indigo-200"; // default
+    if (colorMode === "green") {
+      styleClasses = "text-green-700 bg-green-50 border-green-200";
+    } else if (colorMode === "red") {
+      styleClasses = "text-red-700 bg-red-50 border-red-200";
+    }
+
+    return (
+      <div className="flex items-center justify-center">
+        <span className={`font-mono text-[11.5px] font-bold px-2.5 py-1 rounded-md border shadow-sm ${styleClasses}`}>
+          {sum.toFixed(2)}
+        </span>
+      </div>
+    );
+  };
+
   if (!data || loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-800">
@@ -446,21 +473,25 @@ export default function CPRScannerPage() {
             <table className="w-full text-center border-separate" style={{ borderSpacing: "0 8px" }}>
               <thead>
                 <tr className="text-xs uppercase tracking-widest font-extrabold text-gray-500">
-                  <th className="pb-2 w-1/4">Yesterday CPR</th>
-                  <th className="pb-2 w-[10%] text-gray-800">LTP</th>
-                  <th className="pb-2 w-[15%] text-green-600">CE Touches</th>
+                  <th className="pb-2 w-[15%]">Yesterday CPR</th>
+                  <th className="pb-2 w-[8%] text-gray-700">TC+BC</th>
+                  <th className="pb-2 w-[9%] text-gray-800">LTP</th>
+                  <th className="pb-2 w-[13%] text-green-600">CE Touches</th>
                   <th className="pb-2 w-[10%] text-gray-400">Strike / Spot</th>
-                  <th className="pb-2 w-[15%] text-red-600">PE Touches</th>
-                  <th className="pb-2 w-[10%] text-gray-800">LTP</th>
-                  <th className="pb-2 w-1/4">Yesterday CPR</th>
+                  <th className="pb-2 w-[13%] text-red-600">PE Touches</th>
+                  <th className="pb-2 w-[9%] text-gray-800">LTP</th>
+                  <th className="pb-2 w-[8%] text-gray-700">TC+BC</th>
+                  <th className="pb-2 w-[15%]">Yesterday CPR</th>
                 </tr>
               </thead>
               <tbody>
                 {tableItems.map((item, index) => {
                   if (item.type === "SPOT") {
+                    const spotSum = getTcBcSumValue(data.spotData?.cpr);
                     return (
                       <tr key={`spot-${index}`} className="bg-blue-50/60 shadow-sm relative z-20 transition-all">
                         <td className="py-4 px-2 rounded-l-xl border-y border-l border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
+                        <td className="py-4 px-2 border-y border-blue-200">{renderTcBcBadge(spotSum, "default")}</td>
                         <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
                         <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
                         <td className="py-4 px-2 relative border-y border-blue-200 bg-blue-100/30">
@@ -471,6 +502,7 @@ export default function CPRScannerPage() {
                         </td>
                         <td className="py-4 px-2 border-y border-blue-200 bg-blue-100/30"><TouchBadge touches={data.spotData?.touches} /></td>
                         <td className="py-4 px-2 border-y border-blue-200"><span className="text-[17px] font-black text-blue-700">{data.spotData?.ltp || data.spot}</span></td>
+                        <td className="py-4 px-2 border-y border-blue-200">{renderTcBcBadge(spotSum, "default")}</td>
                         <td className="py-4 px-2 rounded-r-xl border-y border-r border-blue-200"><CPRDisplay cpr={data.spotData?.cpr} /></td>
                       </tr>
                     );
@@ -479,9 +511,32 @@ export default function CPRScannerPage() {
                   const row = item.data;
                   const isAtm = row.strike === atmStrike;
 
+                  // Get numerical values to compare
+                  const ceSum = getTcBcSumValue(row.CE?.cpr);
+                  const peSum = getTcBcSumValue(row.PE?.cpr);
+
+                  let ceColor = "default";
+                  let peColor = "default";
+
+                  // Assign colors based on which side is higher
+                  if (ceSum !== null && peSum !== null) {
+                    if (ceSum > peSum) {
+                      ceColor = "green";
+                      peColor = "red";
+                    } else if (peSum > ceSum) {
+                      peColor = "green";
+                      ceColor = "red";
+                    }
+                  }
+
                   return (
                     <tr key={row.strike} className={`group transition-all duration-300 shadow-sm ${isAtm ? "bg-yellow-50 relative z-10" : "bg-white hover:bg-gray-50"}`}>
                       <td className={`py-4 px-2 rounded-l-xl border-y border-l ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><CPRDisplay cpr={row.CE?.cpr} /></td>
+                      
+                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>
+                        {renderTcBcBadge(ceSum, ceColor)}
+                      </td>
+                      
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><span className={`text-[17px] font-black ${isAtm ? "text-green-700" : "text-green-600"}`}>{row.CE?.ltp || "-"}</span></td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 bg-green-50/30 group-hover:border-gray-300"}`}><TouchBadge touches={row.CE?.touches} /></td>
                       <td className={`py-4 px-2 relative border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 group-hover:border-gray-300"}`}>
@@ -492,6 +547,11 @@ export default function CPRScannerPage() {
                       </td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300 bg-yellow-100/30" : "border-gray-200 bg-red-50/30 group-hover:border-gray-300"}`}><TouchBadge touches={row.PE?.touches} /></td>
                       <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><span className={`text-[17px] font-black ${isAtm ? "text-red-700" : "text-red-600"}`}>{row.PE?.ltp || "-"}</span></td>
+                      
+                      <td className={`py-4 px-2 border-y ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}>
+                        {renderTcBcBadge(peSum, peColor)}
+                      </td>
+                      
                       <td className={`py-4 px-2 rounded-r-xl border-y border-r ${isAtm ? "border-yellow-300" : "border-gray-200 group-hover:border-gray-300"}`}><CPRDisplay cpr={row.PE?.cpr} /></td>
                     </tr>
                   );

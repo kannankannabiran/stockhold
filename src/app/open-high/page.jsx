@@ -35,9 +35,15 @@ function fmtPts(strike, spot) {
   return diff > 0 ? `+${diff}` : `${diff}`;
 }
 
+function cellStyle(status, side) {
+  if (status === "OPEN_HIGH") return styles.matchCellGreen;
+  if (status === "RETEST") return styles.matchCellBlue;
+  return side === "CE" ? null : null;
+}
+
 function badgeInfo(status, broke) {
-  if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeBlue };
-  if (status === "RETEST") return { label: "Hit", style: styles.badgeGreen };
+  if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeGreen };
+  if (status === "RETEST") return { label: "Hit", style: styles.badgeBlue };
   if (broke) return { label: "Pending", style: styles.badgeAmber };
   return { label: "—", style: styles.badgeMuted };
 }
@@ -135,7 +141,6 @@ export default function OpenHighPage() {
     load();
 
     if (!isToday || weekendSelected) return;
-
     const id = setInterval(load, REFRESH_MS);
     return () => clearInterval(id);
   }, [index, date, load, isToday, weekendSelected]);
@@ -146,12 +151,10 @@ export default function OpenHighPage() {
 
   const handleDateChange = (e) => {
     const picked = e.target.value;
-
     if (isWeekend(picked)) {
       setDateWarning("Markets are closed on weekends — pick a weekday.");
       return;
     }
-
     setDateWarning(null);
     setDate(picked);
     setExpiry(null);
@@ -170,8 +173,7 @@ export default function OpenHighPage() {
     );
   }, [data, matchedRows]);
 
-  const openHighCount = matchedRows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH").length;
-
+  const hitCount = matchedRows.length;
   const isLikelyHoliday = !loading && !weekendSelected && data && data.rows.length === 0;
 
   return (
@@ -181,7 +183,7 @@ export default function OpenHighPage() {
           <h1 style={styles.title}>
             Open <span style={styles.titleAccent}>= High</span>
           </h1>
-          <p style={styles.subtitle}>Only strikes where Open = High matched are shown.</p>
+          <p style={styles.subtitle}>Only Open = High matched strikes are shown. First hit time stays saved.</p>
         </div>
 
         <div style={styles.controls}>
@@ -226,13 +228,10 @@ export default function OpenHighPage() {
       </div>
 
       {dateWarning && <div style={styles.warningBanner}>{dateWarning}</div>}
-
       {!isToday && !weekendSelected && (
         <div style={styles.historicalBanner}>Viewing history for {date} — read-only, no live polling.</div>
       )}
-
       {weekendSelected && <div style={styles.holidayBanner}>{date} is a weekend — markets are closed, no data to show.</div>}
-
       {isLikelyHoliday && <div style={styles.holidayBanner}>No data recorded for {date} — likely a market holiday.</div>}
 
       {!weekendSelected && (
@@ -245,16 +244,11 @@ export default function OpenHighPage() {
           )}
           <div style={styles.statChip}>
             <span style={styles.statLabel}>MATCHED</span>
-            <span style={{ ...styles.statValue, color: "#2563eb" }}>{openHighCount}</span>
+            <span style={{ ...styles.statValue, color: "#16a34a" }}>{hitCount}</span>
           </div>
           <div style={styles.statChip}>
             <span style={styles.statLabel}>EXPIRY</span>
             <span style={styles.statValue}>{data?.expiry || "—"}</span>
-          </div>
-          <div style={styles.legend}>
-            <span style={styles.legendItem}>
-              <i style={{ ...styles.swatch, background: "#2563eb" }} /> Open=High
-            </span>
           </div>
           {data?.updatedAt && isToday && (
             <div style={styles.liveDot}>
@@ -300,13 +294,14 @@ export default function OpenHighPage() {
             <tbody>
               {matchedRows.map((r) => {
                 const isAtm = r.strike === atmStrike;
-
+                const ceStyle = cellStyle(r.CE_status, "CE");
+                const peStyle = cellStyle(r.PE_status, "PE");
                 return (
                   <tr key={r.strike}>
-                    <td style={styles.cell}>{fmt(r.CE_open)}</td>
-                    <td style={styles.cell}>{fmt(r.CE_high)}</td>
-                    <td style={styles.cell}>{fmt(r.CE_low)}</td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell }}>{fmt(r.CE_ltp)}</td>
+                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_open)}</td>
+                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
+                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_low)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell, ...ceStyle }}>{fmt(r.CE_ltp)}</td>
                     <td style={styles.cellCenter}>
                       <Badge status={r.CE_status} broke={r.CE_broke} />
                     </td>
@@ -322,10 +317,10 @@ export default function OpenHighPage() {
                     <td style={styles.cellCenter}>
                       <Badge status={r.PE_status} broke={r.PE_broke} />
                     </td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell }}>{fmt(r.PE_ltp)}</td>
-                    <td style={styles.cell}>{fmt(r.PE_low)}</td>
-                    <td style={styles.cell}>{fmt(r.PE_high)}</td>
-                    <td style={styles.cell}>{fmt(r.PE_open)}</td>
+                    <td style={{ ...styles.cell, ...styles.ltpCell, ...peStyle }}>{fmt(r.PE_ltp)}</td>
+                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_low)}</td>
+                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_high)}</td>
+                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_open)}</td>
                   </tr>
                 );
               })}
@@ -349,7 +344,7 @@ const styles = {
   page: { minHeight: "100vh", background: "#f7f8fa", color: "#1a1d23", fontFamily: "'Inter', system-ui, sans-serif", padding: "28px 32px" },
   header: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 20 },
   title: { fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: -0.5, color: "#111318" },
-  titleAccent: { color: "#2563eb" },
+  titleAccent: { color: "#16a34a" },
   subtitle: { margin: "4px 0 0", color: "#6b7280", fontSize: 13 },
   controls: { display: "flex", gap: 10, alignItems: "center" },
   select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
@@ -360,9 +355,6 @@ const styles = {
   statChip: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10, padding: "8px 14px", display: "flex", flexDirection: "column", gap: 2, minWidth: 90, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" },
   statLabel: { fontSize: 10, letterSpacing: 1, color: "#9ca3af" },
   statValue: { fontSize: 16, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "#111318" },
-  legend: { display: "flex", gap: 14, marginLeft: 8, flexWrap: "wrap" },
-  legendItem: { display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#6b7280" },
-  swatch: { width: 10, height: 10, borderRadius: 3, display: "inline-block" },
   liveDot: { marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#6b7280" },
   pulseDot: { width: 8, height: 8, borderRadius: "50%", background: "#16a34a" },
   errorBox: { background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontSize: 13 },
@@ -378,10 +370,12 @@ const styles = {
   cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #f1f2f4", color: "#374151" },
   cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4" },
   ltpCell: { fontWeight: 600 },
+  matchCellGreen: { background: "rgba(22, 163, 74, 0.18)", color: "#166534", fontWeight: 700 },
+  matchCellBlue: { background: "rgba(37, 99, 235, 0.15)", color: "#1d4ed8", fontWeight: 700 },
   badge: { display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999, fontSize: 10.5, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4 },
   badgeDot: { width: 6, height: 6, borderRadius: "50%" },
-  badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },
   badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },
+  badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },
   badgeAmber: { background: "#fef3c7", color: "#b45309", dotColor: "#d97706" },
   badgeMuted: { background: "transparent", color: "#c1c5cc", fontWeight: 600 },
   timeChip: { display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 8px", borderRadius: 999, background: "#f3f4f6", border: "1px solid #e5e7eb", color: "#6b7280", fontSize: 10.5, fontWeight: 600, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2 },

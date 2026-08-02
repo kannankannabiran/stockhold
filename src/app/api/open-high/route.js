@@ -8,6 +8,10 @@ import {
   getHistoricalOpenHighData,
 } from "../../../lib/openHighCore";
 
+function onlyMatchedRows(rows) {
+  return rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH");
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const requestedExpiry = searchParams.get("expiry");
@@ -27,10 +31,7 @@ export async function GET(request) {
 
   if (isHistorical) {
     const { expiry, expiries, spot, rows } = getHistoricalOpenHighData(indexKey, requestedDate, requestedExpiry);
-
-    const matchedRows = rows.filter(
-      (r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH"
-    );
+    const matchedRows = onlyMatchedRows(rows);
 
     return NextResponse.json({
       index: indexKey,
@@ -55,10 +56,7 @@ export async function GET(request) {
   try {
     const kc = newClient(accessToken);
     const { expiry, expiries, spot, rows, date } = await fetchLiveOpenHighData(kc, indexKey, requestedExpiry);
-
-    const matchedRows = rows.filter(
-      (r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH"
-    );
+    const matchedRows = onlyMatchedRows(rows);
 
     return NextResponse.json({
       index: indexKey,

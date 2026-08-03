@@ -249,12 +249,6 @@ export default function Navbar() {
                         </div>
                         <div
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleNavigate("/stocklist")}
-                        >
-                          Portfolio Tracker
-                        </div>
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                           onClick={() => handleNavigate("/backtest")}
                         >
                           Back Test
@@ -317,6 +311,12 @@ export default function Navbar() {
                   >
                     Selling Scanner
                   </div>
+                   <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleNavigate("/portfolio-tracker")}
+                    >
+                      Portfolio Tracker
+                    </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleNavigate("/trading")}
@@ -435,9 +435,6 @@ export default function Navbar() {
                       <div onClick={() => handleNavigate("/longterm")}>
                         Scan
                       </div>
-                      <div onClick={() => handleNavigate("/stocklist")}>
-                        Portfolio Tracker
-                      </div>
                       <div onClick={() => handleNavigate("/backtest")}>
                         Back Test
                       </div>
@@ -473,6 +470,9 @@ export default function Navbar() {
                 </div>
                 <div onClick={() => handleNavigate("/selling-scanner")}>
                   Selling Scanner
+                </div>
+                <div onClick={() => handleNavigate("/portfolio-tracker")}>
+                  Portfolio Tracker
                 </div>
                 <div onClick={() => handleNavigate("/trading")}>
                   Traing

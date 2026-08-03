@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useVwapScanContext } from "../hooks/page";
+import React, { useState } from "react";
+import { useVwapScanContext } from "../hooks/page"; // Ensure this path is correct for your project
 import { FaChartLine, FaExternalLinkAlt, FaFileExcel, FaFileCsv } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 export default function SwingScanner() {
   const { results, loading, scanning, handleScan, cancelScan } = useVwapScanContext();
-  const [addedSymbols, setAddedSymbols] = useState(new Set());
   const [includeOld, setIncludeOld] = useState(false);
 
   const today = new Date();
@@ -24,23 +23,6 @@ export default function SwingScanner() {
     })
     .sort((a, b) => new Date(b.condition_date) - new Date(a.condition_date));
 
-  // Function to load and sync added symbols from localStorage
-  const loadAddedSymbols = useCallback(() => {
-    const savedList = JSON.parse(localStorage.getItem("stockList") || "[]");
-    const symbols = new Set(savedList.map((item) => item.symbol.replace(".NS", "")));
-    setAddedSymbols(symbols);
-  }, []);
-
-  // Load added symbols on mount and whenever the window gains focus (navigating back to the page)
-  useEffect(() => {
-    loadAddedSymbols();
-
-    window.addEventListener("focus", loadAddedSymbols);
-    return () => {
-      window.removeEventListener("focus", loadAddedSymbols);
-    };
-  }, [loadAddedSymbols]);
-
   const groupByMonth = (data) => {
     const groups = {};
     data.forEach((item) => {
@@ -53,36 +35,6 @@ export default function SwingScanner() {
   };
 
   const groupedResults = groupByMonth(filteredResults);
-
-  const handleAddStock = async (stock) => {
-    const cleanSymbol = stock.symbol.replace(".NS", "");
-    try {
-      const res = await fetch("/api/get-ltps", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ symbols: [cleanSymbol] }),
-      });
-      const ltpData = await res.json();
-      const ltp = ltpData[cleanSymbol];
-      if (!ltp || isNaN(ltp)) return alert(`Failed to fetch LTP for ${cleanSymbol}`);
-
-      const item = { symbol: cleanSymbol, date: today.toISOString().slice(0, 10), addPrice: ltp };
-      const existing = JSON.parse(localStorage.getItem("stockList") || "[]");
-      
-      if (existing.some((e) => e.symbol.replace(".NS", "") === cleanSymbol)) {
-        loadAddedSymbols(); // Ensure state is aligned
-        return alert(`${cleanSymbol} already added.`);
-      }
-
-      const updated = [...existing, item];
-      localStorage.setItem("stockList", JSON.stringify(updated));
-      
-      // Immediately update state
-      setAddedSymbols((prev) => new Set([...prev, cleanSymbol]));
-    } catch (error) {
-      alert("Error fetching LTP.");
-    }
-  };
 
   const handleOpenInTradingView = (symbol) => {
     const tvSymbol = symbol.replace(".NS", "");
@@ -205,11 +157,12 @@ export default function SwingScanner() {
           <FaFileCsv className="mr-2" /> CSV
         </button>
 
-        <label className="flex items-center space-x-2 text-sm text-gray-700">
+        <label className="flex items-center space-x-2 text-sm text-gray-700 cursor-pointer">
           <input
             type="checkbox"
             checked={includeOld}
             onChange={() => setIncludeOld((prev) => !prev)}
+            className="cursor-pointer"
           />
           <span>Include Previous Data</span>
         </label>
@@ -228,14 +181,12 @@ export default function SwingScanner() {
                     <th className="px-4 py-2">Signal (₹)</th>
                     <th className="px-4 py-2">Signal Date</th>
                     <th className="px-4 py-2">Trend</th>
-                    <th className="px-4 py-2">Add</th>
                     <th className="px-4 py-2">Chart</th>
                   </tr>
                 </thead>
                 <tbody>
                   {stocks.map((stock, index) => {
                     const cleanSymbol = stock.symbol.replace(".NS", "");
-                    const alreadyAdded = addedSymbols.has(cleanSymbol);
                     const isRise = stock.trend === "rise";
                     return (
                       <tr key={`${month}-${index}`} className={isRise ? "bg-green-50" : "bg-red-50"}>
@@ -249,19 +200,6 @@ export default function SwingScanner() {
                           ) : (
                             <span className="text-red-700">↓ Declining</span>
                           )}
-                        </td>
-                        <td className="px-4 py-2">
-                          <button
-                            onClick={() => handleAddStock(stock)}
-                            disabled={alreadyAdded}
-                            className={`px-3 py-1 rounded text-white ${
-                              alreadyAdded
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-                            }`}
-                          >
-                            {alreadyAdded ? "✅ Added" : "➕ Add"}
-                          </button>
                         </td>
                         <td className="px-4 py-2">
                           <button

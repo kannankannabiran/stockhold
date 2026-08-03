@@ -15,26 +15,26 @@ export default function StockList() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [symbolInput, setSymbolInput] = useState("");
   const [addPriceInput, setAddPriceInput] = useState("");
-  const [investmentInput, setInvestmentInput] = useState("");
+  const [qtyInput, setQtyInput] = useState(""); 
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   
+  // LTP Preview states
+  const [previewLtp, setPreviewLtp] = useState(null);
+  const [fetchingPreview, setFetchingPreview] = useState(false);
+
   const suggestionRef = useRef(null);
 
-  // Helper to remove .NS for clean display
+  // Helper for clean display
   const cleanSymbol = (sym) => {
     if (!sym) return "";
     return sym.replace(/\.NS$/i, "").trim().toUpperCase();
   };
 
-  // Helper to ensure symbol has .NS for backend API calls
+  // For Kite backend communication
   const formatBackendSymbol = (sym) => {
     if (!sym) return "";
-    let formatted = sym.trim().toUpperCase();
-    if (!formatted.endsWith(".NS")) {
-      formatted += ".NS";
-    }
-    return formatted;
+    return sym.replace(/\.NS$/i, "").trim().toUpperCase();
   };
 
   function generateUUID() {
@@ -47,14 +47,12 @@ export default function StockList() {
 
   useEffect(() => {
     let browserId = localStorage.getItem("browserId");
-
     if (!browserId) {
       browserId = generateUUID();
       localStorage.setItem("browserId", browserId);
     }
   }, []);
 
-  // Handle clicking outside suggestions dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
@@ -71,13 +69,8 @@ export default function StockList() {
     try {
       await fetch("/api/save-scan-data-stock-list", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          browserId: getBrowserId(),
-          stockList: list,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ browserId: getBrowserId(), stockList: list }),
       });
     } catch (error) {
       console.error("Failed to sync stock list:", error);
@@ -86,75 +79,48 @@ export default function StockList() {
 
   const normalizeStocks = (list) =>
     Array.isArray(list)
-      ? list.map((stock) => ({
-          ...stock,
-          symbol: formatBackendSymbol(stock.symbol), // Ensure stored symbol has .NS for backend lookup
-          enabled: stock.enabled !== false,
-        }))
+      ? list.map((stock) => {
+          let qty = stock.qty;
+          if (qty === undefined && stock.investment !== undefined && stock.addPrice > 0) {
+            qty = stock.investment / stock.addPrice;
+          }
+          return {
+            ...stock,
+            qty: Number(qty) || 0,
+            symbol: formatBackendSymbol(stock.symbol),
+            enabled: stock.enabled !== false,
+          };
+        })
       : [];
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("stockList") || "[]");
-    const normalized = normalizeStocks(saved);
+  const fetchLTPs = useCallback(async (listToFetch = stocks) => {
+    if (listToFetch.length === 0) return;
 
-    setStocks(normalized);
-    localStorage.setItem("stockList", JSON.stringify(normalized));
-    syncStockListToServer(normalized);
-
-    const cachedLtps = JSON.parse(localStorage.getItem("ltpCache") || "{}");
-    const normalizedCache = {};
-    Object.keys(cachedLtps).forEach((k) => {
-      normalizedCache[k] = cachedLtps[k];
-      normalizedCache[cleanSymbol(k)] = cachedLtps[k];
-    });
-    setLtps(normalizedCache);
-  }, [syncStockListToServer]);
-
-  useEffect(() => {
-    if (stocks.length === 0) {
-      fetch(`/api/load-scan-data-stock-list?browserId=${getBrowserId()}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.stockList?.length) {
-            const normalized = normalizeStocks(data.stockList);
-            localStorage.setItem("stockList", JSON.stringify(normalized));
-            setStocks(normalized);
-            syncStockListToServer(normalized);
-          }
-        })
-        .catch(console.error);
-    }
-  }, [stocks, syncStockListToServer]);
-
-  const fetchLTPs = useCallback(async () => {
-    if (stocks.length === 0) return;
-
-    const enabledStocks = stocks.filter((stock) => stock.enabled !== false);
+    const enabledStocks = listToFetch.filter((stock) => stock.enabled !== false);
     if (enabledStocks.length === 0) return;
 
     setLoadingLtp(true);
 
     try {
-      // Send symbols with .NS to backend API
-      const symbolsToSend = enabledStocks.map((stock) => formatBackendSymbol(stock.symbol));
+      // Deduplicate symbols to save network payload
+      const uniqueSymbols = [...new Set(enabledStocks.map((stock) => formatBackendSymbol(stock.symbol)))];
 
       const res = await fetch("/api/get-ltps", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ symbols: symbolsToSend }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symbols: uniqueSymbols }),
       });
 
       const updatedLtps = await res.json();
-
-      // Store LTPs mapped by both full symbol and clean symbol for bulletproof lookup
       const mappedLtps = {};
+      
       if (updatedLtps && typeof updatedLtps === "object") {
         Object.keys(updatedLtps).forEach((k) => {
-          mappedLtps[k] = updatedLtps[k];
-          mappedLtps[cleanSymbol(k)] = updatedLtps[k];
-          mappedLtps[formatBackendSymbol(k)] = updatedLtps[k];
+          const num = Number(updatedLtps[k]);
+          if (!isNaN(num)) {
+            mappedLtps[k] = num;
+            mappedLtps[cleanSymbol(k)] = num;
+          }
         });
       }
 
@@ -170,23 +136,76 @@ export default function StockList() {
     setLoadingLtp(false);
   }, [stocks]);
 
-  useEffect(() => {
-    if (stocks.length > 0) {
-      fetchLTPs();
+  const fetchPreviewLtp = async (sym) => {
+    setFetchingPreview(true);
+    try {
+      const formatted = formatBackendSymbol(sym);
+      const res = await fetch("/api/get-ltps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symbols: [formatted] }),
+      });
+
+      const data = await res.json();
+      const ltp = data[formatted] || data[cleanSymbol(formatted)];
+      
+      if (ltp && !isNaN(Number(ltp))) {
+        setPreviewLtp(Number(ltp));
+        setAddPriceInput(Number(ltp)); 
+      } else {
+        setPreviewLtp(null);
+      }
+    } catch (e) {
+      console.error("Error fetching preview LTP:", e);
+      setPreviewLtp(null);
     }
-  }, [stocks, fetchLTPs]);
+    setFetchingPreview(false);
+  };
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("stockList") || "[]");
+    const normalized = normalizeStocks(saved);
+
+    const cachedLtps = JSON.parse(localStorage.getItem("ltpCache") || "{}");
+    const normalizedCache = {};
+    Object.keys(cachedLtps).forEach((k) => {
+      normalizedCache[k] = cachedLtps[k];
+      normalizedCache[cleanSymbol(k)] = cachedLtps[k];
+    });
+    setLtps(normalizedCache);
+
+    if (normalized.length > 0) {
+      setStocks(normalized);
+      syncStockListToServer(normalized);
+      fetchLTPs(normalized);
+    } else {
+      fetch(`/api/load-scan-data-stock-list?browserId=${getBrowserId()}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.stockList?.length) {
+            const normalizedServer = normalizeStocks(data.stockList);
+            localStorage.setItem("stockList", JSON.stringify(normalizedServer));
+            setStocks(normalizedServer);
+            syncStockListToServer(normalizedServer);
+            fetchLTPs(normalizedServer);
+          }
+        })
+        .catch(console.error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchLTPs();
+      fetchLTPs(stocks);
     }, 60000);
-
     return () => clearInterval(interval);
-  }, [fetchLTPs]);
+  }, [stocks, fetchLTPs]);
 
   const handleSymbolChange = (e) => {
     const value = e.target.value.toUpperCase();
     setSymbolInput(value);
+    setPreviewLtp(null);
 
     if (value.trim().length > 0) {
       const filtered = stocklist.filter((item) =>
@@ -202,8 +221,10 @@ export default function StockList() {
   };
 
   const handleSelectSuggestion = (item) => {
-    setSymbolInput(cleanSymbol(item.value));
+    const sym = cleanSymbol(item.value);
+    setSymbolInput(sym);
     setShowSuggestions(false);
+    fetchPreviewLtp(sym); 
   };
 
   const handleAddStock = (e) => {
@@ -214,9 +235,9 @@ export default function StockList() {
 
     const newStock = {
       date: currentDate,
-      symbol: formatBackendSymbol(symbolInput), // Ensures .NS is automatically added for backend API/LTP fetching
+      symbol: formatBackendSymbol(symbolInput), 
       addPrice: Number(addPriceInput) || 0,
-      investment: Number(investmentInput) || 0,
+      qty: Number(qtyInput) || 0,
       enabled: true,
     };
 
@@ -225,23 +246,23 @@ export default function StockList() {
     localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
 
-    // Reset Form Fields
+    fetchLTPs(updated);
+
     setSymbolInput("");
     setAddPriceInput("");
-    setInvestmentInput("");
+    setQtyInput("");
+    setPreviewLtp(null);
     setShowAddForm(false);
     setShowSuggestions(false);
   };
 
-  const updateInvestment = (index, value) => {
+  const updateQty = (index, value) => {
     const updated = [...stocks];
-
     updated[index] = {
       ...updated[index],
-      investment: Number(value) || 0,
+      qty: Number(value) || 0,
       enabled: updated[index].enabled !== false,
     };
-
     setStocks(updated);
     localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
@@ -250,7 +271,6 @@ export default function StockList() {
   const deleteStock = (index) => {
     const updated = [...stocks];
     updated.splice(index, 1);
-
     setStocks(updated);
     localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
@@ -258,16 +278,66 @@ export default function StockList() {
 
   const toggleEnabled = (index, checked) => {
     const updated = [...stocks];
-
     updated[index] = {
       ...updated[index],
       enabled: checked,
     };
-
     setStocks(updated);
     localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
   };
+
+  const toggleGroupEnabled = (symbolToToggle, checked) => {
+    const updated = stocks.map(stock => {
+      if (cleanSymbol(stock.symbol) === symbolToToggle) {
+        return { ...stock, enabled: checked };
+      }
+      return stock;
+    });
+    setStocks(updated);
+    localStorage.setItem("stockList", JSON.stringify(updated));
+    syncStockListToServer(updated);
+  };
+
+  const deleteGroup = (symbolToDelete) => {
+    if (!confirm(`Are you sure you want to delete all lots for ${symbolToDelete}?`)) return;
+    const updated = stocks.filter(stock => cleanSymbol(stock.symbol) !== symbolToDelete);
+    setStocks(updated);
+    localStorage.setItem("stockList", JSON.stringify(updated));
+    syncStockListToServer(updated);
+  };
+
+  // --- Core Grouping Logic for the Table ---
+  const groupedStocks = {};
+  stocks.forEach((stock, index) => {
+    const sym = cleanSymbol(stock.symbol);
+    if (!groupedStocks[sym]) {
+      groupedStocks[sym] = {
+        symbol: stock.symbol,
+        cleanSym: sym,
+        lots: [],
+        totalQty: 0,
+        totalInvestment: 0,
+      };
+    }
+    
+    const isEnabled = stock.enabled !== false;
+    const qty = Number(stock.qty) || 0;
+    const addPrice = Number(stock.addPrice) || 0;
+
+    groupedStocks[sym].lots.push({ ...stock, originalIndex: index, isEnabled });
+    
+    if (isEnabled) {
+      groupedStocks[sym].totalQty += qty;
+      groupedStocks[sym].totalInvestment += (qty * addPrice);
+    }
+  });
+
+  Object.values(groupedStocks).forEach(group => {
+    group.avgPrice = group.totalQty > 0 ? group.totalInvestment / group.totalQty : 0;
+    group.isGroupEnabled = group.lots.some(lot => lot.isEnabled);
+  });
+  // -----------------------------------------
 
   const portfolioSummary = stocks.reduce(
     (acc, stock) => {
@@ -277,9 +347,9 @@ export default function StockList() {
       const validLtp = typeof ltp === "number" && !isNaN(ltp);
 
       const addPrice = Number(stock.addPrice) || 0;
-      const investment = Number(stock.investment) || 0;
-
-      const qty = addPrice > 0 ? investment / addPrice : 0;
+      const qty = Number(stock.qty) || 0;
+      
+      const investment = qty * addPrice;
       const currentValue = validLtp ? qty * ltp : 0;
       const profitLoss = currentValue - investment;
 
@@ -298,11 +368,7 @@ export default function StockList() {
 
   const totalReturnPercent =
     portfolioSummary.totalInvestment > 0
-      ? (
-          (portfolioSummary.totalProfitLoss /
-            portfolioSummary.totalInvestment) *
-          100
-        ).toFixed(2)
+      ? ((portfolioSummary.totalProfitLoss / portfolioSummary.totalInvestment) * 100).toFixed(2)
       : "0.00";
 
   if (loading) return (
@@ -336,7 +402,7 @@ export default function StockList() {
             </button>
 
             <button
-              onClick={fetchLTPs}
+              onClick={() => fetchLTPs(stocks)}
               disabled={loadingLtp}
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2.5 px-5 rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
@@ -346,17 +412,30 @@ export default function StockList() {
           </div>
         </div>
 
-        {/* Manual Add Form Drawer with Autocomplete */}
+        {/* Manual Add Form Drawer */}
         {showAddForm && (
           <form onSubmit={handleAddStock} className="bg-white p-6 rounded-xl shadow-sm border border-emerald-100 grid grid-cols-1 sm:grid-cols-4 gap-4 items-end animate-fadeIn w-full">
             <div className="relative" ref={suggestionRef}>
-              <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Symbol</label>
+              <div className="flex justify-between items-end mb-1">
+                <label className="block text-xs font-semibold text-gray-700 uppercase">Symbol</label>
+                {fetchingPreview && <span className="text-xs font-semibold text-blue-500 animate-pulse">Fetching LTP...</span>}
+                {!fetchingPreview && previewLtp !== null && (
+                  <span className="text-xs font-bold text-emerald-600">LTP: ₹{previewLtp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                )}
+              </div>
               <input
                 type="text"
                 required
                 placeholder="e.g. RELIANCE"
                 value={symbolInput}
                 onChange={handleSymbolChange}
+                onBlur={() => {
+                  setTimeout(() => {
+                    if (symbolInput.trim() && !showSuggestions && !previewLtp) {
+                      fetchPreviewLtp(symbolInput);
+                    }
+                  }, 200);
+                }}
                 onFocus={() => {
                   if (symbolInput.trim().length > 0) setShowSuggestions(true);
                 }}
@@ -380,7 +459,7 @@ export default function StockList() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Add Price (₹)</label>
+              <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Buy Price (₹)</label>
               <input
                 type="number"
                 step="any"
@@ -393,14 +472,14 @@ export default function StockList() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Investment (₹)</label>
+              <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Quantity</label>
               <input
                 type="number"
                 step="any"
                 min="0"
-                placeholder="0.00"
-                value={investmentInput}
-                onChange={(e) => setInvestmentInput(e.target.value)}
+                placeholder="0"
+                value={qtyInput}
+                onChange={(e) => setQtyInput(e.target.value)}
                 className="w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-emerald-600 text-sm"
               />
             </div>
@@ -470,7 +549,7 @@ export default function StockList() {
               <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
-                    {["Date", "Symbol", "Status", "LTP (₹)", "Avg Price", "Change", "Investment", "Current Value", "P&L", ""].map((header, i) => (
+                    {["Date", "Symbol", "Status", "LTP (₹)", "Buy / Avg Price", "Change", "Qty", "Current Value", "P&L", ""].map((header, i) => (
                       <th key={i} className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                         {header}
                       </th>
@@ -478,88 +557,134 @@ export default function StockList() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {stocks.map((stock, index) => {
-                    const ltp = ltps[stock.symbol] !== undefined ? ltps[stock.symbol] : ltps[cleanSymbol(stock.symbol)];
+                  {Object.values(groupedStocks).map((group) => {
+                    const ltp = ltps[group.symbol] !== undefined ? ltps[group.symbol] : ltps[group.cleanSym];
                     const validLtp = typeof ltp === "number" && !isNaN(ltp);
 
-                    const addPrice = Number(stock.addPrice) || 0;
-                    const investment = Number(stock.investment) || 0;
+                    // If it's just a single lot, render normal row
+                    if (group.lots.length === 1) {
+                      const lot = group.lots[0];
+                      const addPrice = Number(lot.addPrice) || 0;
+                      const qty = Number(lot.qty) || 0;
+                      const investment = qty * addPrice;
 
-                    const percent = validLtp && addPrice > 0
-                      ? (((ltp - addPrice) / addPrice) * 100).toFixed(2)
-                      : "0.00";
+                      const percent = validLtp && addPrice > 0 ? (((ltp - addPrice) / addPrice) * 100).toFixed(2) : "0.00";
+                      const currentValue = validLtp ? qty * ltp : 0;
+                      const profitLoss = currentValue - investment;
 
-                    const qty = addPrice > 0 ? investment / addPrice : 0;
-                    const currentValue = validLtp ? qty * ltp : 0;
-                    const profitLoss = currentValue - investment;
-                    const isEnabled = stock.enabled !== false;
+                      return (
+                        <tr key={lot.originalIndex} className={`transition-colors hover:bg-gray-50 ${!lot.isEnabled ? 'opacity-60 bg-gray-50/50' : ''}`}>
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-500">{lot.date}</td>
+                          <td className="px-6 py-4 whitespace-nowrap"><div className="font-bold text-gray-900">{group.cleanSym}</div></td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              type="button"
+                              onClick={() => toggleEnabled(lot.originalIndex, !lot.isEnabled)}
+                              className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${lot.isEnabled ? 'bg-blue-600' : 'bg-gray-200'}`}
+                            >
+                              <span aria-hidden="true" className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${lot.isEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
+                            </button>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{validLtp ? `₹${ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-600">₹{addPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-medium ${Number(percent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{Number(percent) > 0 ? "+" : ""}{percent}%</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="relative rounded-md shadow-sm max-w-[100px]">
+                              <input
+                                type="number" min="0" step="any"
+                                value={lot.qty !== undefined ? lot.qty : ""}
+                                onChange={(e) => updateQty(lot.originalIndex, e.target.value)}
+                                className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
+                                placeholder="0" disabled={!lot.isEnabled}
+                              />
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">₹{currentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${profitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{profitLoss >= 0 ? "+" : "-"}₹{Math.abs(profitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onClick={() => deleteStock(lot.originalIndex)} className="text-gray-400 hover:text-rose-600 transition-colors rounded p-1 hover:bg-rose-50"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                          </td>
+                        </tr>
+                      );
+                    }
+
+                    // --- If Multiple Lots, render Summary Row + Sub Rows ---
+                    const avgPrice = group.avgPrice;
+                    const groupPercent = validLtp && avgPrice > 0 ? (((ltp - avgPrice) / avgPrice) * 100).toFixed(2) : "0.00";
+                    const groupCurrentValue = validLtp ? group.totalQty * ltp : 0;
+                    const groupProfitLoss = groupCurrentValue - group.totalInvestment;
 
                     return (
-                      <tr 
-                        key={index} 
-                        className={`transition-colors hover:bg-gray-50 ${!isEnabled ? 'opacity-60 bg-gray-50/50' : ''}`}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                          {stock.date}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-bold text-gray-900">{cleanSymbol(stock.symbol)}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <button
-                            type="button"
-                            onClick={() => toggleEnabled(index, !isEnabled)}
-                            className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${isEnabled ? 'bg-blue-600' : 'bg-gray-200'}`}
-                            role="switch"
-                            aria-checked={isEnabled}
-                          >
-                            <span
-                              aria-hidden="true"
-                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isEnabled ? 'translate-x-4' : 'translate-x-0'}`}
-                            />
-                          </button>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
-                          {validLtp ? `₹${ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                          ₹{addPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                        </td>
-                        <td className={`px-6 py-4 whitespace-nowrap font-medium ${Number(percent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                          {Number(percent) > 0 ? "+" : ""}{percent}%
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="relative rounded-md shadow-sm max-w-[140px]">
-                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                              <span className="text-gray-500 sm:text-sm">₹</span>
-                            </div>
-                            <input
-                              type="number"
-                              min="0"
-                              value={stock.investment || ""}
-                              onChange={(e) => updateInvestment(index, e.target.value)}
-                              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
-                              placeholder="0.00"
-                              disabled={!isEnabled}
-                            />
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
-                          ₹{currentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                        </td>
-                        <td className={`px-6 py-4 whitespace-nowrap font-bold ${profitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                          {profitLoss >= 0 ? "+" : "-"}₹{Math.abs(profitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button
-                            onClick={() => deleteStock(index)}
-                            className="text-gray-400 hover:text-rose-600 transition-colors focus:outline-none rounded p-1 hover:bg-rose-50"
-                            title="Delete Stock"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                          </button>
-                        </td>
-                      </tr>
+                      <React.Fragment key={`group-${group.cleanSym}`}>
+                        {/* Summary Row */}
+                        <tr className={`bg-gray-100/50 border-t-2 border-gray-200 transition-colors ${!group.isGroupEnabled ? 'opacity-60 bg-gray-50/50' : ''}`}>
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-500 font-medium">Multiple Buys</td>
+                          <td className="px-6 py-4 whitespace-nowrap"><div className="font-bold text-gray-900 text-base">{group.cleanSym}</div></td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              type="button"
+                              onClick={() => toggleGroupEnabled(group.cleanSym, !group.isGroupEnabled)}
+                              className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${group.isGroupEnabled ? 'bg-blue-600' : 'bg-gray-200'}`}
+                            >
+                              <span aria-hidden="true" className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${group.isGroupEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
+                            </button>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">{validLtp ? `₹${ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-bold">Avg: ₹{avgPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${Number(groupPercent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{Number(groupPercent) > 0 ? "+" : ""}{groupPercent}%</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">{group.totalQty}</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">₹{groupCurrentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${groupProfitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{groupProfitLoss >= 0 ? "+" : "-"}₹{Math.abs(groupProfitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onClick={() => deleteGroup(group.cleanSym)} className="text-gray-400 hover:text-rose-600 transition-colors rounded p-1 hover:bg-rose-50" title="Delete All"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                          </td>
+                        </tr>
+                        
+                        {/* Individual Lot Rows */}
+                        {group.lots.map((lot, idx) => {
+                          const lotAddPrice = Number(lot.addPrice) || 0;
+                          const lotQty = Number(lot.qty) || 0;
+                          const lotInvestment = lotQty * lotAddPrice;
+                          const lotPercent = validLtp && lotAddPrice > 0 ? (((ltp - lotAddPrice) / lotAddPrice) * 100).toFixed(2) : "0.00";
+                          const lotCurrentValue = validLtp ? lotQty * ltp : 0;
+                          const lotProfitLoss = lotCurrentValue - lotInvestment;
+
+                          return (
+                            <tr key={lot.originalIndex} className={`bg-white transition-colors hover:bg-gray-50 ${!lot.isEnabled ? 'opacity-50 bg-gray-50' : ''}`}>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-400 pl-10 text-xs">↳ {lot.date}</td>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-400 text-xs font-medium">Lot {idx + 1}</td>
+                              <td className="px-6 py-3 whitespace-nowrap">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleEnabled(lot.originalIndex, !lot.isEnabled)}
+                                  className={`relative inline-flex h-4 w-7 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${lot.isEnabled ? 'bg-blue-400' : 'bg-gray-200'}`}
+                                >
+                                  <span aria-hidden="true" className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${lot.isEnabled ? 'translate-x-3' : 'translate-x-0'}`} />
+                                </button>
+                              </td>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-300">—</td>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-500 text-sm">₹{lotAddPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                              <td className={`px-6 py-3 whitespace-nowrap text-sm font-medium ${Number(lotPercent) >= 0 ? "text-emerald-500" : "text-rose-500"}`}>{Number(lotPercent) > 0 ? "+" : ""}{lotPercent}%</td>
+                              <td className="px-6 py-3 whitespace-nowrap">
+                                <div className="relative rounded-md shadow-sm max-w-[90px]">
+                                  <input
+                                    type="number" min="0" step="any"
+                                    value={lot.qty !== undefined ? lot.qty : ""}
+                                    onChange={(e) => updateQty(lot.originalIndex, e.target.value)}
+                                    className="block w-full rounded-md border-0 py-1 px-2 text-gray-700 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-blue-500 text-sm transition-shadow"
+                                    placeholder="0" disabled={!lot.isEnabled}
+                                  />
+                                </div>
+                              </td>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-500 text-sm">₹{lotCurrentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                              <td className={`px-6 py-3 whitespace-nowrap text-sm font-medium ${lotProfitLoss >= 0 ? "text-emerald-500" : "text-rose-500"}`}>{lotProfitLoss >= 0 ? "+" : "-"}₹{Math.abs(lotProfitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                              <td className="px-6 py-3 whitespace-nowrap text-right">
+                                <button onClick={() => deleteStock(lot.originalIndex)} className="text-gray-300 hover:text-rose-500 transition-colors rounded p-1 hover:bg-rose-50"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </React.Fragment>
                     );
                   })}
                 </tbody>

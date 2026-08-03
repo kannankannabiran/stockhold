@@ -361,7 +361,6 @@ export default function StockList() {
     }));
   };
 
-  // --- Sorting Handle ---
   const handleSort = (key) => {
     let direction = 'desc';
     if (sortConfig.key === key && sortConfig.direction === 'desc') {
@@ -370,7 +369,6 @@ export default function StockList() {
     setSortConfig({ key, direction });
   };
 
-  // --- Pre-process Groups for Sorting & Rendering ---
   const groupedStocks = {};
   stocks.forEach((stock, index) => {
     const sym = cleanSymbol(stock.symbol);
@@ -396,7 +394,6 @@ export default function StockList() {
     }
   });
 
-  // Calculate stats for each group so we can sort by them
   let processedGroups = Object.values(groupedStocks).map(group => {
     const ltp = ltps[group.symbol] !== undefined ? ltps[group.symbol] : ltps[group.cleanSym];
     const validLtp = typeof ltp === "number" && !isNaN(ltp);
@@ -419,20 +416,19 @@ export default function StockList() {
     };
   });
 
-  // Apply Search Filter
+  // Apply Search
   if (searchQuery.trim()) {
     processedGroups = processedGroups.filter(group => 
       group.cleanSym.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
-  // Apply Sorting
+  // Apply Sort
   if (sortConfig.key) {
     processedGroups.sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
       
-      // Handle string comparison for Symbol
       if (typeof aValue === 'string') {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
@@ -444,14 +440,11 @@ export default function StockList() {
     });
   }
 
-  // --- Portfolio Top Summary ---
   const portfolioSummary = stocks.reduce(
     (acc, stock) => {
       if (stock.enabled === false) return acc;
-
       const ltp = ltps[stock.symbol] !== undefined ? ltps[stock.symbol] : ltps[cleanSymbol(stock.symbol)];
       const validLtp = typeof ltp === "number" && !isNaN(ltp);
-
       const addPrice = Number(stock.addPrice) || 0;
       const qty = Number(stock.qty) || 0;
       
@@ -465,25 +458,89 @@ export default function StockList() {
 
       return acc;
     },
-    {
-      totalInvestment: 0,
-      totalCurrentValue: 0,
-      totalProfitLoss: 0,
-    }
+    { totalInvestment: 0, totalCurrentValue: 0, totalProfitLoss: 0 }
   );
 
-  const totalReturnPercent =
-    portfolioSummary.totalInvestment > 0
-      ? ((portfolioSummary.totalProfitLoss / portfolioSummary.totalInvestment) * 100).toFixed(2)
-      : "0.00";
+  const totalReturnPercent = portfolioSummary.totalInvestment > 0
+    ? ((portfolioSummary.totalProfitLoss / portfolioSummary.totalInvestment) * 100).toFixed(2)
+    : "0.00";
 
-  // Reusable Sort Header Component
+  // --- ✨ AI SMART INSIGHTS ENGINE ---
+  const generateAIInsights = () => {
+    if (processedGroups.length === 0 || portfolioSummary.totalInvestment === 0) return null;
+    
+    const insights = [];
+    
+    // 1. Top Performer
+    const bestStock = processedGroups.reduce((prev, curr) => (curr.groupPercent > prev.groupPercent) ? curr : prev, processedGroups[0]);
+    if (bestStock && bestStock.groupPercent > 5) {
+      insights.push({ 
+        icon: '🚀', 
+        color: 'text-emerald-600', 
+        bg: 'bg-emerald-50',
+        title: 'Star Performer', 
+        text: `Keep an eye on ${bestStock.cleanSym}! It is up ${bestStock.groupPercent.toFixed(2)}%, acting as a strong anchor for your returns.` 
+      });
+    }
+
+    // 2. Averaging Down Opportunity / Biggest Drag
+    const worstStock = processedGroups.reduce((prev, curr) => (curr.groupPercent < prev.groupPercent) ? curr : prev, processedGroups[0]);
+    if (worstStock && worstStock.groupPercent < -5) {
+      insights.push({ 
+        icon: '📉', 
+        color: 'text-rose-600', 
+        bg: 'bg-rose-50',
+        title: 'Averaging Opportunity', 
+        text: `${worstStock.cleanSym} is down ${Math.abs(worstStock.groupPercent).toFixed(2)}%. If you believe in its long-term fundamentals, this is a prime level to average down.` 
+      });
+    }
+
+    // 3. Concentration Risk Warning
+    const highestAllocation = processedGroups.reduce((prev, curr) => (curr.groupCurrentValue > prev.groupCurrentValue) ? curr : prev, processedGroups[0]);
+    const allocationPercent = (highestAllocation.groupCurrentValue / portfolioSummary.totalCurrentValue) * 100;
+    if (allocationPercent > 40) {
+      insights.push({ 
+        icon: '⚠️', 
+        color: 'text-amber-600', 
+        bg: 'bg-amber-50',
+        title: 'Concentration Risk', 
+        text: `Your portfolio is heavily skewed toward ${highestAllocation.cleanSym} (${allocationPercent.toFixed(1)}% of total value). Consider diversifying to manage risk.` 
+      });
+    }
+
+    if (insights.length === 0) return null;
+
+    return (
+      <div className="bg-white rounded-xl shadow-[0_0_30px_-10px_rgba(139,92,246,0.3)] border border-purple-100 overflow-hidden relative w-full animate-fadeIn mb-6">
+        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-violet-500 to-fuchsia-500"></div>
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl">✨</span>
+            <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-fuchsia-600">AI Portfolio Analysis</h3>
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-purple-100 text-purple-700 ml-2">Live</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {insights.map((insight, i) => (
+              <div key={i} className={`p-4 rounded-lg border border-gray-100 ${insight.bg}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">{insight.icon}</span>
+                  <h4 className={`font-bold text-sm ${insight.color}`}>{insight.title}</h4>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed font-medium">{insight.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const SortableHeader = ({ label, sortKey, align = "left" }) => {
     const isActive = sortConfig.key === sortKey;
     return (
       <th 
         onClick={() => handleSort(sortKey)}
-        className={`px-6 py-4 text-xs font-bold text-gray-600 uppercase tracking-wider whitespace-nowrap cursor-pointer hover:bg-gray-100 transition-colors select-none text-${align}`}
+        className={`px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap cursor-pointer hover:bg-gray-100 transition-colors select-none text-${align}`}
       >
         <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
           {label}
@@ -631,6 +688,9 @@ export default function StockList() {
           </form>
         )}
 
+        {/* AI INSIGHTS MODULE */}
+        {generateAIInsights()}
+
         {/* Summary Cards */}
         {stocks.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
@@ -697,8 +757,8 @@ export default function StockList() {
                   className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-shadow shadow-sm"
                 />
               </div>
-              <div className="text-sm text-gray-500">
-                {processedGroups.length} {processedGroups.length === 1 ? 'stock' : 'stocks'}
+              <div className="text-sm font-medium text-gray-500 bg-white px-3 py-1 rounded-md border border-gray-200 shadow-sm">
+                {processedGroups.length} {processedGroups.length === 1 ? 'Asset' : 'Assets'} tracked
               </div>
             </div>
 
@@ -722,7 +782,7 @@ export default function StockList() {
                   {processedGroups.map((group) => {
                     const isExpanded = !!expandedGroups[group.cleanSym];
 
-                    // If it's just a single lot, render normal row
+                    // Single Lot Render
                     if (group.lots.length === 1) {
                       const lot = group.lots[0];
                       const addPrice = Number(lot.addPrice) || 0;
@@ -764,7 +824,7 @@ export default function StockList() {
                       );
                     }
 
-                    // --- If Multiple Lots, render Summary Row + Sub Rows (if expanded) ---
+                    // Multiple Lots Render
                     const groupPercent = group.groupPercent.toFixed(2);
 
                     return (

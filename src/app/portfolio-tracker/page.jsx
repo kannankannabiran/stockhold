@@ -11,6 +11,13 @@ export default function StockList() {
   const [ltps, setLtps] = useState({});
   const [loadingLtp, setLoadingLtp] = useState(false);
 
+  // Expanded groups state for Show/Hide
+  const [expandedGroups, setExpandedGroups] = useState({});
+
+  // Sorting & Filtering State
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'desc' });
+
   // Manual stock add states
   const [showAddForm, setShowAddForm] = useState(false);
   const [symbolInput, setSymbolInput] = useState("");
@@ -18,12 +25,14 @@ export default function StockList() {
   const [qtyInput, setQtyInput] = useState(""); 
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   
   // LTP Preview states
   const [previewLtp, setPreviewLtp] = useState(null);
   const [fetchingPreview, setFetchingPreview] = useState(false);
 
   const suggestionRef = useRef(null);
+  const activeSuggestionRef = useRef(null);
 
   // Helper for clean display
   const cleanSymbol = (sym) => {
@@ -57,11 +66,21 @@ export default function StockList() {
     const handleClickOutside = (event) => {
       if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
         setShowSuggestions(false);
+        setHighlightedIndex(-1);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (activeSuggestionRef.current) {
+      activeSuggestionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [highlightedIndex]);
 
   const getBrowserId = () => localStorage.getItem("browserId");
 
@@ -102,7 +121,6 @@ export default function StockList() {
     setLoadingLtp(true);
 
     try {
-      // Deduplicate symbols to save network payload
       const uniqueSymbols = [...new Set(enabledStocks.map((stock) => formatBackendSymbol(stock.symbol)))];
 
       const res = await fetch("/api/get-ltps", {
@@ -206,6 +224,7 @@ export default function StockList() {
     const value = e.target.value.toUpperCase();
     setSymbolInput(value);
     setPreviewLtp(null);
+    setHighlightedIndex(-1);
 
     if (value.trim().length > 0) {
       const filtered = stocklist.filter((item) =>
@@ -221,10 +240,34 @@ export default function StockList() {
   };
 
   const handleSelectSuggestion = (item) => {
+    if (!item) return;
     const sym = cleanSymbol(item.value);
     setSymbolInput(sym);
     setShowSuggestions(false);
+    setHighlightedIndex(-1);
     fetchPreviewLtp(sym); 
+  };
+
+  const handleKeyDown = (e) => {
+    if (!showSuggestions) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => 
+        prev < filteredSuggestions.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    } else if (e.key === "Enter") {
+      if (highlightedIndex >= 0 && highlightedIndex < filteredSuggestions.length) {
+        e.preventDefault(); 
+        handleSelectSuggestion(filteredSuggestions[highlightedIndex]);
+      }
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+      setHighlightedIndex(-1);
+    }
   };
 
   const handleAddStock = (e) => {
@@ -246,6 +289,9 @@ export default function StockList() {
     localStorage.setItem("stockList", JSON.stringify(updated));
     syncStockListToServer(updated);
 
+    const cleanSym = cleanSymbol(newStock.symbol);
+    setExpandedGroups(prev => ({ ...prev, [cleanSym]: true }));
+
     fetchLTPs(updated);
 
     setSymbolInput("");
@@ -254,6 +300,7 @@ export default function StockList() {
     setPreviewLtp(null);
     setShowAddForm(false);
     setShowSuggestions(false);
+    setHighlightedIndex(-1);
   };
 
   const updateQty = (index, value) => {
@@ -307,7 +354,23 @@ export default function StockList() {
     syncStockListToServer(updated);
   };
 
-  // --- Core Grouping Logic for the Table ---
+  const toggleGroupExpand = (symbol) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [symbol]: !prev[symbol]
+    }));
+  };
+
+  // --- Sorting Handle ---
+  const handleSort = (key) => {
+    let direction = 'desc';
+    if (sortConfig.key === key && sortConfig.direction === 'desc') {
+      direction = 'asc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // --- Pre-process Groups for Sorting & Rendering ---
   const groupedStocks = {};
   stocks.forEach((stock, index) => {
     const sym = cleanSymbol(stock.symbol);
@@ -333,12 +396,55 @@ export default function StockList() {
     }
   });
 
-  Object.values(groupedStocks).forEach(group => {
-    group.avgPrice = group.totalQty > 0 ? group.totalInvestment / group.totalQty : 0;
-    group.isGroupEnabled = group.lots.some(lot => lot.isEnabled);
-  });
-  // -----------------------------------------
+  // Calculate stats for each group so we can sort by them
+  let processedGroups = Object.values(groupedStocks).map(group => {
+    const ltp = ltps[group.symbol] !== undefined ? ltps[group.symbol] : ltps[group.cleanSym];
+    const validLtp = typeof ltp === "number" && !isNaN(ltp);
+    
+    const avgPrice = group.totalQty > 0 ? group.totalInvestment / group.totalQty : 0;
+    const groupPercent = validLtp && avgPrice > 0 ? (((ltp - avgPrice) / avgPrice) * 100) : 0;
+    const groupCurrentValue = validLtp ? group.totalQty * ltp : 0;
+    const groupProfitLoss = groupCurrentValue - group.totalInvestment;
+    const isGroupEnabled = group.lots.some(lot => lot.isEnabled);
 
+    return {
+      ...group,
+      avgPrice,
+      ltp: validLtp ? ltp : 0,
+      validLtp,
+      groupPercent,
+      groupCurrentValue,
+      groupProfitLoss,
+      isGroupEnabled
+    };
+  });
+
+  // Apply Search Filter
+  if (searchQuery.trim()) {
+    processedGroups = processedGroups.filter(group => 
+      group.cleanSym.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  // Apply Sorting
+  if (sortConfig.key) {
+    processedGroups.sort((a, b) => {
+      let aValue = a[sortConfig.key];
+      let bValue = b[sortConfig.key];
+      
+      // Handle string comparison for Symbol
+      if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  // --- Portfolio Top Summary ---
   const portfolioSummary = stocks.reduce(
     (acc, stock) => {
       if (stock.enabled === false) return acc;
@@ -370,6 +476,25 @@ export default function StockList() {
     portfolioSummary.totalInvestment > 0
       ? ((portfolioSummary.totalProfitLoss / portfolioSummary.totalInvestment) * 100).toFixed(2)
       : "0.00";
+
+  // Reusable Sort Header Component
+  const SortableHeader = ({ label, sortKey, align = "left" }) => {
+    const isActive = sortConfig.key === sortKey;
+    return (
+      <th 
+        onClick={() => handleSort(sortKey)}
+        className={`px-6 py-4 text-xs font-bold text-gray-600 uppercase tracking-wider whitespace-nowrap cursor-pointer hover:bg-gray-100 transition-colors select-none text-${align}`}
+      >
+        <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
+          {label}
+          <div className="flex flex-col text-gray-400">
+             <svg className={`w-3 h-3 -mb-1 ${isActive && sortConfig.direction === 'asc' ? 'text-blue-600' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" /></svg>
+             <svg className={`w-3 h-3 ${isActive && sortConfig.direction === 'desc' ? 'text-blue-600' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+          </div>
+        </div>
+      </th>
+    );
+  };
 
   if (loading) return (
     <div className="flex h-screen items-center justify-center bg-gray-50 w-full">
@@ -429,6 +554,7 @@ export default function StockList() {
                 placeholder="e.g. RELIANCE"
                 value={symbolInput}
                 onChange={handleSymbolChange}
+                onKeyDown={handleKeyDown}
                 onBlur={() => {
                   setTimeout(() => {
                     if (symbolInput.trim() && !showSuggestions && !previewLtp) {
@@ -444,16 +570,27 @@ export default function StockList() {
               />
               {showSuggestions && filteredSuggestions.length > 0 && (
                 <ul className="absolute z-50 left-0 right-0 mt-1 max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-md shadow-lg text-sm">
-                  {filteredSuggestions.map((item, idx) => (
-                    <li
-                      key={idx}
-                      onClick={() => handleSelectSuggestion(item)}
-                      className="px-3 py-2 cursor-pointer hover:bg-emerald-50 hover:text-emerald-700 font-medium text-gray-700 transition-colors border-b border-gray-50 last:border-none flex justify-between items-center"
-                    >
-                      <span>{cleanSymbol(item.value)}</span>
-                      <span className="text-xs text-gray-400">{item.label}</span>
-                    </li>
-                  ))}
+                  {filteredSuggestions.map((item, idx) => {
+                    const isHighlighted = highlightedIndex === idx;
+                    return (
+                      <li
+                        key={idx}
+                        ref={isHighlighted ? activeSuggestionRef : null}
+                        onMouseEnter={() => setHighlightedIndex(idx)}
+                        onClick={() => handleSelectSuggestion(item)}
+                        className={`px-3 py-2 cursor-pointer font-medium transition-colors border-b border-gray-50 last:border-none flex justify-between items-center ${
+                          isHighlighted
+                            ? "bg-emerald-50 text-emerald-700"
+                            : "text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
+                        }`}
+                      >
+                        <span>{cleanSymbol(item.value)}</span>
+                        <span className={`text-xs ${isHighlighted ? "text-emerald-600/70" : "text-gray-400"}`}>
+                          {item.label}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
@@ -545,32 +682,51 @@ export default function StockList() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden w-full">
+            
+            {/* Toolbar: Search */}
+            <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <div className="relative max-w-sm w-full">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search symbol..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-shadow shadow-sm"
+                />
+              </div>
+              <div className="text-sm text-gray-500">
+                {processedGroups.length} {processedGroups.length === 1 ? 'stock' : 'stocks'}
+              </div>
+            </div>
+
             <div className="overflow-x-auto w-full">
               <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    {["Date", "Symbol", "Status", "LTP (₹)", "Buy / Avg Price", "Change", "Qty", "Current Value", "P&L", ""].map((header, i) => (
-                      <th key={i} className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                        {header}
-                      </th>
-                    ))}
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Date / Group</th>
+                    <SortableHeader label="Symbol" sortKey="cleanSym" />
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
+                    <SortableHeader label="LTP (₹)" sortKey="ltp" align="left" />
+                    <SortableHeader label="Buy / Avg Price" sortKey="avgPrice" align="left" />
+                    <SortableHeader label="Change" sortKey="groupPercent" align="left" />
+                    <SortableHeader label="Qty" sortKey="totalQty" align="left" />
+                    <SortableHeader label="Current Value" sortKey="groupCurrentValue" align="left" />
+                    <SortableHeader label="P&L" sortKey="groupProfitLoss" align="left" />
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {Object.values(groupedStocks).map((group) => {
-                    const ltp = ltps[group.symbol] !== undefined ? ltps[group.symbol] : ltps[group.cleanSym];
-                    const validLtp = typeof ltp === "number" && !isNaN(ltp);
+                  {processedGroups.map((group) => {
+                    const isExpanded = !!expandedGroups[group.cleanSym];
 
                     // If it's just a single lot, render normal row
                     if (group.lots.length === 1) {
                       const lot = group.lots[0];
                       const addPrice = Number(lot.addPrice) || 0;
-                      const qty = Number(lot.qty) || 0;
-                      const investment = qty * addPrice;
-
-                      const percent = validLtp && addPrice > 0 ? (((ltp - addPrice) / addPrice) * 100).toFixed(2) : "0.00";
-                      const currentValue = validLtp ? qty * ltp : 0;
-                      const profitLoss = currentValue - investment;
+                      const lotPercent = group.groupPercent.toFixed(2);
 
                       return (
                         <tr key={lot.originalIndex} className={`transition-colors hover:bg-gray-50 ${!lot.isEnabled ? 'opacity-60 bg-gray-50/50' : ''}`}>
@@ -585,9 +741,9 @@ export default function StockList() {
                               <span aria-hidden="true" className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${lot.isEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
                             </button>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{validLtp ? `₹${ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{group.validLtp ? `₹${group.ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-gray-600">₹{addPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
-                          <td className={`px-6 py-4 whitespace-nowrap font-medium ${Number(percent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{Number(percent) > 0 ? "+" : ""}{percent}%</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-medium ${Number(lotPercent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{Number(lotPercent) > 0 ? "+" : ""}{lotPercent}%</td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="relative rounded-md shadow-sm max-w-[100px]">
                               <input
@@ -599,8 +755,8 @@ export default function StockList() {
                               />
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">₹{currentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
-                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${profitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{profitLoss >= 0 ? "+" : "-"}₹{Math.abs(profitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">₹{group.groupCurrentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${group.groupProfitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{group.groupProfitLoss >= 0 ? "+" : "-"}₹{Math.abs(group.groupProfitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button onClick={() => deleteStock(lot.originalIndex)} className="text-gray-400 hover:text-rose-600 transition-colors rounded p-1 hover:bg-rose-50"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
                           </td>
@@ -608,17 +764,24 @@ export default function StockList() {
                       );
                     }
 
-                    // --- If Multiple Lots, render Summary Row + Sub Rows ---
-                    const avgPrice = group.avgPrice;
-                    const groupPercent = validLtp && avgPrice > 0 ? (((ltp - avgPrice) / avgPrice) * 100).toFixed(2) : "0.00";
-                    const groupCurrentValue = validLtp ? group.totalQty * ltp : 0;
-                    const groupProfitLoss = groupCurrentValue - group.totalInvestment;
+                    // --- If Multiple Lots, render Summary Row + Sub Rows (if expanded) ---
+                    const groupPercent = group.groupPercent.toFixed(2);
 
                     return (
                       <React.Fragment key={`group-${group.cleanSym}`}>
                         {/* Summary Row */}
                         <tr className={`bg-gray-100/50 border-t-2 border-gray-200 transition-colors ${!group.isGroupEnabled ? 'opacity-60 bg-gray-50/50' : ''}`}>
-                          <td className="px-6 py-4 whitespace-nowrap text-gray-500 font-medium">Multiple Buys</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button 
+                              onClick={() => toggleGroupExpand(group.cleanSym)}
+                              className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-semibold focus:outline-none transition-colors"
+                            >
+                              <svg className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                              </svg>
+                              Multiple Buys ({group.lots.length})
+                            </button>
+                          </td>
                           <td className="px-6 py-4 whitespace-nowrap"><div className="font-bold text-gray-900 text-base">{group.cleanSym}</div></td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button
@@ -629,29 +792,29 @@ export default function StockList() {
                               <span aria-hidden="true" className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${group.isGroupEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
                             </button>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">{validLtp ? `₹${ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-bold">Avg: ₹{avgPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">{group.validLtp ? `₹${group.ltp.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : "—"}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-bold">Avg: ₹{group.avgPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
                           <td className={`px-6 py-4 whitespace-nowrap font-bold ${Number(groupPercent) >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{Number(groupPercent) > 0 ? "+" : ""}{groupPercent}%</td>
                           <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">{group.totalQty}</td>
-                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">₹{groupCurrentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
-                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${groupProfitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{groupProfitLoss >= 0 ? "+" : "-"}₹{Math.abs(groupProfitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900">₹{group.groupCurrentValue.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                          <td className={`px-6 py-4 whitespace-nowrap font-bold ${group.groupProfitLoss >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{group.groupProfitLoss >= 0 ? "+" : "-"}₹{Math.abs(group.groupProfitLoss).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button onClick={() => deleteGroup(group.cleanSym)} className="text-gray-400 hover:text-rose-600 transition-colors rounded p-1 hover:bg-rose-50" title="Delete All"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
                           </td>
                         </tr>
                         
-                        {/* Individual Lot Rows */}
-                        {group.lots.map((lot, idx) => {
+                        {/* Conditionally Render Individual Lot Rows if Expanded */}
+                        {isExpanded && group.lots.map((lot, idx) => {
                           const lotAddPrice = Number(lot.addPrice) || 0;
                           const lotQty = Number(lot.qty) || 0;
                           const lotInvestment = lotQty * lotAddPrice;
-                          const lotPercent = validLtp && lotAddPrice > 0 ? (((ltp - lotAddPrice) / lotAddPrice) * 100).toFixed(2) : "0.00";
-                          const lotCurrentValue = validLtp ? lotQty * ltp : 0;
+                          const lotPercent = group.validLtp && lotAddPrice > 0 ? (((group.ltp - lotAddPrice) / lotAddPrice) * 100).toFixed(2) : "0.00";
+                          const lotCurrentValue = group.validLtp ? lotQty * group.ltp : 0;
                           const lotProfitLoss = lotCurrentValue - lotInvestment;
 
                           return (
                             <tr key={lot.originalIndex} className={`bg-white transition-colors hover:bg-gray-50 ${!lot.isEnabled ? 'opacity-50 bg-gray-50' : ''}`}>
-                              <td className="px-6 py-3 whitespace-nowrap text-gray-400 pl-10 text-xs">↳ {lot.date}</td>
+                              <td className="px-6 py-3 whitespace-nowrap text-gray-400 pl-12 text-xs">↳ {lot.date}</td>
                               <td className="px-6 py-3 whitespace-nowrap text-gray-400 text-xs font-medium">Lot {idx + 1}</td>
                               <td className="px-6 py-3 whitespace-nowrap">
                                 <button

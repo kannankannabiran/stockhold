@@ -219,7 +219,7 @@ export default function Navbar() {
                 }}
                 className="flex items-center space-x-1 cursor-pointer hover:underline"
               >
-                <span>Product</span>
+                <span>Equity</span>
                 <FaChevronDown className="text-sm" />
               </div>
               {showProductDropdown && (
@@ -270,7 +270,7 @@ export default function Navbar() {
                 }}
                 className="flex items-center space-x-1 cursor-pointer hover:underline"
               >
-                <span>Tools</span>
+                <span>F&O</span>
                 <FaChevronDown className="text-sm" />
               </div>
               {showToolsDropdown && (
@@ -418,7 +418,7 @@ export default function Navbar() {
               onClick={() => setShowProductDropdown((v) => !v)}
               className="flex items-center justify-between"
             >
-              <span>Product</span> <FaChevronDown className="text-xs" />
+              <span>Equity</span> <FaChevronDown className="text-xs" />
             </div>
             {showProductDropdown && (
               <div className="ml-4">
@@ -449,7 +449,7 @@ export default function Navbar() {
               onClick={() => setShowToolsDropdown((v) => !v)}
               className="flex items-center justify-between"
             >
-              <span>Tools</span> <FaChevronDown className="text-xs" />
+              <span>F&O</span> <FaChevronDown className="text-xs" />
             </div>
             {showToolsDropdown && (
               <div className="ml-4">

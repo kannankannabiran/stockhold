@@ -225,43 +225,31 @@ export default function Navbar() {
               {showProductDropdown && (
                 <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-md w-44 z-20">
                   <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleNavigate("/chart")}
-                  >
-                    Historical Chart
-                  </div>
-
-                  <div className="relative group">
-                    <div
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
-                      onMouseDown={() => setShowScannerSubmenu(true)}
-                    >
-                      <span>Long Scanner</span>
-                      <FaChevronRight className="text-xs ml-2" />
-                    </div>
-                    {showScannerSubmenu && (
-                      <div className="absolute top-0 left-full ml-1 bg-white rounded-md shadow-lg w-44 z-30">
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleNavigate("/longterm")}
-                        >
-                          Scan
-                        </div>
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleNavigate("/backtest")}
-                        >
-                          Back Test
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleNavigate("/portfolio-tracker")}
                     >
                       Portfolio Tracker
                     </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleNavigate("/longterm")}
+                    >
+                      Long Scanner
+                    </div>
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleNavigate("/chart")}
+                  >
+                    Historical Chart
+                  </div>
+                   
+                    <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleNavigate("/backtest")}
+                  >
+                    Back Test
+                  </div>
+                  
                 </div>
               )}
             </div>
@@ -422,28 +410,17 @@ export default function Navbar() {
             </div>
             {showProductDropdown && (
               <div className="ml-4">
-                <div onClick={() => handleNavigate("/chart")}>Historical Chart</div>
-                <div>
-                  <div
-                    onClick={() => setShowScannerSubmenu((v) => !v)}
-                    className="flex items-center justify-between"
-                  >
-                    <span>Long Scanner</span> <FaChevronDown className="text-xs" />
-                  </div>
-                  {showScannerSubmenu && (
-                    <div className="ml-4">
-                      <div onClick={() => handleNavigate("/longterm")}>
-                        Scan
-                      </div>
-                      <div onClick={() => handleNavigate("/backtest")}>
-                        Back Test
-                      </div>
-                    </div>
-                  )}
+                <div onClick={() => handleNavigate("/longterm")}>
+                      Long Scanner
                 </div>
-                  <div onClick={() => handleNavigate("/portfolio-tracker")}>
+               <div onClick={() => handleNavigate("/portfolio-tracker")}>   
                   Portfolio Tracker
                 </div>
+                <div onClick={() => handleNavigate("/chart")}>Historical Chart</div>
+                 <div onClick={() => handleNavigate("/backtest")}>
+                    Back Test
+                  </div>  
+               
               </div>
             )}
           </div>

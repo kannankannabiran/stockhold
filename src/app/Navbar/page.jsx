@@ -256,6 +256,12 @@ export default function Navbar() {
                       </div>
                     )}
                   </div>
+                  <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleNavigate("/portfolio-tracker")}
+                    >
+                      Portfolio Tracker
+                    </div>
                 </div>
               )}
             </div>
@@ -311,12 +317,6 @@ export default function Navbar() {
                   >
                     Selling Scanner
                   </div>
-                   <div
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => handleNavigate("/portfolio-tracker")}
-                    >
-                      Portfolio Tracker
-                    </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleNavigate("/trading")}
@@ -441,6 +441,9 @@ export default function Navbar() {
                     </div>
                   )}
                 </div>
+                  <div onClick={() => handleNavigate("/portfolio-tracker")}>
+                  Portfolio Tracker
+                </div>
               </div>
             )}
           </div>
@@ -470,9 +473,6 @@ export default function Navbar() {
                 </div>
                 <div onClick={() => handleNavigate("/selling-scanner")}>
                   Selling Scanner
-                </div>
-                <div onClick={() => handleNavigate("/portfolio-tracker")}>
-                  Portfolio Tracker
                 </div>
                 <div onClick={() => handleNavigate("/trading")}>
                   Traing

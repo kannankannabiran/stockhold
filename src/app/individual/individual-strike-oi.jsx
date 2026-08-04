@@ -100,7 +100,7 @@ function sentimentClasses(sentiment) {
     case "N/A":
       return "bg-amber-50 text-amber-700 border-amber-200";
     default:
-      return "bg-slate-100 text-slate-600 border-slate-200";
+      return "bg-slate-50 text-slate-600 border-slate-200";
   }
 }
 
@@ -136,10 +136,6 @@ async function loadSelectedStrikeHistory(sym, strike, date) {
   }
 }
 
-// Fetches all strikes' latest snapshot for a symbol+date, purely from the
-// DB (oi_trend_history) — no Kite/live API involved. This is what powers
-// the historical-date view so picking a past date can never show a
-// "Not connected to Kite" error: it never asks Kite for anything.
 async function loadStrikesForDate(sym, date) {
   if (!sym || !date) return [];
   try {
@@ -154,12 +150,6 @@ async function loadStrikesForDate(sym, date) {
   }
 }
 
-// Groups raw per-poll history rows into buckets of `intervalMinutes` size
-// (aligned to the top of the hour), so the history table reflects the
-// selected timeframe instead of always showing every raw poll.
-// - ceOiChange / peOiChange are summed across the bucket (net change over
-//   that interval).
-// - ceOi / peOi take the latest snapshot within the bucket.
 function consolidateByInterval(rows, intervalMinutes) {
   if (!rows || !rows.length) return [];
   if (!intervalMinutes || intervalMinutes <= 1) return rows;
@@ -210,17 +200,25 @@ function consolidateByInterval(rows, intervalMinutes) {
 
 function StatCard({ label, value, tone = "slate" }) {
   const tones = {
-    slate: "from-slate-50 to-white border-slate-200 text-slate-700",
-    green: "from-emerald-50 to-white border-emerald-200 text-emerald-700",
-    red: "from-rose-50 to-white border-rose-200 text-rose-700",
-    amber: "from-amber-50 to-white border-amber-200 text-amber-700",
-    blue: "from-blue-50 to-white border-blue-200 text-blue-700",
+    slate: "from-slate-500/10 to-white border-slate-200",
+    green: "from-emerald-500/10 to-white border-emerald-200",
+    red: "from-rose-500/10 to-white border-rose-200",
+    blue: "from-blue-500/10 to-white border-blue-200",
+    amber: "from-amber-500/10 to-white border-amber-200",
+  };
+
+  const textTones = {
+    slate: "text-slate-900",
+    green: "text-emerald-700",
+    red: "text-rose-700",
+    blue: "text-blue-700",
+    amber: "text-amber-700",
   };
 
   return (
-    <div className={`rounded-2xl border bg-gradient-to-br p-4 shadow-sm ${tones[tone]}`}>
-      <div className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="mt-2 text-lg font-semibold">{value}</div>
+    <div className={`rounded-2xl border bg-gradient-to-br px-5 py-4 shadow-sm ${tones[tone]}`}>
+      <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{label}</div>
+      <div className={`mt-1 font-display text-2xl font-bold ${textTones[tone]}`}>{value}</div>
     </div>
   );
 }
@@ -243,8 +241,6 @@ export default function OptionChain() {
   const timeoutRef = useRef(null);
   const inFlightRef = useRef(false);
 
-  // Live fetch — talks to the Kite-backed /api/optionchain route. Only ever
-  // called when no historical date is selected.
   const fetchData = useCallback(
     async (sym, expiryOverride) => {
       if (inFlightRef.current) return;
@@ -273,10 +269,6 @@ export default function OptionChain() {
         setExpiries(data.expiries || []);
         setUpdatedAt(data.updatedAt ?? null);
 
-        // Writes to DB are handled server-side by the background poller
-        // (lib/oiTrendBackground.js), not by the page. This fetch is
-        // view-only regardless of market hours.
-
         if (data.spot != null && (data.rows || []).length) {
           let closest = data.rows[0];
           let closestDist = Math.abs(closest.strike - data.spot);
@@ -298,8 +290,6 @@ export default function OptionChain() {
     [interval]
   );
 
-  // Historical-date fetch — pure DB read via mode=strikes. Never touches
-  // Kite, so "Not connected to Kite" can never appear for a picked date.
   const fetchHistoricalDate = useCallback(async (sym, date) => {
     if (inFlightRef.current) return;
     inFlightRef.current = true;
@@ -308,9 +298,6 @@ export default function OptionChain() {
       const strikeRows = await loadStrikesForDate(sym, date);
 
       setError(null);
-      // Map DB field names (ceOi/peOi/ceOiChange/peOiChange) to the same
-      // shape the live rows use (CE_oi/PE_oi/CE_oiChange/PE_oiChange) so
-      // the rest of the page doesn't need to branch on live vs historical.
       const mappedRows = strikeRows.map((r) => ({
         strike: r.strike,
         CE_oi: r.ceOi,
@@ -320,22 +307,16 @@ export default function OptionChain() {
       }));
 
       setRows(mappedRows);
-      // Spot isn't stored in oi_trend_history, so it isn't available for a
-      // historical view — the Spot stat card just shows "—" for that date.
       setSpot(null);
       setExpiry(null);
       setExpiries([]);
-      setUpdatedAt(
-        mappedRows.length ? `${date}T${strikeRows[0]?.time || "00:00:00"}` : null
-      );
+      setUpdatedAt(mappedRows.length ? `${date}T${strikeRows[0]?.time || "00:00:00"}` : null);
 
       if (!mappedRows.length) {
         setError(`No saved data found for ${date}.`);
         return;
       }
 
-      // No spot to find "closest to ATM" against, so default to the middle
-      // strike of the saved range as a reasonable starting point.
       setSelectedStrike((prev) => prev ?? mappedRows[Math.floor(mappedRows.length / 2)].strike);
     } catch (err) {
       setError("Failed to load saved data for that date.");
@@ -344,11 +325,6 @@ export default function OptionChain() {
     }
   }, []);
 
-  // Reset strike selection and stale data when symbol/date change — NOT on
-  // interval (timeframe). Interval only re-buckets already-loaded history
-  // client-side (see consolidateByInterval below); wiping rows on interval
-  // change left historical views with nothing to redraw, since the
-  // historical fetch below only re-runs on symbol/date.
   useEffect(() => {
     setSelectedStrike(null);
     setRows([]);
@@ -359,16 +335,12 @@ export default function OptionChain() {
     setError(null);
   }, [symbol, selectedDate]);
 
-  // Historical date view — one-shot DB read (no polling, no Kite call).
   useEffect(() => {
     if (selectedDate) {
       fetchHistoricalDate(symbol, selectedDate);
     }
   }, [symbol, selectedDate, fetchHistoricalDate]);
 
-  // Live view refresh loop — runs every 1 min whenever the page is open and
-  // no historical date is selected. Purely for display; DB writes happen
-  // independently in the background poller.
   useEffect(() => {
     let cancelled = false;
 
@@ -423,9 +395,6 @@ export default function OptionChain() {
 
     refreshHistory();
 
-    // Only keep auto-refreshing on a timer for the live (no date picked)
-    // view — that's what picks up new rows from the background poller.
-    // A selected historical date is a fixed snapshot; no need to re-poll it.
     let historyTimer = null;
     if (!selectedDate) {
       historyTimer = setInterval(refreshHistory, POLL_MS);
@@ -516,8 +485,6 @@ export default function OptionChain() {
     [trendHistory, selectedRow]
   );
 
-  // Raw (non-delta) Call OI / Put OI trend — plots the running open interest
-  // total for the selected strike, alongside the existing ΔOI chart above.
   const oiLineChartData = useMemo(
     () => ({
       labels: trendHistory.length ? trendHistory.map((p) => p.time) : ["Now"],
@@ -582,336 +549,238 @@ export default function OptionChain() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 md:p-6">
-      <div className="w-full space-y-6">
-        <div className="rounded-3xl border border-slate-200 bg-white/90 p-5 md:p-6 shadow-sm backdrop-blur">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <main className="min-h-screen w-full bg-[#f8f9fa] px-2 py-5 text-slate-800 sm:px-4 lg:px-6">
+      <div className="mx-auto w-full space-y-4">
+        
+        {/* Unified Header & Controls */}
+        <header className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm md:px-6 md:py-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
-                  <FaSitemap className="text-xl" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 shadow-sm">
+                  <FaSitemap className="text-lg" />
                 </div>
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-semibold text-slate-800">
-                    {symbol} Option Chain
-                  </h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    {selectedDate
-                      ? `Viewing saved data for ${selectedDate}.`
-                      : "Live OI trend, strike history, and market snapshot overview."}
+                  <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+                    {symbol} Chart Trend
+                  </h1>
+                  <p className="mt-0.5 text-sm font-medium text-slate-500">
+                    {selectedDate ? `Viewing saved data for ${selectedDate}` : "Live OI trend and strike history overview"}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div
-              className={`inline-flex items-center gap-2 self-start rounded-full border px-4 py-2 text-sm font-medium ${
-                marketOpen
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                  : "border-rose-200 bg-rose-50 text-rose-700"
-              }`}
-            >
-              <span
-                className={`h-2.5 w-2.5 rounded-full ${
-                  marketOpen ? "bg-emerald-500" : "bg-rose-500"
-                }`}
+            <div className="flex flex-wrap items-center gap-3">
+              <select
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                value={symbol}
+                onChange={(e) => setSymbol(e.target.value)}
+              >
+                {indexOptions.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+
+              <select
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                value={interval}
+                onChange={(e) => setIntervalValue(Number(e.target.value))}
+              >
+                {intervalOptions.map((m) => (
+                  <option key={m} value={m}>{m} min</option>
+                ))}
+              </select>
+
+              <input
+                type="date"
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition cursor-pointer focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                onClick={(e) => {
+                  if (typeof e.target.showPicker === 'function') e.target.showPicker();
+                }}
               />
-              {marketOpen ? "Market Open" : "Market Closed"}
+
+              {!selectedDate && expiries.length > 0 ? (
+                <select
+                  className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                  value={expiry || ""}
+                  onChange={(e) => {
+                    setSelectedStrike(null);
+                    setRows([]);
+                    setSpot(null);
+                    setUpdatedAt(null);
+                    setError(null);
+                    fetchData(symbol, e.target.value);
+                  }}
+                >
+                  {expiries.map((e) => (
+                    <option key={e} value={e}>{e}</option>
+                  ))}
+                </select>
+              ) : !selectedDate ? (
+                <div className="flex items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-2 font-medium text-slate-400">
+                  Expiry loading...
+                </div>
+              ) : (
+                <div className="flex items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-2 font-medium text-slate-400">
+                  Expiry N/A
+                </div>
+              )}
+
+              <select
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                value={selectedStrike || ""}
+                onChange={(e) => setSelectedStrike(Number(e.target.value))}
+              >
+                {rows.map((r) => (
+                  <option key={r.strike} value={r.strike}>{r.strike}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-8">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
             <StatCard label="Spot" value={spot != null ? spot.toLocaleString() : "—"} tone="blue" />
             <StatCard label="Expiry" value={expiry || "—"} tone="slate" />
-            <StatCard
-              label="Updated"
-              value={updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"}
-              tone="slate"
-            />
-            <StatCard
-              label="Call OI"
-              value={selectedRow?.CE_oi != null ? Number(selectedRow.CE_oi).toLocaleString() : "—"}
-              tone="blue"
-            />
-            <StatCard
-              label="Put OI"
-              value={selectedRow?.PE_oi != null ? Number(selectedRow.PE_oi).toLocaleString() : "—"}
-              tone="amber"
-            />
-            <StatCard label="Snapshots" value={trendHistory.length} tone="green" />
-            <StatCard
-              label="ΔOI Sentiment"
-              value={selectedSentiment}
-              tone={selectedSentiment === "Bullish" ? "green" : selectedSentiment === "Bearish" ? "red" : "amber"}
-            />
-            <StatCard
-              label="OI Sentiment"
-              value={selectedOiSentiment}
-              tone={selectedOiSentiment === "Bullish" ? "green" : selectedOiSentiment === "Bearish" ? "red" : "amber"}
-            />
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-slate-800">Filters</h3>
-            <div className="text-sm text-slate-500">Refine symbol, interval, expiry, and strike</div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            <select
-              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              value={symbol}
-              onChange={(e) => setSymbol(e.target.value)}
-            >
-              {indexOptions.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              value={interval}
-              onChange={(e) => setIntervalValue(Number(e.target.value))}
-            >
-              {intervalOptions.map((m) => (
-                <option key={m} value={m}>
-                  {m} min
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="date"
-              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition cursor-pointer focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              onClick={(e) => {
-                if (typeof e.target.showPicker === 'function') {
-                  e.target.showPicker();
-                }
-              }}
-            />
-
-            {!selectedDate && expiries.length > 0 ? (
-              <select
-                className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                value={expiry || ""}
-                onChange={(e) => {
-                  setSelectedStrike(null);
-                  setRows([]);
-                  setSpot(null);
-                  setUpdatedAt(null);
-                  setError(null);
-                  fetchData(symbol, e.target.value);
-                }}
-              >
-                {expiries.map((e) => (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                ))}
-              </select>
-            ) : !selectedDate ? (
-              <div className="flex h-12 items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-sm text-slate-400">
-                Expiry loading...
+            <StatCard label="Updated" value={updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"} tone="slate" />
+            <StatCard label="Call OI" value={selectedRow?.CE_oi != null ? Number(selectedRow.CE_oi).toLocaleString() : "—"} tone="blue" />
+            <StatCard label="Put OI" value={selectedRow?.PE_oi != null ? Number(selectedRow.PE_oi).toLocaleString() : "—"} tone="amber" />
+            <StatCard label="Snapshots" value={trendHistory.length} tone="slate" />
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-500/10 to-white px-5 py-4 shadow-sm flex flex-col justify-center">
+              <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">ΔOI Sentiment</div>
+              <div className={`mt-1 font-display text-xl font-bold ${selectedSentiment === "Bullish" ? "text-emerald-700" : selectedSentiment === "Bearish" ? "text-rose-700" : "text-amber-700"}`}>
+                {selectedSentiment}
               </div>
-            ) : (
-              <div className="flex h-12 items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-sm text-slate-400">
-                Expiry N/A for saved date
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-500/10 to-white px-5 py-4 shadow-sm flex flex-col justify-center">
+              <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">OI Sentiment</div>
+              <div className={`mt-1 font-display text-xl font-bold ${selectedOiSentiment === "Bullish" ? "text-emerald-700" : selectedOiSentiment === "Bearish" ? "text-rose-700" : "text-amber-700"}`}>
+                {selectedOiSentiment}
               </div>
-            )}
-
-            <select
-              className="h-12 rounded-xl border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              value={selectedStrike || ""}
-              onChange={(e) => setSelectedStrike(Number(e.target.value))}
-            >
-              {rows.map((r) => (
-                <option key={r.strike} value={r.strike}>
-                  {r.strike}
-                </option>
-              ))}
-            </select>
+            </div>
           </div>
-        </div>
+        </header>
 
-        <div className="grid gap-6 xl:grid-cols-12">
-          <div className="xl:col-span-6 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+        {error && (
+          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700 shadow-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Charts Section */}
+        <div className="grid gap-4 xl:grid-cols-2">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
             <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-slate-800">Call OI / Put OI</h3>
-                <p className="text-sm text-slate-500">
-                  Raw open interest for the selected strike over time.
-                </p>
+                <h3 className="text-lg font-semibold text-slate-800">Raw Call OI / Put OI</h3>
+                <p className="text-sm text-slate-500">Open interest totals for the selected strike over time.</p>
               </div>
-
               {selectedRow && (
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm">
                     Strike: {selectedRow.strike}
                   </span>
                 </div>
               )}
             </div>
-
-            <div className="h-[420px] rounded-2xl bg-slate-50/70 p-3 md:p-4">
-              <Line
-                key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-oi`}
-                data={oiLineChartData}
-                options={chartOptions}
-              />
+            <div className="h-[420px] rounded-xl border border-slate-100 bg-slate-50/50 p-2 md:p-4">
+              <Line key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-oi`} data={oiLineChartData} options={chartOptions} />
             </div>
           </div>
 
-          <div className="xl:col-span-6 rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
             <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-800">ΔOI Trend</h3>
-                <p className="text-sm text-slate-500">
-                  Call and put OI change over time for the selected strike.
-                </p>
+                <p className="text-sm text-slate-500">Call and put OI change over time.</p>
               </div>
-
               {selectedRow && (
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm">
                     Strike: {selectedRow.strike}
                   </span>
-                  <span className={`rounded-full border px-3 py-1 text-xs font-medium ${sentimentClasses(selectedSentiment)}`}>
+                  <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide shadow-sm ${sentimentClasses(selectedSentiment)}`}>
                     {selectedSentiment}
                   </span>
                 </div>
               )}
             </div>
-
-            <div className="h-[420px] rounded-2xl bg-slate-50/70 p-3 md:p-4">
-              <Line
-                key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-diff`}
-                data={oiChangeLineChartData}
-                options={chartOptions}
-              />
+            <div className="h-[420px] rounded-xl border border-slate-100 bg-slate-50/50 p-2 md:p-4">
+              <Line key={`${symbol}-${selectedStrike}-${interval}-${selectedDate}-diff`} data={oiChangeLineChartData} options={chartOptions} />
             </div>
           </div>
+        </div>
 
-          {consolidatedStrikeHistory.length > 0 && (
-            <div className="xl:col-span-12 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-              <div className="border-b bg-slate-50 px-5 py-4">
-                <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
-                  <h3 className="text-lg font-semibold text-slate-800">
-                    Selected Strike History - {selectedStrike}
-                  </h3>
-                  <div className="text-sm text-slate-500">
-                    {consolidatedStrikeHistory.length} records · {interval} min interval
-                  </div>
+        {/* Selected Strike History Table */}
+        {consolidatedStrikeHistory.length > 0 && (
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
+              <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+                <h3 className="text-lg font-semibold text-slate-800">Selected Strike History - {selectedStrike}</h3>
+                <div className="text-sm font-medium text-slate-500">
+                  {consolidatedStrikeHistory.length} records · {interval} min interval
                 </div>
               </div>
-
-              <div className="max-h-[460px] overflow-auto">
-                <table className="min-w-full border-separate border-spacing-0 text-sm">
-                  <thead className="sticky top-0 z-10">
-                    <tr>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
-                        Strike
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
-                        Date
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold text-slate-700">
-                        Time
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
-                        Call OI
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
-                        Put OI
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
-                        Call Chg OI
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-right font-semibold text-slate-700">
-                        Put Chg OI
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
-                        ΔOI Sentiment
-                      </th>
-                      <th className="border-b border-slate-200 bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
-                        OI Sentiment
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {consolidatedStrikeHistory.map((row, idx) => {
-                      const callChg = Number(row.ceOiChange ?? 0);
-                      const putChg = Number(row.peOiChange ?? 0);
-                      const diff = putChg - callChg;
-                      const sentiment = diff > 0 ? "Bullish" : diff < 0 ? "Bearish" : "Neutral";
-                      const rowOiSentiment = oiSentiment(row.ceOi ?? null, row.peOi ?? null);
-
-                      return (
-                        <tr
-                          key={row.id || `${row.strike}-${row.date}-${row.time}-${idx}`}
-                          className={`transition hover:bg-slate-50 ${
-                            sentiment === "Bullish"
-                              ? "bg-emerald-50/40"
-                              : sentiment === "Bearish"
-                              ? "bg-rose-50/40"
-                              : "bg-white"
-                          }`}
-                        >
-                          <td className="border-b border-slate-100 px-4 py-3 font-medium text-slate-700">
-                            {row.strike}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-slate-600">
-                            {row.date}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-slate-600">
-                            {row.time}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
-                            {row.ceOi == null ? "N/A" : Number(row.ceOi).toLocaleString()}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
-                            {row.peOi == null ? "N/A" : Number(row.peOi).toLocaleString()}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
-                            {row.ceOiChange == null ? "N/A" : Number(row.ceOiChange).toLocaleString()}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-right text-slate-700">
-                            {row.peOiChange == null ? "N/A" : Number(row.peOiChange).toLocaleString()}
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-center">
-                            <span
-                              className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${sentimentClasses(sentiment)}`}
-                            >
-                              {sentiment}
-                            </span>
-                          </td>
-                          <td className="border-b border-slate-100 px-4 py-3 text-center">
-                            <span
-                              className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${sentimentClasses(rowOiSentiment)}`}
-                            >
-                              {rowOiSentiment}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
             </div>
-          )}
 
-          {error && (
-            <div className="xl:col-span-12 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-center text-rose-700">
-              {error}
+            <div className="max-h-[500px] overflow-auto">
+              <table className="min-w-full border-collapse text-sm">
+                <thead className="sticky top-0 z-10">
+                  <tr className="bg-slate-100 text-xs font-bold uppercase tracking-wider text-slate-600">
+                    <th className="border-b border-slate-200 px-4 py-3 text-left">Strike</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-left">Date</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-left">Time</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-right">Call OI</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-right">Put OI</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-right">Call Chg OI</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-right">Put Chg OI</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-center">ΔOI Sentiment</th>
+                    <th className="border-b border-slate-200 px-4 py-3 text-center">OI Sentiment</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 tabular-nums">
+                  {consolidatedStrikeHistory.map((row, idx) => {
+                    const callChg = Number(row.ceOiChange ?? 0);
+                    const putChg = Number(row.peOiChange ?? 0);
+                    const diff = putChg - callChg;
+                    const sentiment = diff > 0 ? "Bullish" : diff < 0 ? "Bearish" : "Neutral";
+                    const rowOiSentiment = oiSentiment(row.ceOi ?? null, row.peOi ?? null);
+
+                    return (
+                      <tr
+                        key={row.id || `${row.strike}-${row.date}-${row.time}-${idx}`}
+                        className={`transition-colors hover:bg-slate-50 ${
+                          sentiment === "Bullish" ? "bg-emerald-50/20" : sentiment === "Bearish" ? "bg-rose-50/20" : "bg-white"
+                        }`}
+                      >
+                        <td className="px-4 py-3 font-semibold text-slate-800">{row.strike}</td>
+                        <td className="px-4 py-3 font-medium text-slate-600">{row.date}</td>
+                        <td className="px-4 py-3 font-medium text-slate-900">{row.time}</td>
+                        <td className="px-4 py-3 text-right font-medium text-slate-700">{row.ceOi == null ? "N/A" : Number(row.ceOi).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right font-medium text-slate-700">{row.peOi == null ? "N/A" : Number(row.peOi).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right font-medium text-slate-700">{row.ceOiChange == null ? "N/A" : Number(row.ceOiChange).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right font-medium text-slate-700">{row.peOiChange == null ? "N/A" : Number(row.peOiChange).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-center">
+                          <span className={`inline-block rounded px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide border shadow-sm ${sentimentClasses(sentiment)}`}>
+                            {sentiment}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <span className={`inline-block rounded px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide border shadow-sm ${sentimentClasses(rowOiSentiment)}`}>
+                            {rowOiSentiment}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </div>
+    </main>
   );
 }

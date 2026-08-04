@@ -35,36 +35,63 @@ function fmtPts(strike, spot) {
   return diff > 0 ? `+${diff}` : `${diff}`;
 }
 
-function cellStyle(status, side) {
-  if (status === "OPEN_HIGH") return styles.matchCellGreen;
-  if (status === "RETEST") return styles.matchCellBlue;
-  return side === "CE" ? null : null;
-}
+// --- UI Sub-Components ---
 
-function badgeInfo(status, broke) {
-  if (status === "OPEN_HIGH") return { label: "Hit", style: styles.badgeGreen };
-  if (status === "RETEST") return { label: "Hit", style: styles.badgeBlue };
-  if (broke) return { label: "Pending", style: styles.badgeAmber };
-  return { label: "—", style: styles.badgeMuted };
-}
+function MetricCard({ title, value, subtitle, tone = "slate" }) {
+  const tones = {
+    slate: "from-slate-500/10 to-white border-slate-200",
+    green: "from-emerald-500/10 to-white border-emerald-200",
+    blue: "from-blue-500/10 to-white border-blue-200",
+    amber: "from-amber-500/10 to-white border-amber-200",
+  };
 
-function Badge({ status, broke }) {
-  const { label, style } = badgeInfo(status, broke);
-  const isDash = label === "—";
+  const textTones = {
+    slate: "text-slate-900",
+    green: "text-emerald-700",
+    blue: "text-blue-700",
+    amber: "text-amber-700",
+  };
+
   return (
-    <span style={{ ...styles.badge, ...style }}>
-      {!isDash && <span style={{ ...styles.badgeDot, ...(style.dotColor ? { background: style.dotColor } : null) }} />}
-      {label}
-    </span>
+    <div className={`rounded-2xl border bg-gradient-to-br px-5 py-4 shadow-sm ${tones[tone]}`}>
+      <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</div>
+      <div className={`mt-1 font-display text-2xl font-bold ${textTones[tone]}`}>{value}</div>
+      {subtitle ? <div className="mt-1 text-xs text-slate-500">{subtitle}</div> : null}
+    </div>
   );
+}
+
+function StatusBadge({ status, broke }) {
+  if (status === "OPEN_HIGH") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-emerald-700 shadow-sm">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Hit
+      </span>
+    );
+  }
+  if (status === "RETEST") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm">
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Retest
+      </span>
+    );
+  }
+  if (broke) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-amber-700">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Pending
+      </span>
+    );
+  }
+  return <span className="font-semibold text-slate-300">—</span>;
 }
 
 function TimeChip({ iso }) {
   const time = fmtTime(iso);
-  if (!time) return <span style={styles.timeChipEmpty}>—</span>;
+  if (!time) return <span className="text-slate-300">—</span>;
   return (
-    <span style={styles.timeChip}>
-      <svg width="10" height="10" viewBox="0 0 10 10" style={styles.timeChipIcon}>
+    <span className="inline-flex items-center gap-1 rounded border border-slate-200 bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold tracking-wide text-slate-600 shadow-sm">
+      <svg width="10" height="10" viewBox="0 0 10 10" className="text-slate-400">
         <circle cx="5" cy="5" r="4.25" fill="none" stroke="currentColor" strokeWidth="1" />
         <path d="M5 2.6V5l1.7 1" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
       </svg>
@@ -76,13 +103,15 @@ function TimeChip({ iso }) {
 function StrikeCell({ strike, spot, isAtm }) {
   const pts = fmtPts(strike, spot);
   return (
-    <td style={{ ...styles.strikeCell, ...(isAtm ? styles.atmStrikeCell : null) }}>
-      <div style={styles.strikeInner}>
-        <span style={styles.strikeNumber}>{strike}</span>
+    <td className={`border-l border-r border-slate-200 px-2 py-2 text-center ${isAtm ? "bg-amber-50/50" : "bg-slate-50/30"}`}>
+      <div className="mx-auto flex min-w-[70px] flex-col items-center justify-center rounded-lg border border-slate-200 bg-white px-2 py-1 shadow-sm">
+        <span className="text-sm font-bold text-slate-900">{strike}</span>
         {isAtm ? (
-          <span style={styles.atmBadge}>ATM</span>
+          <span className="mt-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 px-2 py-[1px] text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+            ATM
+          </span>
         ) : pts ? (
-          <span style={{ ...styles.strikePts, ...(pts.startsWith("+") ? styles.strikePtsPos : styles.strikePtsNeg) }}>
+          <span className={`mt-0.5 text-[10px] font-bold tracking-wide ${pts.startsWith("+") ? "text-emerald-600" : "text-rose-600"}`}>
             {pts}
           </span>
         ) : null}
@@ -177,217 +206,240 @@ export default function OpenHighPage() {
   const isLikelyHoliday = !loading && !weekendSelected && data && data.rows.length === 0;
 
   return (
-    <div style={styles.page}>
-      <div style={styles.header}>
-        <div>
-          <h1 style={styles.title}>
-            Open <span style={styles.titleAccent}>= High</span>
-          </h1>
-          <p style={styles.subtitle}>Only Open = High matched strikes are shown. First hit time stays saved.</p>
-        </div>
-
-        <div style={styles.controls}>
-          <select
-            value={index}
-            onChange={(e) => {
-              setIndex(e.target.value);
-              setExpiry(null);
-            }}
-            style={styles.select}
-          >
-            {INDEXES.map((i) => (
-              <option key={i.key} value={i.key}>
-                {i.label}
-              </option>
-            ))}
-          </select>
-
-          <input
-            type="date"
-            value={date}
-            max={todayStr()}
-            onChange={handleDateChange}
-            onClick={(e) => {
-              if (typeof e.target.showPicker === "function") {
-                e.target.showPicker();
-              }
-            }}
-            style={{ ...styles.select, cursor: "pointer" }}
-          />
-
-          {data?.expiries?.length > 0 && (
-            <select value={expiry || ""} onChange={(e) => setExpiry(e.target.value)} style={styles.select}>
-              {data.expiries.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-      </div>
-
-      {dateWarning && <div style={styles.warningBanner}>{dateWarning}</div>}
-      {!isToday && !weekendSelected && (
-        <div style={styles.historicalBanner}>Viewing history for {date} — read-only, no live polling.</div>
-      )}
-      {weekendSelected && <div style={styles.holidayBanner}>{date} is a weekend — markets are closed, no data to show.</div>}
-      {isLikelyHoliday && <div style={styles.holidayBanner}>No data recorded for {date} — likely a market holiday.</div>}
-
-      {!weekendSelected && (
-        <div style={styles.statsBar}>
-          {data?.spot != null && (
-            <div style={styles.statChip}>
-              <span style={styles.statLabel}>SPOT</span>
-              <span style={styles.statValue}>{data.spot}</span>
+    <main className="min-h-screen w-full bg-[#f8f9fa] px-2 py-5 text-slate-800 sm:px-4 lg:px-6">
+      <div className="mx-auto w-full space-y-4">
+        
+        {/* Header Controls */}
+        <header className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm md:px-6 md:py-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+                    Open <span className="text-emerald-600">= High</span>
+                  </h1>
+                  <p className="mt-0.5 text-sm font-medium text-slate-500">
+                    Live options scanner. First hit time stays saved.
+                  </p>
+                </div>
+              </div>
             </div>
-          )}
-          <div style={styles.statChip}>
-            <span style={styles.statLabel}>MATCHED</span>
-            <span style={{ ...styles.statValue, color: "#16a34a" }}>{hitCount}</span>
-          </div>
-          <div style={styles.statChip}>
-            <span style={styles.statLabel}>EXPIRY</span>
-            <span style={styles.statValue}>{data?.expiry || "—"}</span>
-          </div>
-          {data?.updatedAt && isToday && (
-            <div style={styles.liveDot}>
-              <span style={styles.pulseDot} />
-              {new Date(data.updatedAt).toLocaleTimeString()}
-            </div>
-          )}
-        </div>
-      )}
 
-      {error && <div style={styles.errorBox}>{error}</div>}
-      {loading && !data && !weekendSelected && <div style={styles.loading}>Loading…</div>}
+            <div className="flex flex-wrap items-center gap-3">
+              <select
+                value={index}
+                onChange={(e) => {
+                  setIndex(e.target.value);
+                  setExpiry(null);
+                }}
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+              >
+                {INDEXES.map((i) => (
+                  <option key={i.key} value={i.key}>{i.label}</option>
+                ))}
+              </select>
 
-      {data && !weekendSelected && (
-        <div style={styles.tableWrap}>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th colSpan={6} style={styles.groupHeadCE}>
-                  CALL
-                </th>
-                <th style={styles.strikeHeadCol}>STRIKE</th>
-                <th colSpan={6} style={styles.groupHeadPE}>
-                  PUT
-                </th>
-              </tr>
-              <tr>
-                <th style={styles.subHead}>Open</th>
-                <th style={styles.subHead}>High</th>
-                <th style={styles.subHead}>Low</th>
-                <th style={styles.subHead}>LTP</th>
-                <th style={styles.subHeadCenter}>Hit</th>
-                <th style={styles.subHeadCenter}>Time</th>
-                <th style={styles.subHeadStrike}></th>
-                <th style={styles.subHeadCenter}>Time</th>
-                <th style={styles.subHeadCenter}>Hit</th>
-                <th style={styles.subHead}>LTP</th>
-                <th style={styles.subHead}>Low</th>
-                <th style={styles.subHead}>High</th>
-                <th style={styles.subHead}>Open</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matchedRows.map((r) => {
-                const isAtm = r.strike === atmStrike;
-                const ceStyle = cellStyle(r.CE_status, "CE");
-                const peStyle = cellStyle(r.PE_status, "PE");
-                return (
-                  <tr key={r.strike}>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_open)}</td>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_high)}</td>
-                    <td style={{ ...styles.cell, ...ceStyle }}>{fmt(r.CE_low)}</td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell, ...ceStyle }}>{fmt(r.CE_ltp)}</td>
-                    <td style={styles.cellCenter}>
-                      <Badge status={r.CE_status} broke={r.CE_broke} />
-                    </td>
-                    <td style={styles.cellCenter}>
-                      <TimeChip iso={r.CE_hitAt} />
-                    </td>
+              <input
+                type="date"
+                value={date}
+                max={todayStr()}
+                onChange={handleDateChange}
+                onClick={(e) => { if (typeof e.target.showPicker === "function") e.target.showPicker(); }}
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+              />
 
-                    <StrikeCell strike={r.strike} spot={data.spot} isAtm={isAtm} />
-
-                    <td style={styles.cellCenter}>
-                      <TimeChip iso={r.PE_hitAt} />
-                    </td>
-                    <td style={styles.cellCenter}>
-                      <Badge status={r.PE_status} broke={r.PE_broke} />
-                    </td>
-                    <td style={{ ...styles.cell, ...styles.ltpCell, ...peStyle }}>{fmt(r.PE_ltp)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_low)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_high)}</td>
-                    <td style={{ ...styles.cell, ...peStyle }}>{fmt(r.PE_open)}</td>
-                  </tr>
-                );
-              })}
-
-              {matchedRows.length === 0 && (
-                <tr>
-                  <td colSpan={13} style={styles.emptyRow}>
-                    No Open = High matches for this date.
-                  </td>
-                </tr>
+              {data?.expiries?.length > 0 && (
+                <select 
+                  value={expiry || ""} 
+                  onChange={(e) => setExpiry(e.target.value)} 
+                  className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                >
+                  {data.expiries.map((e) => (
+                    <option key={e} value={e}>{e}</option>
+                  ))}
+                </select>
               )}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+            </div>
+          </div>
+
+          {/* Metric Cards inside Header */}
+          {!weekendSelected && (
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <MetricCard
+                title="Spot Price"
+                value={data?.spot != null ? data.spot : "—"}
+                tone="slate"
+              />
+              <MetricCard
+                title="Matched Strikes"
+                value={hitCount}
+                subtitle="Total Open=High matches"
+                tone="green"
+              />
+              <MetricCard
+                title="Selected Expiry"
+                value={data?.expiry || "—"}
+                tone="amber"
+              />
+              <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-500/10 to-white px-5 py-4 shadow-sm flex flex-col justify-center">
+                <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Status</div>
+                <div className="mt-1 flex items-center gap-2 font-display text-lg font-bold text-blue-700">
+                  {isToday && data?.updatedAt ? (
+                    <>
+                      <span className="relative flex h-3 w-3">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex h-3 w-3 rounded-full bg-blue-500"></span>
+                      </span>
+                      Live • {new Date(data.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                    </>
+                  ) : !isToday ? (
+                    "Historical Data"
+                  ) : (
+                    "Waiting for connection..."
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </header>
+
+        {/* Banners */}
+        {dateWarning && (
+          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700 shadow-sm">
+            {dateWarning}
+          </div>
+        )}
+        {!isToday && !weekendSelected && (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800 shadow-sm">
+            Viewing history for {date} — read-only mode, no live polling.
+          </div>
+        )}
+        {weekendSelected && (
+          <div className="rounded-lg border border-slate-200 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-600 shadow-sm">
+            {date} is a weekend — markets are closed, no data to show.
+          </div>
+        )}
+        {isLikelyHoliday && (
+          <div className="rounded-lg border border-slate-200 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-600 shadow-sm">
+            No data recorded for {date} — likely a market holiday.
+          </div>
+        )}
+        {error && (
+          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700 shadow-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && !data && !weekendSelected && (
+          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm">
+            <span className="font-mono text-sm font-medium text-slate-500">Loading scanner data...</span>
+          </div>
+        )}
+
+        {/* Data Table */}
+        {data && !weekendSelected && (
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-x-auto w-full">
+              <table className="w-full min-w-[1000px] border-collapse text-right font-sans text-[13px]">
+                <thead className="sticky top-0 z-20">
+                  {/* Grouped Headers */}
+                  <tr className="border-b border-slate-200">
+                    <th colSpan={6} className="bg-emerald-50/70 px-3 py-2.5 text-center text-[12px] font-bold uppercase tracking-wider text-emerald-800">
+                      Call Side
+                    </th>
+                    <th className="bg-slate-100 px-3 py-2.5 border-l border-r border-slate-200 text-center text-[12px] font-bold uppercase tracking-wider text-slate-700">
+                      Strike
+                    </th>
+                    <th colSpan={6} className="bg-rose-50/70 px-3 py-2.5 text-center text-[12px] font-bold uppercase tracking-wider text-rose-800">
+                      Put Side
+                    </th>
+                  </tr>
+                  
+                  {/* Column Sub-Headers */}
+                  <tr className="border-b border-slate-200 bg-white text-xs font-semibold tracking-wide text-slate-500">
+                    <th className="px-3 py-2">Open</th>
+                    <th className="px-3 py-2">High</th>
+                    <th className="px-3 py-2">Low</th>
+                    <th className="px-3 py-2 text-slate-800">LTP</th>
+                    <th className="px-3 py-2 text-center">Hit Status</th>
+                    <th className="px-3 py-2 text-center">Hit Time</th>
+                    
+                    <th className="border-l border-r border-slate-200 bg-slate-50/50 px-3 py-2"></th>
+                    
+                    <th className="px-3 py-2 text-center">Hit Time</th>
+                    <th className="px-3 py-2 text-center">Hit Status</th>
+                    <th className="px-3 py-2 text-slate-800">LTP</th>
+                    <th className="px-3 py-2">Low</th>
+                    <th className="px-3 py-2">High</th>
+                    <th className="px-3 py-2">Open</th>
+                  </tr>
+                </thead>
+
+                <tbody className="divide-y divide-slate-100 tabular-nums">
+                  {matchedRows.length === 0 ? (
+                    <tr>
+                      <td colSpan={13} className="px-6 py-16 text-center text-sm font-medium text-slate-500">
+                        No Open = High matches recorded for this date.
+                      </td>
+                    </tr>
+                  ) : (
+                    matchedRows.map((r) => {
+                      const isAtm = r.strike === atmStrike;
+                      
+                      // Highlight matching cells
+                      const getCellClass = (status) => {
+                        if (status === "OPEN_HIGH") return "bg-emerald-50/50 text-emerald-700 font-bold";
+                        if (status === "RETEST") return "bg-blue-50/50 text-blue-700 font-bold";
+                        return "text-slate-600 font-medium";
+                      };
+
+                      const ceClass = getCellClass(r.CE_status);
+                      const peClass = getCellClass(r.PE_status);
+
+                      return (
+                        <tr key={r.strike} className="transition-colors hover:bg-slate-50">
+                          {/* Call Side */}
+                          <td className={`px-3 py-2.5 ${ceClass}`}>{fmt(r.CE_open)}</td>
+                          <td className={`px-3 py-2.5 ${ceClass}`}>{fmt(r.CE_high)}</td>
+                          <td className={`px-3 py-2.5 ${ceClass}`}>{fmt(r.CE_low)}</td>
+                          <td className={`px-3 py-2.5 font-bold text-slate-900 ${ceClass.includes("bg") ? ceClass : ""}`}>{fmt(r.CE_ltp)}</td>
+                          <td className="px-3 py-2.5 text-center">
+                            <StatusBadge status={r.CE_status} broke={r.CE_broke} />
+                          </td>
+                          <td className="px-3 py-2.5 text-center">
+                            <TimeChip iso={r.CE_hitAt} />
+                          </td>
+
+                          {/* Strike */}
+                          <StrikeCell strike={r.strike} spot={data.spot} isAtm={isAtm} />
+
+                          {/* Put Side */}
+                          <td className="px-3 py-2.5 text-center">
+                            <TimeChip iso={r.PE_hitAt} />
+                          </td>
+                          <td className="px-3 py-2.5 text-center">
+                            <StatusBadge status={r.PE_status} broke={r.PE_broke} />
+                          </td>
+                          <td className={`px-3 py-2.5 font-bold text-slate-900 ${peClass.includes("bg") ? peClass : ""}`}>{fmt(r.PE_ltp)}</td>
+                          <td className={`px-3 py-2.5 ${peClass}`}>{fmt(r.PE_low)}</td>
+                          <td className={`px-3 py-2.5 ${peClass}`}>{fmt(r.PE_high)}</td>
+                          <td className={`px-3 py-2.5 ${peClass}`}>{fmt(r.PE_open)}</td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
-
-const styles = {
-  page: { minHeight: "100vh", background: "#f7f8fa", color: "#1a1d23", fontFamily: "'Inter', system-ui, sans-serif", padding: "28px 32px" },
-  header: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 20 },
-  title: { fontSize: 26, fontWeight: 700, margin: 0, letterSpacing: -0.5, color: "#111318" },
-  titleAccent: { color: "#16a34a" },
-  subtitle: { margin: "4px 0 0", color: "#6b7280", fontSize: 13 },
-  controls: { display: "flex", gap: 10, alignItems: "center" },
-  select: { background: "#ffffff", color: "#1a1d23", border: "1px solid #d8dce3", borderRadius: 8, padding: "8px 12px", fontSize: 13, outline: "none" },
-  warningBanner: { background: "#fef2f2", border: "1px solid #fecaca", color: "#b91c1c", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
-  historicalBanner: { background: "#fffbeb", border: "1px solid #fde68a", color: "#92400e", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
-  holidayBanner: { background: "#f3f4f6", border: "1px solid #e5e7eb", color: "#4b5563", borderRadius: 8, padding: "8px 14px", marginBottom: 14, fontSize: 13 },
-  statsBar: { display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" },
-  statChip: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10, padding: "8px 14px", display: "flex", flexDirection: "column", gap: 2, minWidth: 90, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" },
-  statLabel: { fontSize: 10, letterSpacing: 1, color: "#9ca3af" },
-  statValue: { fontSize: 16, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "#111318" },
-  liveDot: { marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#6b7280" },
-  pulseDot: { width: 8, height: 8, borderRadius: "50%", background: "#16a34a" },
-  errorBox: { background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontSize: 13 },
-  loading: { color: "#6b7280", fontSize: 14 },
-  tableWrap: { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" },
-  table: { width: "100%", borderCollapse: "collapse", fontSize: 13, fontVariantNumeric: "tabular-nums" },
-  groupHeadCE: { background: "linear-gradient(90deg, #dcfce7, #f9fafb)", color: "#15803d", padding: "10px 0", fontSize: 12, fontWeight: 700, letterSpacing: 1, textAlign: "center", borderBottom: "1px solid #e5e7eb" },
-  groupHeadPE: { background: "linear-gradient(270deg, #fee2e2, #f9fafb)", color: "#b91c1c", padding: "10px 0", fontSize: 12, fontWeight: 700, letterSpacing: 1, textAlign: "center", borderBottom: "1px solid #e5e7eb" },
-  strikeHeadCol: { background: "#f3f4f6", borderBottom: "1px solid #e5e7eb" },
-  subHead: { padding: "8px 10px", color: "#9ca3af", fontSize: 11, fontWeight: 600, textAlign: "right", borderBottom: "1px solid #e5e7eb" },
-  subHeadCenter: { padding: "8px 10px", color: "#9ca3af", fontSize: 11, fontWeight: 600, textAlign: "center", borderBottom: "1px solid #e5e7eb" },
-  subHeadStrike: { borderBottom: "1px solid #e5e7eb", background: "#f3f4f6" },
-  cell: { padding: "9px 10px", textAlign: "right", borderBottom: "1px solid #f1f2f4", color: "#374151" },
-  cellCenter: { padding: "9px 10px", textAlign: "center", borderBottom: "1px solid #f1f2f4" },
-  ltpCell: { fontWeight: 600 },
-  matchCellGreen: { background: "rgba(22, 163, 74, 0.18)", color: "#166534", fontWeight: 700 },
-  matchCellBlue: { background: "rgba(37, 99, 235, 0.15)", color: "#1d4ed8", fontWeight: 700 },
-  badge: { display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999, fontSize: 10.5, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4 },
-  badgeDot: { width: 6, height: 6, borderRadius: "50%" },
-  badgeGreen: { background: "#dcfce7", color: "#15803d", dotColor: "#16a34a" },
-  badgeBlue: { background: "#dbeafe", color: "#1d4ed8", dotColor: "#2563eb" },
-  badgeAmber: { background: "#fef3c7", color: "#b45309", dotColor: "#d97706" },
-  badgeMuted: { background: "transparent", color: "#c1c5cc", fontWeight: 600 },
-  timeChip: { display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 8px", borderRadius: 999, background: "#f3f4f6", border: "1px solid #e5e7eb", color: "#6b7280", fontSize: 10.5, fontWeight: 600, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2 },
-  timeChipIcon: { color: "#9ca3af", flexShrink: 0 },
-  timeChipEmpty: { color: "#d1d5db", fontSize: 12 },
-  strikeCell: { padding: "8px 6px", textAlign: "center", background: "linear-gradient(180deg, #ffffff, #f8f9fb)", borderBottom: "1px solid #f1f2f4", borderLeft: "1px solid #e5e7eb", borderRight: "1px solid #e5e7eb", whiteSpace: "nowrap", color: "#1a1d23" },
-  strikeInner: { display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2, minWidth: 64, padding: "4px 10px", borderRadius: 10, background: "#ffffff", border: "1px solid #e9ebef", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" },
-  strikeNumber: { fontSize: 14, fontWeight: 800, letterSpacing: -0.2, color: "#111318" },
-  strikePts: { fontSize: 9.5, fontWeight: 700, letterSpacing: 0.2 },
-  strikePtsPos: { color: "#16a34a" },
-  strikePtsNeg: { color: "#dc2626" },
-  atmStrikeCell: { background: "linear-gradient(180deg, #fffbeb, #fef9e7)" },
-  atmBadge: { fontSize: 9, fontWeight: 800, letterSpacing: 0.5, color: "#ffffff", background: "linear-gradient(135deg, #f59e0b, #eab308)", borderRadius: 999, padding: "1.5px 8px", boxShadow: "0 1px 3px rgba(234,179,8,0.4)" },
-  emptyRow: { textAlign: "center", padding: "28px 0", color: "#9ca3af", fontSize: 13 },
-};

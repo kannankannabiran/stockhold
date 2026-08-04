@@ -35,11 +35,11 @@ function timeToMinutes(t) {
 
 function MetricCard({ title, value, subtitle, tone = "slate" }) {
   const tones = {
-    slate: "bg-slate-50 border-slate-200",
-    green: "bg-emerald-50 border-emerald-200",
-    red: "bg-rose-50 border-rose-200",
-    blue: "bg-blue-50 border-blue-200",
-    amber: "bg-amber-50 border-amber-200",
+    slate: "from-slate-500/10 to-white border-slate-200",
+    green: "from-emerald-500/10 to-white border-emerald-200",
+    red: "from-rose-500/10 to-white border-rose-200",
+    blue: "from-blue-500/10 to-white border-blue-200",
+    amber: "from-amber-500/10 to-white border-amber-200",
   };
 
   const textTones = {
@@ -51,9 +51,9 @@ function MetricCard({ title, value, subtitle, tone = "slate" }) {
   };
 
   return (
-    <div className={`rounded-2xl border p-4 shadow-sm ${tones[tone]}`}>
-      <div className="text-xs font-medium uppercase tracking-wider text-slate-500">{title}</div>
-      <div className={`mt-2 text-2xl font-bold ${textTones[tone]}`}>{value}</div>
+    <div className={`rounded-2xl border bg-gradient-to-br px-5 py-4 shadow-sm ${tones[tone]}`}>
+      <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</div>
+      <div className={`mt-1 font-display text-2xl font-bold ${textTones[tone]}`}>{value}</div>
       {subtitle ? <div className="mt-1 text-xs text-slate-500">{subtitle}</div> : null}
     </div>
   );
@@ -70,9 +70,7 @@ export default function TrendingOiPage() {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch(
-        `/api/trending-oi/history?symbol=${symbol}&date=${selectedDate}`
-      );
+      const res = await fetch(`/api/trending-oi/history?symbol=${symbol}&date=${selectedDate}`);
       const data = await res.json();
       setHistory(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -99,14 +97,8 @@ export default function TrendingOiPage() {
     const out = [];
 
     for (const row of chronological) {
-      const c =
-        row.callOiChange !== null && row.callOiChange !== undefined
-          ? row.callOiChange / divisor
-          : row.callOiChange;
-      const p =
-        row.putOiChange !== null && row.putOiChange !== undefined
-          ? row.putOiChange / divisor
-          : row.putOiChange;
+      const c = row.callOiChange !== null && row.callOiChange !== undefined ? row.callOiChange / divisor : row.callOiChange;
+      const p = row.putOiChange !== null && row.putOiChange !== undefined ? row.putOiChange / divisor : row.putOiChange;
 
       if (c !== null && c !== undefined) {
         if (c > 0) callPlus += c;
@@ -185,7 +177,7 @@ export default function TrendingOiPage() {
     return out.reverse();
   }, [rawCumulativeRows, timeframe]);
 
-  if (accessLoading) return <div className="p-6">Loading...</div>;
+  if (accessLoading) return <div className="p-6 font-mono text-sm text-slate-500">Loading terminal...</div>;
   if (!hasAccess) return null;
 
   const currentSpot = history[0]?.spot ?? null;
@@ -200,6 +192,7 @@ export default function TrendingOiPage() {
       : "-";
 
   const latest = summaryRows[0] || null;
+  
   const signClass = (val, { zeroClass = "text-slate-700" } = {}) => {
     if (!colorsEnabled) return "text-slate-700";
     if (val > 0) return "text-emerald-600";
@@ -208,21 +201,23 @@ export default function TrendingOiPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
-      <div className="mx-auto max-w-8xl p-4 md:p-6 space-y-6">
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <main className="min-h-screen w-full bg-[#f8f9fa] px-2 py-5 text-slate-800 sm:px-4 lg:px-6">
+      <div className="mx-auto w-full space-y-4">
+        
+        {/* Header Controls */}
+        <header className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm md:px-6 md:py-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
-                  <FaBolt className="text-lg" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                  <FaChartLine className="text-lg" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                    Trending OI - {symbol}
-                  </h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Snapshot stored every 1 minute. View bucketed summary, direction, and sentiment.
+                  <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+                    Trending OI
+                  </h1>
+                  <p className="mt-0.5 text-sm font-medium text-slate-500">
+                    Live cumulative open interest analysis
                   </p>
                 </div>
               </div>
@@ -230,7 +225,7 @@ export default function TrendingOiPage() {
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <MetricCard
-                title="Spot"
+                title={`${symbol} Spot`}
                 value={
                   currentSpot != null
                     ? currentSpot.toLocaleString(undefined, { maximumFractionDigits: 2 })
@@ -256,30 +251,30 @@ export default function TrendingOiPage() {
                 value={latest?.sentiment ?? "—"}
                 subtitle={
                   latest
-                    ? `${Math.abs(latest.diffPct).toFixed(1)}% strength`
+                    ? `${Math.abs(latest.diffPct).toFixed(1)}% market strength`
                     : "Waiting for data"
                 }
                 tone={latest?.sentiment === "Bullish" ? "green" : latest?.sentiment === "Bearish" ? "red" : "slate"}
               />
             </div>
           </div>
-        </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
-          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-5 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-slate-500">Symbol:</span>
               <select
                 value={symbol}
                 onChange={(e) => setSymbol(e.target.value)}
-                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
               >
                 {indexOptions.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
+                  <option key={s} value={s}>{s}</option>
                 ))}
               </select>
+            </div>
 
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-slate-500">Date:</span>
               <input
                 type="date"
                 value={selectedDate}
@@ -290,79 +285,83 @@ export default function TrendingOiPage() {
                     e.target.showPicker();
                   }
                 }}
-                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 cursor-pointer"
+                className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
               />
+            </div>
 
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-slate-500">Interval:</span>
               <select
                 value={timeframe}
                 onChange={(e) => setTimeframe(Number(e.target.value))}
-                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                title="Consolidate rows into this many minutes"
+                className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
               >
                 {TIMEFRAME_OPTIONS.map((tf) => (
-                  <option key={tf} value={tf}>
-                    {tf} min
-                  </option>
+                  <option key={tf} value={tf}>{tf} min</option>
                 ))}
               </select>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex-1" />
+
+            <div className="flex items-center gap-3">
+              <span className="rounded-lg bg-slate-100 px-3 py-1.5 font-mono text-xs font-medium text-slate-600 border border-slate-200">
+                Total Rows: {summaryRows.length}
+              </span>
               <button
                 onClick={() => setColorsEnabled((v) => !v)}
-                className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold shadow-sm transition ${
+                className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 font-medium transition cursor-pointer ${
                   colorsEnabled
-                    ? "border-blue-600 bg-blue-600 text-white hover:bg-blue-700"
-                    : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                    ? "border-blue-600 bg-blue-50 text-blue-700 hover:bg-blue-100"
+                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50"
                 }`}
-                title="Toggle Call/Put column colors"
               >
-                <FaPalette />
+                <FaPalette className={colorsEnabled ? "text-blue-600" : "text-slate-400"} />
                 {colorsEnabled ? "Colors On" : "Colors Off"}
               </button>
-
-              <div className="rounded-xl bg-slate-100 px-4 py-2.5 text-sm text-slate-600">
-                <span className="font-medium">Rows:</span> {summaryRows.length}
-              </div>
             </div>
           </div>
-        </div>
+        </header>
 
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-slate-200 px-4 py-4 md:px-6">
-            <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
-              <h3 className="text-lg font-semibold text-slate-900">OI Summary Table</h3>
-              <p className="text-sm text-slate-500">
-                Bucketed by {timeframe} minute{timeframe > 1 ? "s" : ""}, newest records shown first.
-              </p>
-            </div>
-          </div>
-
-          <div className="overflow-auto max-h-[70vh]">
-            <table className="min-w-full text-sm">
-              <thead className="sticky top-0 z-20 bg-slate-100 text-xs uppercase tracking-wider text-slate-600">
-                <tr>
-                  <th className="px-4 py-3 text-left font-semibold">Date</th>
-                  <th className="px-4 py-3 text-left font-semibold">Time</th>
-                  <th className="px-4 py-3 text-right font-semibold">Spot</th>
-                  <th className="px-4 py-3 text-center font-semibold">Day High/Low</th>
-                  <th className="px-4 py-3 text-right font-semibold">Call +</th>
-                  <th className="px-4 py-3 text-right font-semibold">Call −</th>
-                  <th className="px-4 py-3 text-right font-semibold">Call Chg</th>
-                  <th className="px-4 py-3 text-right font-semibold">Put +</th>
-                  <th className="px-4 py-3 text-right font-semibold">Put −</th>
-                  <th className="px-4 py-3 text-right font-semibold">Put Chg</th>
-                  <th className="px-4 py-3 text-right font-semibold">Diff OI</th>
-                  <th className="px-4 py-3 text-right font-semibold">Diff %</th>
-                  <th className="px-4 py-3 text-center font-semibold">Dir</th>
-                  <th className="px-4 py-3 text-center font-semibold">Sentiment</th>
+        {/* Data Table */}
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full min-w-[1200px] border-collapse text-right font-sans text-[13px]">
+              <thead className="sticky top-0 z-20">
+                {/* Grouped Headers */}
+                <tr className="border-b border-slate-200 font-medium">
+                  <th colSpan={4} className="border-r border-slate-200 bg-slate-50 px-3 py-2 text-left text-slate-700">Market Info</th>
+                  <th colSpan={3} className="border-r border-white bg-emerald-50/70 px-3 py-2 text-center text-emerald-800">Call Build Up</th>
+                  <th colSpan={3} className="border-r border-slate-200 bg-rose-50/70 px-3 py-2 text-center text-rose-800">Put Build Up</th>
+                  <th colSpan={4} className="bg-blue-50/50 px-3 py-2 text-center text-blue-800">Overall Trend</th>
+                </tr>
+                
+                {/* Column Sub-Headers */}
+                <tr className="border-b border-slate-200 bg-white text-slate-500 text-xs tracking-wide">
+                  <th className="px-3 py-2.5 text-left font-semibold">Date</th>
+                  <th className="px-3 py-2.5 text-left font-semibold">Time</th>
+                  <th className="px-3 py-2.5 font-semibold text-slate-800">Spot</th>
+                  <th className="border-r border-slate-200 px-3 py-2.5 text-center font-semibold">Signal</th>
+                  
+                  <th className="bg-emerald-50/30 px-3 py-2.5 font-semibold">Call +</th>
+                  <th className="bg-emerald-50/30 px-3 py-2.5 font-semibold">Call −</th>
+                  <th className="border-r border-white bg-emerald-50/30 px-3 py-2.5 font-semibold text-emerald-700">Call Chg</th>
+                  
+                  <th className="bg-rose-50/30 px-3 py-2.5 font-semibold">Put +</th>
+                  <th className="bg-rose-50/30 px-3 py-2.5 font-semibold">Put −</th>
+                  <th className="border-r border-slate-200 bg-rose-50/30 px-3 py-2.5 font-semibold text-rose-700">Put Chg</th>
+                  
+                  <th className="px-3 py-2.5 font-semibold text-slate-800">Diff OI</th>
+                  <th className="px-3 py-2.5 font-semibold">Diff %</th>
+                  <th className="px-3 py-2.5 text-center font-semibold">Dir</th>
+                  <th className="px-3 py-2.5 text-center font-semibold">Sentiment</th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 tabular-nums">
                 {summaryRows.length === 0 ? (
                   <tr>
-                    <td colSpan={14} className="px-6 py-14 text-center text-slate-500">
+                    <td colSpan={14} className="px-6 py-16 text-center text-sm text-slate-500">
                       No data available for the selected date.
                     </td>
                   </tr>
@@ -370,129 +369,80 @@ export default function TrendingOiPage() {
                   summaryRows.map((row, index) => (
                     <tr
                       key={row.id || `${row.date}-${row.time}-${index}`}
-                      className="transition hover:bg-slate-50/80"
+                      className="transition-colors hover:bg-slate-50"
                     >
-                      <td className="px-4 py-3 whitespace-nowrap text-slate-700">{row.date}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-slate-700">{row.time}</td>
-                      <td className="px-4 py-3 text-right whitespace-nowrap font-medium text-slate-800">
+                      {/* Market Info */}
+                      <td className="px-3 py-2 text-left font-medium text-slate-600">{row.date}</td>
+                      <td className="px-3 py-2 text-left font-semibold text-slate-900">{row.time}</td>
+                      <td className="px-3 py-2 font-bold text-slate-800">
                         {row.spot != null
-                          ? Number(row.spot).toLocaleString(undefined, {
-                              maximumFractionDigits: 2,
-                            })
+                          ? Number(row.spot).toLocaleString(undefined, { maximumFractionDigits: 2 })
                           : "-"}
                       </td>
-                      <td className="px-4 py-3 text-center">
+                      <td className="border-r border-slate-200 px-3 py-2 text-center">
                         {row.dayBreak === "Day High Break" ? (
-                          <span className="inline-flex items-center rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
-                            Day High Break
+                          <span className="inline-block rounded bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 border border-emerald-200">
+                            Day High
                           </span>
                         ) : row.dayBreak === "Day Low Break" ? (
-                          <span className="inline-flex items-center rounded-full bg-rose-600 px-3 py-1 text-xs font-semibold text-white">
-                            Day Low Break
+                          <span className="inline-block rounded bg-rose-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-700 border border-rose-200">
+                            Day Low
                           </span>
                         ) : (
-                          <span className="text-slate-400">—</span>
+                          <span className="text-slate-300">-</span>
                         )}
                       </td>
 
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        {row.callPlus > 0 ? (
-                          <span className={colorsEnabled ? "text-emerald-600 font-medium" : "text-slate-700"}>
-                            {fmtInt(row.callPlus)}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
+                      {/* Call Side */}
+                      <td className={`bg-emerald-50/10 px-3 py-2 ${row.callPlus > 0 ? (colorsEnabled ? "font-semibold text-emerald-600" : "font-medium text-slate-700") : "text-slate-300"}`}>
+                        {row.callPlus > 0 ? fmtInt(row.callPlus) : "-"}
+                      </td>
+                      <td className={`bg-emerald-50/10 px-3 py-2 ${row.callMinus < 0 ? (colorsEnabled ? "font-semibold text-rose-600" : "font-medium text-slate-700") : "text-slate-300"}`}>
+                        {row.callMinus < 0 ? fmtInt(Math.abs(row.callMinus)) : "-"}
+                      </td>
+                      <td className={`border-r border-slate-50 bg-emerald-50/10 px-3 py-2 font-bold ${signClass(row.callChg)}`}>
+                        {row.callChg > 0 ? "+" : ""}{fmtInt(row.callChg)}
                       </td>
 
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        {row.callMinus < 0 ? (
-                          <span className={colorsEnabled ? "text-rose-600 font-medium" : "text-slate-700"}>
-                            {fmtInt(Math.abs(row.callMinus))}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
+                      {/* Put Side */}
+                      <td className={`bg-rose-50/10 px-3 py-2 ${row.putPlus > 0 ? (colorsEnabled ? "font-semibold text-emerald-600" : "font-medium text-slate-700") : "text-slate-300"}`}>
+                        {row.putPlus > 0 ? fmtInt(row.putPlus) : "-"}
+                      </td>
+                      <td className={`bg-rose-50/10 px-3 py-2 ${row.putMinus < 0 ? (colorsEnabled ? "font-semibold text-rose-600" : "font-medium text-slate-700") : "text-slate-300"}`}>
+                        {row.putMinus < 0 ? fmtInt(Math.abs(row.putMinus)) : "-"}
+                      </td>
+                      <td className={`border-r border-slate-200 bg-rose-50/10 px-3 py-2 font-bold ${signClass(row.putChg)}`}>
+                        {row.putChg > 0 ? "+" : ""}{fmtInt(row.putChg)}
                       </td>
 
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <span className={`font-semibold ${signClass(row.callChg)}`}>
-                          {row.callChg > 0 ? "+" : ""}{fmtInt(row.callChg)}
-                        </span>
+                      {/* Overall Trend */}
+                      <td className={`px-3 py-2 font-bold ${row.diffOi > 0 ? "text-emerald-600" : row.diffOi < 0 ? "text-rose-600" : "text-slate-700"}`}>
+                        {row.diffOi > 0 ? "+" : ""}{fmtInt(row.diffOi)}
                       </td>
-
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        {row.putPlus > 0 ? (
-                          <span className={colorsEnabled ? "text-emerald-600 font-medium" : "text-slate-700"}>
-                            {fmtInt(row.putPlus)}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
+                      <td className={`px-3 py-2 font-semibold ${row.diffPct > 40 ? "text-emerald-600" : row.diffPct < -40 ? "text-rose-600" : "text-slate-600"}`}>
+                        {row.diffPct > 0 ? "+" : ""}{row.diffPct.toFixed(1)}%
                       </td>
-
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        {row.putMinus < 0 ? (
-                          <span className={colorsEnabled ? "text-rose-600 font-medium" : "text-slate-700"}>
-                            {fmtInt(Math.abs(row.putMinus))}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </td>
-
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <span className={`font-semibold ${signClass(row.putChg)}`}>
-                          {row.putChg > 0 ? "+" : ""}{fmtInt(row.putChg)}
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <span
-                          className={`font-semibold ${
-                            row.diffOi > 0
-                              ? "text-emerald-600"
-                              : row.diffOi < 0
-                              ? "text-rose-600"
-                              : "text-slate-700"
-                          }`}
-                        >
-                          {row.diffOi > 0 ? "+" : ""}{fmtInt(row.diffOi)}
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <span
-                          className={`font-semibold ${
-                            row.diffPct > 40
-                              ? "text-emerald-600"
-                              : row.diffPct < -40
-                              ? "text-rose-600"
-                              : "text-slate-700"
-                          }`}
-                        >
-                          {row.diffPct > 0 ? "+" : ""}{row.diffPct.toFixed(1)}%
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-3 py-2 text-center">
                         {row.direction === "up" ? (
-                          <Image src={up} alt="Up" width={34} height={34} className="mx-auto" />
+                          <div className="mx-auto flex h-6 w-6 items-center justify-center rounded-full">
+                             <Image src={up} alt="Up" width={32} height={32} />
+                          </div>
                         ) : row.direction === "down" ? (
-                          <Image src={down} alt="Down" width={34} height={34} className="mx-auto" />
+                          <div className="mx-auto flex h-6 w-6 items-center justify-center rounded-full">
+                             <Image src={down} alt="Down" width={32} height={32} />
+                          </div>
                         ) : (
-                          <span className="text-slate-400">-</span>
+                          <span className="text-slate-300">-</span>
                         )}
                       </td>
-
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-3 py-2 text-center">
                         <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                          className={`inline-block rounded px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide border ${
                             row.sentiment === "Bullish"
-                              ? "bg-emerald-600 text-white"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                               : row.sentiment === "Bearish"
-                              ? "bg-rose-600 text-white"
-                              : "bg-slate-100 text-slate-700"
+                              ? "bg-rose-50 text-rose-700 border-rose-200"
+                              : "bg-slate-50 text-slate-600 border-slate-200"
                           }`}
                         >
                           {row.sentiment}
@@ -506,6 +456,6 @@ export default function TrendingOiPage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

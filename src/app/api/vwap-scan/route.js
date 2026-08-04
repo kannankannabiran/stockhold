@@ -1,9 +1,50 @@
 import { NextResponse } from "next/server";
-import yahooFinance from "@/lib/yahooFinance";
+import { newClient } from "@/lib/kite";
+import { getStoredAccessToken } from "@/lib/kiteTokenStore";
 import stocklist from "@/app/symbol/data";
 import db from "@/lib/db"; // IMPORTANT: Adjust this path to point to your db.js file
 
-const symbols = stocklist.map((s) => s.value);
+// symbols from your stocklist — strip ".NS" since Kite tradingsymbols don't use it
+const symbols = stocklist.map((s) => s.value.replace(".NS", ""));
+
+// --- NSE instrument map cache (tradingsymbol -> instrument_token) ---
+let instrumentMapCache = null;
+let instrumentMapFetchedAt = 0;
+const INSTRUMENT_MAP_TTL_MS = 24 * 60 * 60 * 1000; // refresh once a day
+
+async function getInstrumentMap(kc) {
+  const now = Date.now();
+  if (instrumentMapCache && now - instrumentMapFetchedAt < INSTRUMENT_MAP_TTL_MS) {
+    return instrumentMapCache;
+  }
+  const instruments = await kc.getInstruments(["NSE"]);
+  const map = new Map();
+  for (const inst of instruments) {
+    if (inst.segment === "NSE" && inst.instrument_type === "EQ") {
+      map.set(inst.tradingsymbol, inst.instrument_token);
+    }
+  }
+  instrumentMapCache = map;
+  instrumentMapFetchedAt = now;
+  return map;
+}
+
+// --- Fetch historical daily candles from Kite with 429 retry ---
+async function fetchHistoricalWithRetry(kc, instrumentToken, from, to, retries = 3) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await kc.getHistoricalData(instrumentToken, "day", from, to, false, 0);
+    } catch (err) {
+      const isRateLimited = err?.message?.includes("Too many requests") || err?.status_code === 429;
+      if (isRateLimited && attempt < retries) {
+        const backoff = 1000 * (attempt + 1);
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
+      throw err;
+    }
+  }
+}
 
 function chunkArray(array, size) {
   const result = [];
@@ -29,19 +70,31 @@ function calculateYearlyVWAP(data) {
 }
 
 export async function GET() {
+  const accessToken = getStoredAccessToken();
+  if (!accessToken) {
+    return NextResponse.json(
+      { error: "no_access_token", message: "Login via /connect first." },
+      { status: 401 }
+    );
+  }
+  const kc = newClient(accessToken);
+  const instrumentMap = await getInstrumentMap(kc);
+
+  const toDate = new Date();
+  const fromDate = new Date();
+  fromDate.setFullYear(toDate.getFullYear() - 5);
+
   const resultRise = [];
   const resultDecline = [];
-  const batches = chunkArray(symbols, 20);
+  const batches = chunkArray(symbols, 3);
 
   for (const batch of batches) {
     const promises = batch.map(async (symbol) => {
       try {
-        const rawData = await yahooFinance.historical(symbol, {
-          period1: new Date(new Date().setFullYear(new Date().getFullYear() - 5)),
-          period2: new Date(),
-          interval: "1d",
-        });
+        const instrumentToken = instrumentMap.get(symbol);
+        if (!instrumentToken) return null;
 
+        const rawData = await fetchHistoricalWithRetry(kc, instrumentToken, fromDate, toDate);
         if (!rawData?.length) return null;
 
         const cleanData = rawData.map((row) => ({
@@ -106,21 +159,20 @@ export async function GET() {
       if (res?.trend === "rise") resultRise.push(res);
       if (res?.trend === "decline") resultDecline.push(res);
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   // --- SAVE TO SQLITE DATABASE ---
   try {
-    // 1. Clear old scan data to replace with new data
     db.prepare("DELETE FROM vwap_scan_results").run();
 
-    // 2. Prepare Insert Statement
     const insertStmt = db.prepare(`
       INSERT INTO vwap_scan_results 
       (symbol, trend, current_year, current_year_vwap, last_price, condition_date, previous_years, updated_at) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    // 3. Run Transaction to save all results fast
     const now = Date.now();
     const saveTransaction = db.transaction((results) => {
       for (const res of results) {
@@ -137,28 +189,21 @@ export async function GET() {
       }
     });
 
-    // Combine both rise and decline arrays to save to DB
     const allResults = [...resultRise, ...resultDecline];
     if (allResults.length > 0) {
       saveTransaction(allResults);
     }
 
-    // 4. Update scan status timestamp
     const lastScanTime = new Date().toISOString();
     db.prepare("UPDATE vwap_scan_status SET last_scan = ?, is_scanning = 0 WHERE id = 1").run(lastScanTime);
 
-    // 5. Send exact same JSON payload back to the frontend
-    const finalResults = {
+    return NextResponse.json({
       last_scan: lastScanTime,
       rise: resultRise,
       decline: resultDecline,
-    };
-
-    return NextResponse.json(finalResults);
-
+    });
   } catch (dbError) {
     console.error("Failed to save to database:", dbError);
-    // Still return results to frontend even if DB fails
     return NextResponse.json({
       last_scan: new Date().toISOString(),
       rise: resultRise,

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getKiteClient } from "@/lib/kite"; // ASSUMPTION: adjust if your singleton lives elsewhere
+import { newClient } from "@/lib/kite";
+import { getStoredAccessToken } from "@/lib/kiteTokenStore";
 import stocklist from "@/app/symbol/data";
 import db from "@/lib/db"; // IMPORTANT: adjust this path to where your db.js is located
 
@@ -99,7 +100,13 @@ async function runScanInBackground() {
   console.log(`🚀 Long-term scan started! Total symbols: ${symbols.length}`);
 
   try {
-    const kc = await getKiteClient();
+    const accessToken = getStoredAccessToken();
+if (!accessToken) {
+  console.error("❌ No stored Kite access token — login via /connect first.");
+  db.prepare("UPDATE vwap_scan_status SET is_scanning = 0 WHERE id = 1").run();
+  return;
+}
+const kc = newClient(accessToken);
     const instrumentMap = await getInstrumentMap(kc);
 
     const toDate = new Date();

@@ -21,7 +21,7 @@ let pollTimer = null;
 async function pollOnce() {
   if (!isMarketHours()) {
     if (!g.__openHighMarketClosedLogged) {
-      console.log("[openHigh] outside market hours (9:15–3:30 IST, Mon–Fri) — polling paused");
+      console.log("[openHigh] outside market hours (9:15–3:40 IST, Mon–Fri) — polling paused");
       g.__openHighMarketClosedLogged = true;
     }
     return;
@@ -72,5 +72,5 @@ export function startOpenHighPoller() {
   if (g.__openHighPollerStarted) return;
   g.__openHighPollerStarted = true;
   scheduleNextPoll();
-  console.log("[openHigh] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:30 IST, Mon–Fri)");
+  console.log("[openHigh] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:40 IST, Mon–Fri)");
 }

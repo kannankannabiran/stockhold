@@ -53,7 +53,7 @@ function isMarketHours() {
   if (day === 0 || day === 6) return false;
   const minutes = ist.getHours() * 60 + ist.getMinutes();
   const marketOpen = 9 * 60 + 15;
-  const marketClose = 15 * 60 + 30;
+  const marketClose = 15 * 60 + 40;
   return minutes >= marketOpen && minutes <= marketClose;
 }
 
@@ -116,7 +116,7 @@ let pollTimer = null;
 async function pollOnce() {
   if (!isMarketHours()) {
     if (!g.__trendingOiMarketClosedLogged) {
-      console.log("[trendingOi] outside market hours (9:15–3:30 IST, Mon–Fri) — polling paused");
+      console.log("[trendingOi] outside market hours (9:15–3:40 IST, Mon–Fri) — polling paused");
       g.__trendingOiMarketClosedLogged = true;
     }
     return;
@@ -215,7 +215,7 @@ export function startTrendingOiPoller() {
   g.__trendingOiPollerStarted = true;
   hydrateStoreFromDb();
   scheduleNextPoll();
-  console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:30 IST, Mon–Fri)");
+  console.log("[trendingOi] background poller started for", INDEX_KEYS.join(", "), "(active 9:15–3:40 IST, Mon–Fri)");
 }
 
 export function getTrendingOiHistory(symbol, date) {

@@ -6,7 +6,7 @@ import { getStoredAccessToken } from "./kiteTokenStore";
 const POLL_MS = 60 * 1000;
 
 const MARKET_OPEN_MIN = 9 * 60 + 15;  // 09:15
-const MARKET_CLOSE_MIN = 15 * 60 + 30; // 15:30
+const MARKET_CLOSE_MIN = 15 * 60 + 40; // 15:30
 
 // Returns current IST time as "minutes since midnight" without needing a
 // timezone library — reuses the same en-CA/en-GB Intl approach used
@@ -46,7 +46,7 @@ async function pollOnce() {
 export function startOptionChainSnapshotBackground() {
   if (globalThis.__optionChainSnapshotStarted) return;
   globalThis.__optionChainSnapshotStarted = true;
-  console.log(`[optionChainSnapshot] background snapshotter started, every ${POLL_MS / 1000}s (saves only 09:15–15:30 IST)`);
+  console.log(`[optionChainSnapshot] background snapshotter started, every ${POLL_MS / 1000}s (saves only 09:15–15:40 IST)`);
   pollOnce();
   setInterval(pollOnce, POLL_MS);
 }

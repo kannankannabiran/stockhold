@@ -2,12 +2,12 @@ const dev = process.env.NODE_ENV !== 'production';
 
 const nextConfig = {
   assetPrefix: dev ? 'http://localhost:3000' : 'http://localhost:3000', // use HTTPS in production
-  serverExternalPackages: ['yahoo-finance2'],
-  api: {
-    responseLimit: false,
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
+  serverExternalPackages: ['yahoo-finance2', 'kiteconnect', 'ws'],
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals.push('bufferutil', 'utf-8-validate');
+    }
+    return config;
   },
   async rewrites() {
     return [

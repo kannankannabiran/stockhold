@@ -13,6 +13,7 @@
     "axios": "^1.18.1",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.11.1",
+    "bufferutil": "^4.1.0",
     "debounce": "^2.2.0",
     "file-saver": "^2.0.5",
     "heroicons": "^2.2.0",
@@ -30,6 +31,7 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-select": "^5.10.1",
+    "utf-8-validate": "^6.0.6",
     "xlsx": "^0.18.5",
     "yahoo-stock-prices": "^1.1.0"
   },

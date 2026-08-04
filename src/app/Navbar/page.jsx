@@ -228,7 +228,7 @@ export default function Navbar() {
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleNavigate("/chart")}
                   >
-                    Chart
+                    Historical Chart
                   </div>
 
                   <div className="relative group">
@@ -422,7 +422,7 @@ export default function Navbar() {
             </div>
             {showProductDropdown && (
               <div className="ml-4">
-                <div onClick={() => handleNavigate("/chart")}>Chart</div>
+                <div onClick={() => handleNavigate("/chart")}>Historical Chart</div>
                 <div>
                   <div
                     onClick={() => setShowScannerSubmenu((v) => !v)}

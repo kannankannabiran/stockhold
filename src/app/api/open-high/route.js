@@ -6,6 +6,7 @@ import {
   todayKey,
   fetchLiveOpenHighData,
   getHistoricalOpenHighData,
+  isMarketHours,
 } from "../../../lib/openHighCore";
 
 function onlyMatchedRows(rows) {
@@ -16,8 +17,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const requestedExpiry = searchParams.get("expiry");
   const indexKey = (searchParams.get("index") || "NIFTY").toUpperCase();
-  const requestedDate = searchParams.get("date");
-
+  
   if (!INDEX_CONFIG[indexKey]) {
     return NextResponse.json(
       { error: "bad_request", message: `Unknown index "${indexKey}". Valid: ${Object.keys(INDEX_CONFIG).join(", ")}` },
@@ -27,7 +27,12 @@ export async function GET(request) {
 
   const cfg = INDEX_CONFIG[indexKey];
   const today = todayKey();
-  const isHistorical = requestedDate && requestedDate !== today;
+  const requestedDate = searchParams.get("date") || today;
+  const marketOpen = isMarketHours();
+  
+  // We treat the request as historical if it's a past date OR if the market is currently closed.
+  // This bypasses Kite authentication after 3:40 PM and directly serves today's saved matches!
+  const isHistorical = requestedDate !== today || !marketOpen;
 
   if (isHistorical) {
     const { expiry, expiries, spot, rows } = getHistoricalOpenHighData(indexKey, requestedDate, requestedExpiry);
@@ -42,10 +47,12 @@ export async function GET(request) {
       rows: matchedRows,
       date: requestedDate,
       historical: true,
+      isMarketOpen: false, // Let the frontend know market is closed
       updatedAt: new Date().toISOString(),
     });
   }
 
+  // --- LIVE MARKET HOURS LOGIC ---
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("kite_access_token")?.value;
 
@@ -67,6 +74,7 @@ export async function GET(request) {
       rows: matchedRows,
       date,
       historical: false,
+      isMarketOpen: true,
       updatedAt: new Date().toISOString(),
     });
   } catch (err) {

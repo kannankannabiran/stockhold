@@ -290,13 +290,17 @@ export default function OpenHighPage() {
                 <div className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Status</div>
                 <div className="mt-1 flex items-center gap-2 font-display text-lg font-bold text-blue-700">
                   {isToday && data?.updatedAt ? (
-                    <>
-                      <span className="relative flex h-3 w-3">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
-                        <span className="relative inline-flex h-3 w-3 rounded-full bg-blue-500"></span>
-                      </span>
-                      Live • {new Date(data.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                    </>
+                    data?.isMarketOpen ? (
+                      <>
+                        <span className="relative flex h-3 w-3">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                          <span className="relative inline-flex h-3 w-3 rounded-full bg-blue-500"></span>
+                        </span>
+                        Live • {new Date(data.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                      </>
+                    ) : (
+                      "Market Closed (Today's EOD)"
+                    )
                   ) : !isToday ? (
                     "Historical Data"
                   ) : (

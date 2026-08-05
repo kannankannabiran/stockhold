@@ -64,9 +64,11 @@ export function isMarketHours() {
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
   const day = ist.getDay();
   if (day === 0 || day === 6) return false;
+  
   const minutes = ist.getHours() * 60 + ist.getMinutes();
-  const marketOpen = 9 * 60 + 15;
-  const marketClose = 15 * 60 + 30;
+  const marketOpen = 9 * 60 + 15;  // 9:15 AM
+  const marketClose = 15 * 60 + 40; // 3:40 PM
+  
   return minutes >= marketOpen && minutes <= marketClose;
 }
 
@@ -106,9 +108,24 @@ function batch(arr, size) {
 function updateStrikeState(ctx) {
   const { tsym, open, high, low, ltp, dateKey, indexKey, expiry, strike, side, spot } = ctx;
 
+  // 1. Initialize & Preload Cache to keep accurate hit times across server restarts
   if (g.__openHighStrikeStateCache.dateKey !== dateKey) {
     g.__openHighStrikeStateCache = { dateKey, data: {} };
+    try {
+      const rows = db.prepare(`SELECT symbol, status, timestamp FROM open_high_events WHERE date = ?`).all(dateKey);
+      for (const r of rows) {
+        g.__openHighStrikeStateCache.data[r.symbol] = {
+          broke: r.status === "RETEST",
+          retested: r.status === "RETEST",
+          status: r.status,
+          statusAt: r.timestamp,
+        };
+      }
+    } catch (e) {
+      console.error("[open-high] error preloading cache:", e);
+    }
   }
+
   const cache = g.__openHighStrikeStateCache.data;
   const s = cache[tsym] || {
     broke: false,
@@ -117,43 +134,41 @@ function updateStrikeState(ctx) {
     statusAt: null,
   };
 
-  if (isMarketHours()) {
-    if (open != null && high != null && high > open) {
-      s.broke = true;
-    }
-    // Exact match only — LTP must land precisely back on the open price,
-    // not merely dip to or below it, for a RETEST to fire.
-    if (s.broke && !s.retested && open != null && ltp != null && ltp === open) {
-      s.retested = true;
-    }
+  // Evaluate strikes
+  if (open != null && high != null && high > open) {
+    s.broke = true;
+  }
+  
+  if (s.broke && !s.retested && open != null && ltp != null && ltp === open) {
+    s.retested = true;
+  }
 
-    const openHighMatch = open !== null && high !== null && open === high;
-    const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
+  const openHighMatch = open !== null && high !== null && open === high;
+  const currentStatus = s.retested ? "RETEST" : openHighMatch ? "OPEN_HIGH" : null;
 
-    if (currentStatus !== s.status) {
-      s.status = currentStatus;
-      s.statusAt = currentStatus ? Date.now() : null;
+  if (currentStatus !== s.status) {
+    s.status = currentStatus;
+    s.statusAt = currentStatus ? Date.now() : null;
 
-      if (currentStatus) {
-        const hitAtIso = new Date(s.statusAt).toISOString();
-        insertHitEvent.run({
-          id: `${dateKey}_${tsym}_${currentStatus}`,
-          date: dateKey,
-          index_key: indexKey,
-          expiry,
-          strike,
-          side,
-          symbol: tsym,
-          status: currentStatus,
-          open_price: open,
-          high_price: high,
-          low_price: low,
-          ltp,
-          spot,
-          hit_at: hitAtIso,
-          timestamp: s.statusAt,
-        });
-      }
+    if (currentStatus) {
+      const hitAtIso = new Date(s.statusAt).toISOString();
+      insertHitEvent.run({
+        id: `${dateKey}_${tsym}_${currentStatus}`,
+        date: dateKey,
+        index_key: indexKey,
+        expiry,
+        strike,
+        side,
+        symbol: tsym,
+        status: currentStatus,
+        open_price: open,
+        high_price: high,
+        low_price: low,
+        ltp,
+        spot,
+        hit_at: hitAtIso,
+        timestamp: s.statusAt,
+      });
     }
   }
 

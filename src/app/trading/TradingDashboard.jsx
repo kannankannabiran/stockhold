@@ -36,6 +36,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   const [symbolDropdownOpen, setSymbolDropdownOpen] = useState(false);
   const [symbolSearching, setSymbolSearching] = useState(false);
   const [symbolError, setSymbolError] = useState('');
+  const [symbolHighlightIndex, setSymbolHighlightIndex] = useState(-1); // keyboard-navigated row in the dropdown, -1 = none
   const symbolBoxRef = useRef(null);
 
   const [form, setForm] = useState({
@@ -78,6 +79,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   const [nfoCallLtpFallback, setNfoCallLtpFallback] = useState(null); // REST value, used only when the WS ticker hasn't delivered a tick yet
   const [nfoPutLtpFallback, setNfoPutLtpFallback] = useState(null);
   const [symbolLtpFallback, setSymbolLtpFallback] = useState(null); // same idea, for the plain Trading Symbol search field (NSE/BSE/BFO)
+  const [positionLtpFallback, setPositionLtpFallback] = useState({}); // instrument_token -> ltp, for open positions the WS ticker hasn't ticked yet
   const [activeOrdersTab, setActiveOrdersTab] = useState('positions'); // 'positions' | 'orderbook' | 'tradebook'
 
   // ---- Risk management: day max loss / target, trailing stop-loss ----
@@ -186,6 +188,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   }, [apiKey, accessToken]);
 
   useEffect(() => {
+    setSymbolHighlightIndex(-1);
     if (!symbolQuery.trim()) {
       setSymbolResults([]);
       return;
@@ -484,6 +487,51 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     return () => clearInterval(interval);
   }, [form.exchange, form.tradingsymbol, form.instrument_token, ltpMap]);
 
+  // REST fallback for open-position LTP: refreshPositions() already runs
+  // every 5s and pulls fresh data from the broker, but in paper mode (and
+  // whenever the WS ticker stays silent) p.last_price doesn't move between
+  // those refreshes, so LTP/P&L looked frozen. This polls each open
+  // position's own LTP directly, independent of refreshPositions, and only
+  // for tokens the WS ticker hasn't already ticked.
+  useEffect(() => {
+    const openPositions = positions.filter((p) => p.quantity !== 0 && p.instrument_token);
+    if (!openPositions.length) {
+      setPositionLtpFallback({});
+      return;
+    }
+    const poll = async () => {
+      const needsFallback = openPositions.filter((p) => ltpMap[p.instrument_token] == null);
+      if (!needsFallback.length) return;
+      const results = await Promise.all(
+        needsFallback.map(async (p) => {
+          try {
+            const symbol = `${p.exchange}:${p.tradingsymbol}`;
+            const res = await fetch(`/api/spot-ltp?symbol=${encodeURIComponent(symbol)}`);
+            const data = await res.json();
+            if (data.success && typeof data.ltp === 'number') {
+              return [p.instrument_token, data.ltp];
+            }
+            console.warn(`spot-ltp fallback for position ${symbol} returned no usable price:`, data);
+          } catch (err) {
+            console.warn(`spot-ltp fallback fetch failed for position ${p.tradingsymbol}:`, err.message);
+          }
+          return null;
+        })
+      );
+      setPositionLtpFallback((prev) => {
+        const next = { ...prev };
+        results.forEach((r) => {
+          if (r) next[r[0]] = r[1];
+        });
+        return next;
+      });
+    };
+    poll();
+    const interval = setInterval(poll, 5000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [positions, ltpMap]);
+
   // side: 'call' | 'put'
   const placeQuickOrder = (side, transaction_type) => {
     const option = side === 'call' ? nfoCallOption : nfoPutOption;
@@ -507,6 +555,45 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
     submitOrder(transaction_type, payload);
   };
+
+  // Arrow-key shortcuts for the quick-trade pad, mirroring the arrows
+  // already shown on the buttons themselves:
+  //   ↑ = Buy Call, ← = Sell Call, ↓ = Buy Put, → = Sell Put
+  // Only live when One Click is on (since these fire instantly, same as
+  // clicking) and NFO is selected. Skips while typing into any form field
+  // so it doesn't hijack normal input/select navigation, and while the
+  // live-order confirm modal is open.
+  useEffect(() => {
+    if (form.exchange !== 'NFO' || !oneClickEnabled) return;
+    const handleKeyDown = (e) => {
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+      if (placing || pendingConfirm) return;
+      switch (e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          placeQuickOrder('call', 'BUY');
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          placeQuickOrder('call', 'SELL');
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          placeQuickOrder('put', 'BUY');
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          placeQuickOrder('put', 'SELL');
+          break;
+        default:
+          break;
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.exchange, oneClickEnabled, placing, pendingConfirm, nfoCallOption, nfoPutOption, nfoLots, form.product, mode]);
 
   const setLots = (n) => {
     if (!form.lot_size) return;
@@ -659,17 +746,36 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   };
 
   const submitModify = async (order) => {
-    const res = await fetch(`/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editValues),
-    });
-    const data = await res.json();
-    if (data.success) {
-      setEditingOrderId(null);
-      refreshOrders();
-    } else {
-      setStatusMsg(`Modify failed: ${data.error}`);
+    try {
+      const res = await fetch(`/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editValues),
+      });
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        // Body wasn't JSON at all — this is what a genuine "route doesn't
+        // exist" 404 (or a 500 HTML error page) looks like, vs. our own API
+        // returning a proper {success:false, error} JSON body.
+        setStatusMsg(
+          res.status === 404
+            ? 'Modify failed: /api/orders/[order_id] route not found (404) — restart your dev server.'
+            : `Modify failed: unexpected response (status ${res.status}).`
+        );
+        return;
+      }
+      if (data.success) {
+        setEditingOrderId(null);
+        refreshOrders();
+      } else {
+        // Real error from the route itself (e.g. "No modifiable paper order
+        // with id ..."), not a routing problem — show it as-is.
+        setStatusMsg(`Modify failed: ${data.error}`);
+      }
+    } catch (err) {
+      setStatusMsg(`Modify failed: ${err.message}`);
     }
   };
 
@@ -683,11 +789,19 @@ export default function TradingDashboard({ apiKey, accessToken }) {
         `/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}`,
         { method: 'DELETE' }
       );
-      if (res.status === 404) {
-        setStatusMsg('Cancel failed: /api/orders/[order_id] route not found (404) — restart your dev server.');
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        // Same distinction as submitModify above — only a non-JSON body
+        // means the route itself wasn't matched.
+        setStatusMsg(
+          res.status === 404
+            ? 'Cancel failed: /api/orders/[order_id] route not found (404) — restart your dev server.'
+            : `Cancel failed: unexpected response (status ${res.status}).`
+        );
         return;
       }
-      const data = await res.json();
       if (data.success) {
         refreshOrders();
       } else {
@@ -712,11 +826,11 @@ export default function TradingDashboard({ apiKey, accessToken }) {
       positions
         .filter((p) => p.quantity !== 0)
         .map((p) => {
-          const ltp = ltpMap[p.instrument_token] ?? p.last_price;
+          const ltp = ltpMap[p.instrument_token] ?? positionLtpFallback[p.instrument_token] ?? p.last_price;
           const pnl = p.quantity * (ltp - p.average_price) * (p.multiplier || 1);
           return { ...p, ltp, pnl };
         }),
-    [positions, ltpMap]
+    [positions, ltpMap, positionLtpFallback]
   );
 
   // Kept in sync via effect below — lets squareOffAll read the latest
@@ -972,6 +1086,18 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </select>
             </label>
 
+            <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 8, marginTop: 18 }}>
+              <input
+                type="checkbox"
+                checked={oneClickEnabled}
+                onChange={(e) => setOneClickEnabled(e.target.checked)}
+                style={checkboxStyle}
+              />
+              <span style={{ fontSize: 13, color: '#374151' }}>
+                One click: <strong style={{ color: oneClickEnabled ? '#1FD980' : '#9CA3AF' }}>{oneClickEnabled ? 'Enabled' : 'Disabled'}</strong>
+              </span>
+            </label>
+
             {form.exchange === 'NFO' && (
               <>
                 <label style={labelStyle}>
@@ -1067,18 +1193,6 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                     ))}
                   </select>
                 </label>
-
-                <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 8, marginTop: 18 }}>
-                  <input
-                    type="checkbox"
-                    checked={oneClickEnabled}
-                    onChange={(e) => setOneClickEnabled(e.target.checked)}
-                    style={checkboxStyle}
-                  />
-                  <span style={{ fontSize: 13, color: '#374151' }}>
-                    One click: <strong style={{ color: oneClickEnabled ? '#1FD980' : '#9CA3AF' }}>{oneClickEnabled ? 'Enabled' : 'Disabled'}</strong>
-                  </span>
-                </label>
               </>
             )}
 
@@ -1095,6 +1209,23 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                         setSymbolDropdownOpen(true);
                       }}
                       onFocus={() => setSymbolDropdownOpen(true)}
+                      onKeyDown={(e) => {
+                        if (!symbolDropdownOpen || !symbolResults.length) return;
+                        if (e.key === 'ArrowDown') {
+                          e.preventDefault();
+                          setSymbolHighlightIndex((i) => (i + 1) % symbolResults.length);
+                        } else if (e.key === 'ArrowUp') {
+                          e.preventDefault();
+                          setSymbolHighlightIndex((i) => (i <= 0 ? symbolResults.length - 1 : i - 1));
+                        } else if (e.key === 'Enter') {
+                          e.preventDefault();
+                          if (symbolHighlightIndex >= 0 && symbolHighlightIndex < symbolResults.length) {
+                            selectSymbol(symbolResults[symbolHighlightIndex]);
+                          }
+                        } else if (e.key === 'Escape') {
+                          setSymbolDropdownOpen(false);
+                        }
+                      }}
                       placeholder="Search e.g. NIFTY, BANKNIFTY, SENSEX..."
                       style={darkInputStyle}
                       autoComplete="off"
@@ -1110,11 +1241,15 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                         )}
                         {!symbolSearching &&
                           !symbolError &&
-                          symbolResults.map((r) => (
+                          symbolResults.map((r, i) => (
                             <div
                               key={r.instrument_token}
                               onClick={() => selectSymbol(r)}
-                              style={dropdownItemStyle}
+                              onMouseEnter={() => setSymbolHighlightIndex(i)}
+                              style={{
+                                ...dropdownItemStyle,
+                                background: i === symbolHighlightIndex ? 'rgba(110,123,255,0.14)' : dropdownItemStyle.background,
+                              }}
                               onMouseDown={(e) => e.preventDefault()}
                             >
                               <span style={{ fontWeight: 600, color: '#111827', fontFamily: monoFont }}>{r.tradingsymbol}</span>
@@ -1279,18 +1414,18 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                   </div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     <button
-                      disabled={placing || !nfoCallOption}
+                      disabled={placing || !nfoCallOption || !oneClickEnabled}
                       onClick={() => placeQuickOrder('call', 'SELL')}
                       className="stk-btn"
-                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoCallOption ? disabledBtnStyle : {}) }}
+                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoCallOption || !oneClickEnabled ? disabledBtnStyle : {}) }}
                     >
                       ← Sell Call
                     </button>
                     <button
-                      disabled={placing || !nfoCallOption}
+                      disabled={placing || !nfoCallOption || !oneClickEnabled}
                       onClick={() => placeQuickOrder('call', 'BUY')}
                       className="stk-btn"
-                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoCallOption ? disabledBtnStyle : {}) }}
+                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoCallOption || !oneClickEnabled ? disabledBtnStyle : {}) }}
                     >
                       ↑ Buy Call
                     </button>
@@ -1345,18 +1480,18 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                   </div>
                   <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
                     <button
-                      disabled={placing || !nfoPutOption}
+                      disabled={placing || !nfoPutOption || !oneClickEnabled}
                       onClick={() => placeQuickOrder('put', 'BUY')}
                       className="stk-btn"
-                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoPutOption ? disabledBtnStyle : {}) }}
+                      style={{ ...quickPadBtnStyle, ...buyBtnStyle, ...(!nfoPutOption || !oneClickEnabled ? disabledBtnStyle : {}) }}
                     >
                       ↓ Buy Put
                     </button>
                     <button
-                      disabled={placing || !nfoPutOption}
+                      disabled={placing || !nfoPutOption || !oneClickEnabled}
                       onClick={() => placeQuickOrder('put', 'SELL')}
                       className="stk-btn"
-                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoPutOption ? disabledBtnStyle : {}) }}
+                      style={{ ...quickPadBtnStyle, ...sellBtnStyle, ...(!nfoPutOption || !oneClickEnabled ? disabledBtnStyle : {}) }}
                     >
                       Sell Put →
                     </button>
@@ -1365,7 +1500,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </div>
               <p style={{ marginTop: 10, fontSize: 11, color: '#9CA3AF', textAlign: 'center' }}>
                 Orders place at MARKET, {nfoLots} lot{nfoLots > 1 ? 's' : ''} × lot size, product {form.product}
-                {oneClickEnabled ? ' — one-click enabled, live orders skip confirmation.' : ' — live orders still ask for confirmation.'}
+                {oneClickEnabled ? ' — one-click enabled. Shortcuts: ↑ Buy Call · ← Sell Call · ↓ Buy Put · → Sell Put.' : ' — enable One click above to trade.'}
               </p>
             </>
           ) : (
@@ -1380,14 +1515,17 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               )}
 
               <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
-                <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('BUY')} style={{ ...buyBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
+                <button disabled={placing || !!orderError || !oneClickEnabled} onClick={() => handlePlaceOrder('BUY')} style={{ ...buyBtnStyle, ...(orderError || !oneClickEnabled ? disabledBtnStyle : {}) }} className="stk-btn">
                   {mode === 'paper' ? 'BUY (paper)' : 'BUY'}
                 </button>
-                <button disabled={placing || !!orderError} onClick={() => handlePlaceOrder('SELL')} style={{ ...sellBtnStyle, ...(orderError ? disabledBtnStyle : {}) }} className="stk-btn">
+                <button disabled={placing || !!orderError || !oneClickEnabled} onClick={() => handlePlaceOrder('SELL')} style={{ ...sellBtnStyle, ...(orderError || !oneClickEnabled ? disabledBtnStyle : {}) }} className="stk-btn">
                   {mode === 'paper' ? 'SELL (paper)' : 'SELL'}
                 </button>
               </div>
-              {orderError && !placing && (
+              {!oneClickEnabled && !placing && (
+                <p style={{ marginTop: 8, fontSize: 12, color: '#9CA3AF' }}>Enable One click to place orders.</p>
+              )}
+              {orderError && oneClickEnabled && !placing && (
                 <p style={{ marginTop: 8, fontSize: 12, color: '#9CA3AF' }}>{orderError}</p>
               )}
             </>

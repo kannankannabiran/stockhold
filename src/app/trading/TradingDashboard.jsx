@@ -721,9 +721,30 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
   };
 
+  const openOrders = useMemo(
+    () => orders.filter((o) => ['OPEN', 'TRIGGER PENDING', 'OPEN PENDING'].includes(o.status)),
+    [orders]
+  );
+  
+  const otherOrders = useMemo(
+    () => orders.filter((o) => !['OPEN', 'TRIGGER PENDING', 'OPEN PENDING'].includes(o.status)),
+    [orders]
+  );
+
+  // Keep open orders synced via a ref so the cancel keyboard shortcut avoids stale state closures
+  const openOrdersRef = useRef([]);
+  useEffect(() => {
+    openOrdersRef.current = openOrders;
+  }, [openOrders]);
+
   const cancelAllOrders = async () => {
+    if (openOrdersRef.current.length === 0) {
+      setStatusMsg('No open orders to cancel.');
+      return;
+    }
+    
     setStatusMsg('Cancelling all open orders…');
-    for (const o of openOrders) {
+    for (const o of openOrdersRef.current) {
       try {
         await fetch(`/api/orders/${o.order_id}?variety=${o.variety || 'regular'}&mode=${mode}`, { method: 'DELETE' });
       } catch (err) {
@@ -812,15 +833,6 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
   };
 
-  const openOrders = useMemo(
-    () => orders.filter((o) => ['OPEN', 'TRIGGER PENDING', 'OPEN PENDING'].includes(o.status)),
-    [orders]
-  );
-  const otherOrders = useMemo(
-    () => orders.filter((o) => !['OPEN', 'TRIGGER PENDING', 'OPEN PENDING'].includes(o.status)),
-    [orders]
-  );
-
   const livePositions = useMemo(
     () =>
       positions
@@ -839,6 +851,36 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   useEffect(() => {
     livePositionsRef.current = livePositions;
   }, [livePositions]);
+
+  // ---- F6 / F7 Shortcuts for Global Actions ----
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      // F6 -> Close All Positions
+      if (e.key === 'F6') {
+        e.preventDefault(); 
+        
+        if (livePositionsRef.current.length > 0) {
+          squareOffAll('Manual square-off requested via F6.');
+        } else {
+          setStatusMsg('No open positions to close.');
+        }
+      } 
+      // F7 -> Cancel All Orders
+      else if (e.key === 'F7') {
+        e.preventDefault(); 
+        
+        if (openOrdersRef.current.length > 0) {
+          cancelAllOrders();
+        } else {
+          setStatusMsg('No open orders to cancel.');
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
 
   const dayPnl = useMemo(() => livePositions.reduce((sum, p) => sum + p.pnl, 0), [livePositions]);
   const orderError = validateOrder();
@@ -1450,14 +1492,14 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                       className="stk-btn"
                       style={{ ...smallBtnStyle, color: '#FF4B5C', borderColor: 'rgba(255,75,92,0.35)' }}
                     >
-                      Close All Positions
+                      Close All Positions / F6
                     </button>
                     <button
                       onClick={cancelAllOrders}
                       className="stk-btn"
                       style={{ ...smallBtnStyle, color: '#F5A623', borderColor: 'rgba(245,166,35,0.35)' }}
                     >
-                      Cancel All Orders
+                      Cancel All Orders / F7
                     </button>
                   </div>
                   {statusMsg && (

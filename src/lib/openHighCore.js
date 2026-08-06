@@ -44,15 +44,10 @@ const selectExpiries = db.prepare(`
   SELECT DISTINCT expiry FROM open_high_events WHERE date = ? AND index_key = ? ORDER BY expiry
 `);
 
-const selectLatestEvents = db.prepare(`
-  SELECT t.* FROM open_high_events t
-  INNER JOIN (
-    SELECT symbol, MAX(rowid) AS max_rowid
-    FROM open_high_events
-    WHERE date = ? AND index_key = ? AND expiry = ?
-    GROUP BY symbol
-  ) latest ON t.rowid = latest.max_rowid
-  ORDER BY t.strike
+const selectAllEventsForExpiry = db.prepare(`
+  SELECT * FROM open_high_events
+  WHERE date = ? AND index_key = ? AND expiry = ?
+  ORDER BY timestamp ASC
 `);
 
 const g = globalThis;
@@ -64,11 +59,11 @@ export function isMarketHours() {
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
   const day = ist.getDay();
   if (day === 0 || day === 6) return false;
-  
+
   const minutes = ist.getHours() * 60 + ist.getMinutes();
   const marketOpen = 9 * 60 + 15;  // 9:15 AM
   const marketClose = 15 * 60 + 40; // 3:40 PM
-  
+
   return minutes >= marketOpen && minutes <= marketClose;
 }
 
@@ -105,40 +100,53 @@ function batch(arr, size) {
   return out;
 }
 
-function updateStrikeState(ctx) {
-  const { tsym, open, high, low, ltp, dateKey, indexKey, expiry, strike, side, spot } = ctx;
+// --- Strike state: only retestAt is kept as a timestamp; no openHighAt tracking. ---
 
-  // 1. Initialize & Preload Cache to keep accurate hit times across server restarts
-  if (g.__openHighStrikeStateCache.dateKey !== dateKey) {
-    g.__openHighStrikeStateCache = { dateKey, data: {} };
-    try {
-      const rows = db.prepare(`SELECT symbol, status, timestamp FROM open_high_events WHERE date = ?`).all(dateKey);
-      for (const r of rows) {
-        g.__openHighStrikeStateCache.data[r.symbol] = {
-          broke: r.status === "RETEST",
-          retested: r.status === "RETEST",
-          status: r.status,
-          statusAt: r.timestamp,
-        };
-      }
-    } catch (e) {
-      console.error("[open-high] error preloading cache:", e);
-    }
-  }
-
-  const cache = g.__openHighStrikeStateCache.data;
-  const s = cache[tsym] || {
+function emptyState() {
+  return {
     broke: false,
     retested: false,
     status: null,
-    statusAt: null,
+    retestAt: null,
   };
+}
 
-  // Evaluate strikes
+function preloadCacheForDate(dateKey) {
+  g.__openHighStrikeStateCache = { dateKey, data: {} };
+  try {
+    const rows = db
+      .prepare(`SELECT symbol, status, timestamp FROM open_high_events WHERE date = ? ORDER BY timestamp ASC`)
+      .all(dateKey);
+
+    for (const r of rows) {
+      const s = g.__openHighStrikeStateCache.data[r.symbol] || emptyState();
+      s.status = r.status;
+      if (r.status === "RETEST") {
+        s.retestAt = r.timestamp;
+        s.broke = true;
+        s.retested = true;
+      }
+      g.__openHighStrikeStateCache.data[r.symbol] = s;
+    }
+  } catch (e) {
+    console.error("[open-high] error preloading cache:", e);
+  }
+}
+
+function updateStrikeState(ctx) {
+  const { tsym, open, high, low, ltp, dateKey, indexKey, expiry, strike, side, spot } = ctx;
+
+  if (g.__openHighStrikeStateCache.dateKey !== dateKey) {
+    preloadCacheForDate(dateKey);
+  }
+
+  const cache = g.__openHighStrikeStateCache.data;
+  const s = cache[tsym] || emptyState();
+
   if (open != null && high != null && high > open) {
     s.broke = true;
   }
-  
+
   if (s.broke && !s.retested && open != null && ltp != null && ltp === open) {
     s.retested = true;
   }
@@ -148,10 +156,12 @@ function updateStrikeState(ctx) {
 
   if (currentStatus !== s.status) {
     s.status = currentStatus;
-    s.statusAt = currentStatus ? Date.now() : null;
+    const statusAt = currentStatus ? Date.now() : null;
+
+    if (currentStatus === "RETEST") s.retestAt = statusAt;
 
     if (currentStatus) {
-      const hitAtIso = new Date(s.statusAt).toISOString();
+      const hitAtIso = new Date(statusAt).toISOString();
       insertHitEvent.run({
         id: `${dateKey}_${tsym}_${currentStatus}`,
         date: dateKey,
@@ -167,7 +177,7 @@ function updateStrikeState(ctx) {
         ltp,
         spot,
         hit_at: hitAtIso,
-        timestamp: s.statusAt,
+        timestamp: statusAt,
       });
     }
   }
@@ -249,7 +259,7 @@ export async function fetchLiveOpenHighData(kc, indexKey, requestedExpiry) {
     rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
     rowsMap[strike][`${side}_status`] = state.status;
     rowsMap[strike][`${side}_broke`] = state.broke;
-    rowsMap[strike][`${side}_hitAt`] = state.statusAt ? new Date(state.statusAt).toISOString() : null;
+    rowsMap[strike][`${side}_retestAt`] = state.retestAt ? new Date(state.retestAt).toISOString() : null;
     rowsMap[strike][`${side}_itm`] =
       spot !== null && (side === "CE" ? strike < spot : strike > spot);
   }
@@ -273,7 +283,7 @@ export function getHistoricalOpenHighData(indexKey, dateKey, requestedExpiry) {
     return { expiry: null, expiries, spot: null, rows: [] };
   }
 
-  const events = selectLatestEvents.all(dateKey, indexKey, expiry);
+  const events = selectAllEventsForExpiry.all(dateKey, indexKey, expiry);
 
   let spot = null;
   const rowsMap = {};
@@ -282,16 +292,18 @@ export function getHistoricalOpenHighData(indexKey, dateKey, requestedExpiry) {
     const strike = ev.strike;
     const side = ev.side;
     rowsMap[strike] = rowsMap[strike] || { strike };
-    rowsMap[strike][`${side}_open`] = ev.open_price;
-    rowsMap[strike][`${side}_high`] = ev.high_price;
-    rowsMap[strike][`${side}_low`] = ev.low_price;
-    rowsMap[strike][`${side}_ltp`] = ev.ltp;
-    rowsMap[strike][`${side}_symbol`] = ev.symbol;
-    rowsMap[strike][`${side}_status`] = ev.status;
-    rowsMap[strike][`${side}_broke`] = ev.status === "RETEST";
-    rowsMap[strike][`${side}_hitAt`] = ev.hit_at;
-    rowsMap[strike][`${side}_itm`] =
-      ev.spot != null ? (side === "CE" ? strike < ev.spot : strike > ev.spot) : null;
+    const row = rowsMap[strike];
+
+    row[`${side}_open`] = ev.open_price;
+    row[`${side}_high`] = ev.high_price;
+    row[`${side}_low`] = ev.low_price;
+    row[`${side}_ltp`] = ev.ltp;
+    row[`${side}_symbol`] = ev.symbol;
+    row[`${side}_status`] = ev.status;
+    row[`${side}_broke`] = row[`${side}_broke`] || ev.status === "RETEST";
+    row[`${side}_itm`] = ev.spot != null ? (side === "CE" ? strike < ev.spot : strike > ev.spot) : null;
+
+    if (ev.status === "RETEST") row[`${side}_retestAt`] = ev.hit_at;
   }
 
   const rows = Object.values(rowsMap).sort((a, b) => a.strike - b.strike);

@@ -35,6 +35,10 @@ function fmtPts(strike, spot) {
   return diff > 0 ? `+${diff}` : `${diff}`;
 }
 
+function isMatchedStatus(status) {
+  return status === "OPEN_HIGH" || status === "RETEST";
+}
+
 // --- UI Sub-Components ---
 
 function MetricCard({ title, value, subtitle, tone = "slate" }) {
@@ -86,16 +90,12 @@ function StatusBadge({ status, broke }) {
   return <span className="font-semibold text-slate-300">—</span>;
 }
 
-function TimeChip({ iso }) {
-  const time = fmtTime(iso);
-  if (!time) return <span className="text-slate-300">—</span>;
+function RetestTime({ retestAt }) {
+  const rt = fmtTime(retestAt);
+  if (!rt) return <span className="text-slate-300">—</span>;
   return (
-    <span className="inline-flex items-center gap-1 rounded border border-slate-200 bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold tracking-wide text-slate-600 shadow-sm">
-      <svg width="10" height="10" viewBox="0 0 10 10" className="text-slate-400">
-        <circle cx="5" cy="5" r="4.25" fill="none" stroke="currentColor" strokeWidth="1" />
-        <path d="M5 2.6V5l1.7 1" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-      </svg>
-      {time}
+    <span className="inline-flex items-center gap-1 rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm">
+      {rt}
     </span>
   );
 }
@@ -191,7 +191,7 @@ export default function OpenHighPage() {
 
   const matchedRows = useMemo(() => {
     if (!data?.rows?.length) return [];
-    return data.rows.filter((r) => r.CE_status === "OPEN_HIGH" || r.PE_status === "OPEN_HIGH");
+    return data.rows.filter((r) => isMatchedStatus(r.CE_status) || isMatchedStatus(r.PE_status));
   }, [data]);
 
   const atmStrike = useMemo(() => {
@@ -208,7 +208,7 @@ export default function OpenHighPage() {
   return (
     <main className="min-h-screen w-full bg-[#f8f9fa] px-2 py-5 text-slate-800 sm:px-4 lg:px-6">
       <div className="mx-auto w-full space-y-4">
-        
+
         {/* Header Controls */}
         <header className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm md:px-6 md:py-5">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
@@ -224,7 +224,7 @@ export default function OpenHighPage() {
                     Open <span className="text-emerald-600">= High</span>
                   </h1>
                   <p className="mt-0.5 text-sm font-medium text-slate-500">
-                    Live options scanner. First hit time stays saved.
+                    Live options scanner. Retest time stays saved.
                   </p>
                 </div>
               </div>
@@ -254,9 +254,9 @@ export default function OpenHighPage() {
               />
 
               {data?.expiries?.length > 0 && (
-                <select 
-                  value={expiry || ""} 
-                  onChange={(e) => setExpiry(e.target.value)} 
+                <select
+                  value={expiry || ""}
+                  onChange={(e) => setExpiry(e.target.value)}
                   className="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                 >
                   {data.expiries.map((e) => (
@@ -364,7 +364,7 @@ export default function OpenHighPage() {
                       Put Side
                     </th>
                   </tr>
-                  
+
                   {/* Column Sub-Headers */}
                   <tr className="border-b border-slate-200 bg-white text-xs font-semibold tracking-wide text-slate-500">
                     <th className="px-3 py-2">Open</th>
@@ -372,11 +372,11 @@ export default function OpenHighPage() {
                     <th className="px-3 py-2">Low</th>
                     <th className="px-3 py-2 text-slate-800">LTP</th>
                     <th className="px-3 py-2 text-center">Hit Status</th>
-                    <th className="px-3 py-2 text-center">Hit Time</th>
-                    
+                    <th className="px-3 py-2 text-center">Retest Time</th>
+
                     <th className="border-l border-r border-slate-200 bg-slate-50/50 px-3 py-2"></th>
-                    
-                    <th className="px-3 py-2 text-center">Hit Time</th>
+
+                    <th className="px-3 py-2 text-center">Retest Time</th>
                     <th className="px-3 py-2 text-center">Hit Status</th>
                     <th className="px-3 py-2 text-slate-800">LTP</th>
                     <th className="px-3 py-2">Low</th>
@@ -395,8 +395,7 @@ export default function OpenHighPage() {
                   ) : (
                     matchedRows.map((r) => {
                       const isAtm = r.strike === atmStrike;
-                      
-                      // Highlight matching cells
+
                       const getCellClass = (status) => {
                         if (status === "OPEN_HIGH") return "bg-emerald-50/50 text-emerald-700 font-bold";
                         if (status === "RETEST") return "bg-blue-50/50 text-blue-700 font-bold";
@@ -417,7 +416,7 @@ export default function OpenHighPage() {
                             <StatusBadge status={r.CE_status} broke={r.CE_broke} />
                           </td>
                           <td className="px-3 py-2.5 text-center">
-                            <TimeChip iso={r.CE_hitAt} />
+                            <RetestTime retestAt={r.CE_retestAt} />
                           </td>
 
                           {/* Strike */}
@@ -425,7 +424,7 @@ export default function OpenHighPage() {
 
                           {/* Put Side */}
                           <td className="px-3 py-2.5 text-center">
-                            <TimeChip iso={r.PE_hitAt} />
+                            <RetestTime retestAt={r.PE_retestAt} />
                           </td>
                           <td className="px-3 py-2.5 text-center">
                             <StatusBadge status={r.PE_status} broke={r.PE_broke} />

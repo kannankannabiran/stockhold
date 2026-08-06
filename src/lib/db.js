@@ -23,7 +23,6 @@ db.exec(`
     put_oi INTEGER,
     timestamp INTEGER NOT NULL
   );
-
   CREATE INDEX IF NOT EXISTS idx_trending_oi_symbol_ts
     ON trending_oi_history (symbol, timestamp DESC);
 
@@ -46,7 +45,6 @@ db.exec(`
     pe_oi_change INTEGER,
     timestamp INTEGER NOT NULL
   );
-
   CREATE INDEX IF NOT EXISTS idx_oi_trend_symbol_strike_ts
     ON oi_trend_history (symbol, strike, timestamp DESC);
 
@@ -65,7 +63,6 @@ db.exec(`
     diff_pct REAL,
     timestamp INTEGER NOT NULL
   );
-
   CREATE INDEX IF NOT EXISTS idx_trending_oi_summary_symbol_ts
     ON trending_oi_summary (symbol, timestamp DESC);
 
@@ -89,11 +86,10 @@ db.exec(`
     time TEXT NOT NULL,
     timestamp INTEGER NOT NULL
   );
-
   CREATE INDEX IF NOT EXISTS idx_option_chain_snapshots_lookup
     ON option_chain_snapshots (index_key, date, timestamp);
 
-  -- NEW TABLES FOR VWAP SCANNER --
+  -- VWAP SCANNER --
   CREATE TABLE IF NOT EXISTS vwap_scan_status (
     id INTEGER PRIMARY KEY CHECK (id = 1),
     last_scan TEXT,
@@ -101,7 +97,6 @@ db.exec(`
     current_progress INTEGER DEFAULT 0,
     total_progress INTEGER DEFAULT 0
   );
-
   CREATE TABLE IF NOT EXISTS vwap_scan_results (
     symbol TEXT PRIMARY KEY,
     trend TEXT NOT NULL,
@@ -112,18 +107,38 @@ db.exec(`
     previous_years TEXT NOT NULL,
     updated_at INTEGER NOT NULL
   );
-
-  -- Initialize scan status if it doesn't exist --
-  INSERT OR IGNORE INTO vwap_scan_status (id, last_scan, is_scanning, current_progress, total_progress) 
+  INSERT OR IGNORE INTO vwap_scan_status (id, last_scan, is_scanning, current_progress, total_progress)
   VALUES (1, NULL, 0, 0, 0);
+
+  -- PURCHASE ORDERS --
+  CREATE TABLE IF NOT EXISTS purchase_orders (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    price REAL,
+    mobile TEXT,
+    date TEXT,
+    status TEXT NOT NULL DEFAULT 'pending',
+    product_id TEXT,
+    timestamp INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_purchase_orders_status_ts
+    ON purchase_orders (status, timestamp DESC);
 `);
 
-// Migrations: if trending_oi_history was created before spot/call_oi/put_oi
-// existed, add them now. Safe to run every startup — duplicate-column
+// Migrations: add columns to tables that may have been created before
+// these columns existed. Safe to run every startup — duplicate-column
 // errors are swallowed, anything else is rethrown.
 for (const col of ['spot REAL', 'call_oi INTEGER', 'put_oi INTEGER']) {
   try {
     db.prepare(`ALTER TABLE trending_oi_history ADD COLUMN ${col}`).run();
+  } catch (e) {
+    if (!/duplicate column/i.test(e.message)) throw e;
+  }
+}
+
+for (const col of ['product_id TEXT']) {
+  try {
+    db.prepare(`ALTER TABLE purchase_orders ADD COLUMN ${col}`).run();
   } catch (e) {
     if (!/duplicate column/i.test(e.message)) throw e;
   }

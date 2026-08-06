@@ -1,13 +1,18 @@
-import { promises as fs } from "fs";
-import path from "path";
+import db from "@/lib/db";
 
 export async function GET() {
   try {
-    const filePath = path.join(process.cwd(), "data", "purchases.json");
-    const fileData = await fs.readFile(filePath, "utf-8");
-    const purchases = JSON.parse(fileData);
-    return new Response(JSON.stringify(purchases), { status: 200 });
-  } catch {
-    return new Response(JSON.stringify([]), { status: 200 });
+    const orders = db
+      .prepare(`
+        SELECT id, title, price, mobile, date, status, product_id AS productId
+        FROM purchase_orders
+      `)
+      .all();
+    return new Response(JSON.stringify(orders), { status: 200 });
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500 }
+    );
   }
 }

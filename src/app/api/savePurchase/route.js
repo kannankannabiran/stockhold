@@ -1,33 +1,30 @@
-import { promises as fs } from "fs";
-import path from "path";
+import db from "@/lib/db";
 
 export async function POST(req) {
   try {
     const newPurchase = await req.json();
-    const filePath = path.join(process.cwd(), "data", "purchases.json");
+    const id = String(Date.now());
+    const date = new Date().toISOString();
 
-    // Ensure purchases.json exists
-    try {
-      await fs.access(filePath);
-    } catch {
-      await fs.mkdir(path.join(process.cwd(), "data"), { recursive: true });
-      await fs.writeFile(filePath, JSON.stringify([], null, 2));
-    }
-
-    const fileData = await fs.readFile(filePath, "utf-8");
-    const purchases = JSON.parse(fileData);
-
-    purchases.push({
-      ...newPurchase,
-      id: Date.now(),
-      date: new Date().toISOString(),
-      status: "pending"
+    db.prepare(`
+      INSERT INTO purchase_orders (id, title, price, mobile, date, status, product_id, timestamp)
+      VALUES (@id, @title, @price, @mobile, @date, @status, @productId, @timestamp)
+    `).run({
+      id,
+      title: newPurchase.title ?? null,
+      price: newPurchase.price ?? null,
+      mobile: newPurchase.mobile ?? null,
+      date,
+      status: "pending",
+      productId: newPurchase.productId ?? null,
+      timestamp: Date.now(),
     });
 
-    await fs.writeFile(filePath, JSON.stringify(purchases, null, 2));
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return new Response(JSON.stringify({ success: true, id }), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500 }
+    );
   }
 }

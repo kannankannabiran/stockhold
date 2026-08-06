@@ -65,14 +65,8 @@ function MetricCard({ title, value, subtitle, tone = "slate" }) {
   );
 }
 
-function StatusBadge({ status, broke }) {
-  if (status === "OPEN_HIGH") {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-emerald-700 shadow-sm">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Hit
-      </span>
-    );
-  }
+function StatusBadge({ status, broke, open, high }) {
+  // Retest takes priority
   if (status === "RETEST") {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm">
@@ -80,26 +74,41 @@ function StatusBadge({ status, broke }) {
       </span>
     );
   }
-  if (broke) {
+
+  // Open === High → Match
+  if (status === "OPEN_HIGH") {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-amber-700">
-        <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Pending
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-emerald-700 shadow-sm">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Match
       </span>
     );
   }
+
+  // Open != High → Not Match
+  if (open != null && high != null && open !== high) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-slate-600">
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-400"></span> Not Match
+      </span>
+    );
+  }
+
+  // Fallback (no data or not yet decided)
   return <span className="font-semibold text-slate-300">—</span>;
 }
 
 function EventTime({ hitAt, retestAt, status }) {
-  // For OPEN_HIGH: show hitAt
-  // For RETEST: show retestAt only
-  const iso = status === "RETEST" ? retestAt : hitAt;
-  const t = fmtTime(iso);
+  // Only show time for RETEST (retest time). For OPEN_HIGH, show nothing.
+  if (status !== "RETEST") {
+    return <span className="text-slate-300">—</span>;
+  }
+
+  const t = fmtTime(retestAt);
   if (!t) return <span className="text-slate-300">—</span>;
-  const label = status === "RETEST" ? "Retest" : "Hit";
+
   return (
     <span className="inline-flex items-center gap-1 rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm">
-      {label} {t}
+      {t}
     </span>
   );
 }
@@ -418,7 +427,12 @@ export default function OpenHighPage() {
                           <td className={`px-3 py-2.5 ${ceClass}`}>{fmt(r.CE_low)}</td>
                           <td className={`px-3 py-2.5 font-bold text-slate-900 ${ceClass.includes("bg") ? ceClass : ""}`}>{fmt(r.CE_ltp)}</td>
                           <td className="px-3 py-2.5 text-center">
-                            <StatusBadge status={r.CE_status} broke={r.CE_broke} />
+                            <StatusBadge
+                              status={r.CE_status}
+                              broke={r.CE_broke}
+                              open={r.CE_open}
+                              high={r.CE_high}
+                            />
                           </td>
                           <td className="px-3 py-2.5 text-center">
                             <EventTime
@@ -440,7 +454,12 @@ export default function OpenHighPage() {
                             />
                           </td>
                           <td className="px-3 py-2.5 text-center">
-                            <StatusBadge status={r.PE_status} broke={r.PE_broke} />
+                            <StatusBadge
+                              status={r.PE_status}
+                              broke={r.PE_broke}
+                              open={r.PE_open}
+                              high={r.PE_high}
+                            />
                           </td>
                           <td className={`px-3 py-2.5 font-bold text-slate-900 ${peClass.includes("bg") ? peClass : ""}`}>{fmt(r.PE_ltp)}</td>
                           <td className={`px-3 py-2.5 ${peClass}`}>{fmt(r.PE_low)}</td>

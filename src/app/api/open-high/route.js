@@ -28,6 +28,7 @@ export async function GET(request) {
       { status: 400 }
     );
   }
+
   const cfg = INDEX_CONFIG[indexKey];
   const today = todayKey();
   const requestedDate = searchParams.get("date") || today;
@@ -56,6 +57,7 @@ export async function GET(request) {
   if (!accessToken) {
     return NextResponse.json({ error: "not_connected" }, { status: 401 });
   }
+
   try {
     const kc = newClient(accessToken);
     const { expiry, expiries, spot, rows, date } = await fetchLiveOpenHighData(kc, indexKey, requestedExpiry);

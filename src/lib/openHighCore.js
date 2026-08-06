@@ -91,7 +91,9 @@ export function toDateStr(d) {
 }
 
 export function todayKey() {
-  return toDateStr(new Date());
+  const now = new Date();
+  const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+  return ist.toISOString().slice(0, 10);
 }
 
 function batch(arr, size) {
@@ -100,7 +102,7 @@ function batch(arr, size) {
   return out;
 }
 
-// --- Strike state: only retestAt is kept as a timestamp; no openHighAt tracking. ---
+// --- Strike state: hitAt for OPEN_HIGH, retestAt for RETEST ---
 
 function emptyState() {
   return {
@@ -108,6 +110,7 @@ function emptyState() {
     retested: false,
     status: null,
     retestAt: null,
+    hitAt: null,
   };
 }
 
@@ -115,16 +118,19 @@ function preloadCacheForDate(dateKey) {
   g.__openHighStrikeStateCache = { dateKey, data: {} };
   try {
     const rows = db
-      .prepare(`SELECT symbol, status, timestamp FROM open_high_events WHERE date = ? ORDER BY timestamp ASC`)
+      .prepare(`SELECT symbol, status, hit_at FROM open_high_events WHERE date = ? ORDER BY timestamp ASC`)
       .all(dateKey);
 
     for (const r of rows) {
       const s = g.__openHighStrikeStateCache.data[r.symbol] || emptyState();
       s.status = r.status;
       if (r.status === "RETEST") {
-        s.retestAt = r.timestamp;
+        s.retestAt = new Date(r.hit_at).getTime();
         s.broke = true;
         s.retested = true;
+      } else if (r.status === "OPEN_HIGH") {
+        s.hitAt = new Date(r.hit_at).getTime();
+        s.broke = true;
       }
       g.__openHighStrikeStateCache.data[r.symbol] = s;
     }
@@ -158,7 +164,13 @@ function updateStrikeState(ctx) {
     s.status = currentStatus;
     const statusAt = currentStatus ? Date.now() : null;
 
-    if (currentStatus === "RETEST") s.retestAt = statusAt;
+    if (currentStatus === "RETEST") {
+      s.retestAt = statusAt;
+    }
+
+    if (currentStatus === "OPEN_HIGH") {
+      s.hitAt = statusAt;
+    }
 
     if (currentStatus) {
       const hitAtIso = new Date(statusAt).toISOString();
@@ -259,7 +271,11 @@ export async function fetchLiveOpenHighData(kc, indexKey, requestedExpiry) {
     rowsMap[strike][`${side}_symbol`] = opt.tradingsymbol;
     rowsMap[strike][`${side}_status`] = state.status;
     rowsMap[strike][`${side}_broke`] = state.broke;
+
+    // Expose hitAt and retestAt
+    rowsMap[strike][`${side}_hitAt`] = state.hitAt ? new Date(state.hitAt).toISOString() : null;
     rowsMap[strike][`${side}_retestAt`] = state.retestAt ? new Date(state.retestAt).toISOString() : null;
+
     rowsMap[strike][`${side}_itm`] =
       spot !== null && (side === "CE" ? strike < spot : strike > spot);
   }
@@ -303,7 +319,13 @@ export function getHistoricalOpenHighData(indexKey, dateKey, requestedExpiry) {
     row[`${side}_broke`] = row[`${side}_broke`] || ev.status === "RETEST";
     row[`${side}_itm`] = ev.spot != null ? (side === "CE" ? strike < ev.spot : strike > ev.spot) : null;
 
-    if (ev.status === "RETEST") row[`${side}_retestAt`] = ev.hit_at;
+    if (ev.status === "RETEST") {
+      row[`${side}_retestAt`] = ev.hit_at;
+    }
+
+    if (ev.status === "OPEN_HIGH") {
+      row[`${side}_hitAt`] = ev.hit_at;
+    }
   }
 
   const rows = Object.values(rowsMap).sort((a, b) => a.strike - b.strike);

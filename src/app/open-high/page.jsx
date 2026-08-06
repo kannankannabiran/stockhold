@@ -90,12 +90,16 @@ function StatusBadge({ status, broke }) {
   return <span className="font-semibold text-slate-300">—</span>;
 }
 
-function RetestTime({ retestAt }) {
-  const rt = fmtTime(retestAt);
-  if (!rt) return <span className="text-slate-300">—</span>;
+function EventTime({ hitAt, retestAt, status }) {
+  // For OPEN_HIGH: show hitAt
+  // For RETEST: show retestAt only
+  const iso = status === "RETEST" ? retestAt : hitAt;
+  const t = fmtTime(iso);
+  if (!t) return <span className="text-slate-300">—</span>;
+  const label = status === "RETEST" ? "Retest" : "Hit";
   return (
     <span className="inline-flex items-center gap-1 rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm">
-      {rt}
+      {label} {t}
     </span>
   );
 }
@@ -191,6 +195,7 @@ export default function OpenHighPage() {
 
   const matchedRows = useMemo(() => {
     if (!data?.rows?.length) return [];
+    // Already filtered on server, but keep safe
     return data.rows.filter((r) => isMatchedStatus(r.CE_status) || isMatchedStatus(r.PE_status));
   }, [data]);
 
@@ -372,11 +377,11 @@ export default function OpenHighPage() {
                     <th className="px-3 py-2">Low</th>
                     <th className="px-3 py-2 text-slate-800">LTP</th>
                     <th className="px-3 py-2 text-center">Hit Status</th>
-                    <th className="px-3 py-2 text-center">Retest Time</th>
+                    <th className="px-3 py-2 text-center">Time</th>
 
                     <th className="border-l border-r border-slate-200 bg-slate-50/50 px-3 py-2"></th>
 
-                    <th className="px-3 py-2 text-center">Retest Time</th>
+                    <th className="px-3 py-2 text-center">Time</th>
                     <th className="px-3 py-2 text-center">Hit Status</th>
                     <th className="px-3 py-2 text-slate-800">LTP</th>
                     <th className="px-3 py-2">Low</th>
@@ -416,7 +421,11 @@ export default function OpenHighPage() {
                             <StatusBadge status={r.CE_status} broke={r.CE_broke} />
                           </td>
                           <td className="px-3 py-2.5 text-center">
-                            <RetestTime retestAt={r.CE_retestAt} />
+                            <EventTime
+                              hitAt={r.CE_hitAt}
+                              retestAt={r.CE_retestAt}
+                              status={r.CE_status}
+                            />
                           </td>
 
                           {/* Strike */}
@@ -424,7 +433,11 @@ export default function OpenHighPage() {
 
                           {/* Put Side */}
                           <td className="px-3 py-2.5 text-center">
-                            <RetestTime retestAt={r.PE_retestAt} />
+                            <EventTime
+                              hitAt={r.PE_hitAt}
+                              retestAt={r.PE_retestAt}
+                              status={r.PE_status}
+                            />
                           </td>
                           <td className="px-3 py-2.5 text-center">
                             <StatusBadge status={r.PE_status} broke={r.PE_broke} />

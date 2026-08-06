@@ -123,6 +123,18 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_purchase_orders_status_ts
     ON purchase_orders (status, timestamp DESC);
+
+  -- MEMBERS (auth / access control) --
+  CREATE TABLE IF NOT EXISTS members (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    mobile TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    active INTEGER NOT NULL DEFAULT 0,
+    url_access TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_members_mobile ON members (mobile);
 `);
 
 // Migrations: add columns to tables that may have been created before
@@ -143,5 +155,46 @@ for (const col of ['product_id TEXT']) {
     if (!/duplicate column/i.test(e.message)) throw e;
   }
 }
+
+// One-time migration: if members.json still exists and the members table
+// is empty, import its rows into SQLite so nobody loses their signup.
+// Safe to leave in place permanently — it's a no-op once the table has rows.
+(function migrateMembersJsonIfNeeded() {
+  try {
+    const jsonPath = path.join(dataDir, 'members.json');
+    if (!fs.existsSync(jsonPath)) return;
+
+    const { count } = db.prepare('SELECT COUNT(*) AS count FROM members').get();
+    if (count > 0) return;
+
+    const raw = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+    const members = Array.isArray(raw.members) ? raw.members : [];
+    if (members.length === 0) return;
+
+    const insert = db.prepare(`
+      INSERT OR IGNORE INTO members (id, name, mobile, password, active, url_access, created_at)
+      VALUES (@id, @name, @mobile, @password, @active, @url_access, @created_at)
+    `);
+    const insertMany = db.transaction((rows) => {
+      for (const m of rows) insert.run(m);
+    });
+
+    insertMany(
+      members.map((m) => ({
+        id: m.id,
+        name: m.name,
+        mobile: m.mobile,
+        password: m.password,
+        active: m.active ? 1 : 0,
+        url_access: JSON.stringify(Array.isArray(m.urlAccess) ? m.urlAccess : []),
+        created_at: m.createdAt || new Date().toISOString(),
+      }))
+    );
+
+    console.log(`Migrated ${members.length} member(s) from members.json into trading.db`);
+  } catch (e) {
+    console.error('members.json migration skipped due to error:', e.message);
+  }
+})();
 
 export default db;

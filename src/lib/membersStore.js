@@ -1,65 +1,60 @@
-import fs from "fs/promises";
-import path from "path";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
+import db from "./db";
 
-const DATA_FILE = path.join(process.cwd(), "data", "members.json");
+// ---- Row <-> API shape helpers ----
 
-async function ensureDataFile() {
-  const dir = path.dirname(DATA_FILE);
-  await fs.mkdir(dir, { recursive: true });
-  try {
-    await fs.access(DATA_FILE);
-  } catch {
-    const base = { members: [] };
-    await fs.writeFile(DATA_FILE, JSON.stringify(base, null, 2));
-  }
+function rowToMember(row) {
+  if (!row) return undefined;
+  return {
+    id: row.id,
+    name: row.name,
+    mobile: row.mobile,
+    password: row.password,
+    createdAt: row.created_at,
+    active: !!row.active,
+    urlAccess: JSON.parse(row.url_access || "[]"),
+  };
 }
 
-async function readData() {
-  try {
-    await ensureDataFile();
-    const raw = await fs.readFile(DATA_FILE, "utf-8");
-    return JSON.parse(raw);
-  } catch (error) {
-    console.error("Error reading members data:", error);
-    return { members: [] };
-  }
+function stripPassword(member) {
+  const { password: _, ...rest } = member;
+  return rest;
 }
 
-// ---- Safe Write with Lock + Atomic Replace ----
-let writing = Promise.resolve();
+// ---- Prepared statements ----
 
-async function writeData(obj) {
-  writing = writing.then(async () => {
-    const tmpFile = DATA_FILE + ".tmp";
-    await fs.writeFile(tmpFile, JSON.stringify(obj, null, 2));
-    await fs.rename(tmpFile, DATA_FILE); // atomic replace
-  });
-  return writing;
-}
+const stmts = {
+  byMobile: db.prepare("SELECT * FROM members WHERE mobile = ?"),
+  byId: db.prepare("SELECT * FROM members WHERE id = ?"),
+  all: db.prepare("SELECT * FROM members"),
+  insert: db.prepare(`
+    INSERT INTO members (id, name, mobile, password, active, url_access, created_at)
+    VALUES (@id, @name, @mobile, @password, @active, @url_access, @created_at)
+  `),
+  setActive: db.prepare("UPDATE members SET active = ? WHERE mobile = ?"),
+  setUrlAccess: db.prepare("UPDATE members SET url_access = ? WHERE mobile = ?"),
+  deleteByMobile: db.prepare("DELETE FROM members WHERE mobile = ?"),
+};
 
-// ---- Public API ----
+// ---- Public API (same signatures as before) ----
 
 export async function getMemberByMobile(mobile) {
-  const data = await readData();
-  return data.members.find((m) => m.mobile === mobile);
+  return rowToMember(stmts.byMobile.get(mobile));
 }
 
 export async function getMemberById(id) {
-  const data = await readData();
-  return data.members.find((m) => m.id === id);
+  return rowToMember(stmts.byId.get(id));
 }
 
 export async function getAllMembers() {
-  const data = await readData();
-  return data.members.map(({ password, ...rest }) => rest);
+  return stmts.all.all().map((row) => stripPassword(rowToMember(row)));
 }
 
 export async function signup({ name, mobile, password }) {
   if (!name || !mobile || !password) throw new Error("Missing fields");
-  const data = await readData();
-  const exists = data.members.find((m) => m.mobile === mobile);
+
+  const exists = stmts.byMobile.get(mobile);
   if (exists) throw new Error("Mobile already registered");
 
   const hashed = await bcrypt.hash(password, 10);
@@ -73,62 +68,63 @@ export async function signup({ name, mobile, password }) {
     urlAccess: [],
   };
 
-  data.members.push(member);
-  await writeData(data);
+  stmts.insert.run({
+    id: member.id,
+    name: member.name,
+    mobile: member.mobile,
+    password: member.password,
+    active: 0,
+    url_access: JSON.stringify(member.urlAccess),
+    created_at: member.createdAt,
+  });
 
-  const { password: _, ...sanitized } = member;
-  return sanitized;
+  return stripPassword(member);
 }
 
 export async function login({ mobile, password }) {
   if (!mobile || !password) throw new Error("Missing fields");
-  const data = await readData();
-  const member = data.members.find((m) => m.mobile === mobile);
+  const member = rowToMember(stmts.byMobile.get(mobile));
   if (!member) throw new Error("Invalid credentials");
   if (!member.active) throw new Error("Account not activated");
 
   const ok = await bcrypt.compare(password, member.password);
   if (!ok) throw new Error("Invalid credentials");
 
-  const { password: _, ...sanitized } = member;
-  return sanitized;
+  return stripPassword(member);
 }
 
 export async function setActive(mobile, isActive) {
-  const data = await readData();
-  const member = data.members.find((m) => m.mobile === mobile);
-  if (!member) throw new Error("Member not found");
-  member.active = !!isActive;
+  const existing = stmts.byMobile.get(mobile);
+  if (!existing) throw new Error("Member not found");
 
-  await writeData(data);
-  const { password: _, ...sanitized } = member;
-  return sanitized;
+  stmts.setActive.run(isActive ? 1 : 0, mobile);
+
+  const member = rowToMember(stmts.byMobile.get(mobile));
+  return stripPassword(member);
 }
 
 export async function setUrlAccess(mobile, url, allow) {
-  const data = await readData();
-  const member = data.members.find((m) => m.mobile === mobile);
-  if (!member) throw new Error("Member not found");
+  const existing = stmts.byMobile.get(mobile);
+  if (!existing) throw new Error("Member not found");
 
-  if (!Array.isArray(member.urlAccess)) member.urlAccess = [];
-
+  const member = rowToMember(existing);
   const normalized = url.trim();
+
+  let urlAccess = Array.isArray(member.urlAccess) ? member.urlAccess : [];
   if (allow) {
-    if (!member.urlAccess.includes(normalized)) {
-      member.urlAccess.push(normalized);
-    }
+    if (!urlAccess.includes(normalized)) urlAccess = [...urlAccess, normalized];
   } else {
-    member.urlAccess = member.urlAccess.filter((u) => u !== normalized);
+    urlAccess = urlAccess.filter((u) => u !== normalized);
   }
 
-  await writeData(data);
-  const { password: _, ...sanitized } = member;
-  return sanitized;
+  stmts.setUrlAccess.run(JSON.stringify(urlAccess), mobile);
+
+  const updated = rowToMember(stmts.byMobile.get(mobile));
+  return stripPassword(updated);
 }
 
 export async function checkUrlAllowed(memberId, url) {
-  const data = await readData();
-  const member = data.members.find((m) => m.id === memberId);
+  const member = rowToMember(stmts.byId.get(memberId));
   if (!member) return false;
   if (!member.active) return false;
   if (!Array.isArray(member.urlAccess) || member.urlAccess.length === 0) return true;
@@ -137,12 +133,10 @@ export async function checkUrlAllowed(memberId, url) {
 
 // ---- Delete Member ----
 export async function deleteMember(mobile) {
-  const data = await readData();
-  const index = data.members.findIndex((m) => m.mobile === mobile);
-  if (index === -1) throw new Error("Member not found");
+  const existing = stmts.byMobile.get(mobile);
+  if (!existing) throw new Error("Member not found");
 
-  data.members.splice(index, 1);
-  await writeData(data);
+  stmts.deleteByMobile.run(mobile);
 
   return { success: true };
 }

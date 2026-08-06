@@ -242,13 +242,6 @@ export default function Navbar() {
                   >
                     Historical Chart
                   </div>
-                   
-                    <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleNavigate("/backtest")}
-                  >
-                    Back Test
-                  </div>
                   
                 </div>
               )}
@@ -417,9 +410,6 @@ export default function Navbar() {
                   Portfolio Tracker
                 </div>
                 <div onClick={() => handleNavigate("/chart")}>Historical Chart</div>
-                 <div onClick={() => handleNavigate("/backtest")}>
-                    Back Test
-                  </div>  
                
               </div>
             )}

@@ -494,13 +494,13 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   // position's own LTP directly, independent of refreshPositions, and only
   // for tokens the WS ticker hasn't already ticked.
   useEffect(() => {
-    const openPositions = positions.filter((p) => p.quantity !== 0 && p.instrument_token);
-    if (!openPositions.length) {
+    const openTokenPositions = positions.filter((p) => p.quantity !== 0 && p.instrument_token);
+    if (!openTokenPositions.length) {
       setPositionLtpFallback({});
       return;
     }
     const poll = async () => {
-      const needsFallback = openPositions.filter((p) => ltpMap[p.instrument_token] == null);
+      const needsFallback = openTokenPositions.filter((p) => ltpMap[p.instrument_token] == null);
       if (!needsFallback.length) return;
       const results = await Promise.all(
         needsFallback.map(async (p) => {
@@ -687,9 +687,16 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     await submitOrder(transaction_type);
   };
 
-  // Places an opposite MARKET order to flatten a single position.
-  const squareOffPosition = async (p) => {
+  // Places an opposite MARKET order against a position. `percent` (1-100)
+  // lets a caller close only part of it — defaults to 100 (full close) so
+  // existing callers (square-off-all, trailing SL, F6) are unaffected.
+  // Note: rounds to the nearest whole unit, not the nearest lot — position
+  // objects here don't carry lot_size, so a partial close on an options
+  // position may need manual rounding to a lot multiple before it'll fill.
+  const squareOffPosition = async (p, percent = 100) => {
     const transaction_type = p.quantity > 0 ? 'SELL' : 'BUY';
+    const totalQty = Math.abs(p.quantity);
+    const quantity = percent >= 100 ? totalQty : Math.max(1, Math.round((totalQty * percent) / 100));
     await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -699,7 +706,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
         tradingsymbol: p.tradingsymbol,
         instrument_token: p.instrument_token,
         transaction_type,
-        quantity: Math.abs(p.quantity),
+        quantity,
         product: p.product,
         order_type: 'MARKET',
       }),
@@ -833,24 +840,52 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
   };
 
-  const livePositions = useMemo(
+  const openPositions = useMemo(
     () =>
       positions
         .filter((p) => p.quantity !== 0)
         .map((p) => {
           const ltp = ltpMap[p.instrument_token] ?? positionLtpFallback[p.instrument_token] ?? p.last_price;
           const pnl = p.quantity * (ltp - p.average_price) * (p.multiplier || 1);
-          return { ...p, ltp, pnl };
+          return { ...p, ltp, pnl, isClosed: false };
         }),
     [positions, ltpMap, positionLtpFallback]
   );
 
+  // Positions the broker reports flat (quantity 0) for the day — squared
+  // off, not "gone". Kept in the list (instead of filtered out) so closed
+  // trades stay visible with their realized P&L. Kite already gives us the
+  // realized pnl on the position object itself once quantity hits 0, so we
+  // use that directly rather than recomputing from qty * (ltp - avg) (which
+  // would just be zero).
+  const closedPositions = useMemo(
+    () =>
+      positions
+        .filter(
+          (p) =>
+            p.quantity === 0 &&
+            (Number(p.buy_quantity) > 0 || Number(p.sell_quantity) > 0 || Number(p.pnl) !== 0)
+        )
+        .map((p) => ({
+          ...p,
+          ltp: p.last_price ?? p.close_price ?? null,
+          pnl: Number(p.pnl) || 0,
+          isClosed: true,
+        })),
+    [positions]
+  );
+
+  // Full day's positions — open + closed — so Day P&L and the Positions
+  // table reflect the whole day, not just what's currently still open.
+  const allPositions = useMemo(() => [...openPositions, ...closedPositions], [openPositions, closedPositions]);
+
   // Kept in sync via effect below — lets squareOffAll read the latest
-  // positions without becoming a dependency of the callback itself.
+  // OPEN positions without becoming a dependency of the callback itself.
+  // (Closed positions have nothing left to square off.)
   const livePositionsRef = useRef([]);
   useEffect(() => {
-    livePositionsRef.current = livePositions;
-  }, [livePositions]);
+    livePositionsRef.current = openPositions;
+  }, [openPositions]);
 
   // ---- F6 / F7 Shortcuts for Global Actions ----
   useEffect(() => {
@@ -882,14 +917,17 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  const dayPnl = useMemo(() => livePositions.reduce((sum, p) => sum + p.pnl, 0), [livePositions]);
+  // Day P&L: full-day figure — open positions' live (unrealized) P&L plus
+  // closed positions' realized P&L — so it doesn't drop once a position is
+  // squared off.
+  const dayPnl = useMemo(() => allPositions.reduce((sum, p) => sum + p.pnl, 0), [allPositions]);
   const orderError = validateOrder();
 
   // Day max-loss / target watcher
   useEffect(() => {
     if (!risk.autoSquareOffEnabled) return;
     if (dayLimitTriggeredRef.current) return;
-    if (livePositions.length === 0) return;
+    if (openPositions.length === 0) return;
 
     const maxLoss = Number(risk.maxLoss);
     const target = Number(risk.target);
@@ -920,14 +958,14 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     if (!trailPoints || trailPoints <= 0) return;
 
     const nextStops = {};
-    const liveKeys = new Set(livePositions.map(posKey));
+    const liveKeys = new Set(openPositions.map(posKey));
 
     // Drop peak-tracking for positions that no longer exist (closed/flipped)
     Object.keys(peakRef.current).forEach((key) => {
       if (!liveKeys.has(key)) delete peakRef.current[key];
     });
 
-    livePositions.forEach((p) => {
+    openPositions.forEach((p) => {
       const key = posKey(p);
       if (trailTriggeredRef.current.has(key)) return;
 
@@ -962,7 +1000,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     });
     setTrailingStops(nextStops);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [livePositions, risk.trailingSlEnabled, risk.trailPoints]);
+  }, [openPositions, risk.trailingSlEnabled, risk.trailPoints]);
 
 
   return (
@@ -1655,7 +1693,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
         <section style={cardStyle('#3AA0FF')}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 style={sectionTitleStyle}>Positions</h2>
-            {livePositions.length > 0 && (
+            {openPositions.length > 0 && (
               <button
                 onClick={() => squareOffAll('Manual square-off requested.')}
                 style={{ ...smallBtnStyle, color: '#FF4B5C', borderColor: 'rgba(255,75,92,0.35)' }}
@@ -1679,17 +1717,17 @@ export default function TradingDashboard({ apiKey, accessToken }) {
               </tr>
             </thead>
             <tbody>
-              {livePositions.length === 0 && (
-                <tr><td colSpan={8} style={emptyCellStyle}>No open positions</td></tr>
+              {allPositions.length === 0 && (
+                <tr><td colSpan={8} style={emptyCellStyle}>No positions yet today</td></tr>
               )}
-              {livePositions.map((p) => {
+              {allPositions.map((p) => {
                 const stop = trailingStops[posKey(p)];
                 return (
-                  <tr key={posKey(p)}>
+                  <tr key={posKey(p)} style={p.isClosed ? { opacity: 0.6 } : undefined}>
                     <td style={{ ...tdStyle, fontWeight: 600, color: '#111827' }}>{p.tradingsymbol}</td>
                     <td style={{ ...tdStyle, fontFamily: monoFont }}>{p.quantity}</td>
                     <td style={{ ...tdStyle, fontFamily: monoFont }}>{p.average_price?.toFixed(2)}</td>
-                    <td style={{ ...tdStyle, fontFamily: monoFont }}>{p.ltp?.toFixed(2)}</td>
+                    <td style={{ ...tdStyle, fontFamily: monoFont }}>{p.ltp != null ? p.ltp.toFixed(2) : '-'}</td>
                     <td style={{ ...tdStyle, fontFamily: monoFont, color: '#F5A623' }}>
                       {stop ? stop.stopPrice.toFixed(2) : '-'}
                     </td>
@@ -1698,9 +1736,27 @@ export default function TradingDashboard({ apiKey, accessToken }) {
                     </td>
                     <td style={tdStyle}>{p.product}</td>
                     <td style={tdStyle}>
-                      <button onClick={() => squareOffPosition(p).then(() => { refreshOrders(); refreshPositions(); })} style={smallBtnStyle} className="stk-btn">
-                        Close
-                      </button>
+                      {p.isClosed ? (
+                        <span style={{ fontSize: 11, color: '#9CA3AF', fontFamily: monoFont }}>Closed</span>
+                      ) : (
+                        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                          {[25, 50, 75, 100].map((pct) => (
+                            <button
+                              key={pct}
+                              onClick={() =>
+                                squareOffPosition(p, pct).then(() => {
+                                  refreshOrders();
+                                  refreshPositions();
+                                })
+                              }
+                              style={{ ...smallBtnStyle, padding: '4px 7px', fontSize: 10.5, marginRight: 0 }}
+                              className="stk-btn"
+                            >
+                              {pct}%
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </td>
                   </tr>
                 );

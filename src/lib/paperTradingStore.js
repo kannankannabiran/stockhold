@@ -16,6 +16,10 @@
 //     modified, or cancelled — call matchPaperOrders() from your ticker's
 //     onTick handler to fill them against live ticks
 //   - Positions are netted per (tradingsymbol + product)
+//   - Positions stay in the store once flat (quantity 0) instead of being
+//     deleted — each carries a running `realized_pnl` for the day, so a
+//     closed trade doesn't just vanish along with its P&L. A later fill on
+//     the same key reopens it and keeps accumulating realized_pnl on top.
 
 import fs from 'fs';
 import path from 'path';
@@ -84,11 +88,24 @@ async function resolveMarketPrice(order) {
   return Number(order.price) || 0;
 }
 
+// Applies a fill to the netted position for (tradingsymbol, product).
+//
+// - Same-direction fill (adding to a long/short): blends into average_price,
+//   no P&L realized yet.
+// - Opposite-direction fill (reducing, closing, or flipping): the portion
+//   that closes the existing side realizes P&L against its average_price
+//   and gets added to the position's running `realized_pnl`. Any leftover
+//   quantity beyond that opens a new position at this fill's price (a
+//   flip). If the fill exactly flattens the position, the record is KEPT
+//   (quantity 0, average_price 0) instead of deleted, so the closed
+//   position — and its realized P&L — stays visible.
 function applyFillToPosition(store, order, fillPrice) {
   const key = posKey(order.tradingsymbol, order.product);
   const signedQty = order.transaction_type === 'BUY' ? order.quantity : -order.quantity;
+  const multiplier = order.multiplier || 1;
 
   const existing = store.positions[key];
+
   if (!existing || existing.quantity === 0) {
     store.positions[key] = {
       tradingsymbol: order.tradingsymbol,
@@ -98,26 +115,54 @@ function applyFillToPosition(store, order, fillPrice) {
       quantity: signedQty,
       average_price: fillPrice,
       last_price: fillPrice,
-      multiplier: order.multiplier || 1,
+      multiplier,
+      // Carry over realized_pnl if this key was previously closed today
+      // (a fresh round trip on the same symbol/product) instead of
+      // resetting it, so Day P&L stays cumulative for the day.
+      realized_pnl: existing ? existing.realized_pnl || 0 : 0,
     };
     return;
   }
 
-  const newQuantity = existing.quantity + signedQty;
   const sameDirection = Math.sign(existing.quantity) === Math.sign(signedQty);
 
   if (sameDirection) {
     const totalCost = existing.average_price * Math.abs(existing.quantity) + fillPrice * Math.abs(signedQty);
-    existing.average_price = totalCost / Math.abs(newQuantity || 1);
-  } else if (newQuantity === 0) {
-    existing.average_price = 0;
-  } else if (Math.sign(newQuantity) !== Math.sign(existing.quantity)) {
-    existing.average_price = fillPrice;
+    existing.quantity += signedQty;
+    existing.average_price = totalCost / Math.abs(existing.quantity || 1);
+    existing.last_price = fillPrice;
+    return;
   }
 
-  existing.quantity = newQuantity;
-  existing.last_price = fillPrice;
-  if (existing.quantity === 0) delete store.positions[key];
+  // Opposite direction: closes some or all of the existing position.
+  const closingQty = Math.min(Math.abs(existing.quantity), Math.abs(signedQty));
+  const existingIsLong = existing.quantity > 0;
+  const realizedOnClose =
+    (existingIsLong ? fillPrice - existing.average_price : existing.average_price - fillPrice) *
+    closingQty *
+    (existing.multiplier || multiplier || 1);
+  existing.realized_pnl = (existing.realized_pnl || 0) + realizedOnClose;
+
+  const newQuantity = existing.quantity + signedQty;
+
+  if (newQuantity === 0) {
+    // Fully flat — keep the record (don't delete) so it stays visible with
+    // its realized P&L instead of disappearing from the positions list.
+    existing.quantity = 0;
+    existing.average_price = 0;
+    existing.last_price = fillPrice;
+  } else if (Math.sign(newQuantity) !== Math.sign(existing.quantity)) {
+    // Flipped direction — leftover quantity opens a fresh leg at this
+    // fill's price; realized_pnl above already booked the closed side.
+    existing.quantity = newQuantity;
+    existing.average_price = fillPrice;
+    existing.last_price = fillPrice;
+  } else {
+    // Partial close, same direction retained — average_price is unchanged
+    // for the remaining quantity.
+    existing.quantity = newQuantity;
+    existing.last_price = fillPrice;
+  }
 }
 
 export async function placePaperOrder(orderInput) {
@@ -165,6 +210,10 @@ export function listPaperOrders() {
   );
 }
 
+// Returns ALL positions touched today, including flat (quantity 0, closed)
+// ones — callers that only want currently-open positions should filter on
+// `quantity !== 0` themselves; this store no longer does that filtering
+// internally so closed positions and their realized_pnl aren't lost.
 export function listPaperPositions() {
   return Object.values(readStore().positions);
 }

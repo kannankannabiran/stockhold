@@ -134,6 +134,13 @@ db.exec(`
     url_access TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL
   );
+  -- STOCK LIST (mobile-keyed) --
+  CREATE TABLE IF NOT EXISTS stock_lists (
+    mobile TEXT PRIMARY KEY,
+    stock_list TEXT NOT NULL DEFAULT '[]',
+    results TEXT NOT NULL DEFAULT '{}',
+    updated_at INTEGER NOT NULL
+  );
   CREATE INDEX IF NOT EXISTS idx_members_mobile ON members (mobile);
 `);
 

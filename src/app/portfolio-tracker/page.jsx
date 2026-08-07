@@ -5,7 +5,8 @@ import { useAccessControl } from "../../hooks/useAccessControl";
 import stocklist from "@/app/symbol/data";
 
 export default function StockList() {
-  const { hasAccess, loading } = useAccessControl("/stocklist");
+  const { hasAccess, loading, member } = useAccessControl("/stocklist");
+  const mobile = member?.mobile;
 
   const [stocks, setStocks] = useState([]);
   const [ltps, setLtps] = useState({});
@@ -46,22 +47,6 @@ export default function StockList() {
     return sym.replace(/\.NS$/i, "").trim().toUpperCase();
   };
 
-  function generateUUID() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      const r = (Math.random() * 16) | 0;
-      const v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-
-  useEffect(() => {
-    let browserId = localStorage.getItem("browserId");
-    if (!browserId) {
-      browserId = generateUUID();
-      localStorage.setItem("browserId", browserId);
-    }
-  }, []);
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
@@ -82,19 +67,18 @@ export default function StockList() {
     }
   }, [highlightedIndex]);
 
-  const getBrowserId = () => localStorage.getItem("browserId");
-
   const syncStockListToServer = useCallback(async (list) => {
+    if (!mobile) return;
     try {
       await fetch("/api/save-scan-data-stock-list", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ browserId: getBrowserId(), stockList: list }),
+        body: JSON.stringify({ mobile, stockList: list }),
       });
     } catch (error) {
       console.error("Failed to sync stock list:", error);
     }
-  }, []);
+  }, [mobile]);
 
   const normalizeStocks = (list) =>
     Array.isArray(list)
@@ -180,8 +164,11 @@ export default function StockList() {
     setFetchingPreview(false);
   };
 
+  // Load stock list once we know who's logged in
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("stockList") || "[]");
+    if (!mobile) return;
+
+    const saved = JSON.parse(localStorage.getItem(`stockList_${mobile}`) || "[]");
     const normalized = normalizeStocks(saved);
 
     const cachedLtps = JSON.parse(localStorage.getItem("ltpCache") || "{}");
@@ -197,12 +184,12 @@ export default function StockList() {
       syncStockListToServer(normalized);
       fetchLTPs(normalized);
     } else {
-      fetch(`/api/load-scan-data-stock-list?browserId=${getBrowserId()}`)
+      fetch(`/api/load-scan-data-stock-list?mobile=${encodeURIComponent(mobile)}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.stockList?.length) {
             const normalizedServer = normalizeStocks(data.stockList);
-            localStorage.setItem("stockList", JSON.stringify(normalizedServer));
+            localStorage.setItem(`stockList_${mobile}`, JSON.stringify(normalizedServer));
             setStocks(normalizedServer);
             syncStockListToServer(normalizedServer);
             fetchLTPs(normalizedServer);
@@ -211,7 +198,7 @@ export default function StockList() {
         .catch(console.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -272,7 +259,7 @@ export default function StockList() {
 
   const handleAddStock = (e) => {
     e.preventDefault();
-    if (!symbolInput.trim()) return;
+    if (!symbolInput.trim() || !mobile) return;
 
     const currentDate = new Date().toISOString().split("T")[0];
 
@@ -286,7 +273,7 @@ export default function StockList() {
 
     const updated = [newStock, ...stocks];
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
 
     const cleanSym = cleanSymbol(newStock.symbol);
@@ -311,7 +298,7 @@ export default function StockList() {
       enabled: updated[index].enabled !== false,
     };
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
@@ -319,7 +306,7 @@ export default function StockList() {
     const updated = [...stocks];
     updated.splice(index, 1);
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
@@ -330,7 +317,7 @@ export default function StockList() {
       enabled: checked,
     };
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
@@ -342,7 +329,7 @@ export default function StockList() {
       return stock;
     });
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
@@ -350,7 +337,7 @@ export default function StockList() {
     if (!confirm(`Are you sure you want to delete all lots for ${symbolToDelete}?`)) return;
     const updated = stocks.filter(stock => cleanSymbol(stock.symbol) !== symbolToDelete);
     setStocks(updated);
-    localStorage.setItem("stockList", JSON.stringify(updated));
+    localStorage.setItem(`stockList_${mobile}`, JSON.stringify(updated));
     syncStockListToServer(updated);
   };
 
@@ -570,6 +557,14 @@ export default function StockList() {
     </div>
   );
   if (!hasAccess) return null;
+
+  if (!mobile) return (
+    <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa] text-slate-800">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-sm font-medium text-slate-500">
+        Log in to view your portfolio.
+      </div>
+    </div>
+  );
 
   return (
     <main className="min-h-screen w-full bg-[#f8f9fa] px-2 py-5 text-slate-800 sm:px-4 lg:px-6">

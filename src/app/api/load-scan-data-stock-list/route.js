@@ -1,21 +1,25 @@
-import { readFile } from 'fs/promises';
-import path from 'path';
+import db from '@/lib/db';
 
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
-    const browserId = searchParams.get("browserId");
-
-    if (!browserId) {
-      return new Response(JSON.stringify({ error: "Missing browserId" }), { status: 400 });
+    const mobile = searchParams.get("mobile");
+    if (!mobile) {
+      return new Response(JSON.stringify({ error: "Missing mobile" }), { status: 400 });
     }
 
-    const filePath = path.join(process.cwd(), 'data', `stocklist-${browserId}.json`);
-    const file = await readFile(filePath, 'utf-8');
-    const data = JSON.parse(file);
+    const row = db.prepare('SELECT stock_list, results FROM stock_lists WHERE mobile = ?').get(mobile);
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    if (!row) {
+      return new Response(JSON.stringify({ stockList: [], results: {} }), { status: 200 });
+    }
+
+    return new Response(JSON.stringify({
+      stockList: JSON.parse(row.stock_list),
+      results: JSON.parse(row.results),
+    }), { status: 200 });
   } catch (error) {
+    console.error("Error loading stock list:", error);
     return new Response(JSON.stringify({ stockList: [] }), { status: 200 });
   }
 }

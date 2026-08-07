@@ -5,6 +5,7 @@ export const useAccessControl = (requiredPath) => {
   const router = useRouter();
   const [hasAccess, setHasAccess] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [member, setMember] = useState(null);
 
   useEffect(() => {
     const checkAccess = async () => {
@@ -25,6 +26,7 @@ export const useAccessControl = (requiredPath) => {
           return;
         }
         
+        setMember(user);
         setHasAccess(true);
       } catch (error) {
         router.push('/login');
@@ -36,5 +38,5 @@ export const useAccessControl = (requiredPath) => {
     checkAccess();
   }, [router, requiredPath]);
 
-  return { hasAccess, loading };
+  return { hasAccess, loading, member };
 };

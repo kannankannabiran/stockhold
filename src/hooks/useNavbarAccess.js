@@ -10,6 +10,7 @@ export const useNavbarAccess = () => {
       "/openhighnifty",
       "/herozero",
       "/individual",
+      "/trading",
     ];
 
     if (!PROTECTED_PATHS.includes(path)) return true;

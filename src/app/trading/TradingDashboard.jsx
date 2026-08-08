@@ -20,7 +20,7 @@ const formatExpiryLabel = (exp) => {
   return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
-export default function TradingDashboard({ apiKey, accessToken }) {
+export default function TradingDashboard({ apiKey, accessToken, mobile }) {
   const [mode, setMode] = useState('paper'); // 'paper' | 'live' — default to paper for safety
   const [orders, setOrders] = useState([]);
   const [positions, setPositions] = useState([]);
@@ -133,13 +133,13 @@ export default function TradingDashboard({ apiKey, accessToken }) {
   };
 
   const refreshOrders = async () => {
-    const res = await fetch(`/api/orders?mode=${mode}`);
+    const res = await fetch(`/api/orders?mode=${mode}&mobile=${encodeURIComponent(mobile || '')}`);
     const data = await res.json();
     if (data.success) setOrders(data.orders);
   };
 
   const refreshPositions = async () => {
-    const res = await fetch(`/api/positions?mode=${mode}`);
+    const res = await fetch(`/api/positions?mode=${mode}&mobile=${encodeURIComponent(mobile || '')}`);
     const data = await res.json();
     if (data.success) {
       setPositions(data.net || []);
@@ -648,8 +648,8 @@ export default function TradingDashboard({ apiKey, accessToken }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(
           overridePayload
-            ? { ...overridePayload, transaction_type, mode }
-            : { ...form, transaction_type, mode }
+            ? { ...overridePayload, transaction_type, mode, mobile }
+            : { ...form, transaction_type, mode, mobile }
         ),
       });
       const data = await res.json();
@@ -702,6 +702,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         mode,
+        mobile,
         exchange: p.exchange,
         tradingsymbol: p.tradingsymbol,
         instrument_token: p.instrument_token,
@@ -753,7 +754,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     setStatusMsg('Cancelling all open orders…');
     for (const o of openOrdersRef.current) {
       try {
-        await fetch(`/api/orders/${o.order_id}?variety=${o.variety || 'regular'}&mode=${mode}`, { method: 'DELETE' });
+        await fetch(`/api/orders/${o.order_id}?variety=${o.variety || 'regular'}&mode=${mode}&mobile=${encodeURIComponent(mobile || '')}`, { method: 'DELETE' });
       } catch (err) {
         // keep going even if one cancel fails — refreshOrders below will
         // show whichever ones didn't actually cancel
@@ -775,7 +776,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
 
   const submitModify = async (order) => {
     try {
-      const res = await fetch(`/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}`, {
+      const res = await fetch(`/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}&mobile=${encodeURIComponent(mobile || '')}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editValues),
@@ -814,7 +815,7 @@ export default function TradingDashboard({ apiKey, accessToken }) {
     }
     try {
       const res = await fetch(
-        `/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}`,
+        `/api/orders/${order.order_id}?variety=${order.variety || 'regular'}&mode=${mode}&mobile=${encodeURIComponent(mobile || '')}`,
         { method: 'DELETE' }
       );
       let data;

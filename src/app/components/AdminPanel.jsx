@@ -47,7 +47,7 @@ export function AdminPanel() {
 
   const URL_LIST = [
     '/chart','/longterm','/stocklist','/backtest','/options','/trendingoi',
-    '/openhighnifty','/herozero','/individual','/purchase-order','/order',
+    '/openhighnifty','/herozero','/individual','/purchase-order','/order','/trading'
   ];
 
   const filteredMembers = members.filter((m) => {

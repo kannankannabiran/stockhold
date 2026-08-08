@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import { getKiteClient } from '@/lib/kiteClient';
 import { modifyPaperOrder, cancelPaperOrder } from '@/lib/paperTradingStore';
 
-// PUT /api/orders/:order_id?variety=regular&mode=paper|live — modify an open order
+// PUT /api/orders/:order_id?variety=regular&mode=paper|live&mobile=... — modify an open order
+// `mobile` is required for mode=paper.
 // body: { quantity?, price?, order_type?, trigger_price?, validity? }
 export async function PUT(request, context) {
   let order_id;
@@ -22,7 +23,12 @@ export async function PUT(request, context) {
     }
 
     if (mode === 'paper') {
-      const updated = modifyPaperOrder(order_id, {
+      const mobile = searchParams.get('mobile');
+      if (!mobile) {
+        return NextResponse.json({ success: false, error: 'Missing mobile' }, { status: 400 });
+      }
+
+      const updated = modifyPaperOrder(mobile, order_id, {
         quantity: body.quantity !== undefined ? Number(body.quantity) : undefined,
         price: body.price !== undefined ? Number(body.price) : undefined,
         order_type: body.order_type,
@@ -58,7 +64,8 @@ export async function PUT(request, context) {
   }
 }
 
-// DELETE /api/orders/:order_id?variety=regular&mode=paper|live — cancel an open order
+// DELETE /api/orders/:order_id?variety=regular&mode=paper|live&mobile=... — cancel an open order
+// `mobile` is required for mode=paper.
 export async function DELETE(request, context) {
   let order_id;
   try {
@@ -73,7 +80,12 @@ export async function DELETE(request, context) {
     }
 
     if (mode === 'paper') {
-      const cancelled = cancelPaperOrder(order_id);
+      const mobile = searchParams.get('mobile');
+      if (!mobile) {
+        return NextResponse.json({ success: false, error: 'Missing mobile' }, { status: 400 });
+      }
+
+      const cancelled = cancelPaperOrder(mobile, order_id);
 
       if (!cancelled) {
         return NextResponse.json(

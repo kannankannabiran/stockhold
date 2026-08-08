@@ -8,6 +8,34 @@ if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 const db = new Database(path.join(dataDir, 'trading.db'));
 db.pragma('journal_mode = WAL');
 
+// Self-heal: if paper_orders/paper_positions tables already exist from an
+// earlier version of this schema (before mobile-keying was added), the
+// CREATE TABLE IF NOT EXISTS below is a no-op and any query like
+// `WHERE mobile = ?` fails with "no such column: mobile". These tables
+// only ever hold paper/dev-mode data — never real broker orders — so it's
+// safe to drop and let them recreate clean.
+(function selfHealPaperTradingSchema() {
+  try {
+    const hasMobileColumn = (table) => {
+      const cols = db.prepare(`PRAGMA table_info(${table})`).all();
+      return cols.some((c) => c.name === 'mobile');
+    };
+    for (const table of ['paper_orders', 'paper_positions']) {
+      const exists = db
+        .prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`)
+        .get(table);
+      if (exists && !hasMobileColumn(table)) {
+        db.exec(`DROP TABLE "${table}"`);
+        console.log(
+          `db.js: dropped stale "${table}" table (pre-mobile-keying schema) — it will be recreated below`
+        );
+      }
+    }
+  } catch (e) {
+    console.error('paper trading schema self-heal skipped due to error:', e.message);
+  }
+})();
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS trending_oi_history (
     id TEXT PRIMARY KEY,
@@ -142,6 +170,52 @@ db.exec(`
     updated_at INTEGER NOT NULL
   );
   CREATE INDEX IF NOT EXISTS idx_members_mobile ON members (mobile);
+
+  -- PAPER TRADING ORDERS (mobile-keyed) --
+  CREATE TABLE IF NOT EXISTS paper_orders (
+    order_id TEXT PRIMARY KEY,
+    mobile TEXT NOT NULL,
+    variety TEXT NOT NULL DEFAULT 'regular',
+    exchange TEXT NOT NULL,
+    tradingsymbol TEXT NOT NULL,
+    instrument_token TEXT,
+    transaction_type TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    filled_quantity INTEGER NOT NULL DEFAULT 0,
+    product TEXT NOT NULL,
+    order_type TEXT NOT NULL,
+    price REAL NOT NULL DEFAULT 0,
+    trigger_price REAL NOT NULL DEFAULT 0,
+    average_price REAL NOT NULL DEFAULT 0,
+    status TEXT NOT NULL,
+    order_timestamp TEXT NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_paper_orders_mobile_ts
+    ON paper_orders (mobile, order_timestamp DESC);
+
+  -- PAPER TRADING POSITIONS (mobile-keyed, netted per symbol+product) --
+  CREATE TABLE IF NOT EXISTS paper_positions (
+    mobile TEXT NOT NULL,
+    position_key TEXT NOT NULL,
+    tradingsymbol TEXT NOT NULL,
+    exchange TEXT NOT NULL,
+    product TEXT NOT NULL,
+    instrument_token TEXT,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    average_price REAL NOT NULL DEFAULT 0,
+    last_price REAL NOT NULL DEFAULT 0,
+    multiplier INTEGER NOT NULL DEFAULT 1,
+    realized_pnl REAL NOT NULL DEFAULT 0,
+    updated_at INTEGER NOT NULL,
+    PRIMARY KEY (mobile, position_key)
+  );
+
+  -- Single shared counter for generating unique paper order IDs.
+  CREATE TABLE IF NOT EXISTS paper_order_counter (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    counter INTEGER NOT NULL DEFAULT 0
+  );
+  INSERT OR IGNORE INTO paper_order_counter (id, counter) VALUES (1, 0);
 `);
 
 // Migrations: add columns to tables that may have been created before

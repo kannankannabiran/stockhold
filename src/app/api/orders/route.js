@@ -3,14 +3,20 @@ import { NextResponse } from 'next/server';
 import { getKiteClient } from '@/lib/kiteClient';
 import { listPaperOrders, placePaperOrder } from '@/lib/paperTradingStore';
 
-// GET /api/orders?mode=paper|live — full order book for the day
+// GET /api/orders?mode=paper|live&mobile=... — full order book for the day
+// `mobile` is required for mode=paper — pass the logged-in member's
+// mobile (e.g. member.mobile from useAccessControl), same as stock_lists.
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const mode = searchParams.get('mode') || 'live';
 
     if (mode === 'paper') {
-      const orders = listPaperOrders();
+      const mobile = searchParams.get('mobile');
+      if (!mobile) {
+        return NextResponse.json({ success: false, error: 'Missing mobile' }, { status: 400 });
+      }
+      const orders = listPaperOrders(mobile);
       return NextResponse.json({ success: true, orders });
     }
 
@@ -29,6 +35,7 @@ export async function GET(request) {
 // POST /api/orders — place a new order
 // body: {
 //   mode ("paper"|"live"),
+//   mobile (required when mode="paper" — the logged-in member's mobile),
 //   tradingsymbol, exchange ("NFO"|"BFO"|"NSE"|"BSE"),
 //   transaction_type ("BUY"|"SELL"),
 //   quantity, product ("MIS"|"NRML"|"CNC"),
@@ -62,13 +69,14 @@ export async function POST(request) {
       );
     }
 
-    const kite = await getKiteClient();
-
     if (mode === 'paper') {
+      if (!body.mobile) {
+        return NextResponse.json({ success: false, error: 'Missing mobile' }, { status: 400 });
+      }
       // placePaperOrder resolves MARKET fills via live LTP internally, so we
       // don't need to fetch/pass one here — this also avoids double-fetching
       // the same quote twice.
-      const order = await placePaperOrder({
+      const order = await placePaperOrder(body.mobile, {
         tradingsymbol: body.tradingsymbol,
         exchange: body.exchange,
         transaction_type: body.transaction_type,
@@ -83,6 +91,7 @@ export async function POST(request) {
       return NextResponse.json({ success: true, order_id: order.order_id, mode: 'paper' });
     }
 
+    const kite = await getKiteClient();
     const variety = body.variety || kite.VARIETY_REGULAR || 'regular';
 
     const orderParams = {

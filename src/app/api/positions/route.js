@@ -2,13 +2,20 @@
 import { NextResponse } from 'next/server';
 import { getKiteClient } from '@/lib/kiteClient';
 import { listPaperPositions } from '@/lib/paperTradingStore';
-// GET /api/positions?mode=paper|live — { net: [...], day: [...] }
+// GET /api/positions?mode=paper|live&mobile=... — { net: [...], day: [...] }
+// `mobile` is required for mode=paper — pass the logged-in member's
+// mobile (e.g. member.mobile from useAccessControl), same as stock_lists.
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const mode = searchParams.get('mode') || 'live';
     if (mode === 'paper') {
-      const rows = listPaperPositions();
+      const mobile = searchParams.get('mobile');
+      if (!mobile) {
+        return NextResponse.json({ success: false, error: 'Missing mobile' }, { status: 400 });
+      }
+
+      const rows = listPaperPositions(mobile);
       // No longer filtering out quantity === 0 rows here — closed positions
       // stay in the response so the client can keep showing them with their
       // realized P&L instead of losing them the moment they're squared off.

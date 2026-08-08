@@ -72,15 +72,18 @@ const AvatarPlaceholder = () => (
 );
 
 const PROTECTED_PAYMENT_ROUTES = {
-  "/chart": "/payment/Longtermstockscanner",
-  "/longterm": "/payment/Longtermstockscanner",
-  "/stocklist": "/payment/Longtermstockscanner",
-  "/backtest": "/payment/Longtermstockscanner",
-  "/options": "/payment/Longtermstockscanner",
-  "/trendingoi": "/payment/Longtermstockscanner",
-  "/openhighnifty": "/payment/Longtermstockscanner",
-  "/herozero": "/payment/Longtermstockscanner",
-  "/individual": "/payment/Longtermstockscanner",
+  "/chart": "/payment/Longtermstock",
+  "/longterm": "/payment/Longtermstock",
+  "/stocklist": "/payment/Longtermstock",
+  "/backtest": "/payment/Longtermstock",
+  "/options": "/payment/Longtermstock",
+  "/trendingoi": "/payment/Longtermstock",
+  "/openhighnifty": "/payment/Longtermstock",
+  "/herozero": "/payment/Longtermstock",
+  "/individual": "/payment/Longtermstock",
+  "/trading": "/payment/Longtermstock",
+  "/selling-scanner": "/payment/Longtermstock",
+  "/portfolio-tracker": "/payment/Longtermstock",
 };
 
 const PROTECTED_PATHS = Object.keys(PROTECTED_PAYMENT_ROUTES);

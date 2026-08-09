@@ -236,6 +236,12 @@ export default function Navbar() {
                     </div>
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleNavigate("/rank-scanner")}
+                    >
+                      Rank Scanner
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleNavigate("/longterm")}
                     >
                       Long Scanner
@@ -301,12 +307,6 @@ export default function Navbar() {
                     onClick={() => handleNavigate("/selling-scanner")}
                   >
                     Selling Scanner
-                  </div>
-                  <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleNavigate("/rank-scanner")}
-                  >
-                    Rank Scanner
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -413,11 +413,14 @@ export default function Navbar() {
             </div>
             {showProductDropdown && (
               <div className="ml-4">
+                <div onClick={() => handleNavigate("/portfolio-tracker")}>   
+                  Portfolio Tracker
+                </div>
+                <div onClick={() => handleNavigate("/rank-scanner")}>
+                      Rank Scanner
+                </div>
                 <div onClick={() => handleNavigate("/longterm")}>
                       Long Scanner
-                </div>
-               <div onClick={() => handleNavigate("/portfolio-tracker")}>   
-                  Portfolio Tracker
                 </div>
                 <div onClick={() => handleNavigate("/chart")}>Historical Chart</div>
                
@@ -450,9 +453,6 @@ export default function Navbar() {
                 </div>
                 <div onClick={() => handleNavigate("/selling-scanner")}>
                   Selling Scanner
-                </div>
-                 <div onClick={() => handleNavigate("/rank-scanner")}>
-                  Rank Scanner
                 </div>
                 <div onClick={() => handleNavigate("/trading")}>
                   Traing

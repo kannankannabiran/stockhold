@@ -84,6 +84,7 @@ const PROTECTED_PAYMENT_ROUTES = {
   "/trading": "/payment/Longtermstock",
   "/selling-scanner": "/payment/Longtermstock",
   "/portfolio-tracker": "/payment/Longtermstock",
+  "/rank-scanner": "/payment/Longtermstock",
 };
 
 const PROTECTED_PATHS = Object.keys(PROTECTED_PAYMENT_ROUTES);
@@ -303,6 +304,12 @@ export default function Navbar() {
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleNavigate("/rank-scanner")}
+                  >
+                    Rank Scanner
+                  </div>
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleNavigate("/trading")}
                   >
                     Trading
@@ -443,6 +450,9 @@ export default function Navbar() {
                 </div>
                 <div onClick={() => handleNavigate("/selling-scanner")}>
                   Selling Scanner
+                </div>
+                 <div onClick={() => handleNavigate("/rank-scanner")}>
+                  Rank Scanner
                 </div>
                 <div onClick={() => handleNavigate("/trading")}>
                   Traing

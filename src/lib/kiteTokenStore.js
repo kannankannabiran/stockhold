@@ -5,7 +5,6 @@ import db from "./db";
 // there was a ~5.5 hour window each morning where a token got treated as
 // stale (or fresh) a half-day off from when Kite actually expires it.
 const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
-
 function todayKey() {
   return new Date(Date.now() + IST_OFFSET_MS).toISOString().slice(0, 10);
 }
@@ -20,7 +19,7 @@ const upsertToken = db.prepare(`
 `);
 
 const readToken = db.prepare(`
-  SELECT access_token AS accessToken, date
+  SELECT access_token AS accessToken, date, updated_at AS updatedAt
   FROM kite_tokens
   WHERE id = 1
 `);
@@ -41,4 +40,25 @@ export function getStoredAccessToken() {
   if (!row) return null;
   if (row.date !== todayKey()) return null; // Kite tokens expire daily (IST trading day)
   return row.accessToken;
+}
+
+// Used by /api/kite/status to report connection state without exposing
+// the raw token unless it's actually still valid for today.
+export function getTokenInfo() {
+  const row = readToken.get();
+  if (!row) {
+    return {
+      connected: false,
+      accessToken: null,
+      tokenDate: null,
+      updatedAt: null,
+    };
+  }
+  const validForToday = row.date === todayKey();
+  return {
+    connected: validForToday && Boolean(row.accessToken),
+    accessToken: validForToday ? row.accessToken : null,
+    tokenDate: row.date,
+    updatedAt: row.updatedAt,
+  };
 }

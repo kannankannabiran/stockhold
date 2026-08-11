@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { newClient } from "../../../lib/kite";
+import { getStoredAccessToken } from "../../../lib/kiteTokenStore";
 import { INDEX_CONFIG } from "../../../lib/optionChainCore";
 import db from "../../../lib/db";
 
@@ -107,8 +107,12 @@ export async function GET(request) {
 
   const targetDateStr = reqDate || istTodayStr;
 
-const cookieStore = await cookies();
-const accessToken = cookieStore.get("kite_access_token")?.value;
+  // Pull the access token from the database — the single source of
+  // truth kept in sync whether login happened via the browser
+  // (/api/login), the 8AM cron auto-login, or a manual reconnect. A
+  // cookie is only ever set during an actual HTTP request/response, so
+  // it's never populated by the background cron job.
+  const accessToken = getStoredAccessToken();
 
   const apiKey = process.env.KITE_API_KEY || "";
   const credentials = { apiKey, accessToken };

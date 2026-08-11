@@ -19,6 +19,22 @@ const formatExpiryLabel = (exp) => {
   if (Number.isNaN(d.getTime())) return exp;
   return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 };
+const formatOrderTimeIST = (ts) => {
+  if (!ts) return '-';
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return ts;
+
+  return d.toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  });
+};
 
 export default function TradingDashboard({ apiKey, accessToken, mobile }) {
   const [mode, setMode] = useState('paper'); // 'paper' | 'live' — default to paper for safety
@@ -1861,7 +1877,7 @@ export default function TradingDashboard({ apiKey, accessToken, mobile }) {
                   <td style={{ ...tdStyle, fontFamily: monoFont }}>{o.filled_quantity ?? o.quantity}</td>
                   <td style={{ ...tdStyle, fontFamily: monoFont }}>{o.average_price}</td>
                   <td style={tdStyle}><span style={statusPillStyle(o.status)}>{o.status}</span></td>
-                  <td style={{ ...tdStyle, color: '#9CA3AF', fontSize: 12, fontFamily: monoFont }}>{o.order_timestamp}</td>
+                  <td style={{ ...tdStyle, color: '#9CA3AF', fontSize: 12, fontFamily: monoFont }}>{formatOrderTimeIST(o.order_timestamp)}</td>
                 </tr>
               ))}
             </tbody>

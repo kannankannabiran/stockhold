@@ -26,7 +26,7 @@ export default function Chart() {
     <div className="w-full md:w-1/2">
       <Image src={Coinimg} alt="Coin" className="w-16 h-16 mb-4" />
 
-      <h2 className="text-3xl sm:text-4xl font-bold mb-2">Invest your money111</h2>
+      <h2 className="text-3xl sm:text-4xl font-bold mb-2">Invest your money</h2>
       <p className="text-3xl sm:text-4xl font-semibold mb-4">
         with <span className="text-blue-700 font-semibold">higher return</span>
       </p>

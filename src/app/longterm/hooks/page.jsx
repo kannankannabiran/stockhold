@@ -28,101 +28,110 @@ export function useVwapScanContext() {
   return context;
 }
 
+function stopPollingTimer(pollIntervalRef) {
+  if (pollIntervalRef.current) {
+    clearInterval(pollIntervalRef.current);
+    pollIntervalRef.current = null;
+  }
+}
+
 export function useVwapScan() {
   const [results, setResults] = useState({ rise: [], decline: [] });
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
   const pollIntervalRef = useRef(null);
+  const pollingStoppedRef = useRef(false);
 
-  // Fetch current status + data from server
   const fetchStatus = useCallback(async () => {
+    if (pollingStoppedRef.current) return;
     try {
       const res = await fetch("/api/long-data");
       if (!res.ok) return;
       const data = await res.json();
+      if (pollingStoppedRef.current) return;
+
       setResults(data);
       setScanning(!!data.isScanning);
 
-      // Stop polling if scan is done
-      if (!data.isScanning && pollIntervalRef.current) {
-        clearInterval(pollIntervalRef.current);
-        pollIntervalRef.current = null;
-        console.log("✅ Scan completed — polling stopped.");
+      if (!data.isScanning) {
+        stopPollingTimer(pollIntervalRef);
       }
     } catch (err) {
       console.warn("Failed to fetch scan status:", err);
     }
   }, []);
 
-  // Start polling every 5 seconds
   const startPolling = useCallback(() => {
-    if (pollIntervalRef.current) return; // already polling
+    if (pollingStoppedRef.current) return;
+    if (pollIntervalRef.current) return;
     pollIntervalRef.current = setInterval(fetchStatus, 5000);
   }, [fetchStatus]);
 
-  // On mount: load current data, then poll if scan is in progress
   useEffect(() => {
+    let cancelled = false;
+
     const init = async () => {
       setLoading(true);
       try {
         const res = await fetch("/api/long-data");
-        if (res.ok) {
-          const data = await res.json();
-          setResults(data);
-          if (data.isScanning) {
-            setScanning(true);
-            startPolling();
-          }
+        if (!res.ok || cancelled || pollingStoppedRef.current) return;
+        const data = await res.json();
+        if (cancelled || pollingStoppedRef.current) return;
+        setResults(data);
+        if (data.isScanning) {
+          setScanning(true);
+          startPolling();
         }
       } catch (err) {
         console.warn("Init fetch failed:", err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
     init();
 
     return () => {
-      if (pollIntervalRef.current) {
-        clearInterval(pollIntervalRef.current);
-      }
+      cancelled = true;
+      stopPollingTimer(pollIntervalRef);
     };
   }, [startPolling]);
 
-  // Scan button: only triggers POST — which only starts a scan if none is running
   const handleScan = useCallback(async () => {
-    if (scanning) {
-      // If already scanning, just refresh displayed data
+    if (scanning && !pollingStoppedRef.current) {
       fetchStatus();
       return;
     }
 
+    pollingStoppedRef.current = false;
     setLoading(true);
+    setScanning(true);
     try {
       const res = await fetch("/api/long-data", { method: "POST" });
       if (!res.ok) throw new Error("Network error");
       const data = await res.json();
+      if (pollingStoppedRef.current) return;
       setResults(data);
-      if (data.isScanning) {
-        setScanning(true);
-        startPolling();
-      }
+      setScanning(true);
+      startPolling();
     } catch (error) {
       console.error("Scan trigger failed:", error);
+      setScanning(false);
       alert("Scan failed. Check console for details.");
     } finally {
       setLoading(false);
     }
   }, [scanning, fetchStatus, startPolling]);
 
-  // Stop client-side polling (doesn't cancel the server-side scan)
   const cancelScan = useCallback(() => {
-    if (pollIntervalRef.current) {
-      clearInterval(pollIntervalRef.current);
-      pollIntervalRef.current = null;
-    }
+    pollingStoppedRef.current = true;
+    stopPollingTimer(pollIntervalRef);
     setScanning(false);
     setLoading(false);
+    setResults((prev) => ({ ...prev, isScanning: false }));
+
+    fetch("/api/long-data", { method: "DELETE" }).catch((err) => {
+      console.warn("Failed to cancel background scan:", err);
+    });
   }, []);
 
   return {

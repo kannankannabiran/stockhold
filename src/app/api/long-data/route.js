@@ -90,17 +90,45 @@ async function fetchHistoricalWithRetry(kc, instrumentToken, from, to, retries =
   }
 }
 
-// --- Background Worker saving strictly to SQLite DB ---
-async function runScanInBackground() {
-  const statusRow = db.prepare("SELECT is_scanning FROM vwap_scan_status WHERE id = 1").get();
-  
-  if (statusRow?.is_scanning === 1) {
-    console.log("⏳ Long-term scan is already running, skipping new trigger.");
-    return;
-  }
-  
+let scanRunning = false;
+let scanAbortRequested = false;
+let scanRestartRequested = false;
+
+function markScanIdle() {
+  db.prepare("UPDATE vwap_scan_status SET is_scanning = 0 WHERE id = 1").run();
+}
+
+function markScanActive() {
   db.prepare("UPDATE vwap_scan_status SET is_scanning = 1, current_progress = 0, total_progress = ? WHERE id = 1")
     .run(symbols.length);
+}
+
+function requestScanStart() {
+  if (scanRunning) {
+    scanAbortRequested = true;
+    scanRestartRequested = true;
+    markScanActive();
+    console.log("🔁 Long-term scan restart requested — aborting current run.");
+    return;
+  }
+  runScanInBackground();
+}
+
+// --- Background Worker saving strictly to SQLite DB ---
+async function runScanInBackground() {
+  if (scanRunning) {
+    scanAbortRequested = true;
+    scanRestartRequested = true;
+    markScanActive();
+    console.log("🔁 Long-term scan already running — will restart after abort.");
+    return;
+  }
+
+  scanRunning = true;
+  scanAbortRequested = false;
+  scanRestartRequested = false;
+
+  markScanActive();
 
   console.log(`🚀 Long-term scan started! Total symbols: ${symbols.length}`);
 
@@ -131,6 +159,11 @@ async function runScanInBackground() {
     `);
 
     for (const batch of batches) {
+      if (scanAbortRequested) {
+        console.log("🛑 Long-term scan aborted by user.");
+        break;
+      }
+
       const promises = batch.map(async (symbol) => {
         try {
           const instrumentToken = instrumentMap.get(normalizeSymbol(symbol));
@@ -253,15 +286,30 @@ async function runScanInBackground() {
       db.prepare("UPDATE vwap_scan_status SET current_progress = ? WHERE id = 1").run(currentProgress);
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (scanAbortRequested) {
+        console.log("🛑 Long-term scan aborted by user.");
+        break;
+      }
     }
 
-    db.prepare("UPDATE vwap_scan_status SET is_scanning = 0, last_scan = ? WHERE id = 1")
-      .run(new Date().toISOString());
-    console.log("✅ Long-term scan completed successfully and saved to trading.db!");
+    if (scanAbortRequested) {
+      if (!scanRestartRequested) markScanIdle();
+    } else {
+      db.prepare("UPDATE vwap_scan_status SET is_scanning = 0, last_scan = ? WHERE id = 1")
+        .run(new Date().toISOString());
+      console.log("✅ Long-term scan completed successfully and saved to trading.db!");
+    }
 
   } catch (error) {
     console.error("❌ Long-term scan failed:", error.message);
-    db.prepare("UPDATE vwap_scan_status SET is_scanning = 0 WHERE id = 1").run();
+    if (!scanRestartRequested) markScanIdle();
+  } finally {
+    scanRunning = false;
+    if (scanRestartRequested) {
+      scanRestartRequested = false;
+      scanAbortRequested = false;
+      runScanInBackground();
+    }
   }
 }
 
@@ -309,10 +357,17 @@ export async function GET() {
   }
 }
 
-// --- POST: Trigger background scan ---
+// --- POST: Trigger background scan (also restarts after Stop Polling) ---
 export async function POST() {
-  runScanInBackground();
-  
+  requestScanStart();
   const response = await GET();
   return response;
+}
+
+// --- DELETE: Stop polling / abort the in-process scan ---
+export async function DELETE() {
+  scanAbortRequested = true;
+  scanRestartRequested = false;
+  markScanIdle();
+  return NextResponse.json({ ok: true, isScanning: false });
 }

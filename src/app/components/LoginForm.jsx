@@ -1,15 +1,6 @@
 'use client';
 import React from 'react';
 
-async function api(action, data) {
-  const res = await fetch(`/api/auth?action=${action}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-}
-
 export function LoginForm({ onSuccess, onError }) {
   const [mobile, setMobile] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -18,14 +9,19 @@ export function LoginForm({ onSuccess, onError }) {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const resp = await api('login', { mobile, password });
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ mobile, password }),
+    });
+    const resp = await res.json();
     setLoading(false);
-    if (resp.success) {
-      localStorage.setItem('userId', resp.member.id);
+    if (resp.ok) {
+      localStorage.setItem('userId', resp.id || resp.mobile);
       window.dispatchEvent(new Event('userLogin'));
       const redirectUrl = localStorage.getItem('redirectAfterSignup');
       if (redirectUrl) {
-        // Import paymentData to check allowed redirect pages
         const paymentProducts = (await import('../content_data/paymentData.js')).default;
         const allowedRedirectPages = paymentProducts.map(product => `/payment/${product.id}`);
 
@@ -35,7 +31,7 @@ export function LoginForm({ onSuccess, onError }) {
           return;
         }
       }
-      onSuccess && onSuccess(resp.member, mobile);
+      onSuccess && onSuccess({ id: resp.id, mobile: resp.mobile, name: resp.mobile }, mobile);
     } else {
       onError && onError(resp.error);
     }

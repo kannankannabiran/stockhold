@@ -19,10 +19,24 @@ export function AdminPanel() {
   const [expanded, setExpanded] = React.useState({});
 
   React.useEffect(() => {
-    fetch('/api/members')
+    fetch('/api/admin/members', { credentials: 'include' })
       .then((r) => r.json())
       .then((d) => setMembers(d.members || []));
   }, [refresh]);
+
+  const setLicense = async (mobile, action) => {
+    await fetch('/api/admin/members', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ mobile, action }),
+    });
+  };
+
+  const applyLicense = async (mobile, action) => {
+    await setLicense(mobile, action);
+    setRefresh((r) => r + 1);
+  };
 
   const toggleActive = async (mobile, active) => {
     await api('toggle', { mobile, active });
@@ -31,7 +45,12 @@ export function AdminPanel() {
 
   const deleteMember = async (mobile) => {
     if (!confirm("Are you sure you want to delete this member?")) return;
-    await api('delete', { mobile });
+    await fetch('/api/admin/members', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ mobile, action: 'delete' }),
+    });
     setRefresh((r) => r + 1);
   };
 
@@ -54,7 +73,7 @@ export function AdminPanel() {
     const matchesSearch =
       m.mobile.includes(searchTerm.trim()) ||
       m.name?.toLowerCase().includes(searchTerm.trim().toLowerCase());
-    const matchesInactive = !showInactiveOnly || !m.active;
+    const matchesInactive = !showInactiveOnly || !m.websiteActive;
     return matchesSearch && matchesInactive;
   });
 
@@ -87,7 +106,8 @@ export function AdminPanel() {
               <th className="px-4 py-2 text-left">SL No</th>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Mobile</th>
-              <th className="px-4 py-2 text-left">Status</th>
+              <th className="px-4 py-2 text-left">Website</th>
+              <th className="px-4 py-2 text-left">Desktop</th>
               <th className="px-4 py-2 text-left">URL Access</th>
               <th className="px-4 py-2 text-right">Actions</th>
             </tr>
@@ -103,9 +123,16 @@ export function AdminPanel() {
                     <td className="px-4 py-2">{m.mobile}</td>
                     <td className="px-4 py-2">
                       <span className={`px-3 py-1 rounded-full text-white ${
-                        m.active ? 'bg-green-500' : 'bg-gray-400'
+                        m.websiteActive ? 'bg-green-500' : 'bg-gray-400'
                       }`}>
-                        {m.active ? 'Active' : 'Inactive'}
+                        {m.websiteActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2">
+                      <span className={`px-3 py-1 rounded-full text-white ${
+                        m.active ? 'bg-green-500' : m.status === 'revoked' ? 'bg-red-500' : 'bg-gray-400'
+                      }`}>
+                        {m.status || 'none'}
                       </span>
                     </td>
                     <td className="px-4 py-2">
@@ -113,13 +140,20 @@ export function AdminPanel() {
                     </td>
                     <td className="px-4 py-2 text-right space-x-2 flex justify-end">
                       <button
-                        onClick={() => toggleActive(m.mobile, !m.active)}
+                        onClick={() => applyLicense(m.mobile, m.active ? 'revoke' : 'activate')}
                         className={`px-3 py-1 rounded-lg text-white ${
-                          m.active ? 'bg-red-500 hover:bg-red-600'
-                                   : 'bg-green-500 hover:bg-green-600'
+                          m.active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-600 hover:bg-green-700'
                         }`}
                       >
-                        {m.active ? 'Deactivate' : 'Activate'}
+                        {m.active ? 'Desktop deactivate' : 'Desktop activate'}
+                      </button>
+                      <button
+                        onClick={() => toggleActive(m.mobile, !m.websiteActive)}
+                        className={`px-3 py-1 rounded-lg text-white ${
+                          m.websiteActive ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-600 hover:bg-blue-700'
+                        }`}
+                      >
+                        {m.websiteActive ? 'Account deactivate' : 'Account activate'}
                       </button>
                       <button
                         onClick={() =>
@@ -141,7 +175,7 @@ export function AdminPanel() {
                   </tr>
                   {isExpanded && (
                     <tr className="bg-gray-50 border-b">
-                      <td colSpan={6} className="px-4 py-4">
+                      <td colSpan={7} className="px-4 py-4">
                         {renderExpanded(m)}
                       </td>
                     </tr>
@@ -165,23 +199,33 @@ export function AdminPanel() {
                   <div className="text-xs text-gray-500">{m.mobile}</div>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-white text-xs ${
-                  m.active ? 'bg-green-500' : 'bg-gray-400'
+                  m.active ? 'bg-green-500' : m.status === 'revoked' ? 'bg-red-500' : 'bg-gray-400'
                 }`}>
-                  {m.active ? 'Active' : 'Inactive'}
+                  Desktop: {m.status || 'none'}
                 </span>
+              </div>
+              <div className="text-sm text-gray-600">
+                Website: {m.websiteActive ? 'Active' : 'Inactive'}
               </div>
               <div className="text-sm text-gray-600">
                 URLs: {m.urlAccess?.length ? m.urlAccess.join(', ') : '(none)'}
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <button
-                  onClick={() => toggleActive(m.mobile, !m.active)}
+                  onClick={() => applyLicense(m.mobile, m.active ? 'revoke' : 'activate')}
                   className={`flex-1 px-3 py-1 rounded-lg text-white ${
-                    m.active ? 'bg-red-500 hover:bg-red-600'
-                             : 'bg-green-500 hover:bg-green-600'
+                    m.active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-600 hover:bg-green-700'
                   }`}
                 >
-                  {m.active ? 'Deactivate' : 'Activate'}
+                  {m.active ? 'Desktop deactivate' : 'Desktop activate'}
+                </button>
+                <button
+                  onClick={() => toggleActive(m.mobile, !m.websiteActive)}
+                  className={`flex-1 px-3 py-1 rounded-lg text-white ${
+                    m.websiteActive ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
+                >
+                  {m.websiteActive ? 'Account deactivate' : 'Account activate'}
                 </button>
                 <button
                   onClick={() =>

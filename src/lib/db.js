@@ -162,6 +162,15 @@ db.exec(`
     url_access TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL
   );
+
+  -- DESKTOP LICENSES (per mobile + product; no row = status "none") --
+  CREATE TABLE IF NOT EXISTS licenses (
+    mobile TEXT NOT NULL,
+    product TEXT NOT NULL,
+    status TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (mobile, product)
+  );
   -- STOCK LIST (mobile-keyed) --
   CREATE TABLE IF NOT EXISTS stock_lists (
     mobile TEXT PRIMARY KEY,

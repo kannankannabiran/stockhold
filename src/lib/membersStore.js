@@ -35,6 +35,7 @@ const stmts = {
   setActive: db.prepare("UPDATE members SET active = ? WHERE mobile = ?"),
   setUrlAccess: db.prepare("UPDATE members SET url_access = ? WHERE mobile = ?"),
   deleteByMobile: db.prepare("DELETE FROM members WHERE mobile = ?"),
+  deleteLicensesByMobile: db.prepare("DELETE FROM licenses WHERE mobile = ?"),
 };
 
 // ---- Public API (same signatures as before) ----
@@ -52,7 +53,7 @@ export async function getAllMembers() {
 }
 
 export async function signup({ name, mobile, password }) {
-  if (!name || !mobile || !password) throw new Error("Missing fields");
+  if (!mobile || !password) throw new Error("Missing fields");
 
   const exists = stmts.byMobile.get(mobile);
   if (exists) throw new Error("Mobile already registered");
@@ -60,7 +61,7 @@ export async function signup({ name, mobile, password }) {
   const hashed = await bcrypt.hash(password, 10);
   const member = {
     id: nanoid(),
-    name,
+    name: name || mobile,
     mobile,
     password: hashed,
     createdAt: new Date().toISOString(),
@@ -86,6 +87,18 @@ export async function login({ mobile, password }) {
   const member = rowToMember(stmts.byMobile.get(mobile));
   if (!member) throw new Error("Invalid credentials");
   if (!member.active) throw new Error("Account not activated");
+
+  const ok = await bcrypt.compare(password, member.password);
+  if (!ok) throw new Error("Invalid credentials");
+
+  return stripPassword(member);
+}
+
+/** Same bcrypt check as website login. Does not require activation or create a user. */
+export async function verifyPassword({ mobile, password }) {
+  if (!mobile || !password) throw new Error("Invalid credentials");
+  const member = rowToMember(stmts.byMobile.get(mobile));
+  if (!member) throw new Error("Invalid credentials");
 
   const ok = await bcrypt.compare(password, member.password);
   if (!ok) throw new Error("Invalid credentials");
@@ -136,6 +149,7 @@ export async function deleteMember(mobile) {
   const existing = stmts.byMobile.get(mobile);
   if (!existing) throw new Error("Member not found");
 
+  stmts.deleteLicensesByMobile.run(mobile);
   stmts.deleteByMobile.run(mobile);
 
   return { success: true };

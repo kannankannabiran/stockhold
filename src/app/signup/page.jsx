@@ -9,7 +9,7 @@ export default function SignupPage() {
     localStorage.setItem("userId", member.id);
     localStorage.setItem("user", member.mobile);
     setMessage(
-      `✅ Signup successful for ${member.name}. Account is pending activation by admin.`
+      `✅ Signup successful for ${member.name || member.mobile}. Desktop access is pending admin activation.`
     );
   };
   const handleError = (err) => {

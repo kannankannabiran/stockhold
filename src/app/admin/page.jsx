@@ -8,6 +8,15 @@ export default function AdminPage() {
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
+  React.useEffect(() => {
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.authenticated && data.admin) setAuthenticated(true);
+      })
+      .catch(() => {});
+  }, []);
+
   const verify = async (e) => {
     e.preventDefault();
     setLoading(true);

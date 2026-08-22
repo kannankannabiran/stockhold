@@ -1,7 +1,7 @@
-const dev = process.env.NODE_ENV !== 'production';
+const siteUrl = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 
 const nextConfig = {
-  assetPrefix: dev ? 'http://localhost:3000' : 'http://localhost:3000', // use HTTPS in production
+  assetPrefix: siteUrl,
   serverExternalPackages: ['yahoo-finance2', 'kiteconnect', 'ws', 'bufferutil', 'utf-8-validate'],
   // NOTE: removed the old rewrites() block that sent /api/:path* to
   // http://localhost:3000/:path* (stripping /api). Next.js checks
@@ -15,6 +15,11 @@ const nextConfig = {
   // anywhere external and had no real purpose — Next.js already serves
   // everything under app/api/* natively without it.
   async headers() {
+    const cors = [
+      { key: 'Access-Control-Allow-Origin', value: '*' },
+      { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
+      { key: 'Access-Control-Allow-Methods', value: 'GET, POST, DELETE, OPTIONS' },
+    ];
     return [
       {
         source: '/api/long-data',
@@ -25,6 +30,12 @@ const nextConfig = {
           },
         ],
       },
+      { source: '/api/desktop/:path*', headers: cors },
+      { source: '/api/auth/signup', headers: cors },
+      { source: '/api/auth/login', headers: cors },
+      { source: '/api/auth/me', headers: cors },
+      { source: '/api/license/status', headers: cors },
+      { source: '/api/admin/members', headers: cors },
     ];
   },
 };

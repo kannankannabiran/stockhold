@@ -11,7 +11,7 @@ export default function LoginPage() {
     
     const redirectUrl = localStorage.getItem('redirectAfterSignup');
     if (!redirectUrl) {
-      setMessage(`✅ Logged in as ${member.name}. Redirecting to home in 10 seconds...`);
+      setMessage(`✅ Logged in as ${member.name || mobile}. Redirecting to home in 10 seconds...`);
       setTimeout(() => {
         window.location.href = '/';
       }, 10000);

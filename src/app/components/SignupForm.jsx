@@ -1,15 +1,6 @@
 'use client';
 import React from 'react';
 
-async function api(action, data) {
-  const res = await fetch(`/api/auth?action=${action}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-}
-
 export function SignupForm({ onSuccess, onError }) {
   const [name, setName] = React.useState('');
   const [mobile, setMobile] = React.useState('');
@@ -19,26 +10,30 @@ export function SignupForm({ onSuccess, onError }) {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const resp = await api('signup', { name, mobile, password });
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, mobile, password }),
+    });
+    const resp = await res.json();
     setLoading(false);
-    if (resp.success) {
-      localStorage.setItem('userId', resp.member.id);
+    if (resp.ok) {
+      localStorage.setItem('userId', resp.id || resp.mobile);
       window.dispatchEvent(new Event('userLogin'));
-      
+
       const redirectUrl = localStorage.getItem('redirectAfterSignup');
       if (redirectUrl) {
-        // Import paymentData to check allowed redirect pages
         const paymentProducts = (await import('../content_data/paymentData.js')).default;
         const allowedRedirectPages = paymentProducts.map(product => `/payment/${product.id}`);
-        
+
         if (allowedRedirectPages.includes(redirectUrl)) {
           localStorage.removeItem('redirectAfterSignup');
           window.location.href = redirectUrl;
           return;
         }
       }
-      
-      onSuccess && onSuccess(resp.member);
+
+      onSuccess && onSuccess({ id: resp.id, mobile: resp.mobile, name: resp.name || name || resp.mobile });
     } else {
       onError && onError(resp.error);
     }
@@ -50,7 +45,6 @@ export function SignupForm({ onSuccess, onError }) {
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        required
         className="border p-2 rounded"
       />
       <input
